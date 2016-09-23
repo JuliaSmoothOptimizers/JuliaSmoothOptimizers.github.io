@@ -1,0 +1,33 @@
+site_name:        JuliaSmoothOptimizers
+repo_url:         https://github.com/JuliaSmoothOptimizers
+site_description: Julia Smooth Optimizers organization. Models, solvers, and CUTEst access.
+site_author:      JuliaSmoothOptimizers
+
+theme: material
+
+extra:
+  palette:
+    primary: 'deep orange'
+    accent: 'indigo'
+  author:
+    github: JuliaSmoothOptimizers
+
+extra_css:
+  - assets/style.css
+
+extra_javascript:
+  - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML
+  - assets/mathjaxhelper.js
+
+markdown_extensions:
+  - extra
+  - tables
+  - codehilite(css_class=code, guess_lang=False)
+  - fenced_code
+  - mdx_math
+
+docs_dir: src
+
+pages:
+  - Home: index.md
+  - Packages: packages.md
