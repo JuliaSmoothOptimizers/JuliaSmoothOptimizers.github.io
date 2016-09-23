@@ -29,8 +29,9 @@ function generate_packages_table(repos)
   s = ""
   for i = 1:N
     pkg = names[i]
+    pkg == "$org.github.io" && continue
 
-    s *= "## [$pkg - ]($(get(repos[i].html_url))){ .icon .icon-github }\n\n"
+    s *= "## $pkg []($(get(repos[i].html_url))){ .icon .icon-github }\n\n"
     s *= "$(desc[i])\n"
     s *= "\n"
 
@@ -51,12 +52,23 @@ function generate_packages_table(repos)
 end
 
 function generate_home_page(repos)
+  N = length(repos)
+  names = [get(repos[i].name) for i = 1:N]
+  desc  = [get(repos[i].description) for i = 1:N]
+
   open("src/index.md", "w") do f
     write(f, readstring("README.md"))
+
+    write(f, "\n")
+    for i = 1:N
+      pkg = names[i]
+      pkg == "$org.github.io" && continue
+      write(f, "- [**$pkg**](packages/#$(lowercase(replace(pkg,".","")))): $(desc[i])\n")
+    end
   end
 end
 
-repos = GitHub.repos(org)[1]
+#repos = GitHub.repos(org)[1]
 s = generate_packages_table(repos)
 open("src/packages.md", "w") do f
   write(f, s)
