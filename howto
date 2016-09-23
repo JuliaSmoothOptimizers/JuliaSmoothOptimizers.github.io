@@ -1,0 +1,10 @@
+- Download this
+- git checkout site
+- Edit
+- Test with mkdocs serve
+- Commit
+- mkdocs build
+- git checkout master
+- mv site/* .
+- Commit
+- push
