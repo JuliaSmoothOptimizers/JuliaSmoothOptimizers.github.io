@@ -16,7 +16,6 @@ appveyor(pkg, br) = shield("appveyor/ci", "dpo", APV(pkg), br, label="Appveyor_$
 coverage(pkg, br) = shield("coveralls", org, pkg, br, label="Coveralls_$br") * "(https://coveralls.io/github/$org/$pkg?branch=$br)"
 
 docs(pkg) = shield("badge/docs-latest-ff5722.svg", label="docs") * "($docurl/$pkg/latest)"
-gitter(pkg) = shield("gitter/room", org, pkg) * "(https://gitter.im/$org/$pkg)"
 
 Case(s) = uppercase(s[1:1]) * lowercase(s[2:end])
 
@@ -27,6 +26,10 @@ function generate_packages_table(repos)
   desc  = [get(repos[i].description) for i = 1:N]
 
   s = ""
+  s *= "This is a brief list of the installed packages and their situation.\n"
+  s *= "For help, check the docs of each package, [gitter](https://gitter.im/JuliaSmoothOptimizers) for
+  anyone online, or open an issue on GitHub\n"
+
   for i = 1:N
     pkg = names[i]
     pkg == "$org.github.io" && continue
@@ -42,7 +45,7 @@ function generate_packages_table(repos)
       end
       s *= "\n"
     end
-    for srv in [docs, gitter]
+    for srv in [docs]
       s *= " - $(srv(pkg))\n"
     end
 
@@ -58,17 +61,10 @@ function generate_home_page(repos)
 
   open("src/index.md", "w") do f
     write(f, readstring("README.md"))
-
-    write(f, "\n")
-    for i = 1:N
-      pkg = names[i]
-      pkg == "$org.github.io" && continue
-      write(f, "- [**$pkg**](packages/#$(lowercase(replace(pkg,".","")))): $(desc[i])\n")
-    end
   end
 end
 
-#repos = GitHub.repos(org)[1]
+repos = GitHub.repos(org)[1]
 s = generate_packages_table(repos)
 open("src/packages.md", "w") do f
   write(f, s)
