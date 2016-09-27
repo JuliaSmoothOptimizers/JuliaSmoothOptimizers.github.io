@@ -5,6 +5,6 @@
 - Commit
 - mkdocs build
 - git checkout master
-- mv site/* .
+- rsync -av --delete --remove-source-files site/* .
 - Commit
 - push
