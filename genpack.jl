@@ -37,13 +37,14 @@ function generate_packages_table(info)
   for i = 1:N
     pkg = names[i]
     pkg == "$org.github.io" && continue
+    println("Preparing $pkg")
 
-    s *= "## $pkg []($(info[i]["url"])){ .icon .icon-github }\n\n"
+    github = "[![](assets/github.png)]($(info[i]["url"]))"
+    s *= "## $pkg $github\n\n"
     s *= "$(desc[i])\n"
     s *= "\n"
 
     for srv in [travis, coverage]
-      s *= "- "
       for br in ["develop", "master"] ∩ info[i]["branches"]
         s *= srv(pkg, br) * " "
       end
@@ -51,16 +52,15 @@ function generate_packages_table(info)
     end
     for srv in [appveyor]
       pkg in no_appveyor && continue
-      s *= "- "
       for br in ["develop", "master"] ∩ info[i]["branches"]
         s *= srv(pkg, br) * " "
       end
       s *= "\n"
     end
 
-    "Docs"
+    # Docs
     if statuscode(get("$docurl/$pkg/latest")) == 200
-      s *= " - $(docs(pkg))\n"
+      s *= "$(docs(pkg))\n"
     end
 
     s *= "\n"
@@ -92,7 +92,7 @@ function save_information()
     info[i]["branches"] = map(x->get(x.name), br[1])
   end
 
-  save("github_info.jld", "info", info)
+  JLD.save("github_info.jld", "info", info)
   return info
 end
 
@@ -100,10 +100,11 @@ function get_information()
   return load("github_info.jld")["info"]
 end
 
+#info = save_information()
 info = get_information()
 s = generate_packages_table(info)
-open("src/packages.md", "w") do f
+open("src/status.md", "w") do f
   write(f, s)
 end
 
-generate_home_page(repos)
+generate_home_page()
