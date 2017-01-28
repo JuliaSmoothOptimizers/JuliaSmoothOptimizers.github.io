@@ -1,7 +1,7 @@
 - Download this
 - git checkout site
-- Edit
-- Test with mkdocs serve
+- Edit genpack.jl and `julia genpack.jl`
+- `julia make.jl`
 - Commit
 - mkdocs build
 - git checkout master

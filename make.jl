@@ -1,9 +1,15 @@
 using Documenter
 
-makedocs()
+makedocs(
+  doctest = false,
+  format = :html,
+  sitename = "JuliaSmoothOptimizers",
+  assets = ["assets/style.css"],
+  pages = Any["Home" => "index.md",
+              "Status" => "status.md"]
+)
 
-deploydocs(deps = Deps.pip("pygments", "mkdocs", "mkdocs-material", "python-markdown-math"),
+deploydocs(deps = nothing, make = nothing,
   repo = "github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io.git",
-  julia = "release",
-  latest = "site",
+  target = "build"
 )

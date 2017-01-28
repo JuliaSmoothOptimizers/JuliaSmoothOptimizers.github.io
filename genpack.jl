@@ -39,11 +39,12 @@ function generate_packages_table(info)
     pkg == "$org.github.io" && continue
     println("Preparing $pkg")
 
-    github = "[![](assets/github.png)]($(info[i]["url"]))"
-    s *= "## $pkg $github\n\n"
+    github = "[![Github Stars](https://img.shields.io/github/stars/$org/$pkg.svg?style=social&label=Star)]($(info[i]["url"]))"
+    s *= "## $pkg\n\n"
     s *= "$(desc[i])\n"
     s *= "\n"
 
+    s *= github * " "
     for srv in [travis, coverage]
       for br in ["develop", "master"] ∩ info[i]["branches"]
         s *= srv(pkg, br) * " "
