@@ -1,0 +1,38 @@
+[
+  {
+    "title": "Otimização Não-Linear na Linguagem Julia",
+    "author": "Abel Soares Siqueira",
+    "date": "2017-12-01",
+    "where": "Seminários de Análise Convexa e Otimização. UFSC, Florianópolis/SC, Brasil",
+    "link": "http://abelsiqueira.github.io/assets/2017-12-01-ufsc.pdf",
+    "key": "Talks"
+  },
+  {
+    "title": "A Workflow for Designing Optimization Methods in the Julia Language",
+    "author": "Abel Soares Siqueira and Dominique Orban",
+    "date": "2016-05-04",
+    "where": "2016 Optimization Days. Montréal, Canada",
+    "link": "http://abelsiqueira.github.io/assets/jopt-2016.pdf",
+    "key": "Talks"
+  },
+  {
+    "title": "Advanced Topics in Scientific Computing with Julia",
+    "where": "Stanford University",
+    "date": "2018-03-03",
+    "link": "https://github.com/icme/cme257-advanced-julia",
+    "key": "Classes"
+  },
+  {
+    "title": "Otimização I",
+    "where": "UFPR - Federal University of Paraná",
+    "date": "2018-06-19",
+    "link": "https://abelsiqueira.github.io/otim-pos-2018s1/",
+    "key": "Classes"
+  },
+  {
+    "title": "Developing new optimization methods with packages from the JuliaSmoothOptimizers organization",
+    "author": "Abel Soares Siqueira and Dominique Orban",
+    "date": "2018-06-28",
+    "key": "Talks"
+  }
+]

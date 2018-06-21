@@ -1,0 +1,199 @@
+---
+layout: default
+main: "yes"
+packages:
+- nlpmodels
+- cutest
+- linearoperators
+- krylov
+- optimize
+- benchmarkprofiles
+- amplnlreader
+- optimizationproblems
+- nlsproblems
+- ldl
+- lldl
+- amd
+- hsl
+- mumps
+- propack
+- qr_mumps
+refs:
+- "Publications"
+- "Talks"
+- "Classes"
+links:
+- name: "Home"
+  link: "#home"
+- name: "Overview"
+  link: "#overview"
+- name: "Packages"
+  link: "#packages"
+- name: "Tutorials"
+  link: "#tutorials"
+- name: "JSO usage"
+  link: "#jsousage"
+---
+
+<!-- Banner -->
+<div class="container-fluid bg1">
+  <div class="container wall">
+    <div id="home" class="row">
+      <div class="col banner">
+        <img class="img-fluid" src="{{site.baseurl}}/assets/jso.png"><br>
+        Julia Smooth Optimizers
+      </div>
+    </div>
+    <div class="row portfolio">
+      <div class="col-xs-12 col-sm-6 col-lg-3">
+        <a class="button" href="#overview">
+          <h2>Overview</h2>
+          Overview of the packages in the organization.
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-3">
+        <a class="button" href="#packages">
+          <h2>Packages</h2>
+          Brief description and status of our packages.
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-3">
+        <a class="button" href="#tutorials">
+          <h2>Tutorials</h2>
+          Outside sources of tutorials and posts.
+        </a>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-lg-3">
+        <a class="button" href="#jsousage">
+          <h2>JSO usage</h2>
+          Publications, talks and classes
+          where the packages are being used.
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Overview -->
+<div class="container-fluid bg2">
+  <div class="container wall">
+    <div id="overview" class="row header-buffer"></div>
+    <div class="row">
+      <div class="col">
+        <h1> Overview </h1>
+
+        <p class="text-justify">
+          Julia Smooth Optimizers is an organization on GitHub containing a collection
+          of Julia packages for Nonlinear Optimization software
+          development, testing, and benchmarking.
+          We provide tools for building models, access to repositories of problems,
+          subproblem solving, linear algebra, and solving problems.
+        </p>
+        <p class="text-justify">
+          Below there is a brief summary of packages.
+        </p>
+        <ul>
+          <li>In blue, <strong>NLPModels.jl</strong>, which provides different ways to
+            create nonlinear programming and nonlinear least squares models.</li>
+          <li>In green, packages providing access to problems from different
+            collections.</li>
+          <li>In red, <strong>Optimize.jl</strong> containing implemented solvers.
+            NLSCON is an unnanounced solved.</li>
+          <li>In yellow, linear algebra packages, including
+            <strong>Krylov.jl</strong> with iterative solvers and many factorization
+            packages.</li>
+          <li>In orange, <strong>LinearOperators.jl</strong> provides matrix-like
+            entities and <strong>BenchmarkProfiles.jl</strong> provides performance
+            and data profiles.</li>
+        </ul>
+
+        <img class="img-responsive jso-description"
+             src="{{site.baseurl}}/assets/jsodesc.png">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Packages -->
+<div class="container-fluid bg3">
+  <div class="container wall">
+    <div id="packages" class="row header-buffer"></div>
+    <div class="row">
+      <div class="col">
+        <h1> Packages </h1>
+      </div>
+    </div>
+<div class="row badges">
+{% for p in page.packages %}
+{% assign d = site.data.packages[p] %}
+{% assign name = d.name %}
+<div class="badge-col col-sm-12 col-lg-6">
+<h3> {{ name }}
+<a href="https://github.com/JuliaSmoothOptimizers/{{ name }}.jl">
+  <img class="github" src="{{site.baseurl}}/assets/github.png">
+</a>
+</h3>
+<p class="text-justify"> {{ site.data.packages[p].description }} </p>
+</div>
+{% endfor %}
+</div>
+  </div>
+</div>
+
+<!-- Tutorials -->
+<div class="container-fluid bg4">
+  <div class="container wall">
+    <div id="tutorials" class="row header-buffer"></div>
+    <div class="row">
+      <div class="col">
+        <h1> Tutorials and posts </h1>
+        <ul>
+{% assign tutorials = site.data.tutorials | sort: "date" | reverse %}
+{% for p in tutorials %}
+<li> <a href="{{ p.link }}">
+<span class="t-title"> {{ p.title }}, </span>
+<span class="t-author"> {{ p.author }}, </span>
+<span class="t-date"> {{ p.date | date_to_long_string }} </span>
+</a>
+</li>
+{% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- JSO usage -->
+<div class="container-fluid bg5 jsousage">
+  <div class="container wall">
+    <div id="jsousage" class="row header-buffer"></div>
+    <h1> JSO usage </h1>
+    {% for type_ref in page.refs %}
+    {% assign jsousage = site.data.bib | sort: "date" | reverse | where: "key", type_ref %}
+    {% unless jsousage == empty %}
+    <div class="row">
+      <div class="col">
+        <h2> {{ type_ref }} </h2>
+        <ul>
+          {% for r in jsousage %}
+          <li>
+            {% if r.link %}
+            <a href="{{r.link}}"><img src="{{site.baseurl}}/assets/external-link.png"></a>
+            {% endif %}
+            <span class="title"> {{ r.title }},</span>
+            {% if r.author %}
+            <span class="author">{{ r.author }},</span>
+            {% endif %}
+            <span class="date">{{ r.date | date: "%b, %Y" }}.</span>
+            <span class="where">{{ r.where }}.</span>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+    {% endunless %}
+    {% endfor %}
+  </div>
+</div>
+
