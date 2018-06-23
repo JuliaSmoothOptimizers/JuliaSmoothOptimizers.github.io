@@ -1,7 +1,7 @@
 [
   {
     "title": "Otimização Não-Linear na Linguagem Julia",
-    "author": "Abel Soares Siqueira",
+    "author": "Abel S. Siqueira",
     "date": "2017-12-01",
     "where": "Seminários de Análise Convexa e Otimização. UFSC, Florianópolis/SC, Brasil",
     "link": "http://abelsiqueira.github.io/assets/2017-12-01-ufsc.pdf",
@@ -9,7 +9,7 @@
   },
   {
     "title": "A Workflow for Designing Optimization Methods in the Julia Language",
-    "author": "Abel Soares Siqueira and Dominique Orban",
+    "author": "Abel S. Siqueira and Dominique Orban",
     "date": "2016-05-04",
     "where": "2016 Optimization Days. Montréal, Canada",
     "link": "http://abelsiqueira.github.io/assets/jopt-2016.pdf",
@@ -31,8 +31,23 @@
   },
   {
     "title": "Developing new optimization methods with packages from the JuliaSmoothOptimizers organization",
-    "author": "Abel Soares Siqueira and Dominique Orban",
+    "author": "Abel S. Siqueira and Dominique Orban",
+    "where": "Second Annual JuMP-dev Workshop. Bordeaux, France. Scheduled",
     "date": "2018-06-28",
+    "key": "Talks"
+  },
+  {
+    "title": "Iterative Methods with an Error Minimization Property",
+    "author": "Dominique Orban, Ron Estrin and Michael A. Saunders",
+    "where": "LA/Opt Seminar, ICME, Stanford University",
+    "date": "2018-05-31",
+    "key": "Talks"
+  },
+  {
+    "title": "A Regularized Interior-Point Method for Constrained Nonlinear Least Squares",
+    "author": "Abel S. Siqueira and Dominique Orban",
+    "where": "XII Brazilian Workshop on Continuous Optimization. Iguaçu Falls, Brazil. Scheduled",
+    "date": "2018-07-23",
     "key": "Talks"
   }
 ]

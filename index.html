@@ -2,22 +2,21 @@
 layout: default
 main: "yes"
 packages:
-- nlpmodels
-- cutest
-- linearoperators
-- krylov
-- optimize
-- benchmarkprofiles
-- amplnlreader
-- optimizationproblems
-- nlsproblems
-- ldl
-- lldl
-- amd
-- hsl
-- mumps
-- propack
-- qr_mumps
+- name: "Model creation"
+  key: model-creation
+  list: [nlpmodels]
+- name: "Collections"
+  key: collections
+  list: [cutest, amplnlreader, optimizationproblems, nlsproblems]
+- name: "Methods"
+  key: methods
+  list: [optimize]
+- name: "Tools"
+  key: tools
+  list: [linearoperators, benchmarkprofiles]
+- name: "Linear Algebra"
+  key: linear-algebra
+  list: [amd, hsl, krylov, ldl, lldl, mumps, propack, qr_mumps]
 refs:
 - "Publications"
 - "Talks"
@@ -98,7 +97,7 @@ links:
           <li>In green, packages providing access to problems from different
             collections.</li>
           <li>In red, <strong>Optimize.jl</strong> containing implemented solvers.
-            NLSCON is an unnanounced solved.</li>
+            NLSCON is an unnanounced solver.</li>
           <li>In yellow, linear algebra packages, including
             <strong>Krylov.jl</strong> with iterative solvers and many factorization
             packages.</li>
@@ -115,31 +114,7 @@ links:
   </div>
 </div>
 
-<!-- Packages -->
-<div class="container-fluid bg3">
-  <div class="container wall">
-    <div id="packages" class="row header-buffer"></div>
-    <div class="row">
-      <div class="col">
-        <h1> Packages </h1>
-      </div>
-    </div>
-<div class="row badges">
-{% for p in page.packages %}
-{% assign d = site.data.packages[p] %}
-{% assign name = d.name %}
-<div class="badge-col col-sm-12 col-lg-6">
-<h3> {{ name }}
-<a href="https://github.com/JuliaSmoothOptimizers/{{ name }}.jl">
-  <img class="github" src="{{site.baseurl}}/assets/github.png">
-</a>
-</h3>
-<p class="text-justify"> {{ site.data.packages[p].description }} </p>
-</div>
-{% endfor %}
-</div>
-  </div>
-</div>
+{% include packages.html %}
 
 <!-- Tutorials -->
 <div class="container-fluid bg4">
@@ -185,7 +160,11 @@ links:
             {% if r.author %}
             <span class="author">{{ r.author }},</span>
             {% endif %}
+            {% if type_ref == "Talks" %}
+            <span class="date">{{ r.date | date: "%b %d, %Y" }}.</span>
+            {% else %}
             <span class="date">{{ r.date | date: "%b, %Y" }}.</span>
+            {% endif %}
             <span class="where">{{ r.where }}.</span>
           </li>
           {% endfor %}

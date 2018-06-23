@@ -8,13 +8,13 @@
       <!-- Menu for large devices -->
       <div class="d-none d-lg-block">
         {% for p in page.links %}
-        <button class="tablink">
+        <span class="tablink">
             {% if p.link == "home" %}
             <a href="{{site.baseurl}}/">{{p.name}}</a>
             {% else %}
             <a href="{{p.link}}">{{p.name}}</a>
             {% endif %}
-        </button>
+        </span>
         {% endfor %}
       </div>
       <!-- Menu for small devices -->

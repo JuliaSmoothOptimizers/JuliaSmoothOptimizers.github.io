@@ -1,7 +1,7 @@
 {
   "nlpmodels": {
     "name": "NLPModels",
-    "description": "This package provides general guidelines to represent optimization problems in Julia and a standardized API to evaluate the functions and their derivatives. The main objective is to be able to rely on that API when designing optimization solvers in Julia."
+    "description": "This package provides general guidelines to represent optimization problems in Julia and a standardized API to evaluate the functions and their derivatives. The main objective is to be able to rely on that API when designing optimization solvers in Julia. Includes model creation from direct Julia functions and <a href=\"https://github.com/JuliaOpt/JuMP.jl\">JuMP</a>, and provides Nonlinear Programming and Nonlinear Least Squares models."
   },
   "cutest": {
     "name": "CUTEst",
@@ -17,7 +17,7 @@
   },
   "optimizationproblems": {
     "name": "OptimizationProblems",
-    "description": "Implements several problem in <a href=\"https://github.com/JuliaOpt/JuMP.jl\">JuMP</a> format. Can be used with NLPModels for easy multiplatform access to problems."
+    "description": "Implements several problems in <a href=\"https://github.com/JuliaOpt/JuMP.jl\">JuMP</a> format. Can be used with NLPModels for easy multiplatform access to problems."
   },
   "nlsproblems": {
     "name": "NLSProblems",
@@ -53,7 +53,7 @@
   },
   "qr_mumps": {
     "name": "qr_mumps",
-    "description": "Interface to multicore QR factorization qr_mumps. Currentyl broken."
+    "description": "Interface to multicore QR factorization qr_mumps. Currently broken."
   },
   "ldl": {
     "name": "LDL",
