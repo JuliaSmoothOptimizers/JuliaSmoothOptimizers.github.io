@@ -26,13 +26,13 @@
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
           {% for p in page.links %}
-          <button class="dropdown-item">
+          <span class="dropdown-item">
             {% if p.link == "baseurl" %}
             <a href="{{site.baseurl}}">{{p.name}}</a>
             {% else %}
             <a href="{{p.link}}">{{p.name}}</a>
             {% endif %}
-          </button>
+          </span>
           {% endfor %}
         </div>
       </div>
