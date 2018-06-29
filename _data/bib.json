@@ -32,8 +32,9 @@
   {
     "title": "Developing new optimization methods with packages from the JuliaSmoothOptimizers organization",
     "author": "Abel S. Siqueira and Dominique Orban",
-    "where": "Second Annual JuMP-dev Workshop. Bordeaux, France. Scheduled",
+    "where": "Second Annual JuMP-dev Workshop. Bordeaux, France",
     "date": "2018-06-28",
+    "link": "http://abelsiqueira.github.io/assets/2018-06-28-jump-dev.pdf",
     "key": "Talks"
   },
   {
