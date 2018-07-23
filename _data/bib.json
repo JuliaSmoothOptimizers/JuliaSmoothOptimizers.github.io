@@ -47,8 +47,9 @@
   {
     "title": "A Regularized Interior-Point Method for Constrained Nonlinear Least Squares",
     "author": "Abel S. Siqueira and Dominique Orban",
-    "where": "XII Brazilian Workshop on Continuous Optimization. Iguaçu Falls, Brazil. Scheduled",
+    "where": "XII Brazilian Workshop on Continuous Optimization. Iguaçu Falls, Brazil.",
     "date": "2018-07-23",
+    "link": "http://abelsiqueira.github.io/assets/2018-07-23-xiibrazopt.pdf",
     "key": "Talks"
   }
 ]
