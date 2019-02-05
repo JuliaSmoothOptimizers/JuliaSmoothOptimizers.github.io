@@ -144,7 +144,13 @@ links:
 <div class="container-fluid bg5 jsousage">
   <div class="container wall">
     <div id="jsousage" class="row header-buffer"></div>
-    <h1> JSO usage </h1>
+    <h1> JSO usage
+    <small>Contribute by adding to the end of
+      <a
+        href="https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/blob/master/_data/bib.json">this
+      file</a>.
+    </small>
+    </h1>
     {% for type_ref in page.refs %}
     {% assign jsousage = site.data.bib | sort: "date" | reverse | where: "key", type_ref %}
     {% unless jsousage == empty %}
