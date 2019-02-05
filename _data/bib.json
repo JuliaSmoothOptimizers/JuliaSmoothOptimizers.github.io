@@ -64,7 +64,7 @@
   },
   {
     "title": "LNLQ: An Iterative Method for Least-Norm Problems with an Error Minimization Property",
-    "author": "R. Estrin, Dominique Orban and M. A. Saunders",
+    "author": "R. Estrin, D. Orban and M. A. Saunders",
     "where": "(Cahier du GERAD No. G-2018-40). Montréal, QC, Canada: GERAD",
     "date": "2018-06-01",
     "link": "https://dx.doi.org/10.13140/RG.2.2.34725.81123",
@@ -90,8 +90,16 @@
     "title": "LSLQ: An Iterative Method for Linear Least-Squares with an Error Minimization Property",
     "author": "R. Estrin, D. Orban and M. A. Saunders",
     "where": "SIAM Journal On Matrix Analysis, v(n), p–q",
-        "date": "2017-01-01",
+    "date": "2017-01-01",
     "link": "https://dx.doi.org/10.13140/RG.2.2.17818.64966",
     "key": "Publications"
+  },
+  {
+    "title": "Méthodes d'optimisation et contrôle optimal",
+    "author": "Dominique Orban",
+    "where": "Polytechnique Montréal",
+    "date": "2019-01-01",
+    "link": "https://www.polymtl.ca/etudes/cours/methodes-doptimisation-et-controle-optimal",
+    "key": "Classes"
   }
 ]
