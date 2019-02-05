@@ -17,6 +17,7 @@
   },
   {
     "title": "Advanced Topics in Scientific Computing with Julia",
+    "author": "Brad Nelson",
     "where": "Stanford University",
     "date": "2018-03-03",
     "link": "https://github.com/icme/cme257-advanced-julia",
@@ -24,6 +25,7 @@
   },
   {
     "title": "Otimização I",
+    "author": "Abel S. Siqueira",
     "where": "UFPR - Federal University of Paraná",
     "date": "2018-06-19",
     "link": "https://abelsiqueira.github.io/otim-pos-2018s1/",
@@ -51,5 +53,45 @@
     "date": "2018-07-23",
     "link": "http://abelsiqueira.github.io/assets/2018-07-23-xiibrazopt.pdf",
     "key": "Talks"
+  },
+  {
+    "title": "The Conjugate Residual Method in Linesearch and Trust-Region Methods",
+    "author": "M.-A. Dahito and D. Orban",
+    "where": "(Cahier du GERAD No. G-2018-50). Montréal, QC, Canada: GERAD",
+    "date": "2018-07-01",
+    "link": "https://dx.doi.org/10.13140/RG.2.2.24634.08649",
+    "key": "Publications"
+  },
+  {
+    "title": "LNLQ: An Iterative Method for Least-Norm Problems with an Error Minimization Property",
+    "author": "R. Estrin, Dominique Orban and M. A. Saunders",
+    "where": "(Cahier du GERAD No. G-2018-40). Montréal, QC, Canada: GERAD",
+    "date": "2018-06-01",
+    "link": "https://dx.doi.org/10.13140/RG.2.2.34725.81123",
+    "key": "Publications"
+  },
+  {
+    "title": "A Tridiagonalization Method for Symmetric Saddle-Point and Quasi-Definite System",
+    "author": "A. Buttari, D. Orban, D. Ruiz and D. Titley-Peloquin",
+    "where": "(Cahier du GERAD No. G-2018-42). Montréal, QC, Canada: GERAD",
+    "date": "2018-06-01",
+    "link": "https://dx.doi.org/10.13140/RG.2.2.26337.20328",
+    "key": "Publications"
+  },
+  {
+    "title": "Iterative Solution of Symmetric Quasi-Definite Linear Systems",
+    "author": "D. Orban and M. Arioli",
+    "where": "Society for Industrial and Applied Mathematics",
+    "date": "2017-04-01",
+    "link": "https://doi.org/10.1137/1.9781611974737",
+    "key": "Books"
+  },
+  {
+    "title": "LSLQ: An Iterative Method for Linear Least-Squares with an Error Minimization Property",
+    "author": "R. Estrin, D. Orban and M. A. Saunders",
+    "where": "SIAM Journal On Matrix Analysis, v(n), p–q",
+        "date": "2017-01-01",
+    "link": "https://dx.doi.org/10.13140/RG.2.2.17818.64966",
+    "key": "Publications"
   }
 ]

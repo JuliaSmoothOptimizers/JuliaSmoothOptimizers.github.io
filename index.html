@@ -18,6 +18,7 @@ packages:
   key: linear-algebra
   list: [amd, hsl, krylov, ldl, lldl, mumps, propack, qr_mumps]
 refs:
+- "Books"
 - "Publications"
 - "Talks"
 - "Classes"
@@ -162,7 +163,9 @@ links:
             {% endif %}
             {% if type_ref == "Talks" %}
             <span class="date">{{ r.date | date: "%b %d, %Y" }}.</span>
-            {% else %}
+            {% elsif type_ref == "Publications" %}
+            <span class="date">{{ r.date | date: "(%Y)" }}.</span>
+            {% else %}A
             <span class="date">{{ r.date | date: "%b, %Y" }}.</span>
             {% endif %}
             <span class="where">{{ r.where }}.</span>
