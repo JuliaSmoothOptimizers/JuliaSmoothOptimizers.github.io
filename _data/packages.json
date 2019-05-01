@@ -7,9 +7,17 @@
     "name": "CUTEst",
     "description": "This package provides an interface to <a href=\"http://ccpforge.cse.rl.ac.uk/gf/project/cutest/wiki\">CUTEst</a>, a repository of constrained and unconstrained nonlinear programming problems for testing and comparing optimization algorithms, derived from the abstract model on NLPModels."
   },
-  "optimize": {
-    "name": "Optimize",
-    "description": "Optimization Algorithms in Pure Julia. The focus is to provide large-scale efficient and robust methods. Uses NLPModels for unified access to all problems above. Also defines tools for benchmarking and profiling codes using the same API."
+  "jsosolvers": {
+    "name": "JSOSolvers",
+    "description": "Optimization Algorithms in Pure Julia. The focus is to provide large-scale efficient and robust methods. Uses NLPModels for unified access to all problems above."
+  },
+  "solvertools": {
+    "name": "SolverTools",
+    "description": "A framework to build novel optimization algorithms in pure julia."
+  },
+  "solverbenchmark": {
+    "name": "SolverBenchmark",
+    "description": "Provides general tools for benchmark solvers."
   },
   "amplnlreader": {
     "name": "AmplNLReader",
@@ -56,11 +64,39 @@
     "description": "Interface to multicore QR factorization qr_mumps. Currently broken."
   },
   "ldl": {
-    "name": "LDL",
+    "name": "LDLFactorization",
     "description": "A translation of Tim Davis's Concise LDL Factorization, part of <a href=\"http://faculty.cse.tamu.edu/davis/suitesparse.html\">SuiteSparse</a>. This package is appropriate for matrices A that possess a factorization of the form LDLᵀ without pivoting, where L is unit lower triangular and D is diagonal (indefinite in general), including definite and quasi-definite matrices."
   },
   "lldl": {
-    "name": "LLDL",
+    "name": "LimitedLDLFactorization",
     "description": "A Port of LLDL to Julia See <a href=\"https://github.com/optimizers/lldl\">optimizers/lldl</a>. LLDL is a limited-memory LDL' factorization for symmetric matrices."
+  },
+  "suitesparsematrixcollection": {
+    "name": "SuiteSparseMatrixCollection",
+    "description": "A straightforward interface to the SuiteSparse Matrix Collection."
+  },
+  "quadraticmodels": {
+    "name": "QuadraticModels",
+    "description": "A package to model linear and quadratic optimization problems using the NLPModels.jl data structures."
+  },
+  "qpsreader": {
+    "name": "QPSReader",
+    "description": "A package to read linear optimization problems in fixed MPS format and quadratic optimization problems in QPS format."
+  },
+  "nlpmodelsjump": {
+    "name": "NLPModelsJuMP",
+    "description": "This package provides nonlinear programming models as implemented by NLPModels, through the use of JuMP."
+  },
+  "nlpmodelsipopt": {
+    "name": "NLPModelsIpopt",
+    "description": "A thin IPOPT wrapper for NLPModels."
+  },
+  "nlpmodelsknitro": {
+    "name": "NLPModelsKnitro",
+    "description": "A thin KNITRO wrapper for NLPModels."
+  },
+  "cannoles": {
+    "name": "CaNNOLeS",
+    "description": "Constrained and NoNlinear Optimizer of Least Squares."
   }
 }

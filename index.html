@@ -2,21 +2,18 @@
 layout: default
 main: "yes"
 packages:
-- name: "Model creation"
+- name: "Model creation and collections"
   key: model-creation
-  list: [nlpmodels]
-- name: "Collections"
-  key: collections
-  list: [cutest, amplnlreader, optimizationproblems, nlsproblems]
-- name: "Methods"
+  list: [nlpmodels, nlpmodelsjump, cutest, amplnlreader, optimizationproblems, nlsproblems, quadraticmodels, qpsreader]
+- name: "Solvers"
   key: methods
-  list: [optimize]
+  list: [jsosolvers, cannoles, solvertools, solverbenchmark, nlpmodelsipopt, nlpmodelsknitro]
 - name: "Tools"
   key: tools
   list: [linearoperators, benchmarkprofiles]
 - name: "Linear Algebra"
   key: linear-algebra
-  list: [amd, hsl, krylov, ldl, lldl, mumps, propack, qr_mumps]
+  list: [amd, hsl, krylov, ldl, lldl, mumps, propack, qr_mumps, suitesparsematrixcollection]
 refs:
 - "Books"
 - "Publications"
@@ -41,7 +38,7 @@ links:
     <div id="home" class="row">
       <div class="col banner">
         <img class="img-fluid" src="{{site.baseurl}}/assets/jso.png"><br>
-        Julia Smooth Optimizers
+        JuliaSmoothOptimizers
       </div>
     </div>
     <div class="row portfolio">
@@ -83,7 +80,7 @@ links:
         <h1> Overview </h1>
 
         <p class="text-justify">
-          Julia Smooth Optimizers is an organization on GitHub containing a collection
+          JuliaSmoothOptimizers is an organization on GitHub containing a collection
           of Julia packages for Nonlinear Optimization software
           development, testing, and benchmarking.
           We provide tools for building models, access to repositories of problems,
@@ -93,22 +90,33 @@ links:
           Below there is a brief summary of packages.
         </p>
         <ul>
-          <li>In blue, <strong>NLPModels.jl</strong>, which provides different ways to
-            create nonlinear programming and nonlinear least squares models.</li>
-          <li>In green, packages providing access to problems from different
-            collections.</li>
-          <li>In red, <strong>Optimize.jl</strong> containing implemented solvers.
-            NLSCON is an unnanounced solver.</li>
-          <li>In yellow, linear algebra packages, including
-            <strong>Krylov.jl</strong> with iterative solvers and many factorization
-            packages.</li>
-          <li>In orange, <strong>LinearOperators.jl</strong> provides matrix-like
-            entities and <strong>BenchmarkProfiles.jl</strong> provides performance
-            and data profiles.</li>
+          <li><strong>LinearOperators.jl</strong> provides matrix-like
+            entities, which serve as basis for most of our large-scale
+            operations.
+          </li>
+          <li><strong>Krylov.jl</strong> provides iterative solvers, all
+            accepting matrices or LinearOperators.
+            Alternatively, we provide wrappers for known linear algebra
+            packages and some native implementations of factorizations.
+          </li>
+          <li>Creating a cluster, <strong>NLPModels.jl</strong>, which provides
+            different ways to create nonlinear programming and nonlinear least
+            squares models. This includes access to <strong>CUTEst</strong>,
+            <strong>AMPL</strong>, <strong>MPS/QPS</strong>, and provides
+            interfaces with <strong>IPOPT</strong> and <strong>KNITRO</strong>.
+          </li>
+          <li>In another cluster, we have our solver-related packages.
+            <strong>SolverTools.jl</strong> and <strong>SolverBenchmark.jl</strong>
+            provide tools for creating and comparing solvers, with publication
+            ready LaTeX-tables, and performance profiles.
+            <strong>JSOSolvers.jl</strong> provides some solvers implemented in this way,
+            and <strong>CaNNOLeS.jl</strong> is a solver for constrained nonlinear least squares
+            submitted for publication.
+          </li>
         </ul>
 
         <img class="img-responsive jso-description"
-             src="{{site.baseurl}}/assets/jsodesc.png">
+             src="{{site.baseurl}}/assets/JSO-network.png">
 
       </div>
     </div>
