@@ -89,9 +89,9 @@
   {
     "title": "LSLQ: An Iterative Method for Linear Least-Squares with an Error Minimization Property",
     "author": "R. Estrin, D. Orban and M. A. Saunders",
-    "where": "SIAM Journal On Matrix Analysis, v(n), p–q",
-    "date": "2017-01-01",
-    "link": "https://dx.doi.org/10.13140/RG.2.2.17818.64966",
+    "where": "SIAM Journal On Matrix Analysis, 40(1), 254-275",
+    "date": "2019-02-14",
+    "link": "https://dx.doi.org/10.1137/17M1113552",
     "key": "Publications"
   },
   {
@@ -101,5 +101,13 @@
     "date": "2019-01-01",
     "link": "https://www.polymtl.ca/etudes/cours/methodes-doptimisation-et-controle-optimal",
     "key": "Classes"
+  },
+  {
+    "title": "A Regularization Method for Constrained Nonlinear Least Squares",
+    "author": "Dominique Orban and Abel Soares Siqueira",
+    "where": "(Cahier du GERAD No. G-2019-17). Montréal, QC, Canada: GERAD",
+    "date": "2019-02-28",
+    "link": "https://dx.doi.org/10.13140/RG.2.2.11974.52809",
+    "key": "Publications"
   }
 ]

@@ -151,6 +151,27 @@ links:
       file</a>.
     </small>
     </h1>
+    <div class="row">
+      <div class="col">
+        <p>
+          <span>Cite as:</span><br>
+          <strong>JuliaSmoothOptimizers</strong>.
+          Dominique Orban and Abel Soares Siqueira.
+          Zenodo.
+          <span class="date">Apr, 2019.</span>
+          <a href="http://doi.org/10.5281/zenodo.2655082">10.5281/zenodo.2655082</a>
+        </p>
+        <p class="cite">
+{% highlight latex %}{% raw %}@Misc{jso-2019,
+  author = {D. Orban and A. S. Siqueira},
+  title = {{JuliaSmoothOptimizers}: Infrastructure and Solvers for Continuous Optimization in {J}ulia},
+  doi = {10.5281/zenodo.2655082},
+  URL = {https://juliasmoothoptimizers.github.io},
+  year = {2019},
+}{% endraw %}{% endhighlight %}
+        </p>
+      </div>
+    </div>
     {% for type_ref in page.refs %}
     {% assign jsousage = site.data.bib | sort: "date" | reverse | where: "key", type_ref %}
     {% unless jsousage == empty %}
