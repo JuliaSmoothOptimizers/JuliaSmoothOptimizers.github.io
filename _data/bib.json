@@ -119,11 +119,11 @@
     "key": "Talks"
   },
   {
-    "title": "Developing optimization software with JuliaSmoothOptimizers",
+    "title": "JuliaSmoothOptimizers",
     "author": "Abel S. Siqueira",
-    "date": "2019-02-15",
-    "where": "Invited talk at Université de Sherbrooke. Sherbrooke/QC, Canada.",
-    "link": "http://abelsiqueira.github.io/assets/2019-02-07-GERAD.tar.gz",
+    "date": "2019-05-31",
+    "where": "Talk at PPGM - UFPR. Curitiba/PR, Brazil.",
+    "link": "http://abelsiqueira.github.io/assets/2019-05-31-PPGM.ipynb",
     "key": "Talks"
   }
 ]
