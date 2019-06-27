@@ -125,5 +125,13 @@
     "where": "Talk at PPGM - UFPR. Curitiba/PR, Brazil.",
     "link": "http://abelsiqueira.github.io/assets/2019-05-31-PPGM.ipynb",
     "key": "Talks"
+  },
+  {
+    "title": "Otimização na Linguagem Julia",
+    "author": "Abel S. Siqueira",
+    "date": "2019-06-26",
+    "where": "Palestra no Congresso Internacional de Biomassa - 4° Expo Biomassa - Curitiba/PR, Brazil.",
+    "link": "https://docs.google.com/presentation/d/e/2PACX-1vTExSw03IXqsEOOjWeFvvC0FLodFUw5RpIQJLNUALql9jWPjS6GG4fyVeRn3BqehrT5AmfpWYvR4Tpo/pub?start=true&loop=false&delayms=5000&slide=id.g5c57578bdc_0_1264",
+    "key": "Talks"
   }
 ]
