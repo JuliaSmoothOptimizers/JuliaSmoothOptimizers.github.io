@@ -57,25 +57,25 @@
   {
     "title": "The Conjugate Residual Method in Linesearch and Trust-Region Methods",
     "author": "M.-A. Dahito and D. Orban",
-    "where": "(Cahier du GERAD No. G-2018-50). Montréal, QC, Canada: GERAD",
-    "date": "2018-07-01",
-    "link": "https://dx.doi.org/10.13140/RG.2.2.24634.08649",
+    "where": "SIAM Journal On Optimization, 29(3), 1988–2025",
+    "date": "2019-07-25",
+    "link": "https://doi.org/10.1137/18M1204255",
     "key": "Publications"
   },
   {
     "title": "LNLQ: An Iterative Method for Least-Norm Problems with an Error Minimization Property",
     "author": "R. Estrin, D. Orban and M. A. Saunders",
-    "where": "(Cahier du GERAD No. G-2018-40). Montréal, QC, Canada: GERAD",
-    "date": "2018-06-01",
-    "link": "https://dx.doi.org/10.13140/RG.2.2.34725.81123",
+    "where": "SIAM Journal On Matrix Analysis, 40(3), 1102–1124",
+    "date": "2019-11-12",
+    "link": "https://doi.org/10.1137/18M1194948",
     "key": "Publications"
   },
   {
-    "title": "A Tridiagonalization Method for Symmetric Saddle-Point and Quasi-Definite System",
+    "title": "A Tridiagonalization Method for Symmetric Saddle-Point System",
     "author": "A. Buttari, D. Orban, D. Ruiz and D. Titley-Peloquin",
-    "where": "(Cahier du GERAD No. G-2018-42). Montréal, QC, Canada: GERAD",
-    "date": "2018-06-01",
-    "link": "https://dx.doi.org/10.13140/RG.2.2.26337.20328",
+    "where": "SIAM Journal On Scientific Computing, 41(5), S409–S432",
+    "date": "2019-10-29",
+    "link": "https://doi.org/10.1137/18M1194900",
     "key": "Publications"
   },
   {
@@ -103,11 +103,11 @@
     "key": "Classes"
   },
   {
-    "title": "A Regularization Method for Constrained Nonlinear Least Squares",
+    "title": "A regularization method for constrained nonlinear least squares",
     "author": "Dominique Orban and Abel Soares Siqueira",
-    "where": "(Cahier du GERAD No. G-2019-17). Montréal, QC, Canada: GERAD",
-    "date": "2019-02-28",
-    "link": "https://dx.doi.org/10.13140/RG.2.2.11974.52809",
+    "where": "Computational Optimization and Applications, 76, 961-989",
+    "date": "2020-07-01",
+    "link": "https://doi.org/10.1007/s10589-020-00201-2",
     "key": "Publications"
   },
   {
