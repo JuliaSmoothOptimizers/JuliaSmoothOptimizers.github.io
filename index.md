@@ -22,7 +22,7 @@ We divide our (incomplete) documentation resources in 4 parts, following the ide
 If you use JSO, we ask that you cite us. In addition to any specific reference that may suggested by the packages you are using, we also ask you to cite:
 
 **JuliaSmoothOptimizers**. Dominique Orban and Abel Soares Siqueira. Zenodo. Apr, 2019. [10.5281/zenodo.2655082](doi.org/10.5281/zenodo.2655082)
-```
+```plaintext
 @Misc{jso-2019,
   author = {D. Orban and A. S. Siqueira},
   title = {{JuliaSmoothOptimizers}: Infrastructure and Solvers for Continuous Optimization in {J}ulia},

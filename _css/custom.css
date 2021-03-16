@@ -11,7 +11,7 @@ strong {
   color: white;
 }
 
-.language-julia {
+.language-julia, .julia {
   background-color: #122;
   color: #fff;
   border: 1px solid teal;
@@ -20,7 +20,7 @@ strong {
 .hljs-built_in { color: rgb(251, 255, 0); }
 .hljs-comment { color: rgb(247, 255, 175); }
 
-.plaintext {
+.language-plaintext, .plaintext {
   background-color: #111;
   color: #fff;
   border: 1px solid #fff;
