@@ -1,0 +1,73 @@
+body {
+  background: #333;
+  color: white;
+}
+
+.sidebar {
+  background: #111;
+}
+
+strong {
+  color: white;
+}
+
+.language-julia {
+  background-color: #122;
+  color: #fff;
+  border: 1px solid teal;
+}
+.hljs-literal, .hljs-number, .hljs-tag .hljs-attr, .hljs-template-variable, .hljs-variable { color: rgb(231, 14, 213); }
+.hljs-built_in { color: rgb(251, 255, 0); }
+.hljs-comment { color: rgb(247, 255, 175); }
+
+.plaintext {
+  background-color: #111;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+code {
+  background-color: #222;
+  color: rgb(230, 226, 45);
+}
+
+.sidebar-about img {
+  width: 100%;
+}
+
+body, .sidebar-about {
+  font-family: 'Montserrat', sans-serif;
+}
+
+h1, h2, h3, .sidebar-about h1, .sidebar-nav {
+  font-family: 'Nunito', serif;
+  color: white;
+}
+
+.franklin-content img {
+  width: 90%;
+  padding: 5%;
+}
+
+.franklin-content a, .sidebar-nav-item.active {
+  color: rgb(230, 226, 45);
+}
+
+.katex {
+  color: rgb(230, 226, 45);
+  font-size: 1.2em !important;
+}
+
+.sidebar {
+  border-right: 1px solid #999;
+}
+
+.sidebar-nav-item {
+  border-bottom: 1px solid #999;
+}
+
+.subitem {
+  padding-left: 15px;
+  border-bottom: 0px;
+  font-size: 0.9em;
+}
