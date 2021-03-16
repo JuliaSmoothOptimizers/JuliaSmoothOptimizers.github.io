@@ -1,0 +1,21 @@
+### Books
+- [🌐 Iterative Solution of Symmetric Quasi-Definite Linear Systems](link), D. Orban and M. Arioli, 2017-04-01, Society for Industrial and Applied Mathematics
+### Publications
+- [🌐 The Conjugate Residual Method in Linesearch and Trust-Region Methods](link), M.-A. Dahito and D. Orban, 2019-07-25, SIAM Journal On Optimization, 29(3), 1988–2025
+- [🌐 LNLQ: An Iterative Method for Least-Norm Problems with an Error Minimization Property](link), R. Estrin, D. Orban and M. A. Saunders, 2019-11-12, SIAM Journal On Matrix Analysis, 40(3), 1102–1124
+- [🌐 A Tridiagonalization Method for Symmetric Saddle-Point System](link), A. Buttari, D. Orban, D. Ruiz and D. Titley-Peloquin, 2019-10-29, SIAM Journal On Scientific Computing, 41(5), S409–S432
+- [🌐 LSLQ: An Iterative Method for Linear Least-Squares with an Error Minimization Property](link), R. Estrin, D. Orban and M. A. Saunders, 2019-02-14, SIAM Journal On Matrix Analysis, 40(1), 254-275
+- [🌐 A regularization method for constrained nonlinear least squares](link), Dominique Orban and Abel Soares Siqueira, 2020-07-01, Computational Optimization and Applications, 76, 961-989
+### Talks
+- [🌐 Otimização Não-Linear na Linguagem Julia](link), Abel S. Siqueira, 2017-12-01, Seminários de Análise Convexa e Otimização. UFSC, Florianópolis/SC, Brasil
+- [🌐 A Workflow for Designing Optimization Methods in the Julia Language](link), Abel S. Siqueira and Dominique Orban, 2016-05-04, 2016 Optimization Days. Montréal, Canada
+- [🌐 Developing new optimization methods with packages from the JuliaSmoothOptimizers organization](link), Abel S. Siqueira and Dominique Orban, 2018-06-28, Second Annual JuMP-dev Workshop. Bordeaux, France
+- Iterative Methods with an Error Minimization Property, Dominique Orban, Ron Estrin and Michael A. Saunders, 2018-05-31, LA/Opt Seminar, ICME, Stanford University
+- [🌐 A Regularized Interior-Point Method for Constrained Nonlinear Least Squares](link), Abel S. Siqueira and Dominique Orban, 2018-07-23, XII Brazilian Workshop on Continuous Optimization. Iguaçu Falls, Brazil.
+- [🌐 JuliaSmoothOptimizers](link), Abel S. Siqueira, 2019-02-07, Tutorial: Modeling and optimization tools in Julia: An introduction to JuMP and JSO. GERAD. Montreal/QC, Canada
+- [🌐 JuliaSmoothOptimizers](link), Abel S. Siqueira, 2019-05-31, Talk at PPGM - UFPR. Curitiba/PR, Brazil.
+- [🌐 Otimização na Linguagem Julia](link), Abel S. Siqueira, 2019-06-26, Palestra no Congresso Internacional de Biomassa - 4° Expo Biomassa - Curitiba/PR, Brazil.
+### Classes
+- [🌐 Advanced Topics in Scientific Computing with Julia](link), Brad Nelson, 2018-03-03, Stanford University
+- [🌐 Otimização I](link), Abel S. Siqueira, 2018-06-19, UFPR - Federal University of Paraná
+- [🌐 Méthodes d'optimisation et contrôle optimal](link), Dominique Orban, 2019-01-01, Polytechnique Montréal
