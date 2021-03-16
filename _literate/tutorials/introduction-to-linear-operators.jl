@@ -344,7 +344,7 @@ png(joinpath(@OUTPUT, "surface2")) # hide
 # \figalt{Surfaces along the time}{surface2.png}
 
 # The second block shows an animation.
-
+#=
 U0, A = HeatEquation(u0, L, m, δ, α)
 U = copy(U0)
 
@@ -366,5 +366,5 @@ for i = 1:60
   end
 end
 gif(anim, joinpath(@OUTPUT, "heat-equation.gif"), fps=12) #hide
-
-# \figalt{Animation of surface along time}{heat-equation.gif}
+## \figalt{Animation of surface along time}{heat-equation.gif}
+=#

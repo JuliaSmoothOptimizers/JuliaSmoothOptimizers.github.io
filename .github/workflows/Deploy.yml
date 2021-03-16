@@ -2,9 +2,10 @@ name: Build and Deploy
 on:
   push:
     branches:
-      - main
       - master
-      - new-site
+  pull_request:
+    branches:
+      - master
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -13,6 +14,11 @@ jobs:
       uses: actions/checkout@v2
       with:
         persist-credentials: false
+    - name: Fix URLs for PR preview deployment (pull request previews)
+      if: github.event_name == 'pull_request'
+      run: |
+        echo "PREVIEW_FRANKLIN_WEBSITE_URL=https://focused-almeida-6fb7df.netlify.app/previews/PR${{ github.event.number }}/" >> $GITHUB_ENV
+        echo "PREVIEW_FRANKLIN_PREPATH=previews/PR${{ github.event.number }}" >> $GITHUB_ENV
     # NOTE: Python is necessary for the pre-rendering (minification) step
     - name: Install python
       uses: actions/setup-python@v2
@@ -38,9 +44,18 @@ jobs:
             using NodeJS; run(`$(npm_cmd()) install highlight.js`);
             using Franklin;
             optimize()'
-    - name: Build and Deploy
+    - name: Deploy (preview)
+      if: github.event_name == 'pull_request' && github.repository == github.event.pull_request.head.repo.full_name # if this build is a PR build and the PR is NOT from a fork
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: __site
+          BRANCH: gh-preview # The branch where the PRs previews are stored
+          FOLDER: __site
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_FOLDER: "previews/PR${{ github.event.number }}" # The website preview is going to be stored in a subfolder
+    - name: Deploy (main)
+      if: github.event_name == 'push' && github.ref == 'refs/heads/dev'
+      uses: JamesIves/github-pages-deploy-action@releases/v3
+      with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # Replace here the branch where your website is deployed
+          FOLDER: __site
