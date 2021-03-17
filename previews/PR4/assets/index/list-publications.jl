@@ -2,6 +2,7 @@
 #hideall
 using JSON
 data = JSON.parsefile("_data/bib.json")
+data = sort(data, by=x->x["date"])
 for key in ["Books", "Publications", "Talks", "Classes"]
   println("### $key")
   for d in filter(x -> x["key"] == key, data)
@@ -11,6 +12,7 @@ for key in ["Books", "Publications", "Talks", "Classes"]
     else
       print("- [🌐 $(d["title"])]($url), ")
     end
-    println(join([d["author"], d["date"], d["where"]], ", "))
+    D = Dates.format(Date(d["date"]), "yyyy-u-d")
+    println(join([d["author"], "_$(D)_", d["where"]], ", "))
   end
 end

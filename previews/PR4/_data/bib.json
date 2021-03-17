@@ -99,7 +99,7 @@
     "author": "Dominique Orban",
     "where": "Polytechnique Montréal",
     "date": "2019-01-01",
-    "link": "https://www.polymtl.ca/etudes/cours/methodes-doptimisation-et-controle-optimal",
+    "link": "https://www.polymtl.ca/programmes/cours/methodes-doptimisation-et-controle-optimal",
     "key": "Classes"
   },
   {
@@ -133,5 +133,21 @@
     "where": "Palestra no Congresso Internacional de Biomassa - 4° Expo Biomassa - Curitiba/PR, Brazil.",
     "link": "https://docs.google.com/presentation/d/e/2PACX-1vTExSw03IXqsEOOjWeFvvC0FLodFUw5RpIQJLNUALql9jWPjS6GG4fyVeRn3BqehrT5AmfpWYvR4Tpo/pub?start=true&loop=false&delayms=5000&slide=id.g5c57578bdc_0_1264",
     "key": "Talks"
+  },
+  {
+    "title": "Algèbre linéaire numérique appliquée",
+    "author": "Dominique Orban",
+    "where": "Polytechnique Montréal",
+    "date": "2021-01-01",
+    "link": "https://www.polymtl.ca/programmes/cours/algebre-lineaire-numerique-appliquee",
+    "key": "Classes"
+  },
+  {
+    "title": "Otimização Não Linear em Julia",
+    "author": "Abel S. Siqueira",
+    "where": "YouTube",
+    "date": "2020-09-02",
+    "link": "https://www.youtube.com/playlist?list=PLOOY0eChA1ux1LAmJZNBySGeqR0kwNZmQ",
+    "key": "Classes"
   }
 ]
