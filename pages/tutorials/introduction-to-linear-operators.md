@@ -2,7 +2,7 @@
 @def showall = true
 @def tags = ["linear-algebra", "LinearOperators"]
 
-# Introduction to Linear Operators
+# {{title}}
 
 \toc
 
