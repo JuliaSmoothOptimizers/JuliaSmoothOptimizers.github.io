@@ -71,3 +71,7 @@ h1, h2, h3, .sidebar-about h1, .sidebar-nav {
   border-bottom: 0px;
   font-size: 0.9em;
 }
+
+p {
+  text-align: justify;
+}

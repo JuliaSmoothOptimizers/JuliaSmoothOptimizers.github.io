@@ -17,6 +17,19 @@ We divide our (incomplete) documentation resources in 4 parts, following the ide
 - [Reference guides](/pages/reference/list/): Technical reference.
 - [Ecosystem discussion](/pages/ecosystem/list/): Understanding-oriented.
 
+Additionally, we have a [wiki](https://github.com/JuliaSmoothOptimizers/Organization/wiki), mostly focused to our students.
+
+## Bug reports and discussions
+
+If you think you found a bug in any of our packages, feel free to open an issue at the specific GitHub repo.
+If should be a link like `https://github.com/JuliaSmoothOptimizers/PACKAGE.jl`.
+
+Focused suggestion and requests can also be opened as issues.
+Before opening a pull request, start an issue or a discussion on the topic, please.
+
+If you want to ask a question that is not suited for a bug report, feel free to start a discussion [here](https://github.com/JuliaSmoothOptimizers/Organization/discussions).
+This forum is for general discussion, so questions about any of our packages are welcome.
+
 ## Publications, talks and other references
 
 If you use JSO, we ask that you cite us. In addition to any specific reference that may suggested by the packages you are using, we also ask you to cite:
@@ -36,6 +49,7 @@ If you use JSO, we ask that you cite us. In addition to any specific reference t
 #hideall
 using JSON
 data = JSON.parsefile("_data/bib.json")
+data = sort(data, by=x->x["date"])
 for key in ["Books", "Publications", "Talks", "Classes"]
   println("### $key")
   for d in filter(x -> x["key"] == key, data)
@@ -45,7 +59,8 @@ for key in ["Books", "Publications", "Talks", "Classes"]
     else
       print("- [🌐 $(d["title"])]($url), ")
     end
-    println(join([d["author"], d["date"], d["where"]], ", "))
+    D = Dates.format(Date(d["date"]), "yyyy-u-d")
+    println(join([d["author"], "_$(D)_", d["where"]], ", "))
   end
 end
 ```
