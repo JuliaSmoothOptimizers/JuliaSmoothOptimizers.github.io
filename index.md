@@ -34,7 +34,7 @@ This forum is for general discussion, so questions about any of our packages are
 
 If you use JSO, we ask that you cite us. In addition to any specific reference that may suggested by the packages you are using, we also ask you to cite:
 
-**JuliaSmoothOptimizers**. Dominique Orban and Abel Soares Siqueira. Zenodo. Apr, 2019. [10.5281/zenodo.2655082](doi.org/10.5281/zenodo.2655082)
+**JuliaSmoothOptimizers**. Dominique Orban and Abel Soares Siqueira. Zenodo. Apr, 2019. [10.5281/zenodo.2655082](https://doi.org/10.5281/zenodo.2655082)
 ```plaintext
 @Misc{jso-2019,
   author = {D. Orban and A. S. Siqueira},
