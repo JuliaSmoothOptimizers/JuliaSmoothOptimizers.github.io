@@ -1,3 +1,10 @@
+@font-face {
+  font-family: JuliaMono;
+  src:
+    local('JuliaMono'),
+    url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
+}
+
 body {
   background: #333;
   color: white;
@@ -35,6 +42,7 @@ strong {
 code {
   background-color: #222;
   color: rgb(230, 226, 45);
+  font-family: 'JuliaMono', 'monospace';
 }
 
 .fndef tr, .fndef-backref, .fndef-content {
@@ -53,6 +61,10 @@ body, .sidebar-about {
 h1, h2, h3, .sidebar-about h1, .sidebar-nav {
   font-family: 'Nunito', serif;
   color: white;
+}
+
+h1#title {
+  margin-bottom: 5px;
 }
 
 .franklin-content img {
@@ -85,4 +97,14 @@ h1, h2, h3, .sidebar-about h1, .sidebar-nav {
 
 p {
   text-align: justify;
+}
+
+.author {
+  color: rgb(154, 253, 173);
+  width: 100%;
+  text-align: right;
+  font-variant: small-caps;
+  font-size: 1.1em;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
 }

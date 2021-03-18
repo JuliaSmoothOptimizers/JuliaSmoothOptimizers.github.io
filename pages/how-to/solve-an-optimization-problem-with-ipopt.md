@@ -4,6 +4,8 @@
 
 # {{title}}
 
-\toc
+@@author
+by Abel S. Siqueira
+@@
 
 \literate{/_literate/how-to/solve-an-optimization-problem-with-ipopt.jl}

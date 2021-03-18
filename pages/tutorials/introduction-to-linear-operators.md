@@ -4,6 +4,8 @@
 
 # {{title}}
 
-\toc
+@@author
+by Abel S. Siqueira
+@@
 
 \literate{/_literate/tutorials/introduction-to-linear-operators.jl}
