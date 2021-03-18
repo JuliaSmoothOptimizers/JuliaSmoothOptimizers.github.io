@@ -1,7 +1,9 @@
 <!--This file was generated, do not modify it.-->
-## Introduction
-
 LinearOperators.jl is a package for matrix-like operators. Linear operators are defined by how they act on a vector, which is useful in a variety of situations where you don't want to materialize the matrix.
+
+\toc
+
+## Introduction
 
 ```julia:ex1
 using LinearOperators
@@ -374,6 +376,8 @@ png(joinpath(@OUTPUT, "surface2")) # hide
 \figalt{Surfaces along the time}{surface2.png}
 
 The second block shows an animation.
+
+```julia:ex16
 U0, A = HeatEquation(u0, L, m, δ, α)
 U = copy(U0)
 
@@ -394,6 +398,7 @@ for i = 1:60
     U = A * U
   end
 end
-gif(anim, joinpath(@OUTPUT, "heat-equation.gif"), fps=12) #hide
-## \figalt{Animation of surface along time}{heat-equation.gif}
+```
+
+\figalt{Animation of surface along time}{heat-equation.gif}
 
