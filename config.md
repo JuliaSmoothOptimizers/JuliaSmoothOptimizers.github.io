@@ -10,8 +10,8 @@ The website_* must be defined for the RSS to work
 @def author = "Abel Soares Siqueira"
 
 @def mintoclevel = 2
-@def prepath     = get(ENV, "PREVIEW_FRANKLIN_PREPATH", "myprepath") # In the third argument put the prepath you normally use
-@def website_url = get(ENV, "PREVIEW_FRANKLIN_WEBSITE_URL", "mywebsite.github.io") # Just put the website name
+@def prepath     = get(ENV, "PREVIEW_FRANKLIN_PREPATH", "") # In the third argument put the prepath you normally use
+@def website_url = get(ENV, "PREVIEW_FRANKLIN_WEBSITE_URL", "juliasmoothoptimizers.github.io") # Just put the website name
 
 <!--
 Add here files or directories that should be ignored by Franklin, otherwise
