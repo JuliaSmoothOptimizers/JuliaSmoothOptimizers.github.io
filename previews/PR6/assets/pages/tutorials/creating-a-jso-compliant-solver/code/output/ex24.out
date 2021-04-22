@@ -1,0 +1,8 @@
+┌─────────┬───────────┬───────────┬──────────────┬────────┐
+│    name │    status │ objective │ elapsed_time │   iter │
+├─────────┼───────────┼───────────┼──────────────┼────────┤
+│ Generic │ exception │       Inf │          Inf │      0 │
+│ Generic │ exception │       Inf │          Inf │      0 │
+│ Generic │ exception │       Inf │          Inf │      0 │
+│ Generic │ exception │       Inf │          Inf │      0 │
+└─────────┴───────────┴───────────┴──────────────┴────────┘
