@@ -9,3 +9,6 @@ A = Linear operator
   nctprod: 0
 
 
+MethodError: no method matching prod(::Array{Float64,1}, ::Array{Float64,1}, ::Float64, ::Float64)
+Closest candidates are:
+  prod(::Any) at none:2

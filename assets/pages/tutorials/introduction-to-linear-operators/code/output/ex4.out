@@ -1,0 +1,5 @@
+MethodError: no method matching LinearOperators.LinearOperator(::Int64, ::Int64, ::Bool, ::Bool, ::typeof(AbstractFFTs.fft), ::Nothing, ::typeof(AbstractFFTs.ifft))
+Closest candidates are:
+  LinearOperators.LinearOperator(!Matched::Type{T}, ::I, !Matched::I, ::Bool, !Matched::Bool, ::Any, ::Any) where {T, I<:Integer} at /home/runner/.julia/packages/LinearOperators/gjG5e/src/constructors.jl:91
+  LinearOperators.LinearOperator(!Matched::Type{T}, ::I, !Matched::I, ::Bool, !Matched::Bool, ::Any, ::Any, !Matched::Any) where {T, I<:Integer} at /home/runner/.julia/packages/LinearOperators/gjG5e/src/constructors.jl:91
+  LinearOperators.LinearOperator(!Matched::Type{T}, ::I, !Matched::I, ::Bool, !Matched::Bool, ::Any) where {T, I<:Integer} at /home/runner/.julia/packages/LinearOperators/gjG5e/src/constructors.jl:91

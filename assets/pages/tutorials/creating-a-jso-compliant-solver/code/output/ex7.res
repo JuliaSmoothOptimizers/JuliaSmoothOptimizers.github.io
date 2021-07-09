@@ -1,3 +1,3 @@
-2×2 Array{Float64,2}:
- 55.12  0.0
- 19.2   8.0
+2×2 LinearAlgebra.Symmetric{Float64,Array{Float64,2}}:
+ 55.12  19.2
+ 19.2    8.0

@@ -8,7 +8,7 @@ nlp &#61; ADNLPModel&#40;
   x -&gt; &#91;x&#91;1&#93;^2 &#43; x&#91;2&#93;^2&#93;, # constraints function - must be an array
   &#91;-Inf&#93;, # lower bounds on constraints
   &#91;1.0&#93;   # upper bounds on constraints
-&#41;</code></pre><pre><code class=plaintext >ADNLPModel - Model with automatic differentiation
+&#41;</code></pre><pre><code class=plaintext >ADNLPModel - Model with automatic differentiation backend ADNLPModels.ForwardDiffAD(2, 1)
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ████████████████████ 1     
             free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -25,7 +25,7 @@ nlp &#61; ADNLPModel&#40;
              obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
             jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-           hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
 </code></pre> <p>Now, just pass your problem to ipopt.</p> <pre><code class=language-julia >using NLPModelsIpopt
 
 output &#61; ipopt&#40;nlp&#41;</code></pre><pre><code class=plaintext >
@@ -79,8 +79,8 @@ Number of inequality constraint evaluations          = 8
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 8
 Number of Lagrangian Hessian evaluations             = 7
-Total CPU secs in IPOPT (w/o function evaluations)   =      2.591
-Total CPU secs in NLP function evaluations           =      1.194
+Total CPU secs in IPOPT (w/o function evaluations)   =      2.526
+Total CPU secs in NLP function evaluations           =      1.283
 
 EXIT: Optimal Solution Found.
 "Execution stats: first-order stationary"</code></pre> <p>To remove the output, use print_level</p> <pre><code class=language-julia >output &#61; ipopt&#40;nlp, print_level&#61;0&#41;</code></pre><pre><code class=plaintext >"Execution stats: first-order stationary"</code></pre>
@@ -97,7 +97,7 @@ EXIT: Optimal Solution Found.
   iterations: 7
   elapsed time: 0.004
   solver specific:
-    real_time: 0.005316972732543945
+    real_time: 0.0053958892822265625
     internal_msg: :Solve_Succeeded
 </code></pre>
 <pre><code class=language-julia >x &#61; output.solution
@@ -107,7 +107,7 @@ println&#40;&quot;Solution: &#36;x&quot;&#41;</code></pre><pre><code class=plain
 
 <div class=page-foot >
   <div class=copyright >
-    &copy; Abel Soares Siqueira. Last modified: March 22, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+    &copy; Abel Soares Siqueira. Last modified: July 09, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
   </div>
 </div>
 </div>

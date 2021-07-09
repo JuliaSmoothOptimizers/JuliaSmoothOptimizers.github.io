@@ -1,8 +1,6 @@
-┌─────────┬─────────────┬───────────┬──────────────┬────────┐
-│    name │      status │ objective │ elapsed_time │   iter │
-├─────────┼─────────────┼───────────┼──────────────┼────────┤
-│ Generic │ first_order │  2.47e-31 │     4.52e-01 │      1 │
-│ Generic │ first_order │  3.74e-21 │     6.12e-01 │     21 │
-│ Generic │    max_iter │ -8.36e+00 │     4.60e-01 │    100 │
-│ Generic │ first_order │  1.43e+00 │     4.84e-01 │      5 │
-└─────────┴─────────────┴───────────┴──────────────┴────────┘
+MethodError: no method matching getindex(::DataFrames.DataFrame, ::Array{Symbol,1})
+Closest candidates are:
+  getindex(::DataFrames.DataFrame, ::AbstractArray{T,1} where T, !Matched::Union{AbstractString, Signed, Symbol, Unsigned}) at /home/runner/.julia/packages/DataFrames/vQokV/src/dataframe/dataframe.jl:486
+  getindex(::DataFrames.DataFrame, ::AbstractArray{T,1}, !Matched::Colon) where T at /home/runner/.julia/packages/DataFrames/vQokV/src/dataframe/dataframe.jl:563
+  getindex(::DataFrames.DataFrame, ::AbstractArray{T,1}, !Matched::Union{Colon, Regex, AbstractArray{T,1} where T, DataAPI.All, DataAPI.Between, DataAPI.Cols, InvertedIndices.InvertedIndex}) where T at /home/runner/.julia/packages/DataFrames/vQokV/src/dataframe/dataframe.jl:540
+  ...

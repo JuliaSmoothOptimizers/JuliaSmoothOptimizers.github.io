@@ -22,26 +22,31 @@ A * ones&#40;2&#41;</code></pre><pre><code class=plaintext >A = Linear operator
   nctprod: 0
 
 
-2-element Array{Float64,1}:
- 2.0
- 4.0</code></pre> <p>The operator can be symmetric and/or Hermitian, and products with its transpose and adjoint can be defined as well.</p> <pre><code class=language-julia >prod&#40;v&#41; &#61; &#91;3v&#91;1&#93; - v&#91;2&#93;; 2v&#91;1&#93; &#43; 2v&#91;2&#93;&#93;
+MethodError: no method matching prod(::Array{Float64,1}, ::Array{Float64,1}, ::Float64, ::Float64)
+Closest candidates are:
+  prod(::Any) at none:2
+</code></pre> <p>The operator can be symmetric and/or Hermitian, and products with its transpose and adjoint can be defined as well.</p> <pre><code class=language-julia >prod&#40;v&#41; &#61; &#91;3v&#91;1&#93; - v&#91;2&#93;; 2v&#91;1&#93; &#43; 2v&#91;2&#93;&#93;
 tprod&#40;v&#41; &#61; &#91;3v&#91;1&#93; &#43; 2v&#91;2&#93;; -v&#91;1&#93; &#43; 2v&#91;2&#93;&#93;
 
 A &#61; LinearOperator&#40;Float64, 2, 2, false, false, prod, tprod&#41;
 
-transpose&#40;A&#41; * ones&#40;2&#41;</code></pre><pre><code class=plaintext >2-element Array{Float64,1}:
- 5.0
- 1.0</code></pre> <p>Notice that since <code>A</code> defined above is real, then the adjoint transpose is inferred to also be <code>tprod</code>:</p> <pre><code class=language-julia >A&#39; * ones&#40;2&#41;</code></pre><pre><code class=plaintext >2-element Array{Float64,1}:
- 5.0
- 1.0</code></pre> <p>In the following example we define a complex operator using the Fast Fourier Transform and its inverse. Notice that the operator is orthogonal.</p> <pre><code class=language-julia >using FFTW, LinearAlgebra
+transpose&#40;A&#41; * ones&#40;2&#41;</code></pre><pre><code class=plaintext >MethodError: no method matching tprod(::Array{Float64,1}, ::Array{Float64,1}, ::Float64, ::Float64)
+Closest candidates are:
+  tprod(::Any) at none:1
+</code></pre> <p>Notice that since <code>A</code> defined above is real, then the adjoint transpose is inferred to also be <code>tprod</code>:</p> <pre><code class=language-julia >A&#39; * ones&#40;2&#41;</code></pre><pre><code class=plaintext >MethodError: no method matching tprod(::Array{Float64,1}, ::Array{Float64,1}, ::Float64, ::Float64)
+Closest candidates are:
+  tprod(::Any) at none:1
+</code></pre> <p>In the following example we define a complex operator using the Fast Fourier Transform and its inverse. Notice that the operator is orthogonal.</p> <pre><code class=language-julia >using FFTW, LinearAlgebra
 
 A &#61; LinearOperator&#40;16, 16, false, false, fft, nothing, ifft&#41;
 
 v &#61; rand&#40;16&#41; &#43; im * rand&#40;16&#41;
-norm&#40;A * v - fft&#40;v&#41;&#41;, norm&#40;A&#39; * v - ifft&#40;v&#41;&#41;, norm&#40;Matrix&#40;A&#39; * A&#41; - I&#41;</code></pre><pre><code class=plaintext >(0.0, 0.0, 1.9812853513207183e-16)</code></pre>
-<h2 id=lazy_products ><a href="#lazy_products" class=header-anchor >Lazy Products</a></h2>
-<p>One immediate advantage of LinearOperators is that it allows lazy matrix products.</p>
-<pre><code class=language-julia >n &#61; 4000
+norm&#40;A * v - fft&#40;v&#41;&#41;, norm&#40;A&#39; * v - ifft&#40;v&#41;&#41;, norm&#40;Matrix&#40;A&#39; * A&#41; - I&#41;</code></pre><pre><code class=plaintext >MethodError: no method matching LinearOperators.LinearOperator(::Int64, ::Int64, ::Bool, ::Bool, ::typeof(AbstractFFTs.fft), ::Nothing, ::typeof(AbstractFFTs.ifft))
+Closest candidates are:
+  LinearOperators.LinearOperator(!Matched::Type{T}, ::I, !Matched::I, ::Bool, !Matched::Bool, ::Any, ::Any) where {T, I<:Integer} at /home/runner/.julia/packages/LinearOperators/gjG5e/src/constructors.jl:91
+  LinearOperators.LinearOperator(!Matched::Type{T}, ::I, !Matched::I, ::Bool, !Matched::Bool, ::Any, ::Any, !Matched::Any) where {T, I<:Integer} at /home/runner/.julia/packages/LinearOperators/gjG5e/src/constructors.jl:91
+  LinearOperators.LinearOperator(!Matched::Type{T}, ::I, !Matched::I, ::Bool, !Matched::Bool, ::Any) where {T, I<:Integer} at /home/runner/.julia/packages/LinearOperators/gjG5e/src/constructors.jl:91
+</code></pre> <h2 id=lazy_products ><a href="#lazy_products" class=header-anchor >Lazy Products</a></h2> <p>One immediate advantage of LinearOperators is that it allows lazy matrix products.</p> <pre><code class=language-julia >n &#61; 4000
 A &#61; rand&#40;n, n&#41;
 B &#61; rand&#40;n, n&#41;
 opA &#61; LinearOperator&#40;A&#41;
@@ -58,21 +63,16 @@ opB &#61; LinearOperator&#40;B&#41;
   nctprod: 0
 
 
-</code></pre>
-<p>Run twice</p>
-<pre><code class=language-julia >@time A * B
+</code></pre> <p>Run twice</p> <pre><code class=language-julia >@time A * B
 @time opA * opB
 
 v &#61; rand&#40;n&#41;
 @time A * &#40;B * v&#41;
-@time &#40;opA * opB&#41; * v;</code></pre><pre><code class=plaintext >  1.895094 seconds (2.49 M allocations: 241.545 MiB, 7.60% gc time)
-  0.000003 seconds (4 allocations: 176 bytes)
-  0.088814 seconds (260.28 k allocations: 13.713 MiB)
-  0.020663 seconds (1.88 k allocations: 164.952 KiB)
-</code></pre>
-<h2 id=preallocated_operators ><a href="#preallocated_operators" class=header-anchor >Preallocated Operators</a></h2>
-<p>It is often useful to reuse the memory used in a linear operator. If the operator is created from a matrix <code>A</code>, <code>PreallocatedLinearOperator&#40;A&#41;</code> automatically creates the underlying memory to store <code>A * v</code>, <code>transpose&#40;A&#41; * v</code> and <code>A&#39; * v</code>.</p>
-<pre><code class=language-julia >m, n &#61; 50, 30
+@time &#40;opA * opB&#41; * v;</code></pre><pre><code class=plaintext >  1.844566 seconds (2.54 M allocations: 244.335 MiB, 2.48% gc time)
+  0.000058 seconds (7 allocations: 94.109 KiB)
+  0.087393 seconds (260.63 k allocations: 13.745 MiB)
+  0.064498 seconds (155.76 k allocations: 8.278 MiB)
+</code></pre> <h2 id=preallocated_operators ><a href="#preallocated_operators" class=header-anchor >Preallocated Operators</a></h2> <p>It is often useful to reuse the memory used in a linear operator. If the operator is created from a matrix <code>A</code>, <code>PreallocatedLinearOperator&#40;A&#41;</code> automatically creates the underlying memory to store <code>A * v</code>, <code>transpose&#40;A&#41; * v</code> and <code>A&#39; * v</code>.</p> <pre><code class=language-julia >m, n &#61; 50, 30
 A &#61; rand&#40;50, 30&#41;
 op1 &#61; PreallocatedLinearOperator&#40;A&#41;
 op2 &#61; LinearOperator&#40;A&#41;
@@ -87,17 +87,13 @@ op2 * v
 al &#61; @allocated for i &#61; 1:100
   op2 * v
 end
-println&#40;&quot;Allocation of op2: &#36;al&quot;&#41;</code></pre><pre><code class=plaintext >Allocation of op1: 0
-Allocation of op2: 49600
-</code></pre>
-<h2 id=inverse_operator ><a href="#inverse_operator" class=header-anchor >Inverse Operator</a></h2>
-<p>Operators may be defined to represent &#40;approximate&#41; inverses.</p>
-<pre><code class=language-julia >A &#61; rand&#40;5,5&#41;
+println&#40;&quot;Allocation of op2: &#36;al&quot;&#41;</code></pre><pre><code class=plaintext >UndefVarError: PreallocatedLinearOperator not defined
+</code></pre> <h2 id=inverse_operator ><a href="#inverse_operator" class=header-anchor >Inverse Operator</a></h2> <p>Operators may be defined to represent &#40;approximate&#41; inverses.</p> <pre><code class=language-julia >A &#61; rand&#40;5,5&#41;
 A &#61; A&#39; * A
 op &#61; opCholesky&#40;A&#41;  # Use, e.g., as a preconditioner
 v &#61; rand&#40;5&#41;
 
-norm&#40;A \ v - op * v&#41; / norm&#40;v&#41;</code></pre><pre><code class=plaintext >4.559727439185515e-11</code></pre>
+norm&#40;A \ v - op * v&#41; / norm&#40;v&#41;</code></pre><pre><code class=plaintext >5.87693361868016e-16</code></pre>
 <h2 id=lbfgs_operator ><a href="#lbfgs_operator" class=header-anchor >LBFGS Operator</a></h2>
 <p>A useful operator is the Limited BFGS operator, which implements the BFGS update with limited memory used in nonlinear optimization. This update comes in both direct &#40;\(B_k\)&#41; and inverse &#40;\(H_k = B_k^{-1}\)&#41; form.</p>
 \[
@@ -119,7 +115,7 @@ Bq &#61; q &#43; dot&#40;y, q&#41; / dot&#40;y, s&#41; * y - dot&#40;s, q&#41; /
 Hauxq &#61; q - dot&#40;s, q&#41; / dot&#40;y, s&#41; * y
 Hq &#61; Hauxq - dot&#40;y, Hauxq&#41; / dot&#40;y, s&#41; * s &#43; dot&#40;s, q&#41; / dot&#40;y, s&#41; * s
 
-norm&#40;B * q - Bq&#41;, norm&#40;H * q - Hq&#41;, norm&#40;B * H * q - q&#41;</code></pre><pre><code class=plaintext >(7.021666937153402e-16, 7.850462293418876e-17, 3.6821932062951477e-16)</code></pre>
+norm&#40;B * q - Bq&#41;, norm&#40;H * q - Hq&#41;, norm&#40;B * H * q - q&#41;</code></pre><pre><code class=plaintext >(4.1540741810552243e-16, 2.482534153247273e-16, 4.710277376051325e-16)</code></pre>
 <h2 id=application_heat_equation ><a href="#application_heat_equation" class=header-anchor >Application: Heat Equation</a></h2>
 <p>Consider a square plate of size \(L \times L\) with no heat exchange on the boundaries. The Heat Equation and boundary conditions related to the temperature \(u(t,x,y)\) at time \(t\), position \((x,y)\) is given by</p>
 \[
@@ -235,23 +231,20 @@ u^{n+1}_{1,1} & = (1 - 4\gamma)u^n_{1,1} + \gamma\Big(u^n_{0,1} + u^n_{2,1} + u^
 end</code></pre><pre><code class=plaintext >HeatEquationOp (generic function with 1 method)</code></pre>
 <p>Here is an example of this operator.</p>
 <pre><code class=language-julia >A &#61; HeatEquationOp&#40;1.0, 3, 0.1, 0.1&#41;
-Matrix&#40;A&#41;</code></pre><pre><code class=plaintext >9×9 Array{Float64,2}:
- 0.84  0.08  0.0   0.08  0.0   0.0   0.0   0.0   0.0
- 0.04  0.84  0.04  0.0   0.08  0.0   0.0   0.0   0.0
- 0.0   0.08  0.84  0.0   0.0   0.08  0.0   0.0   0.0
- 0.04  0.0   0.0   0.84  0.08  0.0   0.04  0.0   0.0
- 0.0   0.04  0.0   0.04  0.84  0.04  0.0   0.04  0.0
- 0.0   0.0   0.04  0.0   0.08  0.84  0.0   0.0   0.04
- 0.0   0.0   0.0   0.08  0.0   0.0   0.84  0.08  0.0
- 0.0   0.0   0.0   0.0   0.08  0.0   0.04  0.84  0.04
- 0.0   0.0   0.0   0.0   0.0   0.08  0.0   0.08  0.84</code></pre>
+Matrix&#40;A&#41;</code></pre><pre><code class=plaintext >MethodError: no method matching (::Main.FD_SANDBOX_13936746205804130300.var"#prod#4"{Int64,LinearOperators.LinearOperator{Float64,Int64,Main.FD_SANDBOX_13936746205804130300.var"#Tprod#2"{Int64,Float64,Float64},Nothing,Nothing},LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#20#23"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64},LinearOperators.var"#21#24"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64},LinearOperators.var"#22#25"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64}}})(::Array{Float64,1}, ::Array{Float64,1}, ::Float64, ::Float64)
+Closest candidates are:
+  prod(::Any) at none:13
+</code></pre>
 <p>This example shows the sparsisty pattern.</p>
 <pre><code class=language-julia >using SparseArrays, Plots
 gr&#40;size&#61;&#40;600,600&#41;&#41;
 
 A &#61; HeatEquationOp&#40;1.0, 20, 0.1, 0.1&#41;
-spy&#40;sparse&#40;Matrix&#40;A&#41;&#41;&#41;</code></pre>
-<p><img src="/assets/pages/tutorials/introduction-to-linear-operators/code/output/spy.png" alt="Sparsity of A"> The next function creates a <code>HeatEquationOp</code> operator and the linearized vector <code>U</code> with starting values.</p>
+spy&#40;sparse&#40;Matrix&#40;A&#41;&#41;&#41;</code></pre><pre><code class=plaintext >MethodError: no method matching (::Main.FD_SANDBOX_13936746205804130300.var"#prod#4"{Int64,LinearOperators.LinearOperator{Float64,Int64,Main.FD_SANDBOX_13936746205804130300.var"#Tprod#2"{Int64,Float64,Float64},Nothing,Nothing},LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#20#23"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64},LinearOperators.var"#21#24"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64},LinearOperators.var"#22#25"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64}}})(::Array{Float64,1}, ::Array{Float64,1}, ::Float64, ::Float64)
+Closest candidates are:
+  prod(::Any) at none:13
+</code></pre>
+<p><p><span style="color:red;">// Image matching '/assets/pages/tutorials/introduction-to-linear-operators/code/spy.png' not found. //</span></p> The next function creates a <code>HeatEquationOp</code> operator and the linearized vector <code>U</code> with starting values.</p>
 <pre><code class=language-julia >function HeatEquation&#40;u0, L, m, δ, α&#41;
   h &#61; L / &#40;m - 1&#41;
   U &#61; zeros&#40;m^2&#41;
@@ -318,8 +311,11 @@ for i &#61; 1:plot_rows
     end
   end
 end
-plot&#40;plots..., layout&#61;&#40;plot_rows, plot_cols&#41;, size&#61;&#40;1000, plot_rows * 250&#41;&#41;</code></pre>
-<img src="/assets/pages/tutorials/introduction-to-linear-operators/code/output/surface2.png" alt="Surfaces along the time">
+plot&#40;plots..., layout&#61;&#40;plot_rows, plot_cols&#41;, size&#61;&#40;1000, plot_rows * 250&#41;&#41;</code></pre><pre><code class=plaintext >MethodError: no method matching (::Main.FD_SANDBOX_13936746205804130300.var"#prod#4"{Int64,LinearOperators.LinearOperator{Float64,Int64,Main.FD_SANDBOX_13936746205804130300.var"#Tprod#2"{Int64,Float64,Float64},Nothing,Nothing},LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#20#23"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64},LinearOperators.var"#21#24"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64},LinearOperators.var"#22#25"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64}}})(::Array{Float64,1}, ::Array{Float64,1}, ::Float64, ::Float64)
+Closest candidates are:
+  prod(::Any) at none:13
+</code></pre>
+<p><span style="color:red;">// Image matching '/assets/pages/tutorials/introduction-to-linear-operators/code/surface2.png' not found. //</span></p>
 <p>The second block shows an animation.</p>
 <pre><code class=language-julia >U0, A &#61; HeatEquation&#40;u0, L, m, δ, α&#41;
 U &#61; copy&#40;U0&#41;
@@ -340,12 +336,15 @@ for i &#61; 1:60
   for t &#61; 1:Δt
     U &#61; A * U
   end
-end</code></pre>
+end</code></pre><pre><code class=plaintext >MethodError: no method matching (::Main.FD_SANDBOX_13936746205804130300.var"#prod#4"{Int64,LinearOperators.LinearOperator{Float64,Int64,Main.FD_SANDBOX_13936746205804130300.var"#Tprod#2"{Int64,Float64,Float64},Nothing,Nothing},LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#20#23"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64},LinearOperators.var"#21#24"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64},LinearOperators.var"#22#25"{LinearOperators.LinearOperator{Float64,Int64,LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64},LinearOperators.var"#105#106"{Int64}},Float64}}})(::Array{Float64,1}, ::Array{Float64,1}, ::Float64, ::Float64)
+Closest candidates are:
+  prod(::Any) at none:13
+</code></pre>
 <p><span style="color:red;">// Image matching '/assets/pages/tutorials/introduction-to-linear-operators/code/heat-equation.gif' not found. //</span></p>
 
 <div class=page-foot >
   <div class=copyright >
-    &copy; Abel Soares Siqueira. Last modified: March 22, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+    &copy; Abel Soares Siqueira. Last modified: July 09, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
   </div>
 </div>
 </div>
