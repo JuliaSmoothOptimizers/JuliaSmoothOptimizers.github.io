@@ -2,7 +2,7 @@
 
 # How-to guides
 
-This is a curated list of tutorials.
+How-to guides are short very focused documentation pieces that explain how to do something.
 
 ```julia:./list-all-how-to.jl
 #hideall
