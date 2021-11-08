@@ -1,0 +1,187 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR12/libs/highlight/github.min.css"> <link rel=stylesheet  href="/previews/PR12/css/franklin.css"> <link rel=stylesheet  href="/previews/PR12/css/poole_hyde.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="/previews/PR12/assets/favicon.png"> <title>Introduction to Linear Operators</title> <link rel=stylesheet  href="/previews/PR12/css/custom.css"> <link rel=preconnect  href="https://fonts.gstatic.com"> <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Montserrat&display=swap" rel=stylesheet > <script src="/previews/PR12/libs/highlight/highlight.pack.js"></script> <!--TODO: Add EVERYTHING-->> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script>" <div class=sidebar > <div class="container sidebar-sticky"> <div class=sidebar-about > <img src="/previews/PR12/assets/jso.png"> <h1><a href="/previews/PR12/">JSO</a></h1> <p class=lead >Julia Smooth Optimizers.</p> </div> <nav class=sidebar-nav > <a class="sidebar-nav-item " href="/previews/PR12/">Home</a> <a class="sidebar-nav-item " href="/previews/PR12/pages/tutorials/list/">Tutorials</a> <a class="sidebar-nav-item " href="/previews/PR12/pages/ecosystem/list/">Ecosystems</a> <a class="sidebar-nav-item " href="/previews/PR12/pages/how-to/list/">How-to guide</a> <a class="sidebar-nav-item " href="/previews/PR12/pages/reference/list/">Reference guides</a> </nav> <p>&copy; Abel Soares Siqueira.</p> </div> </div> <div class="content container"> <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Introduction to Linear Operators</a></h1> <div class=author >by Geoffroy Leconte and Dominique Orban</div> <p>LinearOperators.jl is a package for matrix-like operators. Linear operators are defined by how they act on a vector, which is useful in a variety of situations where you don&#39;t want to materialize the matrix.</p> <div class=franklin-toc ><ol><li><a href="#using_matrices">Using matrices</a><li><a href="#inverse">Inverse</a><li><a href="#mul">mul&#33;</a><li><a href="#using_functions">Using functions</a><li><a href="#limited_memory_bfgs_and_sr1">Limited memory BFGS and SR1</a><li><a href="#restriction_extension_and_slices">Restriction, extension and slices</a></ol></div> <p>This section of the documentation describes a few uses of LinearOperators.</p> <h2 id=using_matrices ><a href="#using_matrices" class=header-anchor >Using matrices</a></h2> <p>Operators may be defined from matrices and combined using the usual operations, but the result is deferred until the operator is applied.</p> <pre><code class=language-julia >using LinearOperators, SparseArrays
+A1 &#61; rand&#40;5,7&#41;
+A2 &#61; sprand&#40;7,3,.3&#41;
+op1 &#61; LinearOperator&#40;A1&#41;
+op2 &#61; LinearOperator&#40;A2&#41;
+op &#61; op1 * op2  # Does not form A1 * A2
+x &#61; rand&#40;3&#41;
+y &#61; op * x</code></pre><pre><code class="plaintext code-output">5-element Vector{Float64}:
+ 0.6670105884293681
+ 1.0778998177240753
+ 0.8021997121611804
+ 0.873075464840948
+ 0.9430704080232276</code></pre> <h2 id=inverse ><a href="#inverse" class=header-anchor >Inverse</a></h2> <p>Operators may be defined to represent &#40;approximate&#41; inverses.</p> <pre><code class=language-julia >using LinearAlgebra
+A &#61; rand&#40;5,5&#41;
+A &#61; A&#39; * A
+op &#61; opCholesky&#40;A&#41;  # Use, e.g., as a preconditioner
+v &#61; rand&#40;5&#41;
+norm&#40;A \ v - op * v&#41; / norm&#40;v&#41;</code></pre><pre><code class="plaintext code-output">3.277144524649392e-14</code></pre>
+<p>In this example, the Cholesky factor is computed only once and can be used many times transparently.</p>
+<h2 id=mul ><a href="#mul" class=header-anchor >mul&#33;</a></h2>
+<p>It is often useful to reuse the memory used by the operator. For that reason, we can use <code>mul&#33;</code> on operators as if we were using matrices using preallocated vectors:</p>
+<pre><code class=language-julia >m, n &#61; 50, 30
+A &#61; rand&#40;m, n&#41; &#43; im * rand&#40;m, n&#41;
+op &#61; LinearOperator&#40;A&#41;
+v &#61; rand&#40;n&#41;
+res &#61; zeros&#40;eltype&#40;A&#41;, m&#41;
+res2 &#61; copy&#40;res&#41;
+mul&#33;&#40;res2, op, v&#41; # compile 3-args mul&#33;
+al &#61; @allocated mul&#33;&#40;res, op, v&#41; # op * v, store result in res
+println&#40;&quot;Allocation of LinearOperator mul&#33; product &#61; &#36;al&quot;&#41;
+v &#61; rand&#40;n&#41;
+α, β &#61; 2.0, 3.0
+mul&#33;&#40;res2, op, v, α, β&#41; # compile 5-args mul&#33;
+al &#61; @allocated mul&#33;&#40;res, op, v, α, β&#41; # α * op * v &#43; β * res, store result in res
+println&#40;&quot;Allocation of LinearOperator mul&#33; product &#61; &#36;al&quot;&#41;</code></pre><pre><code class="plaintext code-output">Allocation of LinearOperator mul! product = 0
+Allocation of LinearOperator mul! product = 0
+</code></pre>
+<h2 id=using_functions ><a href="#using_functions" class=header-anchor >Using functions</a></h2>
+<p>Operators may be defined from functions. They have to be based on the 5-arguments <code>mul&#33;</code> function. In the example below, the transposed isn&#39;t defined, but it may be inferred from the conjugate transposed. Missing operations are represented as <code>nothing</code>. You will have deal with cases where <code>β &#61;&#61; 0</code> and <code>β &#33;&#61; 0</code> separately because <code>*</code> will allocate an uninitialized <code>res</code> vector that may contain <code>NaN</code> values, and <code>0 * NaN &#61;&#61; NaN</code>.</p>
+<pre><code class=language-julia >using FFTW
+function mulfft&#33;&#40;res, v, α, β::T&#41; where T
+  if β &#61;&#61; zero&#40;T&#41;
+    res .&#61; α .* fft&#40;v&#41;
+  else
+    res .&#61; α .* fft&#40;v&#41; .&#43; β .* res
+  end
+end
+function mulifft&#33;&#40;res, w, α, β::T&#41; where T
+  if β &#61;&#61; zero&#40;T&#41;
+    res .&#61; α .* ifft&#40;w&#41;
+  else
+    res .&#61; α .* ifft&#40;w&#41; .&#43; β .* res
+  end
+end
+dft &#61; LinearOperator&#40;ComplexF64, 10, 10, false, false,
+                     mulfft&#33;,
+                     nothing,       # will be inferred
+                     mulifft&#33;&#41;
+x &#61; rand&#40;10&#41;
+y &#61; dft * x
+norm&#40;dft&#39; * y - x&#41;  # DFT is a unitary operator</code></pre><pre><code class="plaintext code-output">2.9504581591051765e-16</code></pre>
+<pre><code class=language-julia >transpose&#40;dft&#41; * y</code></pre><pre><code class="plaintext code-output">10-element Vector{ComplexF64}:
+  0.7696014817527147 - 0.0im
+  0.7747779748960549 - 0.0im
+   0.691779253072507 - 0.0im
+  0.5917786109163216 - 0.0im
+  0.8090148865646566 - 0.0im
+ 0.36555139976014644 - 0.0im
+  0.6545519891480798 - 0.0im
+ 0.13918428855448997 - 0.0im
+  0.4588199842190697 - 0.0im
+  0.5874407826434754 - 0.0im</code></pre>
+<p>Another example:</p>
+<pre><code class=language-julia >function customfunc&#33;&#40;res, v, α, β::T&#41; where T
+  if β &#61;&#61; zero&#40;T&#41;
+    res&#91;1&#93; &#61; &#40;v&#91;1&#93; &#43; v&#91;2&#93;&#41; * α
+    res&#91;2&#93; &#61; v&#91;2&#93; * α
+  else
+    res&#91;1&#93; &#61; &#40;v&#91;1&#93; &#43; v&#91;2&#93;&#41; * α &#43; res&#91;1&#93; * β
+    res&#91;2&#93; &#61; v&#91;2&#93; * α &#43; res&#91;2&#93; * β
+  end
+end
+function tcustomfunc&#33;&#40;res, w, α, β::T&#41; where T
+  if β &#61;&#61; zero&#40;T&#41;
+    res&#91;1&#93; &#61; w&#91;1&#93; * α
+    res&#91;2&#93; &#61;  &#40;w&#91;1&#93; &#43; w&#91;2&#93;&#41; * α
+  else
+    res&#91;1&#93; &#61; w&#91;1&#93; * α &#43; res&#91;1&#93; * β
+    res&#91;2&#93; &#61;  &#40;w&#91;1&#93; &#43; w&#91;2&#93;&#41; * α &#43; res&#91;2&#93; * β
+  end
+end
+op &#61; LinearOperator&#40;Float64, 10, 10, false, false,
+                    customfunc&#33;,
+                    nothing,
+                    tcustomfunc&#33;&#41;</code></pre><pre><code class="plaintext code-output">Linear operator
+  nrow: 10
+  ncol: 10
+  eltype: Float64
+  symmetric: false
+  hermitian: false
+  nprod:   0
+  ntprod:  0
+  nctprod: 0
+
+</code></pre>
+<p>Make sure that the type passed to <code>LinearOperator</code> is correct, otherwise errors may occur.</p>
+<pre><code class=language-julia >dft &#61; LinearOperator&#40;Float64, 10, 10, false, false,
+                     mulfft&#33;,
+                     nothing,
+                     mulifft&#33;&#41;
+v &#61; rand&#40;10&#41;
+println&#40;&quot;eltype&#40;dft&#41;         &#61; &#36;&#40;eltype&#40;dft&#41;&#41;&quot;&#41;
+println&#40;&quot;eltype&#40;v&#41;           &#61; &#36;&#40;eltype&#40;v&#41;&#41;&quot;&#41;</code></pre><pre><code class="plaintext code-output">eltype(dft)         = Float64
+eltype(v)           = Float64
+</code></pre>
+<p>dft * v     # ERROR: expected Vector&#123;Float64&#125; Matrix&#40;dft&#41; # ERROR: tried to create a Matrix of Float64</p>
+<h2 id=limited_memory_bfgs_and_sr1 ><a href="#limited_memory_bfgs_and_sr1" class=header-anchor >Limited memory BFGS and SR1</a></h2>
+<p>Two other useful operators are the Limited-Memory BFGS in forward and inverse form.</p>
+<pre><code class=language-julia >B &#61; LBFGSOperator&#40;20&#41;
+H &#61; InverseLBFGSOperator&#40;20&#41;
+r &#61; 0.0
+for i &#61; 1:100
+  global r
+  s &#61; rand&#40;20&#41;
+  y &#61; rand&#40;20&#41;
+  push&#33;&#40;B, s, y&#41;
+  push&#33;&#40;H, s, y&#41;
+  r &#43;&#61; norm&#40;B * H * s - s&#41;
+end
+r</code></pre><pre><code class="plaintext code-output">3.973073695075525e-13</code></pre>
+<p>There is also a LSR1 operator that behaves similarly to these two.</p>
+<h2 id=restriction_extension_and_slices ><a href="#restriction_extension_and_slices" class=header-anchor >Restriction, extension and slices</a></h2>
+<p>The restriction operator restricts a vector to a set of indices.</p>
+<pre><code class=language-julia >v &#61; collect&#40;1:5&#41;
+R &#61; opRestriction&#40;&#91;2;5&#93;, 5&#41;
+R * v</code></pre><pre><code class="plaintext code-output">2-element Vector{Int64}:
+ 2
+ 5</code></pre>
+<p>Notice that it corresponds to a matrix with rows of the identity given by the indices.</p>
+<pre><code class=language-julia >Matrix&#40;R&#41;</code></pre><pre><code class="plaintext code-output">2×5 Matrix{Int64}:
+ 0  1  0  0  0
+ 0  0  0  0  1</code></pre>
+<p>The extension operator is the transpose of the restriction. It extends a vector with zeros.</p>
+<pre><code class=language-julia >v &#61; collect&#40;1:2&#41;
+E &#61; opExtension&#40;&#91;2;5&#93;, 5&#41;
+E * v</code></pre><pre><code class="plaintext code-output">5-element Vector{Int64}:
+ 0
+ 1
+ 0
+ 0
+ 2</code></pre>
+<p>With these operators, we define the slices of an operator <code>op</code>.</p>
+<pre><code class=language-julia >A &#61; rand&#40;5,5&#41;
+opA &#61; LinearOperator&#40;A&#41;
+I &#61; &#91;1;3;5&#93;
+J &#61; 2:4
+A&#91;I,J&#93; * ones&#40;3&#41;</code></pre><pre><code class="plaintext code-output">3-element Vector{Float64}:
+ 1.1320980519587958
+ 2.1210825129641266
+ 1.6896446357301076</code></pre>
+<pre><code class=language-julia >opRestriction&#40;I, 5&#41; * opA * opExtension&#40;J, 5&#41; * ones&#40;3&#41;</code></pre><pre><code class="plaintext code-output">3-element Vector{Float64}:
+ 1.1320980519587958
+ 2.1210825129641266
+ 1.6896446357301076</code></pre>
+<p>A main difference with matrices, is that slices <strong>do not</strong> return vectors nor numbers.</p>
+<pre><code class=language-julia >opA&#91;1,:&#93; * ones&#40;5&#41;</code></pre><pre><code class="plaintext code-output">1-element Vector{Float64}:
+ 1.5953597851644887</code></pre>
+<pre><code class=language-julia >opA&#91;:,1&#93; * ones&#40;1&#41;</code></pre><pre><code class="plaintext code-output">5-element Vector{Float64}:
+ 0.18823565581895974
+ 0.9460655844757713
+ 0.5926516274006222
+ 0.014288903245414986
+ 0.3254542673603742</code></pre>
+<pre><code class=language-julia >opA&#91;1,1&#93; * ones&#40;1&#41;</code></pre><pre><code class="plaintext code-output">1-element Vector{Float64}:
+ 0.18823565581895974</code></pre>
+
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Abel Soares Siqueira. Last modified: November 08, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    </div>  
+    
+    
+        
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>
