@@ -5,7 +5,7 @@
 # {{title}}
 
 @@author
-by Abel S. Siqueira
+by Geoffroy Leconte and Dominique Orban
 @@
 
 \literate{/_literate/tutorials/introduction-to-linear-operators.jl}
