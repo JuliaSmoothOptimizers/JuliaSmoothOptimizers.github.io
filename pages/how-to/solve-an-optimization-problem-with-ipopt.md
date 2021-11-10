@@ -8,4 +8,6 @@
 by Abel S. Siqueira
 @@
 
+{{ list_versions ADNLPModels NLPModelsIpopt NLPModelsJuMP }}
+
 \literate{/_literate/how-to/solve-an-optimization-problem-with-ipopt.jl}

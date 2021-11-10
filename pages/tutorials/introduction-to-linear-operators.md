@@ -8,4 +8,6 @@
 by Geoffroy Leconte and Dominique Orban
 @@
 
+{{ list_versions LinearOperators FFTW}}
+
 \literate{/_literate/tutorials/introduction-to-linear-operators.jl}
