@@ -108,3 +108,10 @@ p {
   padding-bottom: 5px;
   margin-bottom: 10px;
 }
+
+.badge {
+  display: inline;
+  padding: 0px !important;
+  width: unset !important;
+  border-radius: 0px;
+}

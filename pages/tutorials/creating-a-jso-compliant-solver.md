@@ -8,4 +8,6 @@
 by Abel S. Siqueira and João Okimoto
 @@
 
+{{ list_versions ADNLPModels JSOSolvers LinearAlgebra NLPModels Plots SolverBenchmark SolverTools }}
+
 \literate{/_literate/tutorials/creating-a-jso-compliant-solver.jl}
