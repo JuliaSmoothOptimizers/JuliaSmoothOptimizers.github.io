@@ -1,0 +1,14 @@
+Generic Execution stats
+  status: first-order stationary
+  objective value: 0.24999991501233096
+  primal feasibility: 0.0
+  dual feasibility: 2.4923148672798348e-12
+  solution: [0.5  0.25]
+  multipliers: [3.6454575515314157e-9]
+  multipliers_L: [0.0  4.000000006828642]
+  multipliers_U: [5.000000053347668  5.0084053323090786e-9]
+  iterations: 7
+  elapsed time: 0.006
+  solver specific:
+    real_time: 0.006464958190917969
+    internal_msg: :Solve_Succeeded
