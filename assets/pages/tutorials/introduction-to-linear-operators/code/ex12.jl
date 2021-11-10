@@ -1,7 +1,6 @@
 # This file was generated, do not modify it. # hide
-using SparseArrays, Plots
-gr(size=(600,600))
-
-A = HeatEquationOp(1.0, 20, 0.1, 0.1)
-spy(sparse(Matrix(A)))
-png(joinpath(@OUTPUT, "spy")) # hide
+A = rand(5,5)
+opA = LinearOperator(A)
+I = [1;3;5]
+J = 2:4
+A[I,J] * ones(3)

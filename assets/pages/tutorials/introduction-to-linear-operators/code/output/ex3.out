@@ -1,3 +1,2 @@
-MethodError: no method matching tprod(::Array{Float64,1}, ::Array{Float64,1}, ::Float64, ::Float64)
-Closest candidates are:
-  tprod(::Any) at none:1
+Allocation of LinearOperator mul! product = 0
+Allocation of LinearOperator mul! product = 0

@@ -1,4 +1,0 @@
-  1.844566 seconds (2.54 M allocations: 244.335 MiB, 2.48% gc time)
-  0.000058 seconds (7 allocations: 94.109 KiB)
-  0.087393 seconds (260.63 k allocations: 13.745 MiB)
-  0.064498 seconds (155.76 k allocations: 8.278 MiB)

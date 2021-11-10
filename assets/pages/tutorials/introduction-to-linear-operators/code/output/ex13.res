@@ -1,1 +1,4 @@
-HeatEquation (generic function with 1 method)
+3-element Vector{Float64}:
+ 1.5329550528204823
+ 0.8133832742745339
+ 1.4781969747511539

@@ -1,2 +1,2 @@
-typeof(stats) = Dict{Symbol,DataFrames.DataFrame}
+typeof(stats) = Dict{Symbol, DataFrames.DataFrame}
 keys(stats) = [:newton, :lbfgs]

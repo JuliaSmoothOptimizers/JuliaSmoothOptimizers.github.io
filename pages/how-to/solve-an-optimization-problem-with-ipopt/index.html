@@ -8,7 +8,7 @@ nlp &#61; ADNLPModel&#40;
   x -&gt; &#91;x&#91;1&#93;^2 &#43; x&#91;2&#93;^2&#93;, # constraints function - must be an array
   &#91;-Inf&#93;, # lower bounds on constraints
   &#91;1.0&#93;   # upper bounds on constraints
-&#41;</code></pre><pre><code class=plaintext >ADNLPModel - Model with automatic differentiation backend ADNLPModels.ForwardDiffAD(2, 1)
+&#41;</code></pre><pre><code class="plaintext code-output">ADNLPModel - Model with automatic differentiation backend ADNLPModels.ForwardDiffAD(2, 1)
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ████████████████████ 1     
             free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -28,7 +28,7 @@ nlp &#61; ADNLPModel&#40;
            hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
 </code></pre> <p>Now, just pass your problem to ipopt.</p> <pre><code class=language-julia >using NLPModelsIpopt
 
-output &#61; ipopt&#40;nlp&#41;</code></pre><pre><code class=plaintext >
+output &#61; ipopt&#40;nlp&#41;</code></pre><pre><code class="plaintext code-output">
 ******************************************************************************
 This program contains Ipopt, a library for large-scale nonlinear optimization.
  Ipopt is released as open source code under the Eclipse Public License (EPL).
@@ -79,13 +79,13 @@ Number of inequality constraint evaluations          = 8
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 8
 Number of Lagrangian Hessian evaluations             = 7
-Total CPU secs in IPOPT (w/o function evaluations)   =      2.526
-Total CPU secs in NLP function evaluations           =      1.283
+Total CPU secs in IPOPT (w/o function evaluations)   =      3.996
+Total CPU secs in NLP function evaluations           =      1.523
 
 EXIT: Optimal Solution Found.
-"Execution stats: first-order stationary"</code></pre> <p>To remove the output, use print_level</p> <pre><code class=language-julia >output &#61; ipopt&#40;nlp, print_level&#61;0&#41;</code></pre><pre><code class=plaintext >"Execution stats: first-order stationary"</code></pre>
+"Execution stats: first-order stationary"</code></pre> <p>To remove the output, use print_level</p> <pre><code class=language-julia >output &#61; ipopt&#40;nlp, print_level&#61;0&#41;</code></pre><pre><code class="plaintext code-output">"Execution stats: first-order stationary"</code></pre>
 <p>The <code>output</code> variable containt essential information about the solution. They can be access with <code>.</code>.</p>
-<pre><code class=language-julia >print&#40;output&#41;</code></pre><pre><code class=plaintext >Generic Execution stats
+<pre><code class=language-julia >print&#40;output&#41;</code></pre><pre><code class="plaintext code-output">Generic Execution stats
   status: first-order stationary
   objective value: 0.24999991501233096
   primal feasibility: 0.0
@@ -95,19 +95,19 @@ EXIT: Optimal Solution Found.
   multipliers_L: [0.0  4.000000006828642]
   multipliers_U: [5.000000053347668  5.0084053323090786e-9]
   iterations: 7
-  elapsed time: 0.004
+  elapsed time: 0.005
   solver specific:
-    real_time: 0.0053958892822265625
+    real_time: 0.006122112274169922
     internal_msg: :Solve_Succeeded
 </code></pre>
 <pre><code class=language-julia >x &#61; output.solution
-println&#40;&quot;Solution: &#36;x&quot;&#41;</code></pre><pre><code class=plaintext >Solution: [0.5, 0.25]
+println&#40;&quot;Solution: &#36;x&quot;&#41;</code></pre><pre><code class="plaintext code-output">Solution: [0.5, 0.25]
 </code></pre>
 <p>That&#39;s it. If your model is more complex, you should look into NLPModelsJuMP.jl. On the other hand, if you need more control and want to input your model manually, look for the specific how-to.</p>
 
 <div class=page-foot >
   <div class=copyright >
-    &copy; Abel Soares Siqueira. Last modified: July 09, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+    &copy; Abel Soares Siqueira. Last modified: November 10, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
   </div>
 </div>
 </div>

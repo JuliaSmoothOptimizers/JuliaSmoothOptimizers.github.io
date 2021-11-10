@@ -1,15 +1,9 @@
 # This file was generated, do not modify it. # hide
-using LinearOperators
-
-prod(v) = [3v[1] - v[2]; 2v[1] + 2v[2]]
-A = LinearOperator(
-  Float64, # element type
-  2,       # number of rows
-  2,       # number of columns
-  false,   # symmetric?
-  false,   # Hermitian?
-  prod     # Function defining v → Av
-)
-
-@show A
-A * ones(2)
+using LinearOperators, SparseArrays
+A1 = rand(5,7)
+A2 = sprand(7,3,.3)
+op1 = LinearOperator(A1)
+op2 = LinearOperator(A2)
+op = op1 * op2  # Does not form A1 * A2
+x = rand(3)
+y = op * x

@@ -1,7 +1,13 @@
 # This file was generated, do not modify it. # hide
-A = rand(5,5)
-A = A' * A
-op = opCholesky(A)  # Use, e.g., as a preconditioner
-v = rand(5)
-
-norm(A \ v - op * v) / norm(v)
+B = LBFGSOperator(20)
+H = InverseLBFGSOperator(20)
+r = 0.0
+for i = 1:100
+  global r
+  s = rand(20)
+  y = rand(20)
+  push!(B, s, y)
+  push!(H, s, y)
+  r += norm(B * H * s - s)
+end
+r

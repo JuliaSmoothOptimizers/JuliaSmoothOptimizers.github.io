@@ -1,1 +1,2 @@
-UndefVarError: PreallocatedLinearOperator not defined
+eltype(dft)         = Float64
+eltype(v)           = Float64
