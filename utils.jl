@@ -1,6 +1,6 @@
 using Pkg, Markdown
 
-const jso_pkgs = ["ADNLPModels", "JSOSolvers", "LinearOperators", "NLPModels", "NLPModelsIpopt", "NLPModelsJuMP", "SolverBenchmark", "SolverTools"]
+const jso_pkgs = ["ADNLPModels", "JSOSolvers", "LinearOperators", "NLPModels", "NLPModelsIpopt", "NLPModelsJuMP", "SolverBenchmark", "SolverCore", "SolverTools"]
 
 function badge(name, version)
   color, lbl_color = if name in jso_pkgs
