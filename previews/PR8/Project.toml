@@ -20,6 +20,7 @@ NLPModelsJuMP = "792afdf1-32c1-5681-94e0-d7bf7a5df49e"
 NodeJS = "2bd173c7-0d6d-553b-b6af-13a54713934c"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 SolverBenchmark = "581a75fa-a23a-52d0-a590-d6201de2218a"
+SolverCore = "ff4d7338-4cf1-434d-91df-b86cb86fb843"
 SolverTools = "b5612192-2639-5dc1-abfe-fbedd65fab29"
 
 [compat]
@@ -41,4 +42,5 @@ NLPModelsJuMP = "0.8"
 NodeJS = "1"
 Plots = "1"
 SolverBenchmark = "0.4"
+SolverCore = "0.2"
 SolverTools = "0.7"

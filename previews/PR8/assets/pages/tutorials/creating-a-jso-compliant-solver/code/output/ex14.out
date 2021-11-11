@@ -1,1 +1,8 @@
-UndefVarError: GenericExecutionStats not defined
+Generic Execution stats
+  status: first-order stationary
+  objective value: Inf
+  primal feasibility: 0.0
+  dual feasibility: Inf
+  solution: ∅
+  iterations: -1
+  elapsed time: Inf
