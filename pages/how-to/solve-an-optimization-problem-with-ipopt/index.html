@@ -79,8 +79,8 @@ Number of inequality constraint evaluations          = 8
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 8
 Number of Lagrangian Hessian evaluations             = 7
-Total CPU secs in IPOPT (w/o function evaluations)   =      4.139
-Total CPU secs in NLP function evaluations           =      1.632
+Total CPU secs in IPOPT (w/o function evaluations)   =      4.386
+Total CPU secs in NLP function evaluations           =      1.730
 
 EXIT: Optimal Solution Found.
 "Execution stats: first-order stationary"</code></pre> <p>To remove the output, use print_level</p> <pre><code class=language-julia >output &#61; ipopt&#40;nlp, print_level&#61;0&#41;</code></pre><pre><code class="plaintext code-output">"Execution stats: first-order stationary"</code></pre>
@@ -97,7 +97,7 @@ EXIT: Optimal Solution Found.
   iterations: 7
   elapsed time: 0.005
   solver specific:
-    real_time: 0.0066950321197509766
+    real_time: 0.006644010543823242
     internal_msg: :Solve_Succeeded
 </code></pre>
 <pre><code class=language-julia >x &#61; output.solution

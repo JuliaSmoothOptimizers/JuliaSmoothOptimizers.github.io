@@ -63,7 +63,7 @@ while !(ft ≤ fx + t * slope)
   ft = obj(nlp, x + t * d)
 end
 
-using SolverTools
+using SolverCore
 
 function newton(nlp :: AbstractNLPModel)
 
@@ -139,7 +139,7 @@ println(output)
 
 output.solution
 
-SolverTools.show_statuses()
+SolverCore.show_statuses()
 
 function newton(
   nlp :: AbstractNLPModel; # Only mandatory argument, notice the ;
@@ -213,10 +213,10 @@ stats = bmark_solvers(solvers, problems)
 @show keys(stats)
 
 cols = [:name, :status, :objective, :elapsed_time, :iter]
-pretty_stats(stats[:newton][cols])
+pretty_stats(stats[:newton][!, cols])
 
 open("newton.tex", "w") do io
-  pretty_latex_stats(io, stats[:newton][cols])
+  pretty_latex_stats(io, stats[:newton][!, cols])
 end
 rm("newton.tex") # hide
 

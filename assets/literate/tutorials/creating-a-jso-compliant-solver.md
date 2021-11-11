@@ -7,7 +7,7 @@ In this tutorial you will learn what is a JSO-compliant solver, how to create on
 
 A JSO-compliant solver is a solver whose
 - input is a model implementing the NLPModels API; and
-- output is a specific struct from the package SolverTools.
+- output is a specific struct from the package SolverCore.
 
 That means that you can devise your solver based on a single API that will work with many different problems.
 Furthermore, since the output type is known, we can provide tools to compare different solvers.
@@ -171,7 +171,7 @@ We'll use the first order criteria for stopping the algorithm, that is
 $$ \| \nabla f(x_k) \| < \epsilon $$
 
 ```julia:ex13
-using SolverTools
+using SolverCore
 
 function newton(nlp :: AbstractNLPModel)
 
@@ -216,7 +216,7 @@ Notice the two conditions for the method to be JSO-compliant:
 ```
 function newton(nlp :: AbstractNLPModel)
 ```
-- output is a specific struct from the package SolverTools - Namely, a `GenericExecutionStats`:
+- output is a specific struct from the package SolverCore - Namely, a `GenericExecutionStats`:
 ```
 return GenericExecutionStats(status, nlp)
 ```
@@ -295,7 +295,7 @@ In this case, the result of the solver run may no be a `:first_order` situation 
 Here's the list:
 
 ```julia:ex18
-SolverTools.show_statuses()
+SolverCore.show_statuses()
 ```
 
 We can see that `max_iter` and `max_time` are the most adequates for our case.
@@ -420,14 +420,14 @@ Using SolverBenchmark, it's easy to create a markdown table from the results.
 
 ```julia:ex24
 cols = [:name, :status, :objective, :elapsed_time, :iter]
-pretty_stats(stats[:newton][cols])
+pretty_stats(stats[:newton][!, cols])
 ```
 
 We can also create a similar table in .tex format, using something like
 
 ```julia:ex25
 open("newton.tex", "w") do io
-  pretty_latex_stats(io, stats[:newton][cols])
+  pretty_latex_stats(io, stats[:newton][!, cols])
 end
 rm("newton.tex") # hide
 ```
