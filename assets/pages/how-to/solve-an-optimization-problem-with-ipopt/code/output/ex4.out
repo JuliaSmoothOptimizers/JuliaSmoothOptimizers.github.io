@@ -10,5 +10,5 @@ Generic Execution stats
   iterations: 7
   elapsed time: 0.004
   solver specific:
-    real_time: 0.005076885223388672
+    real_time: 0.0049288272857666016
     internal_msg: :Solve_Succeeded
