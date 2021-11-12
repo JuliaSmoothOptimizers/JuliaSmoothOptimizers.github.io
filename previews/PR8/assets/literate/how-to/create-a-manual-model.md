@@ -52,6 +52,8 @@ nlp = NLPModel(
 )
 ```
 
+Notice that the `grad` function must modify the first argument so you don't waste memory creating arrays.
+
 Only the `obj`, `grad` and `grad!` functions will be defined for this model, so you need to choose your solver carefully.
 We'll use `lbfgs` from `JSOSolvers.jl`.
 

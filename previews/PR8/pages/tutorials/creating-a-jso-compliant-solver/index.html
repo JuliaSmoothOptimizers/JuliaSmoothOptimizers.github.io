@@ -244,7 +244,7 @@ print&#40;output&#41;</code></pre><pre><code class="plaintext code-output">Gener
   dual feasibility: 4.018046284781729e-9
   solution: [0.9999999986742657  0.9999999970013461]
   iterations: 18
-  elapsed time: 0.0007309913635253906
+  elapsed time: 0.0007109642028808594
 </code></pre>
 <p>And to compare both solvers, we need a collection of problems. Let&#39;s just create one manually for now.</p>
 <pre><code class=language-julia >problems &#61; &#91;
@@ -262,18 +262,18 @@ stats &#61; bmark_solvers&#40;solvers, problems&#41;</code></pre><pre><code clas
  Row │ id     name     nvar   ncon   nequ   status       objective     elapsed_time  iter   dual_feas  primal_feas  neval_obj  neval_grad  neval_cons  neval_jcon  neval_jgrad  neval_jac  neval_jprod  neval_jtprod  neval_hess  neval_hprod  neval_jhess  neval_jhprod  neval_residual  neval_jac_residual  neval_jprod_residual  neval_jtprod_residual  neval_hess_residual  neval_jhess_residual  neval_hprod_residual  extrainfo
      │ Int64  String   Int64  Int64  Int64  Symbol       Float64       Float64       Int64  Float64    Float64      Int64      Int64       Int64       Int64       Int64        Int64      Int64        Int64         Int64       Int64        Int64        Int64         Int64           Int64               Int64                 Int64                  Int64                Int64                 Int64                 String
 ─────┼────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-   1 │     1  Generic      2      0      0  first_order   2.46519e-31      0.734495      1        Inf          0.0          3           4           0           0            0          0            0             0           1            0            0             0               0                   0                     0                      0                    0                     0                     0
-   2 │     2  Generic      2      0      0  first_order   3.74398e-21      0.740257     21        Inf          0.0         50          64           0           0            0          0            0             0          21            0            0             0               0                   0                     0                      0                    0                     0                     0
-   3 │     3  Generic      2      0      0  max_iter     -8.36356          0.701633    100        Inf          0.0        201         301           0           0            0          0            0             0         100            0            0             0               0                   0                     0                      0                    0                     0                     0
-   4 │     4  Generic      2      0      0  first_order   1.43195          0.849849      5        Inf          0.0         12          16           0           0            0          0            0             0           5            0            0             0               0                   0                     0                      0                    0                     0                     0
+   1 │     1  Generic      2      0      0  first_order   2.46519e-31      0.566007      1        Inf          0.0          3           4           0           0            0          0            0             0           1            0            0             0               0                   0                     0                      0                    0                     0                     0
+   2 │     2  Generic      2      0      0  first_order   3.74398e-21      0.656627     21        Inf          0.0         50          64           0           0            0          0            0             0          21            0            0             0               0                   0                     0                      0                    0                     0                     0
+   3 │     3  Generic      2      0      0  max_iter     -8.36356          0.569445    100        Inf          0.0        201         301           0           0            0          0            0             0         100            0            0             0               0                   0                     0                      0                    0                     0                     0
+   4 │     4  Generic      2      0      0  first_order   1.43195          0.675868      5        Inf          0.0         12          16           0           0            0          0            0             0           5            0            0             0               0                   0                     0                      0                    0                     0                     0
   :lbfgs => 4×31 DataFrame
  Row │ id     name     nvar   ncon   nequ   status       objective     elapsed_time  iter   dual_feas   primal_feas  neval_obj  neval_grad  neval_cons  neval_jcon  neval_jgrad  neval_jac  neval_jprod  neval_jtprod  neval_hess  neval_hprod  neval_jhess  neval_jhprod  neval_residual  neval_jac_residual  neval_jprod_residual  neval_jtprod_residual  neval_hess_residual  neval_jhess_residual  neval_hprod_residual  extrainfo
      │ Int64  String   Int64  Int64  Int64  Symbol       Float64       Float64       Int64  Float64     Float64      Int64      Int64       Int64       Int64       Int64        Int64      Int64        Int64         Int64       Int64        Int64        Int64         Int64           Int64               Int64                 Int64                  Int64                Int64                 Int64                 String
 ─────┼─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-   1 │     1  Generic      2      0      0  first_order   2.26824e-16   5.60284e-5       8  5.28297e-8          0.0         11          10           0           0            0          0            0             0           0            0            0             0               0                   0                     0                      0                    0                     0                     0
-   2 │     2  Generic      2      0      0  first_order   1.44561e-17   0.000115871     39  8.41132e-8          0.0         52          45           0           0            0          0            0             0           0            0            0             0               0                   0                     0                      0                    0                     0                     0
-   3 │     3  Generic      2      0      0  first_order  -8.37235       5.72205e-5      12  1.60958e-9          0.0         17          15           0           0            0          0            0             0           0            0            0             0               0                   0                     0                      0                    0                     0                     0
-   4 │     4  Generic      2      0      0  first_order   1.43195       4.00543e-5       9  4.18646e-9          0.0         11          11           0           0            0          0            0             0           0            0            0             0               0                   0                     0                      0                    0                     0                     0</code></pre>
+   1 │     1  Generic      2      0      0  first_order   2.26824e-16    5.29289e-5      8  5.28297e-8          0.0         11          10           0           0            0          0            0             0           0            0            0             0               0                   0                     0                      0                    0                     0                     0
+   2 │     2  Generic      2      0      0  first_order   1.44561e-17    8.98838e-5     39  8.41132e-8          0.0         52          45           0           0            0          0            0             0           0            0            0             0               0                   0                     0                      0                    0                     0                     0
+   3 │     3  Generic      2      0      0  first_order  -8.37235        3.79086e-5     12  1.60958e-9          0.0         17          15           0           0            0          0            0             0           0            0            0             0               0                   0                     0                      0                    0                     0                     0
+   4 │     4  Generic      2      0      0  first_order   1.43195        3.50475e-5      9  4.18646e-9          0.0         11          11           0           0            0          0            0             0           0            0            0             0               0                   0                     0                      0                    0                     0                     0</code></pre>
 <p>The results is a Dictionary of Symbols to DataFrame tables.</p>
 <pre><code class=language-julia >@show typeof&#40;stats&#41;
 @show keys&#40;stats&#41;</code></pre><pre><code class="plaintext code-output">typeof(stats) = Dict{Symbol, DataFrames.DataFrame}
@@ -284,10 +284,10 @@ keys(stats) = [:newton, :lbfgs]
 pretty_stats&#40;stats&#91;:newton&#93;&#91;&#33;, cols&#93;&#41;</code></pre><pre><code class="plaintext code-output">┌─────────┬─────────────┬───────────┬──────────────┬────────┐
 │    name │      status │ objective │ elapsed_time │   iter │
 ├─────────┼─────────────┼───────────┼──────────────┼────────┤
-│ Generic │ first_order │  2.47e-31 │     7.34e-01 │      1 │
-│ Generic │ first_order │  3.74e-21 │     7.40e-01 │     21 │
-│ Generic │    max_iter │ -8.36e+00 │     7.02e-01 │    100 │
-│ Generic │ first_order │  1.43e+00 │     8.50e-01 │      5 │
+│ Generic │ first_order │  2.47e-31 │     5.66e-01 │      1 │
+│ Generic │ first_order │  3.74e-21 │     6.57e-01 │     21 │
+│ Generic │    max_iter │ -8.36e+00 │     5.69e-01 │    100 │
+│ Generic │ first_order │  1.43e+00 │     6.76e-01 │      5 │
 └─────────┴─────────────┴───────────┴──────────────┴────────┘
 </code></pre>
 <p>We can also create a similar table in .tex format, using something like</p>
@@ -408,7 +408,7 @@ performance_profile&#40;stats, cost&#41;</code></pre>
 
 <div class=page-foot >
   <div class=copyright >
-    &copy; Abel Soares Siqueira. Last modified: November 11, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+    &copy; Abel Soares Siqueira. Last modified: November 12, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
   </div>
 </div>
 </div>
