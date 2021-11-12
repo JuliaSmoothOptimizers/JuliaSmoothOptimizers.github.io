@@ -2,7 +2,7 @@
 
 Curated repository of tutorials regarding all things JSO.
 
-[![](https://img.shields.io/badge/docs-stable-3f51b5.svg)](https://JuliaSmoothOptimizers.github.io/JSODocs.jl/dev)
+[![](https://img.shields.io/badge/docs-stable-3f51b5.svg)](https://JuliaSmoothOptimizers.github.io)
 
 ## Contributing
 
