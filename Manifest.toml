@@ -645,6 +645,12 @@ git-tree-sha1 = "3d3e902b31198a27340d0bf00d6ac452866021cf"
 uuid = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
 version = "0.5.9"
 
+[[ManualNLPModels]]
+deps = ["NLPModels"]
+git-tree-sha1 = "7b731ec8264d4ea86a0bf811c66970fcc2ca3ba6"
+uuid = "30dfa513-9b2f-4fb3-9796-781eabac1617"
+version = "0.1.0"
+
 [[Markdown]]
 deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"

@@ -1,0 +1,195 @@
+<!doctype html> <html lang=en > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/katex/katex.min.css"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/franklin.css"> <link rel=stylesheet  href="/css/poole_hyde.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="/assets/favicon.png"> <title>How to create a model from the function and its derivatives</title> <link rel=stylesheet  href="/css/custom.css"> <link rel=preconnect  href="https://fonts.gstatic.com"> <link href="https://fonts.googleapis.com/css2?family=Nunito&family=Montserrat&display=swap" rel=stylesheet > <script src="/libs/highlight/highlight.pack.js"></script> <!--TODO: Add EVERYTHING-->> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script>" <div class=sidebar > <div class="container sidebar-sticky"> <div class=sidebar-about > <img src="/assets/jso.png"> <h1><a href="/">JSO</a></h1> <p class=lead >Julia Smooth Optimizers.</p> </div> <nav class=sidebar-nav > <a class="sidebar-nav-item " href="/">Home</a> <a class="sidebar-nav-item " href="/pages/tutorials/list/">Tutorials</a> <a class="sidebar-nav-item " href="/pages/ecosystem/list/">Ecosystems</a> <a class="sidebar-nav-item " href="/pages/how-to/list/">How-to guide</a> <a class="sidebar-nav-item " href="/pages/reference/list/">Reference guides</a> </nav> <p>&copy; Abel Soares Siqueira.</p> </div> </div> <div class="content container"> <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >How to create a model from the function and its derivatives</a></h1> <div class=author >by Abel S. Siqueira</div> <p>When you know the derivatives of your optimization problem, it is frequently more efficient to use them directly instead of relying on automatic differentiation. For that purpose, we have created <code>ManualNLPModels</code>.</p> <p>For instance, in the logistic regression problem, we have a model \(h_{\beta}(x) = \sigma(\hat{x}^T \beta) = \sigma(\beta_0 + x^T\beta_{1:p})\), where \(\hat{x} = \begin{bmatrix} 1 \\ x \end{bmatrix}\). The value of \(\beta\) is found by finding the minimum of the negavitve of the log-likelihood function.</p> \[\ell(\beta) = -\frac{1}{n} \sum_{i=1}^n y_i \ln \big(h_{\beta}(x_i)\big) + (1 - y_i) \ln\big(1 - h_{\beta}(x_i)\big).\] <p>We&#39;ll input the gradient of this function manually. It is given by</p> \[\nabla \ell(\beta) = \frac{-1}{n} \sum_{i=1}^n \big(y_i - h_{\beta}(x_i)\big) \hat{x}_i = \frac{1}{n} \begin{bmatrix} e^T \\ X^T \end{bmatrix} (h_{\beta}(X) - y),\] <p>where \(e\) is the vector with all components equal to 1.</p> <pre><code class=language-julia >using ManualNLPModels
+using LinearAlgebra
+
+sigmoid&#40;t&#41; &#61; 1 / &#40;1 &#43; exp&#40;-t&#41;&#41;
+h&#40;β, X&#41; &#61; sigmoid.&#40;β&#91;1&#93; .&#43; X * β&#91;2:end&#93;&#41;
+
+n, p &#61; 500, 50
+X &#61; randn&#40;n, p&#41;
+β &#61; randn&#40;p &#43; 1&#41;
+y &#61; round.&#40;h&#40;β, X&#41; .&#43; randn&#40;n&#41; * 0.1&#41;
+
+function myfun&#40;β, X, y&#41;
+  @views hβ &#61; sigmoid.&#40;β&#91;1&#93; .&#43; X * β&#91;2:end&#93;&#41;
+  out &#61; sum&#40;
+    yᵢ * log&#40;ŷᵢ &#43; 1e-8&#41; &#43; &#40;1 - yᵢ&#41; * log&#40;1 - ŷᵢ &#43; 1e-8&#41;
+    for &#40;yᵢ, ŷᵢ&#41; in zip&#40;y, hβ&#41;
+  &#41;
+  return -out / n &#43; 0.5e-4 * norm&#40;β&#41;^2
+end
+
+function mygrad&#40;out, β, X, y&#41;
+  n &#61; length&#40;y&#41;
+  @views δ &#61; &#40;sigmoid.&#40;β&#91;1&#93; .&#43; X * β&#91;2:end&#93;&#41; - y&#41; / n
+  out&#91;1&#93; &#61; sum&#40;δ&#41; &#43; 1e-4β&#91;1&#93;
+  @views out&#91;2:end&#93; .&#61; X&#39; * δ &#43; 1e-4 * β&#91;2:end&#93;
+  return out
+end
+
+nlp &#61; NLPModel&#40;
+  zeros&#40;p &#43; 1&#41;,
+  β -&gt; myfun&#40;β, X, y&#41;,
+  grad&#61;&#40;out, β&#41; -&gt; mygrad&#40;out, β, X, y&#41;,
+&#41;</code></pre><pre><code class="plaintext code-output">ManualNLPModels.NLPModel{Float64, Vector{Float64}}
+  Problem name: Generic
+   All variables: ████████████████████ 51     All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 51                free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: (100.00% sparsity)   0               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: (------% sparsity)         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+</code></pre> <p>Notice that the <code>grad</code> function must modify the first argument so you don&#39;t waste memory creating arrays.</p> <p>Only the <code>obj</code>, <code>grad</code> and <code>grad&#33;</code> functions will be defined for this model, so you need to choose your solver carefully. We&#39;ll use <code>lbfgs</code> from <code>JSOSolvers.jl</code>.</p> <pre><code class=language-julia >using JSOSolvers
+
+output &#61; lbfgs&#40;nlp&#41;
+βsol &#61; output.solution
+ŷ &#61; round.&#40;h&#40;βsol, X&#41;&#41;
+sum&#40;ŷ .&#61;&#61; y&#41; / n</code></pre><pre><code class="plaintext code-output">1.0</code></pre>
+<p>We can compare against other approaches.</p>
+<pre><code class=language-julia >using BenchmarkTools
+using Logging
+
+@benchmark begin
+  nlp &#61; NLPModel&#40;
+    zeros&#40;p &#43; 1&#41;,
+    β -&gt; myfun&#40;β, X, y&#41;,
+    grad&#61;&#40;out, β&#41; -&gt; mygrad&#40;out, β, X, y&#41;,
+  &#41;
+  output &#61; with_logger&#40;NullLogger&#40;&#41;&#41; do
+    lbfgs&#40;nlp&#41;
+  end
+end</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 1324 samples with 1 evaluation.
+ Range (min … max):  3.356 ms … 10.400 ms  ┊ GC (min … max): 0.00% …  0.00%
+ Time  (median):     3.510 ms              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   3.767 ms ±  1.046 ms  ┊ GC (mean ± σ):  4.25% ± 10.01%
+
+  ██▇▅▃▁                                                      
+  ██████▆▅▅▅▄▄▆▆▅▅▅▄▁▄▄▁▁▁▁▄▁▁▁▁▅▁▁▁▁▁▄▁▁▁▁▅▄▁▄▁▅▄▄▄▁▁▁▅▄█▆█ █
+  3.36 ms      Histogram: log(frequency) by time      8.9 ms <
+
+ Memory estimate: 1.74 MiB, allocs estimate: 1734.</code></pre>
+<pre><code class=language-julia >using ADNLPModels
+
+@benchmark begin
+  adnlp &#61; ADNLPModel&#40;β -&gt; myfun&#40;β, X, y&#41;, zeros&#40;p &#43; 1&#41;&#41;
+  output &#61; with_logger&#40;NullLogger&#40;&#41;&#41; do
+    lbfgs&#40;adnlp&#41;
+  end
+end</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 30 samples with 1 evaluation.
+ Range (min … max):  164.657 ms … 179.655 ms  ┊ GC (min … max): 0.00% … 1.94%
+ Time  (median):     168.688 ms               ┊ GC (median):    2.05%
+ Time  (mean ± σ):   169.080 ms ±   4.013 ms  ┊ GC (mean ± σ):  1.19% ± 1.05%
+
+  █▂             ▂▅                                              
+  ██▅▅▁▁▁▁▁▁▁▁▁▁▁██▅▅█▁▅▁▁▁▁▅▁▅▅▁▁▁▅▁▁▁▁▁▁▁▅▁▁▁▅▁▁▁▁▁▁▅▁▁▁▁▁▁▁▅ ▁
+  165 ms           Histogram: frequency by time          180 ms <
+
+ Memory estimate: 31.82 MiB, allocs estimate: 4051.</code></pre>
+<pre><code class=language-julia >using JuMP
+using NLPModelsJuMP
+
+@benchmark begin
+  model &#61; Model&#40;&#41;
+  @variable&#40;model, modelβ&#91;1:p&#43;1&#93;&#41;
+  @NLexpression&#40;model,
+    xᵀβ&#91;i&#61;1:n&#93;,
+    modelβ&#91;1&#93; &#43; sum&#40;modelβ&#91;j &#43; 1&#93; * X&#91;i,j&#93; for j &#61; 1:p&#41;
+  &#41;
+  @NLexpression&#40;
+    model,
+    hβ&#91;i&#61;1:n&#93;,
+    1 / &#40;1 &#43; exp&#40;-xᵀβ&#91;i&#93;&#41;&#41;
+  &#41;
+  @NLobjective&#40;model, Min,
+    -sum&#40;y&#91;i&#93; * log&#40;hβ&#91;i&#93; &#43; 1e-8&#41; &#43; &#40;1 - y&#91;i&#93; * log&#40;hβ&#91;i&#93; &#43; 1e-8&#41;&#41; for i &#61; 1:n&#41; / n &#43; 0.5e-4 * sum&#40;modelβ&#91;i&#93;^2 for i &#61; 1:p&#43;1&#41;
+  &#41;
+  jumpnlp &#61; MathOptNLPModel&#40;model&#41;
+  output &#61; with_logger&#40;NullLogger&#40;&#41;&#41; do
+    lbfgs&#40;jumpnlp&#41;
+  end
+end</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 33 samples with 1 evaluation.
+ Range (min … max):  143.641 ms … 179.598 ms  ┊ GC (min … max):  8.67% … 11.74%
+ Time  (median):     150.565 ms               ┊ GC (median):    14.74%
+ Time  (mean ± σ):   151.721 ms ±   6.383 ms  ┊ GC (mean ± σ):  14.20% ±  1.91%
+
+  ▂        ▅█▅▅                                                  
+  █▁▁▁▁▁▁▁██████▅██▁▅▁▁▁▁▁▁▁▅▁▁▁▁▁▁▁▁▁▁▅▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▅ ▁
+  144 ms           Histogram: frequency by time          180 ms <
+
+ Memory estimate: 151.61 MiB, allocs estimate: 2154736.</code></pre>
+<p>Or just the grad calls:</p>
+<pre><code class=language-julia >using NLPModels
+
+@benchmark grad&#40;nlp, β&#41;</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 10000 samples with 1 evaluation.
+ Range (min … max):  15.900 μs …  6.581 ms  ┊ GC (min … max): 0.00% … 91.76%
+ Time  (median):     18.301 μs              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   21.119 μs ± 98.877 μs  ┊ GC (mean ± σ):  5.77% ±  1.35%
+
+       ▄█▄█▁▃                                                  
+  ▁▂▄▆▆██████▆█▆▄▆▄▅▃▄▃▂▃▂▃▂▂▂▁▂▁▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ ▂
+  15.9 μs         Histogram: frequency by time        31.1 μs <
+
+ Memory estimate: 18.19 KiB, allocs estimate: 8.</code></pre>
+<pre><code class=language-julia >adnlp &#61; ADNLPModel&#40;β -&gt; myfun&#40;β, X, y&#41;, zeros&#40;p &#43; 1&#41;&#41;
+@benchmark grad&#40;adnlp, β&#41;</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 2154 samples with 1 evaluation.
+ Range (min … max):  2.248 ms …   7.109 ms  ┊ GC (min … max): 0.00% … 62.62%
+ Time  (median):     2.277 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   2.316 ms ± 392.631 μs  ┊ GC (mean ± σ):  1.34% ±  5.33%
+
+   ▁▆▇▇██▆▄▂                                                  ▁
+  ▅█████████▇█▅▅▁▄▁▄▄▁▁▄▁▄▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▆▆▅███▆▇ █
+  2.25 ms      Histogram: log(frequency) by time      2.55 ms <
+
+ Memory estimate: 478.12 KiB, allocs estimate: 43.</code></pre>
+<pre><code class=language-julia >model &#61; Model&#40;&#41;
+@variable&#40;model, modelβ&#91;1:p&#43;1&#93;&#41;
+@NLexpression&#40;model,
+  xᵀβ&#91;i&#61;1:n&#93;,
+  modelβ&#91;1&#93; &#43; sum&#40;modelβ&#91;j &#43; 1&#93; * X&#91;i,j&#93; for j &#61; 1:p&#41;
+&#41;
+@NLexpression&#40;
+  model,
+  hβ&#91;i&#61;1:n&#93;,
+  1 / &#40;1 &#43; exp&#40;-xᵀβ&#91;i&#93;&#41;&#41;
+&#41;
+@NLobjective&#40;model, Min,
+  -sum&#40;y&#91;i&#93; * log&#40;hβ&#91;i&#93; &#43; 1e-8&#41; &#43; &#40;1 - y&#91;i&#93; * log&#40;hβ&#91;i&#93; &#43; 1e-8&#41;&#41; for i &#61; 1:n&#41; / n &#43; 0.5e-4 * sum&#40;modelβ&#91;i&#93;^2 for i &#61; 1:p&#43;1&#41;
+&#41;
+jumpnlp &#61; MathOptNLPModel&#40;model&#41;
+@benchmark grad&#40;jumpnlp, β&#41;</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 10000 samples with 1 evaluation.
+ Range (min … max):  260.312 μs … 707.133 μs  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     263.512 μs               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   266.144 μs ±   8.040 μs  ┊ GC (mean ± σ):  0.00% ± 0.00%
+
+   ▁▅▆▇██▇▇▅▄▄▃▃▃▂▂▂▁▂▃▃▃▄▂▃▂▁▂▂▁▁  ▁    ▁▁▁▁▁▁▁▁               ▂
+  ▆█████████████████████████████████████████████████▇█▇▇▇▇▇▇▇▅▇ █
+  260 μs        Histogram: log(frequency) by time        287 μs <
+
+ Memory estimate: 496 bytes, allocs estimate: 1.</code></pre>
+<p>Take these benchmarks with a grain of salt. They are being run on a github actions server with global variables. If you want to make an informed option, you should consider performing your own benchmarks.</p>
+
+<div class=page-foot >
+  <div class=copyright >
+    &copy; Abel Soares Siqueira. Last modified: November 12, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+  </div>
+</div>
+</div>
+    </div>  
+    
+        <script src="/libs/katex/katex.min.js"></script>
+<script src="/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>
