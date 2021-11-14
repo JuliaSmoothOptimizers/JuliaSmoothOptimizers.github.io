@@ -67,16 +67,16 @@ using Logging
   output &#61; with_logger&#40;NullLogger&#40;&#41;&#41; do
     lbfgs&#40;nlp&#41;
   end
-end</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 921 samples with 1 evaluation.
- Range (min … max):  4.461 ms … 18.990 ms  ┊ GC (min … max): 0.00% … 0.00%
- Time  (median):     4.923 ms              ┊ GC (median):    0.00%
- Time  (mean ± σ):   5.419 ms ±  1.568 ms  ┊ GC (mean ± σ):  4.12% ± 9.90%
+end</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 1143 samples with 1 evaluation.
+ Range (min … max):  3.343 ms … 18.597 ms  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     3.997 ms              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   4.361 ms ±  1.357 ms  ┊ GC (mean ± σ):  3.93% ± 9.67%
 
-  ▂▇██▆▄▃▁ ▁▂▁▁▁                                              
-  ████████▇████████▄▅▆▄▁▅▁▅▄▄▁▅▁▁▁▁▄▁▄▁▁▅▅▄▁▄▆▆▁▆▇▆▄▁▅▇▁▄▄▁▅ █
-  4.46 ms      Histogram: log(frequency) by time     12.2 ms <
+   ▁▄▇█▇▆▄▂▁  ▁▁                                              
+  ▇█████████▇████▇▅▆▆▆▅▄▅▅▆▁▄▄▁▄▄▁▁▁▄▁▁▁▁▁▁▁▁▅▁▄▇▇▅▇▄▅▅▅▅▁▁▅ █
+  3.34 ms      Histogram: log(frequency) by time     10.9 ms <
 
- Memory estimate: 2.07 MiB, allocs estimate: 2006.</code></pre>
+ Memory estimate: 1.63 MiB, allocs estimate: 1632.</code></pre>
 <pre><code class=language-julia >using ADNLPModels
 
 @benchmark begin
@@ -84,16 +84,16 @@ end</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 9
   output &#61; with_logger&#40;NullLogger&#40;&#41;&#41; do
     lbfgs&#40;adnlp&#41;
   end
-end</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 62 samples with 1 evaluation.
- Range (min … max):  74.495 ms … 94.778 ms  ┊ GC (min … max): 0.00% … 4.64%
- Time  (median):     79.586 ms              ┊ GC (median):    4.89%
- Time  (mean ± σ):   80.705 ms ±  4.355 ms  ┊ GC (mean ± σ):  3.49% ± 2.47%
+end</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 81 samples with 1 evaluation.
+ Range (min … max):  56.824 ms … 71.402 ms  ┊ GC (min … max): 0.00% … 12.97%
+ Time  (median):     61.773 ms              ┊ GC (median):    5.51%
+ Time  (mean ± σ):   62.279 ms ±  3.600 ms  ┊ GC (mean ± σ):  3.34% ±  3.17%
 
-  ▁  ▄▁ ▁ ▄ ▁ ▁▄▁█▁▁  ▁▁▁▁     ▁    ▁    ▁  ▁                  
-  █▁▁██▆█▁█▆█▆██████▆▆████▁▁▆▆▆█▆▁▆▁█▁▁▁▆█▆▁█▁▆▁▁▁▆▁▁▁▁▁▆▁▁▁▆ ▁
-  74.5 ms         Histogram: frequency by time        91.5 ms <
+     ▅  ▂  ▂ ▅█       █       ▅  ▂                             
+  █▁▅█▅▅██▅█████▁█▁██▅█▅▅████▁█▅██▅▁▁█▅▁███▁▁▁▅▁▁▅▅▁▁▅▁▅▁▅▁▁▅ ▁
+  56.8 ms         Histogram: frequency by time        71.2 ms <
 
- Memory estimate: 37.99 MiB, allocs estimate: 4778.</code></pre>
+ Memory estimate: 29.92 MiB, allocs estimate: 3809.</code></pre>
 <pre><code class=language-julia >using JuMP
 using NLPModelsJuMP
 
@@ -116,38 +116,38 @@ using NLPModelsJuMP
   output &#61; with_logger&#40;NullLogger&#40;&#41;&#41; do
     lbfgs&#40;jumpnlp&#41;
   end
-end</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 29 samples with 1 evaluation.
- Range (min … max):  165.623 ms … 197.471 ms  ┊ GC (min … max):  8.38% … 11.67%
- Time  (median):     177.170 ms               ┊ GC (median):    14.14%
- Time  (mean ± σ):   177.524 ms ±   7.516 ms  ┊ GC (mean ± σ):  13.82% ±  1.71%
+end</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 31 samples with 1 evaluation.
+ Range (min … max):  149.170 ms … 181.325 ms  ┊ GC (min … max):  9.40% … 7.89%
+ Time  (median):     165.092 ms               ┊ GC (median):    14.39%
+ Time  (mean ± σ):   165.320 ms ±   8.347 ms  ┊ GC (mean ± σ):  13.90% ± 2.44%
 
-  ▃      ▃     ▃ ▃▃   █ █  ▃                                     
-  █▁▁▇▁▁▁█▁▁▁▁▁█▁██▁▁▁█▁█▇▇█▇▁▁▁▇▇▇▁▁▁▇▁▁▁▁▁▁▁▁▁▁▇▁▁▁▁▁▁▁▇▁▁▁▁▇ ▁
-  166 ms           Histogram: frequency by time          197 ms <
+  ▁      ▁▁▁▁    ▁  ▁ ▁▁█▁  ▁ █ ▁▁ ▁█ ▁▁ ▁▁▁     ▁ ▁▁      ▁  █  
+  █▁▁▁▁▁▁████▁▁▁▁█▁▁█▁████▁▁█▁█▁██▁██▁██▁███▁▁▁▁▁█▁██▁▁▁▁▁▁█▁▁█ ▁
+  149 ms           Histogram: frequency by time          181 ms <
 
  Memory estimate: 151.61 MiB, allocs estimate: 2154736.</code></pre>
 <p>Or just the grad calls:</p>
 <pre><code class=language-julia >using NLPModels
 
 @benchmark grad&#40;nlp, β&#41;</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range (min … max):  19.000 μs …   8.026 ms  ┊ GC (min … max): 0.00% … 95.81%
- Time  (median):     21.400 μs               ┊ GC (median):    0.00%
- Time  (mean ± σ):   26.247 μs ± 114.640 μs  ┊ GC (mean ± σ):  5.71% ±  1.35%
+ Range (min … max):  18.500 μs …   8.164 ms  ┊ GC (min … max): 0.00% … 99.62%
+ Time  (median):     22.199 μs               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   28.553 μs ± 149.215 μs  ┊ GC (mean ± σ):  5.57% ±  1.38%
 
-  ▃▇██▆▅▅▅▄▃▁▁▁▁▁▁▁▂▂▂▂▂▁                                      ▂
-  ██████████████████████████▆▆▅▅▅▆▅▄▅▅▄▅▆▅▅▄▃▅▃▃▄▅▅▃▄▃▃▄▅▁▄▅▃▃ █
-  19 μs         Histogram: log(frequency) by time      62.9 μs <
+   ▁▄▇███▇▆▅▅▄▄▃▂▁▁▁▁▁▁▁▂▂▂▃▃▃▃▂▂▁▁▁                           ▃
+  ▃███████████████████████████████████▇█▆▆▇▇▆▆▆▆▆▄▅▅▆▆▆▅▁▅▅▁▄▅ █
+  18.5 μs       Histogram: log(frequency) by time      53.3 μs <
 
  Memory estimate: 18.19 KiB, allocs estimate: 8.</code></pre>
 <pre><code class=language-julia >adnlp &#61; ADNLPModel&#40;β -&gt; myfun&#40;β, X, y&#41;, zeros&#40;p &#43; 1&#41;&#41;
-@benchmark grad&#40;adnlp, β&#41;</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 4823 samples with 1 evaluation.
- Range (min … max):  863.304 μs …  10.497 ms  ┊ GC (min … max): 0.00% … 0.00%
- Time  (median):     935.005 μs               ┊ GC (median):    0.00%
- Time  (mean ± σ):     1.027 ms ± 582.524 μs  ┊ GC (mean ± σ):  3.97% ± 7.01%
+@benchmark grad&#40;adnlp, β&#41;</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 5299 samples with 1 evaluation.
+ Range (min … max):  701.197 μs …   7.921 ms  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     870.396 μs               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   935.560 μs ± 530.762 μs  ┊ GC (mean ± σ):  4.17% ± 7.18%
 
-  ▇█▇▆▄▃▃▂▁▁                                                    ▁
-  ███████████▇▇▆▆▆▆▅▅▅▄▅▅▄▅▅▅▅▅▅▄▅▅▅▄▃▅▄▁▃▃▅▃▁▄▄▃▁▁▁▁▃▃▁▁▁▄▃▃▃▄ █
-  863 μs        Histogram: log(frequency) by time       3.01 ms <
+      ▄█▇▃                                                       
+  ▄▄▆█████▇▄▄▃▂▂▂▂▂▂▂▂▂▂▂▂▁▂▂▂▂▂▁▁▂▁▂▁▁▁▂▂▂▂▁▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▁▂ ▃
+  701 μs           Histogram: frequency by time         2.46 ms <
 
  Memory estimate: 478.12 KiB, allocs estimate: 43.</code></pre>
 <pre><code class=language-julia >model &#61; Model&#40;&#41;
@@ -166,20 +166,20 @@ end</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 2
 &#41;
 jumpnlp &#61; MathOptNLPModel&#40;model&#41;
 @benchmark grad&#40;jumpnlp, β&#41;</code></pre><pre><code class="plaintext code-output">BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range (min … max):  205.901 μs …   6.155 ms  ┊ GC (min … max): 0.00% … 0.00%
- Time  (median):     237.901 μs               ┊ GC (median):    0.00%
- Time  (mean ± σ):   249.513 μs ± 108.954 μs  ┊ GC (mean ± σ):  0.00% ± 0.00%
+ Range (min … max):  198.399 μs …   7.988 ms  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     236.998 μs               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   251.750 μs ± 121.933 μs  ┊ GC (mean ± σ):  0.00% ± 0.00%
 
-     ▅█▃▄▃▄▆▄▇▄▁                                                 
-  ▃▅▇██████████████▆▅▅▄▄▄▃▃▃▂▂▃▂▂▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ ▃
-  206 μs           Histogram: frequency by time          392 μs <
+    ▁▆▆▇█▇▅▅█▇▅▃▁▂▁                                              
+  ▇▃█████████████████▇▆▆▅▅▄▄▄▄▄▄▃▃▃▃▂▂▂▂▂▂▂▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ ▄
+  198 μs           Histogram: frequency by time          402 μs <
 
  Memory estimate: 496 bytes, allocs estimate: 1.</code></pre>
 <p>Take these benchmarks with a grain of salt. They are being run on a github actions server with global variables. If you want to make an informed option, you should consider performing your own benchmarks.</p>
 
 <div class=page-foot >
   <div class=copyright >
-    &copy; Abel Soares Siqueira. Last modified: November 12, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+    &copy; Abel Soares Siqueira. Last modified: November 14, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
   </div>
 </div>
 </div>
