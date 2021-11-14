@@ -23,6 +23,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
+      - name: Success?
+        run: if [ ! -f lychee/out.md ]; then mkdir -p lychee; echo "All tests links are working" > lychee/out.md; fi
+
       - name: Create Issue From File
         uses: peter-evans/create-issue-from-file@v3
         with:
