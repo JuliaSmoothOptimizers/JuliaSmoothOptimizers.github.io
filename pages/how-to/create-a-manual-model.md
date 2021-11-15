@@ -2,10 +2,6 @@
 @def showall = true
 @def tags = ["solvers", "NLPModels", "ManualNLPModels"]
 
-# {{title}}
-
-@@author
-by Abel S. Siqueira
-@@
+\preamble{Abel S. Siqueira}
 
 \literate{/_literate/how-to/create-a-manual-model.jl}
