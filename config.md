@@ -28,3 +28,12 @@ For instance:
 -->
 \newcommand{\R}{\mathbb R}
 \newcommand{\scal}[1]{\langle #1 \rangle}
+\newcommand{\preamble}[1]{
+  # {{ title }}
+
+  @@author
+  by #1
+  @@
+
+  {{ list_versions }}
+}
