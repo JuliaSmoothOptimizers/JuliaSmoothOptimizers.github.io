@@ -11,7 +11,7 @@ body {
 }
 
 .sidebar {
-  background: #111;
+  background: #454545;
 }
 
 strong {
@@ -82,7 +82,8 @@ h1#title {
 }
 
 .sidebar {
-  border-right: 1px solid #999;
+  border-right: 1px solid rgb(110, 110, 32);
+  box-shadow: 0px 0px 10px #111;
 }
 
 .sidebar-nav-item {
