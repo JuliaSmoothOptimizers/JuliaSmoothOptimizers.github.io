@@ -17,6 +17,7 @@ body {
 th {
   background-color: #454545 !important;
   border-color: #454545 !important;
+  text-align: left;
 }
 
 td {
