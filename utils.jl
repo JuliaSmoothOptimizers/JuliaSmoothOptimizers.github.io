@@ -10,7 +10,7 @@ function installed()
   return installs
 end
 
-const jso_pkgs = ["ADNLPModels", "JSOSolvers", "LinearOperators", "ManualNLPModels", "NLPModels", "NLPModelsIpopt", "NLPModelsJuMP", "SolverBenchmark", "SolverCore", "SolverTools"]
+const jso_pkgs = ["ADNLPModels", "CaNNOLeS", "DCISolver", "JSOSolvers", "LinearOperators", "ManualNLPModels", "NLPModels", "NLPModelsIpopt", "NLPModelsJuMP", "Percival", "SolverBenchmark", "SolverCore", "SolverTools"]
 
 function badge(name, version)
   color, lbl_color = if name in jso_pkgs
