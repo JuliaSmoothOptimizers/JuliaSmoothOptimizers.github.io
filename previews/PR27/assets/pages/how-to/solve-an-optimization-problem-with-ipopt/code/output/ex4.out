@@ -8,7 +8,7 @@ Generic Execution stats
   multipliers_L: [0.0  4.000000006828642]
   multipliers_U: [5.000000053347668  5.0084053323090786e-9]
   iterations: 7
-  elapsed time: 0.008
+  elapsed time: 0.006
   solver specific:
-    real_time: 0.007837057113647461
+    real_time: 0.005930900573730469
     internal_msg: :Solve_Succeeded
