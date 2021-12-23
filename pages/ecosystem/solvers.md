@@ -40,7 +40,7 @@ Our constraint types and their meanings are:
 
 In addition to differences in the constraints, we also have different objective types:
 - **NLP**: General objective.
-  The objective $f(x)$ of these problems have no special structure being explored. Access its derivatives through the default NLPModels.jl API.
+  The objective $f(x)$ of these problems has no special structure to exploit. Access to its derivatives occurs through the default NLPModels.jl API.
 - **NLS**: Nonlinear Least-Squares problems.
   These problems are defined by $f(x) = \tfrac{1}{2}\Vert F(x)\Vert^2$, with $F$ and its derivatives available through the API for NLSModels, part of NLPModels.jl
 - **QP**: Quadratic Programming.
