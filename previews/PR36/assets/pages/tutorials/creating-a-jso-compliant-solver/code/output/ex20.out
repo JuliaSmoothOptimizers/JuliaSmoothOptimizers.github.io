@@ -1,0 +1,8 @@
+Generic Execution stats
+  status: first-order stationary
+  objective value: 2.239721910559509e-18
+  primal feasibility: 0.0
+  dual feasibility: 4.018046284781729e-9
+  solution: [0.9999999986742657  0.9999999970013461]
+  iterations: 18
+  elapsed time: 6.699562072753906e-5

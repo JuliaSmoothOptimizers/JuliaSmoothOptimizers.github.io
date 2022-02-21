@@ -1,0 +1,8 @@
+Generic Execution stats
+  status: first-order stationary
+  objective value: 7.141610295610004e-18
+  primal feasibility: 0.0
+  dual feasibility: Inf
+  solution: [0.9999999973418803  0.9999999945459112]
+  iterations: -1
+  elapsed time: Inf
