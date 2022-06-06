@@ -2,80 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-    <loc>juliasmoothoptimizers.github.io/pages/tutorials/introduction-to-linear-operators/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/news-and-blogposts/2022/2022-03-15-dcisolver/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/pages/ecosystem/solvers/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/news-and-blogposts/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/pages/how-to/solve-an-optimization-problem-with-ipopt/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/sandbox/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/pages/ecosystem/models/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/tutorials/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/404/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/news-and-blogposts/2022/2022-03-12-new-site/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/pages/how-to/list/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/404/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/pages/how-to/create-a-manual-model/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/contributing/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/pages/ecosystem/linear-algebra/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/ecosystems/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/pages/reference/list/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/references/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/pages/tutorials/creating-a-jso-compliant-solver/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/ecosystems/solvers/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/pages/ecosystem/list/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/ecosystems/linear-algebra/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>juliasmoothoptimizers.github.io/pages/tutorials/list/index.html</loc>
-    <lastmod>2021-12-23</lastmod>
+    <loc>https://juliasmoothoptimizers.github.io/ecosystems/models/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>https://juliasmoothoptimizers.github.io/news-and-blogposts/2022/2022-05-18-jopt22/index.html</loc>
+    <lastmod>2022-06-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
