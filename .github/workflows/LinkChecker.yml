@@ -31,5 +31,5 @@ jobs:
         with:
           title: Link Checker Report
           content-filepath: ./lychee/out.md
-          issue-number: 23
+          issue-number: 1
           labels: report, automated issue

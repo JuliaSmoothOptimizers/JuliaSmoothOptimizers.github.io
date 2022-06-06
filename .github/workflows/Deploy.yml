@@ -1,4 +1,5 @@
 name: Build and Deploy
+
 on:
   push:
     branches:
@@ -6,6 +7,10 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+  schedule:
+    - cron: 0 0 * * 0
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -19,13 +24,13 @@ jobs:
     - name: Fix URLs for PR preview deployment (pull request previews)
       if: github.event_name == 'pull_request'
       run: |
-        echo "PREVIEW_FRANKLIN_WEBSITE_URL=https://focused-almeida-6fb7df.netlify.app/previews/PR${{ github.event.number }}/" >> $GITHUB_ENV
+        echo "PREVIEW_FRANKLIN_WEBSITE_URL=https://jso-preview.netlify.app/previews/PR${{ github.event.number }}/" >> $GITHUB_ENV
         echo "PREVIEW_FRANKLIN_PREPATH=previews/PR${{ github.event.number }}" >> $GITHUB_ENV
     # NOTE: Python is necessary for the pre-rendering (minification) step
     - name: Install python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.8'
+        python-version: '3.9'
     # NOTE: Here you can install dependencies such as matplotlib if you use
     # packages such as PyPlot.
     # - run: pip install matplotlib
@@ -33,6 +38,8 @@ jobs:
       uses: julia-actions/setup-julia@v1
       with:
         version: 1
+    - name: List files
+      run: ls -R
     # NOTE
     #   The steps below ensure that NodeJS and Franklin are loaded then it
     #   installs highlight.js which is needed for the prerendering step
@@ -41,11 +48,14 @@ jobs:
     #   Julia packages which may be required to successfully build your site.
     #   The last line should be `optimize()` though you may want to give it
     #   specific arguments, see the documentation or ?optimize in the REPL.
-    - run: julia -e '
+    - name: Build
+      run: julia -e '
             using Pkg; Pkg.activate("."); Pkg.instantiate();
-            using NodeJS; run(`$(npm_cmd()) install highlight.js`);
+            using NodeJS; run(`$(npm_cmd()) install`); run(`$(npm_cmd()) run css-build`);
             using Franklin;
-            optimize(prerender=false)'
+            optimize(prerender=false, suppress_errors=false)'
+    - name: List again
+      run: ls -R
     - name: Deploy (preview)
       if: github.event_name == 'pull_request' && github.repository == github.event.pull_request.head.repo.full_name # if this build is a PR build and the PR is NOT from a fork
       uses: JamesIves/github-pages-deploy-action@releases/v3
@@ -55,9 +65,22 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TARGET_FOLDER: "previews/PR${{ github.event.number }}" # The website preview is going to be stored in a subfolder
     - name: Deploy (main)
-      if: github.event_name == 'push'
+      if: github.event_name != 'pull_request'
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # Replace here the branch where your website is deployed
           FOLDER: __site
+
+  pr_comment:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Comment PR'
+        uses: actions/github-script@0.3.0
+        if: github.event_name == 'pull_request' && github.repository == github.event.pull_request.head.repo.full_name # if this is a pull request build AND the pull request is NOT made from a fork
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { issue: { number: issue_number }, repo: { owner, repo }  } = context;
+            github.issues.createComment({ issue_number, owner, repo, body: 'Once the build has completed, you can preview your PR at this URL: https://jso-preview.netlify.app/previews/PR${{ github.event.number }}/' });

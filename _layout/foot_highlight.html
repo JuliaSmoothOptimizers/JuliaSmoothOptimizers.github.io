@@ -1,2 +1,58 @@
 <!-- Moved load to custom_head.html -->
-<script>hljs.initHighlightingOnLoad();hljs.configure({tabReplace: '    '});</script>
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+<!-- Adapted from https://github.com/tlienart/Franklin.jl/blob/e99dedbf97cc831aabeb56816fdb9951e053b07f/demos/_layout/foot_clipboard.html -->
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
