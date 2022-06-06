@@ -1,0 +1,21 @@
+<!-- CONTENT ENDS HERE -->
+    </div>  <!-- div: franklin-content container -->
+    </div>  <!-- content -->
+    </div>  <!-- container -->
+  </section>  <!-- section -->
+
+    {{ if hasmath }}
+        {{ insert foot_katex.html }}
+    {{ end }}
+    {{ if hascode }}
+        {{ insert foot_highlight.html }}
+    {{ end }}
+    <footer class="footer">
+      <div class="content has-text-centered is-small">
+        &copy; {{ fill author }}. <br>
+        {{isnotpage /tag/*}}Last modified: {{ fill fd_mtime }}.{{end}}<br>
+        <a class="link" href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
+  </body>
+</html>

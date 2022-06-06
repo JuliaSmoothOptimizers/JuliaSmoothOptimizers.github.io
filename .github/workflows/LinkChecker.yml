@@ -1,0 +1,35 @@
+name: Links
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  schedule:
+    - cron: "00 18 * * *"
+
+jobs:
+  linkChecker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: 'gh-pages'
+
+      - name: Link Checker
+        uses: lycheeverse/lychee-action@v1.1.0
+        with:
+          args: --verbose --no-progress **/*.html --exclude=".+gstatic.+" --exclude="https://doi.org.+" --exclude="https://github.com/JuliaSmoothOptimizers/PACKAGE.jl"
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Success?
+        run: if [ ! -f lychee/out.md ]; then mkdir -p lychee; echo "All tests links are working" > lychee/out.md; fi
+
+      - name: Create Issue From File
+        uses: peter-evans/create-issue-from-file@v3
+        with:
+          title: Link Checker Report
+          content-filepath: ./lychee/out.md
+          issue-number: 1
+          labels: report, automated issue

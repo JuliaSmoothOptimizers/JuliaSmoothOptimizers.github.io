@@ -1,0 +1,8 @@
+__site/
+_css
+.DS_Store
+franklin
+franklin.pub
+node_modules/
+_css/styles.css
+package-lock.json
