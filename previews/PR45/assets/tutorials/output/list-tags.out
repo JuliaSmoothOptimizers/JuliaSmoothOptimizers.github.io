@@ -1,0 +1,244 @@
+~~~
+<div id="tags" class="is-height-zero">
+<button onclick="list_tutorials()" class="button is-small is-primary mt-2">
+  <span class="icon is-small">
+    <ion-icon name="ban"></ion-icon>
+  </span>
+  <span>Clear selection</span>
+</button>
+~~~
+~~~<button onclick="tags_click('benchmark')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>benchmark</span>
+</button>
+~~~
+~~~<button onclick="tags_click('comparison')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>comparison</span>
+</button>
+~~~
+~~~<button onclick="tags_click('introduction')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>introduction</span>
+</button>
+~~~
+~~~<button onclick="tags_click('linear-operators')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>linear-operators</span>
+</button>
+~~~
+~~~<button onclick="tags_click('logistic-regression')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>logistic-regression</span>
+</button>
+~~~
+~~~<button onclick="tags_click('manual')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>manual</span>
+</button>
+~~~
+~~~<button onclick="tags_click('model')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>model</span>
+</button>
+~~~
+~~~<button onclick="tags_click('pde')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>pde</span>
+</button>
+~~~
+~~~<button onclick="tags_click('problem')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>problem</span>
+</button>
+~~~
+~~~<button onclick="tags_click('short')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>short</span>
+</button>
+~~~
+~~~<button onclick="tags_click('solve')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>solve</span>
+</button>
+~~~
+~~~<button onclick="tags_click('solver')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>solver</span>
+</button>
+~~~
+~~~<button onclick="tags_click('test')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>test</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('ADNLPModels')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>ADNLPModels.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('CUTEst')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>CUTEst.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('DCISolver')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>DCISolver.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('JSOSolvers')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>JSOSolvers.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('Krylov')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>Krylov.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('LinearOperators')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>LinearOperators.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('ManualNLPModels')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>ManualNLPModels.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('NLPModels')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>NLPModels.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('NLPModelsIpopt')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>NLPModelsIpopt.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('NLPModelsJuMP')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>NLPModelsJuMP.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('NLPModelsModifiers')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>NLPModelsModifiers.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('PDENLPModels')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>PDENLPModels.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('QPSReader')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>QPSReader.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('QuadraticModels')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>QuadraticModels.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('RipQP')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>RipQP.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('SolverBenchmark')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>SolverBenchmark.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('SolverCore')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>SolverCore.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('SparseMatricesCOO')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>SparseMatricesCOO.jl</span>
+</button>
+~~~

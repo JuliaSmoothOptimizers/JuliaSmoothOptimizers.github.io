@@ -1,0 +1,258 @@
+~~~
+<div class="news-item">
+  <a href="https://jso-docs.github.io/introduction-to-cutest">
+    <span class="is-size-4 has-text-primary">
+      Introduction to CUTEst
+    </span>
+    <br>
+    <p class="has-text-grey-dark is-size-6">
+      CUTEst.jl was the first package in the JSO ecosystem. It is an essential part of the nonlinear optimization academic research landscape.
+    </p>
+  </a>~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>introduction</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>model</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>test</span>
+</button>
+~~~
+~~~
+</div>
+~~~
+~~~
+<div class="news-item">
+  <a href="https://jso-docs.github.io/introduction-to-quadraticmodels">
+    <span class="is-size-4 has-text-primary">
+      Introduction to QuadraticModels
+    </span>
+    <br>
+    <p class="has-text-grey-dark is-size-6">
+      Learn about QuadraticModels.jl
+    </p>
+  </a>~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>introduction</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>model</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>solver</span>
+</button>
+~~~
+~~~
+</div>
+~~~
+~~~
+<div class="news-item">
+  <a href="https://jso-docs.github.io/solve-pdenlpmodels-with-jsosolvers">
+    <span class="is-size-4 has-text-primary">
+      Solve a PDE-constrained optimization problem
+    </span>
+    <br>
+    <p class="has-text-grey-dark is-size-6">
+      Solve a discretized PDE-constrained optimization problem using DCISolver and Ipopt.
+    </p>
+  </a>~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>pde</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>solve</span>
+</button>
+~~~
+~~~
+</div>
+~~~
+~~~
+<div class="news-item">
+  <a href="https://jso-docs.github.io/introduction-to-linear-operators">
+    <span class="is-size-4 has-text-primary">
+      Introduction to Linear Operators
+    </span>
+    <br>
+    <p class="has-text-grey-dark is-size-6">
+      Learn about LinearOperators.jl
+    </p>
+  </a>~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>introduction</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>linear-operators</span>
+</button>
+~~~
+~~~
+</div>
+~~~
+~~~
+<div class="news-item">
+  <a href="https://jso-docs.github.io/creating-a-jso-compliant-solver">
+    <span class="is-size-4 has-text-primary">
+      Creating a JSO-compliant solver
+    </span>
+    <br>
+    <p class="has-text-grey-dark is-size-6">
+      A thorough guide for developers, from 0 to benchmarking.
+    </p>
+  </a>~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>solver</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>benchmark</span>
+</button>
+~~~
+~~~
+</div>
+~~~
+~~~
+<div class="news-item">
+  <a href="https://jso-docs.github.io/solve-an-optimization-problem-with-ipopt">
+    <span class="is-size-4 has-text-primary">
+      How to solve an optimization problem with Ipopt and NLPModels
+    </span>
+    <br>
+    <p class="has-text-grey-dark is-size-6">
+      Quick guide to help you write your problem and solve it using Ipopt
+    </p>
+  </a>~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>solve</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>problem</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>model</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>short</span>
+</button>
+~~~
+~~~
+</div>
+~~~
+~~~
+<div class="news-item">
+  <a href="https://jso-docs.github.io/create-a-manual-model">
+    <span class="is-size-4 has-text-primary">
+      How to create a model from the objective function and its derivatives
+    </span>
+    <br>
+    <p class="has-text-grey-dark is-size-6">
+      Write a simple model with total control over its derivatives.
+    </p>
+  </a>~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>model</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>logistic-regression</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>manual</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>comparison</span>
+</button>
+~~~
+~~~
+</div>
+~~~
