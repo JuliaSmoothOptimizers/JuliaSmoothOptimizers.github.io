@@ -11,12 +11,12 @@
     <title>
       <![CDATA[  Julia Smooth Optimizers  ]]>
     </title>
-    <link> https://jso.netlify.app/previews/PR45/ </link>
+    <link> https://jso-preview.netlify.app/previews/PR45/ </link>
     <description>
       <![CDATA[  Julia Smooth Optimizers  ]]>
     </description>
     <atom:link
-      href="https://jso.netlify.app/previews/PR45/feed.xml"
+      href="https://jso-preview.netlify.app/previews/PR45/feed.xml"
       rel="self"
       type="application/rss+xml" />
 
@@ -25,8 +25,8 @@
   <title>
     <![CDATA[  New package: DCISolver.jl  ]]>
   </title>
-  <link> https://jso.netlify.app/previews/PR45/news-and-blogposts/2022/2022-03-15-dcisolver/index.html </link>
-  <guid> https://jso.netlify.app/previews/PR45/news-and-blogposts/2022/2022-03-15-dcisolver/index.html </guid>
+  <link> https://jso-preview.netlify.app/previews/PR45/news-and-blogposts/2022/2022-03-15-dcisolver/index.html </link>
+  <guid> https://jso-preview.netlify.app/previews/PR45/news-and-blogposts/2022/2022-03-15-dcisolver/index.html </guid>
   <description>
     <![CDATA[  We are very happy to announce the publication in the Journal of Open Source Software of the paper DCISolver.jl: A Julia Solver for Nonlinear Optimization using Dynamic Control of Infeasibility.  ]]>
   </description>  
@@ -44,8 +44,8 @@
   <title>
     <![CDATA[  Moving our site  ]]>
   </title>
-  <link> https://jso.netlify.app/previews/PR45/news-and-blogposts/2022/2022-03-12-new-site/index.html </link>
-  <guid> https://jso.netlify.app/previews/PR45/news-and-blogposts/2022/2022-03-12-new-site/index.html </guid>
+  <link> https://jso-preview.netlify.app/previews/PR45/news-and-blogposts/2022/2022-03-12-new-site/index.html </link>
+  <guid> https://jso-preview.netlify.app/previews/PR45/news-and-blogposts/2022/2022-03-12-new-site/index.html </guid>
   <description>
     <![CDATA[  The Julia Smooth Optimizers organization has moved to this new website, where we will aggregate all our tutorials and news.  ]]>
   </description>  
@@ -63,8 +63,8 @@
   <title>
     <![CDATA[  Conference: JuliaSmoothOptimizers at Optimization Days Montréal  ]]>
   </title>
-  <link> https://jso.netlify.app/previews/PR45/news-and-blogposts/2022/2022-05-18-jopt22/index.html </link>
-  <guid> https://jso.netlify.app/previews/PR45/news-and-blogposts/2022/2022-05-18-jopt22/index.html </guid>
+  <link> https://jso-preview.netlify.app/previews/PR45/news-and-blogposts/2022/2022-05-18-jopt22/index.html </link>
+  <guid> https://jso-preview.netlify.app/previews/PR45/news-and-blogposts/2022/2022-05-18-jopt22/index.html </guid>
   <description>
     <![CDATA[  We organized a steam of sessions on ’’Numerical optimization and linear algebra with Julia’’ at Optimization Days 2022, held at HEC Montréal, May 16-18, 2022.  ]]>
   </description>  
