@@ -1,5 +1,5 @@
 {
-  "name": "jso-docs.github.io",
+  "name": "jso-site",
   "version": "1.0.0",
   "description": "Documentation for Julia Smooth Optimizers",
   "main": "_sass/styles.scss",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jso-docs/jso-docs.github.io.git"
+    "url": "git+https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io.git"
   },
   "author": "Abel Soares Siqueira",
   "license": "MPL-2.0",
   "bugs": {
-    "url": "https://github.com/jso-docs/jso-docs.github.io/issues"
+    "url": "https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/issues"
   },
-  "homepage": "https://jso-docs.github.io",
+  "homepage": "https://JuliaSmoothOptimizers.github.io",
   "devDependencies": {
     "bulma": "^0.9.3",
     "node-sass": "^7.0.1"
