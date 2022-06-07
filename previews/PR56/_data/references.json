@@ -1,0 +1,128 @@
+[
+  {
+    "title": "Otimização Não-Linear na Linguagem Julia",
+    "author": "Abel S. Siqueira",
+    "date": "2017-12-01",
+    "where": "Seminários de Análise Convexa e Otimização. UFSC, Florianópolis/SC, Brasil",
+    "link": "http://abelsiqueira.github.io/assets/2017-12-01-ufsc.pdf",
+    "type": "talk"
+  },
+  {
+    "title": "A Workflow for Designing Optimization Methods in the Julia Language",
+    "author": "Abel S. Siqueira and Dominique Orban",
+    "date": "2016-05-04",
+    "where": "2016 Optimization Days. Montréal, Canada",
+    "link": "http://abelsiqueira.github.io/assets/jopt-2016.pdf",
+    "type": "talk"
+  },
+  {
+    "title": "Advanced Topics in Scientific Computing with Julia",
+    "author": "Brad Nelson",
+    "where": "Stanford University",
+    "date": "2018-03-03",
+    "link": "https://github.com/icme/cme257-advanced-julia",
+    "type": "classes"
+  },
+  {
+    "title": "Otimização I",
+    "author": "Abel S. Siqueira",
+    "where": "UFPR - Federal University of Paraná",
+    "date": "2018-06-19",
+    "type": "classes"
+  },
+  {
+    "title": "Developing new optimization methods with packages from the JuliaSmoothOptimizers organization",
+    "author": "Abel S. Siqueira and Dominique Orban",
+    "where": "Second Annual JuMP-dev Workshop. Bordeaux, France",
+    "date": "2018-06-28",
+    "link": "http://abelsiqueira.github.io/assets/2018-06-28-jump-dev.pdf",
+    "type": "talk"
+  },
+  {
+    "title": "Iterative Methods with an Error Minimization Property",
+    "author": "Dominique Orban, Ron Estrin and Michael A. Saunders",
+    "where": "LA/Opt Seminar, ICME, Stanford University",
+    "date": "2018-05-31",
+    "type": "talk"
+  },
+  {
+    "title": "A Regularized Interior-Point Method for Constrained Nonlinear Least Squares",
+    "author": "Abel S. Siqueira and Dominique Orban",
+    "where": "XII Brazilian Workshop on Continuous Optimization. Iguaçu Falls, Brazil.",
+    "date": "2018-07-23",
+    "link": "http://abelsiqueira.github.io/assets/2018-07-23-xiibrazopt.pdf",
+    "type": "talk"
+  },
+  {
+    "title": "Méthodes d'optimisation et contrôle optimal",
+    "author": "Dominique Orban",
+    "where": "Polytechnique Montréal",
+    "date": "2019-01-01",
+    "link": "https://www.polymtl.ca/programmes/cours/methodes-doptimisation-et-controle-optimal",
+    "type": "classes"
+  },
+  {
+    "title": "JuliaSmoothOptimizers",
+    "author": "Abel S. Siqueira",
+    "date": "2019-02-07",
+    "where": "Tutorial: Modeling and optimization tools in Julia: An introduction to JuMP and JSO. GERAD. Montreal/QC, Canada",
+    "link": "http://abelsiqueira.github.io/assets/2019-02-07-GERAD.tar.gz",
+    "type": "talk"
+  },
+  {
+    "title": "JuliaSmoothOptimizers",
+    "author": "Abel S. Siqueira",
+    "date": "2019-05-31",
+    "where": "Talk at PPGM - UFPR. Curitiba/PR, Brazil.",
+    "link": "http://abelsiqueira.github.io/assets/2019-05-31-PPGM.ipynb",
+    "type": "talk"
+  },
+  {
+    "title": "Otimização na Linguagem Julia",
+    "author": "Abel S. Siqueira",
+    "date": "2019-06-26",
+    "where": "Palestra no Congresso Internacional de Biomassa - 4° Expo Biomassa - Curitiba/PR, Brazil.",
+    "link": "https://docs.google.com/presentation/d/e/2PACX-1vTExSw03IXqsEOOjWeFvvC0FLodFUw5RpIQJLNUALql9jWPjS6GG4fyVeRn3BqehrT5AmfpWYvR4Tpo/pub?start=true&loop=false&delayms=5000&slide=id.g5c57578bdc_0_1264",
+    "type": "talk"
+  },
+  {
+    "title": "Algèbre linéaire numérique appliquée",
+    "author": "Dominique Orban",
+    "where": "Polytechnique Montréal",
+    "date": "2021-01-01",
+    "link": "https://www.polymtl.ca/programmes/cours/algebre-lineaire-numerique-appliquee",
+    "type": "classes"
+  },
+  {
+    "title": "Otimização Não Linear em Julia",
+    "author": "Abel S. Siqueira",
+    "where": "YouTube",
+    "date": "2020-09-02",
+    "link": "https://www.youtube.com/playlist?list=PLOOY0eChA1ux1LAmJZNBySGeqR0kwNZmQ",
+    "type": "classes"
+  },
+  {
+    "title": "Large scale optimization solvers in Julia for data science",
+    "author": "Tangi Migot",
+    "date": "2021-11-15",
+    "where": "IVADO Digital October (online).",
+    "link": "https://www.youtube.com/watch?v=uMKQTUfGkWw&",
+    "type": "talk"
+  },
+  {
+    "title": "Krylov.jl : une bibliothèque Julia pour l’algèbre linéaire numérique",
+    "author": "Alexis Montoison",
+    "date": "2021-11-16",
+    "where": "IVADO Digital October (online).",
+    "link": "https://www.youtube.com/watch?v=9brh5XHcC8o",
+    "type": "talk"
+  },
+  {
+    "title": "A roadmap for JuliaSmoothOptimizers and its NLPModels API",
+    "author": "Tangi Migot and Alexis Montoison",
+    "date": "2022-02-15",
+    "where": "JuMP nonlinear developers call (online).",
+    "link": "https://youtu.be/FsQJ6NEUF6g",
+    "type": "talk"
+  }
+]

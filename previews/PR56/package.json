@@ -1,0 +1,26 @@
+{
+  "name": "jso-site",
+  "version": "1.0.0",
+  "description": "Documentation for Julia Smooth Optimizers",
+  "main": "_sass/styles.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "css-build": "node-sass --omit-source-map-url _sass/styles.scss _css/styles.css",
+    "css-watch": "npm run css-build -- --watch",
+    "start": "npm run css-watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io.git"
+  },
+  "author": "Abel Soares Siqueira",
+  "license": "MPL-2.0",
+  "bugs": {
+    "url": "https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/issues"
+  },
+  "homepage": "https://JuliaSmoothOptimizers.github.io",
+  "devDependencies": {
+    "bulma": "^0.9.3",
+    "node-sass": "^7.0.1"
+  }
+}
