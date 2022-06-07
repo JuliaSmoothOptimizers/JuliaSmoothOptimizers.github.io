@@ -54,5 +54,13 @@
     "date": "2022-03-15",
     "tags": ["introduction", "model", "test"],
     "pkgs": ["CUTEst", "Krylov", "NLPModels"]
+  },
+  {
+    "title": "Introduction to BenchmarkProfiles",
+    "repo": "introduction-to-benchmarkprofiles",
+    "short": "This is a simple package to plot mathematical performance and data profiles, as defined by Elizabeth Dolan, Jorge Moré and Stefan Wild",
+    "date": "2022-06-07",
+    "tags": ["introduction", "benchmark"],
+    "pkgs": ["BenchmarkProfiles"]
   }
 ]
