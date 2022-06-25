@@ -1,5 +1,35 @@
 ~~~
 <div class="news-item">
+  <a href="https://jso-docs.github.io/introduction-to-benchmarkprofiles">
+    <span class="is-size-4 has-text-primary">
+      Introduction to BenchmarkProfiles
+    </span>
+    <br>
+    <p class="has-text-grey-dark is-size-6">
+      This is a simple package to plot mathematical performance and data profiles, as defined by Elizabeth Dolan, Jorge Moré and Stefan Wild
+    </p>
+  </a>~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>introduction</span>
+</button>
+~~~
+~~~
+<button class="button is-small is-link is-outlined">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>benchmark</span>
+</button>
+~~~
+~~~
+</div>
+~~~
+~~~
+<div class="news-item">
   <a href="https://jso-docs.github.io/introduction-to-cutest">
     <span class="is-size-4 has-text-primary">
       Introduction to CUTEst

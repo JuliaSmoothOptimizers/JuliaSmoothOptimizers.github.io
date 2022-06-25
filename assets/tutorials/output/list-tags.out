@@ -107,6 +107,14 @@
 </button>
 ~~~
 ~~~
+<button onclick="pkgs_click('BenchmarkProfiles')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>BenchmarkProfiles.jl</span>
+</button>
+~~~
+~~~
 <button onclick="pkgs_click('CUTEst')" class="button is-small is-danger is-outlined mt-2">
 <span class="icon is-small">
   <ion-icon name="cube"></ion-icon>
