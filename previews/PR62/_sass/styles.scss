@@ -1,0 +1,151 @@
+@charset "utf-8";
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Nunito&display=swap');
+
+@font-face {
+  font-family: JuliaMono;
+  src:
+    local('JuliaMono'),
+    url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
+}
+
+
+$light-gray: #eee;
+$dark-gray: #333333;
+$julia-blue: #4063d8;
+$julia-green: #389826;
+$julia-red: #CB3C33;
+$julia-purple: #9558B2;
+$beige-lighter: #EFF0EB;
+
+$family-sans-serif: "Inter", sans-serif;
+$family-code: "JuliaMono", monospace;
+$primary: $julia-blue;
+$link: $julia-green;
+$info: $julia-purple;
+$danger: $julia-red;
+$success: $julia-green;
+$body-background-color: $light-gray;
+$footer-background-color: $light-gray;
+$footer-padding: 6rem 1.5rem 3rem;
+$julia-background: lighten($primary, 41%);
+$plaintext-background: #000;
+
+@import "../node_modules/bulma/bulma.sass";
+
+$my-color-list: (
+  white: white,
+  light-gray: $light-gray,
+  dark-gray: $dark-gray,
+  black: black,
+  julia-blue: $julia-blue,
+  julia-green: $julia-green,
+  julia-red: $julia-red,
+  julia-purple: $julia-purple,
+  primary: $primary,
+  info: $info,
+  danger: $danger,
+  success: $success,
+  primary-light: $primary-light,
+  info-light: $info-light,
+  danger-light: $danger-light,
+  success-light: $success-light,
+);
+
+@each $key,$val in $my-color-list {
+  .border-#{$key} {
+    border: 1px solid #{$val};
+  }
+
+  .on-hover-#{$key}:hover {
+    background-color: #{$val};
+    transition: 400ms;
+  }
+
+  .on-hover-text-#{$key}:hover {
+    color: #{$val};
+    transition: 400ms;
+  }
+}
+
+// -------------------------
+
+.title {
+  font-family: "Nunito", sans-serif !important;
+}
+
+p {
+  text-align: justify;
+}
+
+pre {
+  background-color: $body-background-color !important;
+  margin-bottom: 0px !important;
+  position: relative;
+}
+
+.language-julia, .julia {
+  background-color: $julia-background;
+  border: 2px solid $primary;
+  border-radius: 4px;
+}
+
+.language-plaintext, .plaintext {
+  background-color: $beige-lighter;
+  border: 3px solid black;
+  border-radius: 0px;
+  margin-left: 25px;
+}
+
+.copy-button {
+  position: absolute !important;
+  padding: 10px;
+  margin: 30px;
+  top: 0;
+  right: 0;
+  transition: 200ms;
+}
+
+.copy-ref {
+  border-width: 0px !important;
+  background-color: transparent !important;
+  transition: 200ms;
+  padding: 2px !important;
+
+  :hover {
+    background-color: $primary;
+    transition: 200ms;
+  }
+}
+
+.copy-ref span {
+  transition: 200ms;
+  padding: 2px !important;
+  :hover {
+    color: $julia-background;
+    transition: 200ms;
+  }
+}
+
+.references ul li {
+  margin-bottom: 15px;
+}
+
+.news-item {
+  border-left: 2px solid black;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 15px;
+  transition: 400ms;
+  &:hover {
+    border-left: 2px solid $primary;
+    background: $primary-light;
+    padding-left: 15px;
+    padding-right: 5px;
+    transition: 400ms;
+  }
+}
+
+.is-height-zero {
+  height: 0px;
+  overflow: hidden;
+}
