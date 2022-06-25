@@ -1,0 +1,242 @@
+### Books
+- ~~~
+<button data-clipboard-text="@book{orban-arioli-2017,
+ author        = {Orban, D. and Arioli, M.},
+ title         = {Iterative Solution of Symmetric Quasi-Definite Linear Systems},
+ publisher     = {SIAM},
+ doi           = {10.1137/1.9781611974737},
+ optaddress    = {Philadelphia, PA},
+ series        = {Spotlights},
+ year          = {2017},
+ volume        = {3}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~Iterative Solution of Symmetric Quasi-Definite Linear Systems, **D. Orban, M. Arioli**, SIAM, 2017., [10.1137/1.9781611974737](10.1137/1.9781611974737)
+### Articles
+- ~~~
+<button data-clipboard-text="@article{Migot2022,
+ pages         = {3991},
+ author        = {Migot, T. and Orban, D. and Siqueira, A. S.},
+ month         = {February},
+ journal       = {Journal of Open Source Software},
+ title         = {DCISolver.jl: A Julia Solver for Nonlinear Optimization using Dynamic Control of Infeasibility},
+ publisher     = {The Open Journal},
+ number        = {70},
+ doi           = {10.21105/joss.03991},
+ year          = {2022},
+ url           = {https://doi.org/10.21105/joss.03991},
+ volume        = {7}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~DCISolver.jl: A Julia Solver for Nonlinear Optimization using Dynamic Control of Infeasibility, **T. Migot, D. Orban, A. S. Siqueira**, Journal of Open Source Software, 7(70), 3991, 2022., [10.21105/joss.03991](10.21105/joss.03991)
+- ~~~
+<button data-clipboard-text="@article{Montoison2021,
+ pages         = {A2502--A2525},
+ author        = {Montoison, A. and Orban, D.},
+ month         = {January},
+ journal       = {SIAM Journal on Scientific Computing},
+ title         = {TriCG and TriMR: Two Iterative Methods for Symmetric Quasi-definite Systems},
+ publisher     = {Society for Industrial \& Applied Mathematics (SIAM)},
+ number        = {4},
+ doi           = {10.1137/20m1363030},
+ year          = {2021},
+ url           = {https://doi.org/10.1137/20m1363030},
+ volume        = {43}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~TriCG and TriMR: Two Iterative Methods for Symmetric Quasi-definite Systems, **A. Montoison, D. Orban**, SIAM Journal on Scientific Computing, 43(4), A2502--A2525, 2021., [10.1137/20m1363030](10.1137/20m1363030)
+- ~~~
+<button data-clipboard-text="@article{Ek2021,
+ pages         = {789--816},
+ author        = {Ek, D. and Forsgren, A.},
+ month         = {April},
+ journal       = {Computational Optimization and Applications},
+ title         = {Exact linesearch limited-memory quasi-Newton methods for minimizing a quadratic function},
+ publisher     = {Springer Science and Business Media {LLC}},
+ number        = {3},
+ doi           = {10.1007/s10589-021-00277-4},
+ year          = {2021},
+ url           = {https://doi.org/10.1007/s10589-021-00277-4},
+ volume        = {79}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~Exact linesearch limited-memory quasi-Newton methods for minimizing a quadratic function, **D. Ek, A. Forsgren**, Computational Optimization and Applications, 79(3), 789--816, 2021., [10.1007/s10589-021-00277-4](10.1007/s10589-021-00277-4)
+- ~~~
+<button data-clipboard-text="@article{Tanneau2021,
+ pages         = {509--551},
+ author        = {Tanneau, M. and Anjos, M. F. and Lodi, A.},
+ month         = {February},
+ journal       = {Mathematical Programming Computation},
+ title         = {Design and implementation of a modular interior-point solver for linear optimization},
+ publisher     = {Springer Science and Business Media LLC},
+ number        = {3},
+ doi           = {10.1007/s12532-020-00200-8},
+ year          = {2021},
+ url           = {https://doi.org/10.1007/s12532-020-00200-8},
+ volume        = {13}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~Design and implementation of a modular interior-point solver for linear optimization, **M. Tanneau, M. F. Anjos, A. Lodi**, Mathematical Programming Computation, 13(3), 509--551, 2021., [10.1007/s12532-020-00200-8](10.1007/s12532-020-00200-8)
+- ~~~
+<button data-clipboard-text="@article{orban-siqueira-2020,
+ preprint      = {https://www.gerad.ca/en/papers/G-2019-17/view},
+ pages         = {961--989},
+ doi           = {10.1007/s10589-020-00201-2},
+ author        = {Orban, D. and Siqueira, A. S.},
+ year          = {2020},
+ volume        = {76},
+ journal       = {Computational Optimization and Applications},
+ title         = {A Regularization Method for Constrained Nonlinear Least Squares}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~A Regularization Method for Constrained Nonlinear Least Squares, **D. Orban, A. S. Siqueira**, Computational Optimization and Applications, 76, 961--989, 2020., [10.1007/s10589-020-00201-2](10.1007/s10589-020-00201-2)
+- ~~~
+<button data-clipboard-text="@article{Montoison2020,
+ pages         = {1145--1166},
+ author        = {Montoison, A. and Orban, D.},
+ month         = {January},
+ journal       = {SIAM Journal on Matrix Analysis and Applications},
+ title         = {BiLQ: An Iterative Method for Nonsymmetric Linear Systems with a Quasi-Minimum Error Property},
+ publisher     = {Society for Industrial \& Applied Mathematics (SIAM)},
+ number        = {3},
+ doi           = {10.1137/19m1290991},
+ year          = {2020},
+ url           = {https://doi.org/10.1137/19m1290991},
+ volume        = {41}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~BiLQ: An Iterative Method for Nonsymmetric Linear Systems with a Quasi-Minimum Error Property, **A. Montoison, D. Orban**, SIAM Journal on Matrix Analysis and Applications, 41(3), 1145--1166, 2020., [10.1137/19m1290991](10.1137/19m1290991)
+- ~~~
+<button data-clipboard-text="@article{estrin-orban-saunders-2019c,
+ preprint      = {https://dx.doi.org/10.13140/RG.2.2.34725.81123},
+ grant         = {NSERC 299010-04},
+ pages         = {1102--1124},
+ author        = {Estrin, R. and Orban, D. and Saunders, M. A.},
+ journal       = {SIAM Journal on Matrix Analysis},
+ title         = {LNLQ: An Iterative Method for Least-Norm Problems with an Error Minimization Property},
+ gerad         = {G-2018-40},
+ number        = {3},
+ doi           = {10.1137/18M1194948},
+ year          = {2019},
+ volume        = {40}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~LNLQ: An Iterative Method for Least-Norm Problems with an Error Minimization Property, **R. Estrin, D. Orban, M. A. Saunders**, SIAM Journal on Matrix Analysis, 40(3), 1102--1124, 2019., [10.1137/18M1194948](10.1137/18M1194948)
+- ~~~
+<button data-clipboard-text="@article{buttari-orban-ruiz-titley-peloquin-2019,
+ preprint      = {https://www.gerad.ca/en/papers/G-2018-42/view},
+ grant         = {NSERC 299010-04},
+ pages         = {S409--S432},
+ author        = {Buttari, A. and Orban, D. and Ruiz, D. and Titley-Peloquin, D.},
+ journal       = {SIAM Journal on Scientific Computing},
+ title         = {A Tridiagonalization Method for Symmetric Saddle-Point System},
+ gerad         = {G-2018-42},
+ number        = {5},
+ doi           = {10.1137/18M1194900},
+ year          = {2019},
+ volume        = {41}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~A Tridiagonalization Method for Symmetric Saddle-Point System, **A. Buttari, D. Orban, D. Ruiz, D. Titley-Peloquin**, SIAM Journal on Scientific Computing, 41(5), S409--S432, 2019., [10.1137/18M1194900](10.1137/18M1194900)
+- ~~~
+<button data-clipboard-text="@article{dahito-orban-2019,
+ preprint      = {https://www.gerad.ca/en/papers/G-2018-50/view},
+ grant         = {NSERC 299010-04},
+ pages         = {1988--2025},
+ author        = {Dahito, M.-A. and Orban, D.},
+ journal       = {SIAM Journal on Optimization},
+ title         = {The Conjugate Residual Method in Linesearch and Trust-Region Methods},
+ gerad         = {G-2018-50},
+ number        = {3},
+ doi           = {10.1137/18M1204255},
+ year          = {2019},
+ volume        = {29}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~The Conjugate Residual Method in Linesearch and Trust-Region Methods, **M.-A. Dahito, D. Orban**, SIAM Journal on Optimization, 29(3), 1988--2025, 2019., [10.1137/18M1204255](10.1137/18M1204255)
+- ~~~
+<button data-clipboard-text="@article{estrin-orban-saunders-2019b,
+ preprint      = {https://goo.gl/uyPRk5},
+ grant         = {NSERC 299010-04},
+ pages         = {254--275},
+ author        = {Estrin, R. and Orban, D. and Saunders, M. A.},
+ journal       = {SIAM Journal on Matrix Analysis},
+ title         = {LSLQ: An Iterative Method for Linear Least-Squares with an Error Minimization Property},
+ gerad         = {G-2017-05},
+ number        = {1},
+ doi           = {10.1137/17M1113552},
+ year          = {2019},
+ volume        = {40}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~LSLQ: An Iterative Method for Linear Least-Squares with an Error Minimization Property, **R. Estrin, D. Orban, M. A. Saunders**, SIAM Journal on Matrix Analysis, 40(1), 254--275, 2019., [10.1137/17M1113552](10.1137/17M1113552)
+- ~~~
+<button data-clipboard-text="@article{Dussault2019,
+ pages         = {290--309},
+ author        = {Dussault, J.-P.},
+ month         = {July},
+ journal       = {INFOR: Information Systems and Operational Research},
+ title         = {A Unified Efficient Implementation of Trust-region Type Algorithms for Unconstrained Optimization},
+ publisher     = {Informa UK Limited},
+ number        = {2},
+ doi           = {10.1080/03155986.2019.1624490},
+ year          = {2019},
+ url           = {https://doi.org/10.1080/03155986.2019.1624490},
+ volume        = {58}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~A Unified Efficient Implementation of Trust-region Type Algorithms for Unconstrained Optimization, **J.-P. Dussault**, INFOR: Information Systems and Operational Research, 58(2), 290--309, 2019., [10.1080/03155986.2019.1624490](10.1080/03155986.2019.1624490)
+### Talks
+- [A roadmap for JuliaSmoothOptimizers and its NLPModels API](https://youtu.be/FsQJ6NEUF6g), **Tangi Migot and Alexis Montoison**, JuMP nonlinear developers call (online)., 2022-Feb-15
+- [Krylov.jl : une bibliothèque Julia pour l’algèbre linéaire numérique](https://www.youtube.com/watch?v=9brh5XHcC8o), **Alexis Montoison**, IVADO Digital October (online)., 2021-Nov-16
+- [Large scale optimization solvers in Julia for data science](https://www.youtube.com/watch?v=uMKQTUfGkWw&), **Tangi Migot**, IVADO Digital October (online)., 2021-Nov-15
+- [Otimização na Linguagem Julia](https://docs.google.com/presentation/d/e/2PACX-1vTExSw03IXqsEOOjWeFvvC0FLodFUw5RpIQJLNUALql9jWPjS6GG4fyVeRn3BqehrT5AmfpWYvR4Tpo/pub?start=true&loop=false&delayms=5000&slide=id.g5c57578bdc_0_1264), **Abel S. Siqueira**, Palestra no Congresso Internacional de Biomassa - 4° Expo Biomassa - Curitiba/PR, Brazil., 2019-Jun-26
+- [JuliaSmoothOptimizers](http://abelsiqueira.github.io/assets/2019-05-31-PPGM.ipynb), **Abel S. Siqueira**, Talk at PPGM - UFPR. Curitiba/PR, Brazil., 2019-May-31
+- [JuliaSmoothOptimizers](http://abelsiqueira.github.io/assets/2019-02-07-GERAD.tar.gz), **Abel S. Siqueira**, Tutorial: Modeling and optimization tools in Julia: An introduction to JuMP and JSO. GERAD. Montreal/QC, Canada, 2019-Feb-7
+- [A Regularized Interior-Point Method for Constrained Nonlinear Least Squares](http://abelsiqueira.github.io/assets/2018-07-23-xiibrazopt.pdf), **Abel S. Siqueira and Dominique Orban**, XII Brazilian Workshop on Continuous Optimization. Iguaçu Falls, Brazil., 2018-Jul-23
+- [Developing new optimization methods with packages from the JuliaSmoothOptimizers organization](http://abelsiqueira.github.io/assets/2018-06-28-jump-dev.pdf), **Abel S. Siqueira and Dominique Orban**, Second Annual JuMP-dev Workshop. Bordeaux, France, 2018-Jun-28
+- Iterative Methods with an Error Minimization Property, **Dominique Orban, Ron Estrin and Michael A. Saunders**, LA/Opt Seminar, ICME, Stanford University, 2018-May-31
+- [Otimização Não-Linear na Linguagem Julia](http://abelsiqueira.github.io/assets/2017-12-01-ufsc.pdf), **Abel S. Siqueira**, Seminários de Análise Convexa e Otimização. UFSC, Florianópolis/SC, Brasil, 2017-Dec-1
+- [A Workflow for Designing Optimization Methods in the Julia Language](http://abelsiqueira.github.io/assets/jopt-2016.pdf), **Abel S. Siqueira and Dominique Orban**, 2016 Optimization Days. Montréal, Canada, 2016-May-4
+### Classes
+- [Algèbre linéaire numérique appliquée](https://www.polymtl.ca/programmes/cours/algebre-lineaire-numerique-appliquee), **Dominique Orban**, Polytechnique Montréal, 2021-Jan-1
+- [Otimização Não Linear em Julia](https://www.youtube.com/playlist?list=PLOOY0eChA1ux1LAmJZNBySGeqR0kwNZmQ), **Abel S. Siqueira**, YouTube, 2020-Sep-2
+- [Méthodes d'optimisation et contrôle optimal](https://www.polymtl.ca/programmes/cours/methodes-doptimisation-et-controle-optimal), **Dominique Orban**, Polytechnique Montréal, 2019-Jan-1
+- Otimização I, **Abel S. Siqueira**, UFPR - Federal University of Paraná, 2018-Jun-19
+- [Advanced Topics in Scientific Computing with Julia](https://github.com/icme/cme257-advanced-julia), **Brad Nelson**, Stanford University, 2018-Mar-3
