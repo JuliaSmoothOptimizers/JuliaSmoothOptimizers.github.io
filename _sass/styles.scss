@@ -24,11 +24,11 @@ $link: $julia-green;
 $info: $julia-purple;
 $danger: $julia-red;
 $success: $julia-green;
-$body-background-color: $light-gray;
+$body-background-color: #fafaff;
 $footer-background-color: $light-gray;
 $footer-padding: 6rem 1.5rem 3rem;
 $julia-background: lighten($primary, 41%);
-$plaintext-background: #000;
+$plaintext-background: lighten($success, 55%);
 
 @import "../node_modules/bulma/bulma.sass";
 
@@ -80,20 +80,34 @@ p {
 pre {
   background-color: $body-background-color !important;
   margin-bottom: 0px !important;
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
   position: relative;
 }
 
 .language-julia, .julia {
   background-color: $julia-background;
   border: 2px solid $primary;
-  border-radius: 4px;
+  border-radius: 0px;
+  margin-top: 1.25em;
 }
 
 .language-plaintext, .plaintext {
-  background-color: $beige-lighter;
-  border: 3px solid black;
+  background-color: $plaintext-background;
+  border: 2px solid $success;
   border-radius: 0px;
-  margin-left: 25px;
+  margin-top: 1.25em;
+  margin-bottom: 1.25em;
+}
+
+.code-output {
+  background-color: #fff;
+  border: 2px solid #000;
+  border-left: 2px solid #000;
+  border-radius: 0px;
+  border-top: 0px;
+  margin-top: 0px;
+  margin-bottom: 1.25em;
 }
 
 .copy-button {

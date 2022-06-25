@@ -6,13 +6,20 @@ Where I try configuration things.
 
 ## rfig
 
+Text before.
+
 ```julia:./copy-jso.jl
 isdir("plots") || mkdir("plots")
 cp("_assets/jso.png", "__site/assets/something.png"; force=true)
 print("No errors")
 ```
 
+<!-- Don't add text between -->
+
 \output{./copy-jso.jl}
+
+Text after. Don't add text between input and output.
+Code inline `x = 2`. Also math $\int x$.
 
 {{ rfig something.png JSO logo - testing that rfig works }}
 
