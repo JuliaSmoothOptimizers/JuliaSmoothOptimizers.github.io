@@ -182,8 +182,9 @@ end
 end
 
 function hfun_process_tutorials_data()
-  data = readlines("_data/docs.json")
-  data[1] = "const data = " * data[1]
+  json = JSON.parsefile("_data/docs.json")
+  json = sort(json, by=x->x["date"], rev=true)
+  data = "const data = " * JSON.json(json)
   return """<script type="text/javascript">
   $(join(data))
   </script>"""
