@@ -70,6 +70,20 @@
   <span>problem</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('quadratic')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>quadratic</span>
+</button>
+~~~
+~~~<button onclick="tags_click('regularized')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>regularized</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('short')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
@@ -131,6 +145,14 @@
 </button>
 ~~~
 ~~~
+<button onclick="pkgs_click('DelimitedFiles')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>DelimitedFiles.jl</span>
+</button>
+~~~
+~~~
 <button onclick="pkgs_click('JSOSolvers')" class="button is-small is-danger is-outlined mt-2">
 <span class="icon is-small">
   <ion-icon name="cube"></ion-icon>
@@ -147,6 +169,14 @@
 </button>
 ~~~
 ~~~
+<button onclick="pkgs_click('LinearAlgebra')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>LinearAlgebra.jl</span>
+</button>
+~~~
+~~~
 <button onclick="pkgs_click('LinearOperators')" class="button is-small is-danger is-outlined mt-2">
 <span class="icon is-small">
   <ion-icon name="cube"></ion-icon>
@@ -160,6 +190,14 @@
   <ion-icon name="cube"></ion-icon>
 </span>
 <span>ManualNLPModels.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('MatrixMarket')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>MatrixMarket.jl</span>
 </button>
 ~~~
 ~~~
@@ -248,5 +286,13 @@
   <ion-icon name="cube"></ion-icon>
 </span>
 <span>SparseMatricesCOO.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('TimerOutputs')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>TimerOutputs.jl</span>
 </button>
 ~~~
