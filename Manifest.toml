@@ -31,9 +31,9 @@ version = "0.2.1"
 
 [[deps.Bibliography]]
 deps = ["BibInternal", "BibParser", "DataStructures", "Dates", "YAML"]
-git-tree-sha1 = "e9596db31cad51d81d4d6ead38459a302c1eb610"
+git-tree-sha1 = "21279e7b7e87964d3c28d4db883a474fead60c9f"
 uuid = "f1be7e48-bf82-45af-a471-ae754a193061"
-version = "0.2.17"
+version = "0.2.18"
 
 [[deps.Compat]]
 deps = ["Dates", "LinearAlgebra", "UUIDs"]
