@@ -1,7 +1,7 @@
 <nav class="navbar is-primary is-fixed-top" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="{{ website_url }}">
-      <img src="{{ website_url }}/assets/jso.png">
+    <a class="navbar-item" href="{{ isnotempty prepath }}{{ website_url }}{{ end }}">
+      <img src="{{ isnotempty prepath }}{{ website_url }}{{ end }}/assets/jso.png">
     </a>
 
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
@@ -13,41 +13,41 @@
 
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a class="navbar-item" href="{{ website_url }}/">
+      <a class="navbar-item" href="{{ isnotempty prepath }}{{ website_url }}{{ end }}/">
         Home
       </a>
 
-      <a class="navbar-item" href="{{ website_url }}/news-and-blogposts/">
+      <a class="navbar-item" href="{{ isnotempty prepath }}{{ website_url }}{{ end }}/news-and-blogposts/">
         News and Blogposts
       </a>
 
-      <a class="navbar-item" href="{{ website_url }}/tutorials/">
+      <a class="navbar-item" href="{{ isnotempty prepath }}{{ website_url }}{{ end }}/tutorials/">
         Tutorials
       </a>
 
       <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link" href="{{ website_url }}/ecosystems/index.html">
+        <a class="navbar-link" href="{{ isnotempty prepath }}{{ website_url }}{{ end }}/ecosystems/index.html">
           Ecosystems
         </a>
 
         <div class="navbar-dropdown">
-          <a class="navbar-item" href="{{ website_url }}/ecosystems/linear-algebra/">
+          <a class="navbar-item" href="{{ isnotempty prepath }}{{ website_url }}{{ end }}/ecosystems/linear-algebra/">
             Linear Algebra
           </a>
-          <a class="navbar-item" href="{{ website_url }}/ecosystems/models/">
+          <a class="navbar-item" href="{{ isnotempty prepath }}{{ website_url }}{{ end }}/ecosystems/models/">
             Models
           </a>
-          <a class="navbar-item" href="{{ website_url }}/ecosystems/solvers/">
+          <a class="navbar-item" href="{{ isnotempty prepath }}{{ website_url }}{{ end }}/ecosystems/solvers/">
             Solvers
           </a>
         </div>
       </div>
 
-      <a class="navbar-item" href="{{ website_url }}/references/">
+      <a class="navbar-item" href="{{ isnotempty prepath }}{{ website_url }}{{ end }}/references/">
         References
       </a>
 
-      <a class="navbar-item" href="{{ website_url }}/contributing/">
+      <a class="navbar-item" href="{{ isnotempty prepath }}{{ website_url }}{{ end }}/contributing/">
         Contributing
       </a>
     </div>
