@@ -9,7 +9,7 @@ The website_* must be defined for the RSS to work
 @def author = "Abel Soares Siqueira"
 
 @def mintoclevel = 2
-@def prepath     = get(ENV, "PREVIEW_FRANKLIN_PREPATH", "") # In the third argument put the prepath you normally use
+@def prepath     = "/" * get(ENV, "PREVIEW_FRANKLIN_PREPATH", "") # In the third argument put the prepath you normally use
 @def website_url = get(ENV, "PREVIEW_FRANKLIN_WEBSITE_URL", "") # Just put the website name
 
 generate_rss = true
