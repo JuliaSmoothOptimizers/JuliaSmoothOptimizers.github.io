@@ -3,24 +3,24 @@
 3. If not successful, increase ρ to either 1e-8 or 10ρ, whichever is largest, and return to step 2
 4. Otherwise, continue the algorithm</code></pre> <p>Next, for the line-search part, we use backtracking and ask that the Armijo condition be satisfied, that is find the smallest \(p \in \mathbb{N}\) such that \(t = σ^p\) satisfies</p> \[ f(x_k + td_k) < f(x_k) + \alpha t g_k^T d_k, \] <p>for \(\alpha \in (0,1)\), called the Armijo parameter.</p> <h2 id=defining_a_test_problem_with_adnlpmodels_and_accessing_its_functions_with_the_nlpmodels_api ><a href="#defining_a_test_problem_with_adnlpmodels_and_accessing_its_functions_with_the_nlpmodels_api" class=header-anchor >Defining a test problem with ADNLPModels and accessing its functions with the NLPModels API</a></h2> <p>Let&#39;s define a test problem to verify that our method is working, and let&#39;s use a classic one: Rosenbrock&#39;s function<sup id="fnref:1"><a href="#fndef:1" class=fnref >[1]</a></sup></p> \[ \min_x \ (x_1 - 1)^2 + 4 (x_2 - x_1^2)^2, \] <p>starting from point &#91;-1.2; 1.0&#93;.</p> <pre><code class=language-julia >using Plots
 gr&#40;size&#61;&#40;600,300&#41;&#41;
-contour&#40;-2:0.02:2, -0.5:0.02:1.5, &#40;x,y&#41; -&gt; &#40;x - 1&#41;^2 &#43; 4 * &#40;y - x^2&#41;^2, levels&#61;&#40;0:0.2:10&#41;.^2&#41;</code></pre> <pre><code class=language-julia >Error: SystemError: opening file &quot;__site/assets/prob1.png&quot;: No such file or
- directory</code></pre> <figure> <img class=image  src="/previews/PR66/assets/prob1.png"> <figcaption>Contour plot of objective</figcaption> </figure> <p>Notice that the solution of the problem, i.e., the point at which the function is minimum, is \(x = (1,1)^T\). This can be estimated by the plot and verified by noticing that \(f(1,1) = 0\) and \(f(x) > 0\) for any other point.</p> <p>To write this problem as a NLPModel, we have a few options, but for now let&#39;s consider the simplest one: ADNLPModels. ADNLPModels has a simple interface and it computes the derivatives using automatic differentiation from other packages.</p> <pre><code class=language-julia >using ADNLPModels
+contour&#40;-2:0.02:2, -0.5:0.02:1.5, &#40;x,y&#41; -&gt; &#40;x - 1&#41;^2 &#43; 4 * &#40;y - x^2&#41;^2, levels&#61;&#40;0:0.2:10&#41;.^2&#41;
+title&#33;&#40;&quot;Contour plot of objective&quot;&#41;</code></pre> <p><img src="creating-a-jso-compliant-solver/figures/index_1_1.png" alt="" /></p> <p>Notice that the solution of the problem, i.e., the point at which the function is minimum, is \(x = (1,1)^T\). This can be estimated by the plot and verified by noticing that \(f(1,1) = 0\) and \(f(x) > 0\) for any other point.</p> <p>To write this problem as a NLPModel, we have a few options, but for now let&#39;s consider the simplest one: ADNLPModels. ADNLPModels has a simple interface and it computes the derivatives using automatic differentiation from other packages.</p> <pre><code class=language-julia >using ADNLPModels
 
 nlp &#61; ADNLPModel&#40;
   x -&gt; &#40;x&#91;1&#93; - 1&#41;^2 &#43; 4 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2, # function
   &#91;-1.2; 1.0&#93; # starting point
 &#41;</code></pre> <pre><code class=language-julia >ADNLPModel - Model with automatic differentiation backend ADNLPModels.Forwa
-rdDiffAD&#123;ForwardDiff.GradientConfig&#123;ForwardDiff.Tag&#123;Main.##WeaveSandBox#291
-.var&quot;#3#4&quot;, Float64&#125;, Float64, 2, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;M
-ain.##WeaveSandBox#291.var&quot;#3#4&quot;, Float64&#125;, Float64, 2&#125;&#125;&#125;&#125;&#40;3, 0, ForwardDif
-f.GradientConfig&#123;ForwardDiff.Tag&#123;Main.##WeaveSandBox#291.var&quot;#3#4&quot;, Float64
-&#125;, Float64, 2, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;Main.##WeaveSandBox#
-291.var&quot;#3#4&quot;, Float64&#125;, Float64, 2&#125;&#125;&#125;&#40;&#40;Partials&#40;1.0, 0.0&#41;, Partials&#40;0.0, 1
-.0&#41;&#41;, ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;Main.##WeaveSandBox#291.var&quot;#3#4&quot;, F
-loat64&#125;, Float64, 2&#125;&#91;Dual&#123;ForwardDiff.Tag&#123;Main.##WeaveSandBox#291.var&quot;#3#4&quot;
-, Float64&#125;&#125;&#40;0.0,6.95206026573646e-310,6.95206025708912e-310&#41;, Dual&#123;ForwardD
-iff.Tag&#123;Main.##WeaveSandBox#291.var&quot;#3#4&quot;, Float64&#125;&#125;&#40;0.0,6.95206026573646e-
-310,6.95206025708912e-310&#41;&#93;&#41;&#41;
+rdDiffAD&#123;ForwardDiff.GradientConfig&#123;ForwardDiff.Tag&#123;Main.var&quot;##WeaveSandBox
+#312&quot;.var&quot;#3#4&quot;, Float64&#125;, Float64, 2, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.
+Tag&#123;Main.var&quot;##WeaveSandBox#312&quot;.var&quot;#3#4&quot;, Float64&#125;, Float64, 2&#125;&#125;&#125;&#125;&#40;3, 0, 
+ForwardDiff.GradientConfig&#123;ForwardDiff.Tag&#123;Main.var&quot;##WeaveSandBox#312&quot;.var
+&quot;#3#4&quot;, Float64&#125;, Float64, 2, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;Main.
+var&quot;##WeaveSandBox#312&quot;.var&quot;#3#4&quot;, Float64&#125;, Float64, 2&#125;&#125;&#125;&#40;&#40;Partials&#40;1.0, 0
+.0&#41;, Partials&#40;0.0, 1.0&#41;&#41;, ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;Main.var&quot;##Weave
+SandBox#312&quot;.var&quot;#3#4&quot;, Float64&#125;, Float64, 2&#125;&#91;Dual&#123;ForwardDiff.Tag&#123;Main.var
+&quot;##WeaveSandBox#312&quot;.var&quot;#3#4&quot;, Float64&#125;&#125;&#40;0.0,5.0e-324,0.0&#41;, Dual&#123;ForwardDi
+ff.Tag&#123;Main.var&quot;##WeaveSandBox#312&quot;.var&quot;#3#4&quot;, Float64&#125;&#125;&#40;1.0e-323,5.0e-324,
+5.0e-324&#41;&#93;&#41;&#41;
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
 ⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -109,8 +109,8 @@ while &#33;issuccess&#40;factor&#41;
 end
 d &#61; factor \ -grad&#40;nlp, x&#41;</code></pre>
 <pre><code class=language-julia >2-element Vector&#123;Float64&#125;:
-  0.4867256637168144
- -0.7281415929203545</code></pre>
+  0.48672566371681447
+ -0.7281415929203547</code></pre>
 <p>The second part of our method is the step length computation. Let&#39;s use <code>α &#61; 1e-2</code> for our Armijo parameter.</p>
 <pre><code class=language-julia >α &#61; 1e-2
 t &#61; 1.0
@@ -288,7 +288,7 @@ print&#40;output&#41;</code></pre>
   dual feasibility: 4.018046284781729e-9
   solution: &#91;0.9999999986742657  0.9999999970013461&#93;
   iterations: 18
-  elapsed time: 7.295608520507812e-5</code></pre>
+  elapsed time: 5.1975250244140625e-5</code></pre>
 <p>And to compare both solvers, we need a collection of problems. Let&#39;s just create one manually for now.</p>
 <pre><code class=language-julia >problems &#61; &#91;
   ADNLPModel&#40;x -&gt; x&#91;1&#93;^2 &#43; 4 * x&#91;2&#93;^2, ones&#40;2&#41;&#41;,
@@ -318,10 +318,10 @@ pretty_stats&#40;stats&#91;:newton&#93;&#91;&#33;, cols&#93;&#41;</code></pre>
 <pre><code class=language-julia >┌─────────┬─────────────┬───────────┬──────────────┬────────┐
 │    name │      status │ objective │ elapsed_time │   iter │
 ├─────────┼─────────────┼───────────┼──────────────┼────────┤
-│ Generic │ first_order │  2.47e-31 │     5.62e-01 │      1 │
-│ Generic │ first_order │  3.74e-21 │     6.73e-01 │     21 │
-│ Generic │    max_iter │ -8.36e&#43;00 │     5.62e-01 │    100 │
-│ Generic │ first_order │  1.43e&#43;00 │     6.10e-01 │      5 │
+│ Generic │ first_order │  2.47e-31 │     4.72e-01 │      1 │
+│ Generic │ first_order │  3.74e-21 │     5.88e-01 │     21 │
+│ Generic │    max_iter │ -8.36e&#43;00 │     4.65e-01 │    100 │
+│ Generic │ first_order │  1.43e&#43;00 │     4.83e-01 │      5 │
 └─────────┴─────────────┴───────────┴──────────────┴────────┘</code></pre>
 <p>We can also create a similar table in .tex format, using something like</p>
 <pre><code class=language-julia >open&#40;&quot;newton.tex&quot;, &quot;w&quot;&#41; do io
@@ -332,23 +332,11 @@ end</code></pre>
 <p>Lastly, for comparison of the methods, it is costumary to show a Performance Profile.<sup id="fnref:2"><a href="#fndef:2" class=fnref >[2]</a></sup> Internally we use the package BenchmarkProfiles, though using <code>performance_profile</code> from SolverBenchmark will actually work directly with the output of <code>bmark_solvers</code>.</p>
 <pre><code class=language-julia >using Plots
 performance_profile&#40;stats, df -&gt; df.elapsed_time&#41;</code></pre>
-<pre><code class=language-julia >Error: SystemError: opening file &quot;__site/assets/perfprof.png&quot;: No such file
- or directory</code></pre>
-<figure>
-  <img class=image  src="/previews/PR66/assets/perfprof.png">
-  <figcaption>Performance profile</figcaption>
-</figure>
-
+<p><img src="creating-a-jso-compliant-solver/figures/index_26_1.png" alt="" /></p>
 <p>Notice how the profile indicate that all problems were solved by <code>newton</code>, although it is clearly not the case. That happens because our cost function for the performance profile was only the elapsed time. A better approach would be something like.</p>
 <pre><code class=language-julia >cost&#40;df&#41; &#61; &#40;df.status .&#33;&#61; :first_order&#41; * Inf &#43; df.elapsed_time
 performance_profile&#40;stats, cost&#41;</code></pre>
-<pre><code class=language-julia >Error: SystemError: opening file &quot;__site/assets/perfprof2.png&quot;: No such fil
-e or directory</code></pre>
-<figure>
-  <img class=image  src="/previews/PR66/assets/perfprof2.png">
-  <figcaption>Performance profile</figcaption>
-</figure>
-
+<p><img src="creating-a-jso-compliant-solver/figures/index_27_1.png" alt="" /></p>
 <h2 id=improving_the_solver_more ><a href="#improving_the_solver_more" class=header-anchor >Improving the solver more</a></h2>
 <p>Although we did implement the proposed method, we could improve the code a little bit. The following function is an improvement of the code in a few points:</p>
 <ul>
@@ -437,13 +425,7 @@ end</code></pre>
 stats &#61; bmark_solvers&#40;solvers, problems&#41;
 cost&#40;df&#41; &#61; &#40;df.status .&#33;&#61; :first_order&#41; * Inf &#43; df.elapsed_time
 performance_profile&#40;stats, cost&#41;</code></pre>
-<pre><code class=language-julia >Error: SystemError: opening file &quot;__site/assets/perfprof3.png&quot;: No such fil
-e or directory</code></pre>
-<figure>
-  <img class=image  src="/previews/PR66/assets/perfprof3.png">
-  <figcaption>Performance profile</figcaption>
-</figure>
-
+<p><img src="creating-a-jso-compliant-solver/figures/index_29_1.png" alt="" /></p>
 <p><table class=fndef  id="fndef:1">
     <tr>
         <td class=fndef-backref ><a href="#fnref:1">[1]</a>
