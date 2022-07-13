@@ -36,17 +36,17 @@ nlp = ADNLPModel(
 
 ```
 ADNLPModel - Model with automatic differentiation backend ADNLPModels.Forwa
-rdDiffAD{ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.##WeaveSandBox#291
-.var"#1#3", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{M
-ain.##WeaveSandBox#291.var"#1#3", Float64}, Float64, 2}}}}(3, 2, ForwardDif
-f.GradientConfig{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3", Float64
-}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#
-291.var"#1#3", Float64}, Float64, 2}}}((Partials(1.0, 0.0), Partials(0.0, 1
-.0)), ForwardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3", F
-loat64}, Float64, 2}[Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3"
-, Float64}}(6.93684204041936e-310,6.93684204042094e-310,6.9368420404241e-31
-0), Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3", Float64}}(6.936
-8420404257e-310,6.93684204046046e-310,6.93684204046837e-310)]))
+rdDiffAD{ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.var"##WeaveSandBox
+#312".var"#1#3", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.
+Tag{Main.var"##WeaveSandBox#312".var"#1#3", Float64}, Float64, 2}}}}(3, 2, 
+ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.var"##WeaveSandBox#312".var
+"#1#3", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{Main.
+var"##WeaveSandBox#312".var"#1#3", Float64}, Float64, 2}}}((Partials(1.0, 0
+.0), Partials(0.0, 1.0)), ForwardDiff.Dual{ForwardDiff.Tag{Main.var"##Weave
+SandBox#312".var"#1#3", Float64}, Float64, 2}[Dual{ForwardDiff.Tag{Main.var
+"##WeaveSandBox#312".var"#1#3", Float64}}(5.0e-324,5.0e-324,6.9269887278572
+6e-310), Dual{ForwardDiff.Tag{Main.var"##WeaveSandBox#312".var"#1#3", Float
+64}}(1.5e-323,5.0e-324,6.92698872674423e-310)]))
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ████████████
 ████████ 1     
@@ -168,8 +168,8 @@ Number of inequality constraint evaluations          = 8
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 8
 Number of Lagrangian Hessian evaluations             = 7
-Total CPU secs in IPOPT (w/o function evaluations)   =      3.558
-Total CPU secs in NLP function evaluations           =      1.455
+Total CPU secs in IPOPT (w/o function evaluations)   =      2.984
+Total CPU secs in NLP function evaluations           =      1.162
 
 EXIT: Optimal Solution Found.
 "Execution stats: first-order stationary"
@@ -211,9 +211,9 @@ Generic Execution stats
   multipliers_L: [0.0  4.000000006828642]
   multipliers_U: [5.000000053347668  5.0084053323090786e-9]
   iterations: 7
-  elapsed time: 0.005
+  elapsed time: 0.004
   solver specific:
-    real_time: 0.005313873291015625
+    real_time: 0.004125833511352539
     internal_msg: :Solve_Succeeded
 ```
 
