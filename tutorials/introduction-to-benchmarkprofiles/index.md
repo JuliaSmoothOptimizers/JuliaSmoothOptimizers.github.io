@@ -21,57 +21,33 @@ Random.seed!(0)
 
 T = 10 * rand(25, 3)
 performance_profile(PlotsBackend(), T, ["Solver 1", "Solver 2", "Solver 3"])
-png(joinpath("__site/assets", "pp1")) # hide
 ```
 
-```
-Error: SystemError: opening file "__site/assets/pp1.png": No such file or d
-irectory
-```
+![](introduction-to-benchmarkprofiles/figures/index_1_1.png)
 
 
-
-
-
-{{ rfig pp1.png }}
 
 A negative or infinite cost indicates a failure:
 
 ```julia
 T[2:20,1] .= Inf
 performance_profile(PlotsBackend(), T, ["Solver 1", "Solver 2", "Solver 3"])
-png(joinpath("__site/assets", "pp2")) # hide
 ```
 
-```
-Error: SystemError: opening file "__site/assets/pp2.png": No such file or d
-irectory
-```
+![](introduction-to-benchmarkprofiles/figures/index_2_1.png)
 
 
-
-
-
-{{ rfig pp2.png }}
 
 Here's an example with a strongly superior solver.
 
 ```julia
 T[:,2] = 100T[:,3]
 performance_profile(PlotsBackend(), T, ["Solver 1", "Solver 2", "Solver 3"])
-png(joinpath("__site/assets", "pp3")) # hide
 ```
 
-```
-Error: SystemError: opening file "__site/assets/pp3.png": No such file or d
-irectory
-```
+![](introduction-to-benchmarkprofiles/figures/index_3_1.png)
 
 
-
-
-
-{{ rfig pp3.png }}
 
 `Plots` arguments can be passed to `performance_profile()` or used as they normally would be with `Plots`.
 In the example below, we pass `xlabel` to `performance_profile` and set `ylabel` through `ylabel!`.
@@ -83,18 +59,6 @@ T = 10 * rand(25, 3)
 performance_profile(PlotsBackend(), T, ["Solver 1", "Solver 2", "Solver 3"],
       lw=2, c=:black, linestyles=[:solid, :dash, :dot], xlabel="τ")
 ylabel!("ρ(τ)")
-png(joinpath("__site/assets", "pp4")) # hide
 ```
 
-```
-Error: SystemError: opening file "__site/assets/pp4.png": No such file or d
-irectory
-```
-
-
-
-
-
-{{ rfig pp4.png }}
-
-
+![](introduction-to-benchmarkprofiles/figures/index_4_1.png)

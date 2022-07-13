@@ -60,19 +60,12 @@ starting from point [-1.2; 1.0].
 using Plots
 gr(size=(600,300))
 contour(-2:0.02:2, -0.5:0.02:1.5, (x,y) -> (x - 1)^2 + 4 * (y - x^2)^2, levels=(0:0.2:10).^2)
-png(joinpath("__site/assets", "prob1")) # hide
+title!("Contour plot of objective")
 ```
 
-```
-Error: SystemError: opening file "__site/assets/prob1.png": No such file or
- directory
-```
+![](creating-a-jso-compliant-solver/figures/index_1_1.png)
 
 
-
-
-
-{{ rfig prob1.png Contour plot of objective }}
 
 Notice that the solution of the problem, i.e., the point at which the function is minimum, is $x = (1,1)^T$.
 This can be estimated by the plot and verified by noticing that $f(1,1) = 0$ and $f(x) > 0$ for any other point.
@@ -91,17 +84,17 @@ nlp = ADNLPModel(
 
 ```
 ADNLPModel - Model with automatic differentiation backend ADNLPModels.Forwa
-rdDiffAD{ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.##WeaveSandBox#291
-.var"#3#4", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{M
-ain.##WeaveSandBox#291.var"#3#4", Float64}, Float64, 2}}}}(3, 0, ForwardDif
-f.GradientConfig{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#3#4", Float64
-}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#
-291.var"#3#4", Float64}, Float64, 2}}}((Partials(1.0, 0.0), Partials(0.0, 1
-.0)), ForwardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#3#4", F
-loat64}, Float64, 2}[Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#3#4"
-, Float64}}(0.0,6.95206026573646e-310,6.95206025708912e-310), Dual{ForwardD
-iff.Tag{Main.##WeaveSandBox#291.var"#3#4", Float64}}(0.0,6.95206026573646e-
-310,6.95206025708912e-310)]))
+rdDiffAD{ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.var"##WeaveSandBox
+#312".var"#3#4", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.
+Tag{Main.var"##WeaveSandBox#312".var"#3#4", Float64}, Float64, 2}}}}(3, 0, 
+ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.var"##WeaveSandBox#312".var
+"#3#4", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{Main.
+var"##WeaveSandBox#312".var"#3#4", Float64}, Float64, 2}}}((Partials(1.0, 0
+.0), Partials(0.0, 1.0)), ForwardDiff.Dual{ForwardDiff.Tag{Main.var"##Weave
+SandBox#312".var"#3#4", Float64}, Float64, 2}[Dual{ForwardDiff.Tag{Main.var
+"##WeaveSandBox#312".var"#3#4", Float64}}(0.0,5.0e-324,0.0), Dual{ForwardDi
+ff.Tag{Main.var"##WeaveSandBox#312".var"#3#4", Float64}}(1.0e-323,5.0e-324,
+5.0e-324)]))
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
 ⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -288,8 +281,8 @@ d = factor \ -grad(nlp, x)
 
 ```
 2-element Vector{Float64}:
-  0.4867256637168144
- -0.7281415929203545
+  0.48672566371681447
+ -0.7281415929203547
 ```
 
 
@@ -632,7 +625,7 @@ Generic Execution stats
   dual feasibility: 4.018046284781729e-9
   solution: [0.9999999986742657  0.9999999970013461]
   iterations: 18
-  elapsed time: 7.295608520507812e-5
+  elapsed time: 5.1975250244140625e-5
 ```
 
 
@@ -703,10 +696,10 @@ pretty_stats(stats[:newton][!, cols])
 ┌─────────┬─────────────┬───────────┬──────────────┬────────┐
 │    name │      status │ objective │ elapsed_time │   iter │
 ├─────────┼─────────────┼───────────┼──────────────┼────────┤
-│ Generic │ first_order │  2.47e-31 │     5.62e-01 │      1 │
-│ Generic │ first_order │  3.74e-21 │     6.73e-01 │     21 │
-│ Generic │    max_iter │ -8.36e+00 │     5.62e-01 │    100 │
-│ Generic │ first_order │  1.43e+00 │     6.10e-01 │      5 │
+│ Generic │ first_order │  2.47e-31 │     4.72e-01 │      1 │
+│ Generic │ first_order │  3.74e-21 │     5.88e-01 │     21 │
+│ Generic │    max_iter │ -8.36e+00 │     4.65e-01 │    100 │
+│ Generic │ first_order │  1.43e+00 │     4.83e-01 │      5 │
 └─────────┴─────────────┴───────────┴──────────────┴────────┘
 ```
 
@@ -737,38 +730,22 @@ Internally we use the package BenchmarkProfiles, though using `performance_profi
 ```julia
 using Plots
 performance_profile(stats, df -> df.elapsed_time)
-png(joinpath("__site/assets", "perfprof")) # hide
 ```
 
-```
-Error: SystemError: opening file "__site/assets/perfprof.png": No such file
- or directory
-```
+![](creating-a-jso-compliant-solver/figures/index_26_1.png)
 
 
-
-
-
-{{ rfig perfprof.png Performance profile }}
 
 Notice how the profile indicate that all problems were solved by `newton`, although it is clearly not the case. That happens because our cost function for the performance profile was only the elapsed time. A better approach would be something like.
 
 ```julia
 cost(df) = (df.status .!= :first_order) * Inf + df.elapsed_time
 performance_profile(stats, cost)
-png(joinpath("__site/assets", "perfprof2")) # hide
 ```
 
-```
-Error: SystemError: opening file "__site/assets/perfprof2.png": No such fil
-e or directory
-```
+![](creating-a-jso-compliant-solver/figures/index_27_1.png)
 
 
-
-
-
-{{ rfig perfprof2.png Performance profile }}
 
 ## Improving the solver more
 
@@ -865,19 +842,11 @@ solvers = Dict(:newton => newton2, :lbfgs => lbfgs)
 stats = bmark_solvers(solvers, problems)
 cost(df) = (df.status .!= :first_order) * Inf + df.elapsed_time
 performance_profile(stats, cost)
-png(joinpath("__site/assets", "perfprof3")) # hide
 ```
 
-```
-Error: SystemError: opening file "__site/assets/perfprof3.png": No such fil
-e or directory
-```
+![](creating-a-jso-compliant-solver/figures/index_29_1.png)
 
 
-
-
-
-{{ rfig perfprof3.png Performance profile }}
 
 [^1]: Technically, it can be defined more generally, but the choice we made has better behaved values. [Wikipedia page: Rosenbrock page, access on 2021/Mar/17.](https://en.wikipedia.org/wiki/Rosenbrock_function#:~:text=In%20mathematical%20optimization%2C%20the%20Rosenbrock,valley%20or%20Rosenbrock%27s%20banana%20function)
 

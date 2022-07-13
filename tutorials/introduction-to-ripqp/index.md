@@ -95,7 +95,7 @@ println(stats)
 ```
 Generic Execution stats
   status: first-order stationary
-  objective value: 1.1249999997850777
+  objective value: 1.124999999785076
   primal feasibility: 6.138085685914678e-11
   dual feasibility: 3.864633058014988e-10
   solution: [5.6676609869371275e-11  1.5000000000152136  4.704246989775501e
@@ -105,10 +105,10 @@ Generic Execution stats
 ]
   multipliers_U: [0.0  0.0  0.0]
   iterations: 16
-  elapsed time: 12.477302074432373
+  elapsed time: 10.801410913467407
   solver specific:
     nvar_slack: 3
-    pdd: 6.42239516535383e-10
+    pdd: 6.422386806027528e-10
     absolute_iter_cnt: 4
 ```
 
@@ -165,8 +165,8 @@ pddH = stats.solver_specific[:pddH]
  2.0425814644358002
  0.6845391618145797
  0.0006472337157159482
- 6.426950908481628e-7
- 6.42239516535383e-10
+ 6.426950916840951e-7
+ 6.422386806027528e-10
 ```
 
 
@@ -237,7 +237,7 @@ rhs_cc =  readdlm("test_rhs_iter4_cc.rhs", Float64)[:]
 5-element Vector{Float64}:
  -7.65907083541235e-9
   3.293857956802506e-15
-  1.4101961075442407e-7
+  1.4101961075442412e-7
   0.0
   0.0
 ```
@@ -255,7 +255,7 @@ stats1.elapsed_time
 ```
 
 ```
-0.20406508445739746
+0.2061910629272461
 ```
 
 
@@ -280,28 +280,28 @@ show(RipQP.to, sortby = :firstexec)
       
                                ───────────────────────   ──────────────────
 ──────
-       Tot / % measured:            2.56s /  48.3%            207MiB /  48.
-4%    
+       Tot / % measured:            2.42s /  46.9%            178MiB /  60.
+1%    
 
  Section               ncalls     time    %tot     avg     alloc    %tot   
    avg
  ──────────────────────────────────────────────────────────────────────────
 ──────
- ripqp                      1    1.24s  100.0%   1.24s    100MiB  100.0%   
-100MiB
-   ~ripqp~                  1    1.24s   99.9%   1.24s    100MiB   99.9%   
-100MiB
-   allocate workspace       1   83.7μs    0.0%  83.7μs   5.73KiB    0.0%  5
-.73KiB
-   init solver              1   56.3μs    0.0%  56.3μs   3.93KiB    0.0%  3
-.93KiB
-   display                  5    554μs    0.0%   111μs   51.0KiB    0.0%  1
-0.2KiB
-   update solver            4   20.6μs    0.0%  5.15μs      960B    0.0%   
+ ripqp                      1    1.13s  100.0%   1.13s    107MiB  100.0%   
+107MiB
+   ~ripqp~                  1    1.13s   99.9%   1.13s    107MiB   99.9%   
+107MiB
+   allocate workspace       1   62.0μs    0.0%  62.0μs   5.55KiB    0.0%  5
+.55KiB
+   init solver              1   43.4μs    0.0%  43.4μs   3.80KiB    0.0%  3
+.80KiB
+   display                  5    448μs    0.0%  89.7μs   53.3KiB    0.0%  1
+0.7KiB
+   update solver            4   20.0μs    0.0%  5.01μs      960B    0.0%   
   240B
-   solver aff               4   1.90μs    0.0%   475ns     0.00B    0.0%   
+   solver aff               4   2.08μs    0.0%   520ns     0.00B    0.0%   
  0.00B
-   solver cc                4   1.70μs    0.0%   425ns     0.00B    0.0%   
+   solver cc                4   1.09μs    0.0%   273ns     0.00B    0.0%   
  0.00B
  ──────────────────────────────────────────────────────────────────────────
 ──────
