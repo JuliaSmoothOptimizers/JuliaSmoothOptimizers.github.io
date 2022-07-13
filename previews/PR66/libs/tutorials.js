@@ -1,6 +1,6 @@
 const tutorialInput = document.getElementById('tutorial-input');
 const tutorialsOutput = document.getElementById('tutorials-output');
-const prepath = document.getElementById('prepath').textContent;
+const prepath = '/' + document.getElementById('prepath').textContent;
 
 active_tag = '';
 
@@ -22,9 +22,7 @@ function format_tutorial(t) {
     pkgs += format_pkg(pkg)
   }
 
-  link = t.link[0] == '/' ? prepath + t.link : t.link
-  console.log(link)
-  console.log(t.link)
+  link = t.link[0] == '/' ? prepath + t.link.slice(1) : t.link
   return `<div class="news-item">
     <a href="${link}">
       <span class="is-size-4 has-text-primary">${t.title}</span>
