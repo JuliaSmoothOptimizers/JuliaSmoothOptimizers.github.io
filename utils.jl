@@ -1,15 +1,5 @@
 using Pkg, Markdown, JSON
 
-function installed()
-  deps = Pkg.dependencies()
-  installs = Dict{String, Any}()
-  for (_, dep) in deps
-    dep.is_direct_dep || continue
-    installs[dep.name] = dep.version
-  end
-  return installs
-end
-
 const jso_pkgs = [
   "ADNLPModels",
   "AMD",
@@ -88,11 +78,10 @@ function hfun_list_versions()
     end
   end
   pkgs = unique(sort(pkgs))
-  dict = installed()
   out = ""
   for pkg in pkgs
-    if haskey(dict, pkg)
-      out *= badge(pkg, dict[pkg]) * "\n"
+    if pkg in jso_pkgs
+      out *= badge(pkg, "JSO") * "\n"
     elseif pkg in readdir(Base.Sys.STDLIB)
       out *= badge(pkg, "STDLIB") * "\n"
     end
@@ -101,12 +90,12 @@ function hfun_list_versions()
 end
 
 function aux_latest()
-  data = JSON.parsefile("_data/docs.json")
+  data = JSON.parsefile("_data/tutorials.json")
   data = sort(data, by=x->x["date"], rev=true)
   data[1]
 end
 
-hfun_latest_link() = "https://jso-docs.github.io/" * aux_latest()["repo"]
+hfun_latest_link()  = aux_latest()["link"]
 hfun_latest_short() = aux_latest()["short"]
 hfun_latest_title() = aux_latest()["title"]
 
@@ -188,7 +177,7 @@ end
 end
 
 function hfun_process_tutorials_data()
-  json = JSON.parsefile("_data/docs.json")
+  json = JSON.parsefile("_data/tutorials.json")
   json = sort(json, by=x->x["date"], rev=true)
   data = "const data = " * JSON.json(json)
   return """<script type="text/javascript">

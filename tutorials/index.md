@@ -16,7 +16,7 @@ This is a curated list of tutorials.
 ```julia:./list-tags.jl
 #hideall
 using JSON
-data = JSON.parsefile("_data/docs.json")
+data = JSON.parsefile("_data/tutorials.json")
 tags = String[]
 pkgs = String[]
 for entry in data

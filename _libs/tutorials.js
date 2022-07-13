@@ -21,9 +21,8 @@ function format_tutorial(t) {
     pkgs += format_pkg(pkg)
   }
 
-  link = `https://jso-docs.github.io/${t.repo}`
   return `<div class="news-item">
-    <a href="${link}">
+    <a href="${t.link}">
       <span class="is-size-4 has-text-primary">${t.title}</span>
       <br>
       <p class="has-text-grey-dark is-size-6">${t.short}</p>
