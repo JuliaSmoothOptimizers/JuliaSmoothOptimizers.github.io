@@ -73,6 +73,12 @@ end
 
 function hfun_list_versions()
   lt_file = locvar("fd_rpath")[1:end-2] * "jl"
+  if !isfile(lt_file)
+    lt_file = lt_file[1:end-2] * "md"
+  end
+  if !isfile(lt_file)
+    error("$lt_file does not exist")
+  end
   lines = readlines(lt_file)
   pkgs = String[]
   for line in lines
