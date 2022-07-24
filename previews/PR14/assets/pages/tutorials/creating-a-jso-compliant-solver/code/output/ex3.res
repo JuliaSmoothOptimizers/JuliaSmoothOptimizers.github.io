@@ -1,1 +1,0 @@
-(2, 0, [-Inf, -Inf], [Inf, Inf], Float64[], Float64[], [-1.2, 1.0])

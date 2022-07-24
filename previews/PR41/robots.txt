@@ -1,4 +1,0 @@
-Sitemap: https://focused-almeida-6fb7df.netlify.app/previews/PR41/sitemap.xml
-
-User-agent: *
-Disallow:

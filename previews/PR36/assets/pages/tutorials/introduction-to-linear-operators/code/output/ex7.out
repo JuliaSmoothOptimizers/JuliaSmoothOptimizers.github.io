@@ -1,2 +1,0 @@
-eltype(dft)         = Float64
-eltype(v)           = Float64

@@ -1,4 +1,0 @@
-Sitemap: https://jso-preview.netlify.app/previews/PR45/sitemap.xml
-
-User-agent: *
-Disallow:
