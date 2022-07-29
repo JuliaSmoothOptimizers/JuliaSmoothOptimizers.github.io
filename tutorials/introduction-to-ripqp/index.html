@@ -18,7 +18,7 @@ QM &#61; QuadraticModel&#40;
   uvar&#61;u,
   c0&#61;0.,
   name&#61;&quot;QM&quot;
-&#41;</code></pre> <pre><code class=language-julia >QuadraticModels.QuadraticModel&#123;Float64, Vector&#123;Float64&#125;, SparseMatricesCOO.
+&#41;</code></pre> <pre><code class=language-plaintext >QuadraticModels.QuadraticModel&#123;Float64, Vector&#123;Float64&#125;, SparseMatricesCOO.
 SparseMatrixCOO&#123;Float64, Int64&#125;, SparseMatricesCOO.SparseMatrixCOO&#123;Float64,
  Int64&#125;&#125;
   Problem name: QM
@@ -59,9 +59,9 @@ rsity&#41;   4
            jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
 ⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre> <p>Once your <code>QuadraticModel</code> is loaded, you can simply solve it RipQP:</p> <pre><code class=language-julia >using RipQP
 stats &#61; ripqp&#40;QM&#41;
-println&#40;stats&#41;</code></pre> <pre><code class=language-julia >Generic Execution stats
+println&#40;stats&#41;</code></pre> <pre><code class=language-plaintext >Generic Execution stats
   status: first-order stationary
-  objective value: 1.124999999785076
+  objective value: 1.1249999997850777
   primal feasibility: 6.138085685914678e-11
   dual feasibility: 3.864633058014988e-10
   solution: &#91;5.6676609869371275e-11  1.5000000000152136  4.704246989775501e
@@ -71,54 +71,54 @@ println&#40;stats&#41;</code></pre> <pre><code class=language-julia >Generic Exe
 &#93;
   multipliers_U: &#91;0.0  0.0  0.0&#93;
   iterations: 16
-  elapsed time: 10.801410913467407
+  elapsed time: 16.001592874526978
   solver specific:
     nvar_slack: 3
-    pdd: 6.422386806027528e-10
+    pdd: 6.42239516535383e-10
     absolute_iter_cnt: 4</code></pre> <p>The <code>stats</code> output is a <a href="https://juliasmoothoptimizers.github.io/SolverCore.jl/dev/reference/#SolverCore.GenericExecutionStats">GenericExecutionStats</a>.</p> <p>It is also possible to use the package <a href="https://github.com/JuliaSmoothOptimizers/QPSReader.jl">QPSReader.jl</a> in order to read convex quadratic problems in MPS or SIF formats: &#40;download <a href="https://raw.githubusercontent.com/JuliaSmoothOptimizers/RipQP.jl/main/test/QAFIRO.SIF">QAFIRO</a>&#41;</p> <pre><code class=language-julia >using QPSReader, QuadraticModels
-QM &#61; QuadraticModel&#40;readqps&#40;&quot;QAFIRO.SIF&quot;&#41;&#41;</code></pre> <pre><code class=language-julia >Error: SystemError: opening file &quot;QAFIRO.SIF&quot;: No such file or directory</code></pre>
+QM &#61; QuadraticModel&#40;readqps&#40;&quot;QAFIRO.SIF&quot;&#41;&#41;</code></pre> <pre><code class=language-plaintext >Error: SystemError: opening file &quot;QAFIRO.SIF&quot;: No such file or directory</code></pre>
 <h2 id=logging ><a href="#logging" class=header-anchor >Logging</a></h2>
 <p>RipQP displays some logs at each iterate.</p>
 <p>You can deactivate logging with</p>
 <pre><code class=language-julia >stats &#61; ripqp&#40;QM, display &#61; false&#41;</code></pre>
-<pre><code class=language-julia >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
 <p>It is also possible to get a history of several quantities such as the primal and dual residuals and the relative primal-dual gap. These quantites are available in the dictionary <code>solver_specific</code> of the <code>stats</code>.</p>
 <pre><code class=language-julia >stats &#61; ripqp&#40;QM, history &#61; true&#41;
 pddH &#61; stats.solver_specific&#91;:pddH&#93;</code></pre>
-<pre><code class=language-julia >5-element Vector&#123;Float64&#125;:
+<pre><code class=language-plaintext >5-element Vector&#123;Float64&#125;:
  2.0425814644358002
  0.6845391618145797
  0.0006472337157159482
- 6.426950916840951e-7
- 6.422386806027528e-10</code></pre>
+ 6.426950908481628e-7
+ 6.42239516535383e-10</code></pre>
 <h2 id=change_configuration_and_tolerances ><a href="#change_configuration_and_tolerances" class=header-anchor >Change configuration and tolerances</a></h2>
 <p>You can use <code>RipQP</code> without scaling with:</p>
 <pre><code class=language-julia >stats &#61; ripqp&#40;QM, scaling &#61; false&#41;</code></pre>
-<pre><code class=language-julia >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
 <p>You can also change the <a href="https://juliasmoothoptimizers.github.io/RipQP.jl/stable/API/#RipQP.InputTol"><code>RipQP.InputTol</code></a> type to change the tolerances for the stopping criteria:</p>
 <pre><code class=language-julia >stats &#61; ripqp&#40;QM, itol &#61; InputTol&#40;max_iter &#61; 100, ϵ_rb &#61; 1e-4&#41;, scaling &#61; false&#41;</code></pre>
-<pre><code class=language-julia >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
 <h2 id=save_the_interior-point_system ><a href="#save_the_interior-point_system" class=header-anchor >Save the Interior-Point system</a></h2>
 <p>At every iteration, RipQP solves two linear systems with the default Predictor-Corrector method &#40;the affine system and the corrector-centering system&#41;, or one linear system with the Infeasible Path-Following method.</p>
 <p>To save these systems, you can use:</p>
 <pre><code class=language-julia >w &#61; SystemWrite&#40;write &#61; true, name&#61;&quot;test_&quot;, kfirst &#61; 4, kgap&#61;3&#41;
 stats1 &#61; ripqp&#40;QM, w &#61; w&#41;</code></pre>
-<pre><code class=language-julia >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
 <p>This will save one matrix and the associated two right hand sides of the PC method every three iterations starting at iteration four. Then, you can read the saved files with:</p>
 <pre><code class=language-julia >using DelimitedFiles, MatrixMarket
 K &#61; MatrixMarket.mmread&#40;&quot;test_K_iter4.mtx&quot;&#41;
 rhs_aff &#61; readdlm&#40;&quot;test_rhs_iter4_aff.rhs&quot;, Float64&#41;&#91;:&#93;
 rhs_cc &#61;  readdlm&#40;&quot;test_rhs_iter4_cc.rhs&quot;, Float64&#41;&#91;:&#93;</code></pre>
-<pre><code class=language-julia >5-element Vector&#123;Float64&#125;:
+<pre><code class=language-plaintext >5-element Vector&#123;Float64&#125;:
  -7.65907083541235e-9
   3.293857956802506e-15
-  1.4101961075442412e-7
+  1.4101961075442407e-7
   0.0
   0.0</code></pre>
 <h2 id=timers ><a href="#timers" class=header-anchor >Timers</a></h2>
 <p>You can see the elapsed time with:</p>
 <pre><code class=language-julia >stats1.elapsed_time</code></pre>
-<pre><code class=language-julia >0.2061910629272461</code></pre>
+<pre><code class=language-plaintext >0.2457740306854248</code></pre>
 <p>For more advance timers you can use <a href="https://github.com/KristofferC/TimerOutputs.jl">TimerOutputs.jl</a>:</p>
 <pre><code class=language-julia >using TimerOutputs
 TimerOutputs.enable_debug_timings&#40;RipQP&#41;
@@ -126,34 +126,34 @@ reset_timer&#33;&#40;RipQP.to&#41;
 stats &#61; ripqp&#40;QM&#41;
 TimerOutputs.complement&#33;&#40;RipQP.to&#41; # print complement of timed sections
 show&#40;RipQP.to, sortby &#61; :firstexec&#41;</code></pre>
-<pre><code class=language-julia >──────────────────────────────────────────────────────────────────────────
+<pre><code class=language-plaintext >──────────────────────────────────────────────────────────────────────────
 ──────
                                         Time                    Allocations
       
                                ───────────────────────   ──────────────────
 ──────
-       Tot / &#37; measured:            2.42s /  46.9&#37;            178MiB /  60.
-1&#37;    
+       Tot / &#37; measured:            3.21s /  48.4&#37;            207MiB /  48.
+4&#37;    
 
  Section               ncalls     time    &#37;tot     avg     alloc    &#37;tot   
    avg
  ──────────────────────────────────────────────────────────────────────────
 ──────
- ripqp                      1    1.13s  100.0&#37;   1.13s    107MiB  100.0&#37;   
-107MiB
-   ~ripqp~                  1    1.13s   99.9&#37;   1.13s    107MiB   99.9&#37;   
-107MiB
-   allocate workspace       1   62.0μs    0.0&#37;  62.0μs   5.55KiB    0.0&#37;  5
-.55KiB
-   init solver              1   43.4μs    0.0&#37;  43.4μs   3.80KiB    0.0&#37;  3
-.80KiB
-   display                  5    448μs    0.0&#37;  89.7μs   53.3KiB    0.0&#37;  1
-0.7KiB
-   update solver            4   20.0μs    0.0&#37;  5.01μs      960B    0.0&#37;   
+ ripqp                      1    1.55s  100.0&#37;   1.55s    100MiB  100.0&#37;   
+100MiB
+   ~ripqp~                  1    1.55s   99.9&#37;   1.55s    100MiB   99.9&#37;   
+100MiB
+   allocate workspace       1   91.0μs    0.0&#37;  91.0μs   5.73KiB    0.0&#37;  5
+.73KiB
+   init solver              1   53.9μs    0.0&#37;  53.9μs   3.93KiB    0.0&#37;  3
+.93KiB
+   display                  5    685μs    0.0&#37;   137μs   51.0KiB    0.0&#37;  1
+0.2KiB
+   update solver            4   25.4μs    0.0&#37;  6.35μs      960B    0.0&#37;   
   240B
-   solver aff               4   2.08μs    0.0&#37;   520ns     0.00B    0.0&#37;   
+   solver aff               4   3.00μs    0.0&#37;   750ns     0.00B    0.0&#37;   
  0.00B
-   solver cc                4   1.09μs    0.0&#37;   273ns     0.00B    0.0&#37;   
+   solver cc                4   1.10μs    0.0&#37;   275ns     0.00B    0.0&#37;   
  0.00B
  ──────────────────────────────────────────────────────────────────────────
 ──────</code></pre>
