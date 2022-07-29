@@ -17,7 +17,9 @@ This section of the documentation describes a few uses of LinearOperators.
 Operators may be defined from matrices and combined using the usual operations, but the result is deferred until the operator is applied.
 
 ```julia
-using LinearOperators, SparseArrays
+using LinearOperators, Random, SparseArrays
+Random.seed!(0)
+
 A1 = rand(5,7)
 A2 = sprand(7,3,.3)
 op1 = LinearOperator(A1)
@@ -27,13 +29,13 @@ x = rand(3)
 y = op * x
 ```
 
-```
+```plaintext
 5-element Vector{Float64}:
- 0.2090075410658057
- 0.2006149794391634
- 0.15198579975119209
- 0.4312396553686765
- 0.228422034577769
+ 0.24766385713448147
+ 0.3447142706690718
+ 0.6399025892338568
+ 0.246664873173519
+ 0.5258420478788777
 ```
 
 
@@ -53,8 +55,8 @@ v = rand(5)
 norm(A \ v - op * v) / norm(v)
 ```
 
-```
-5.123386247878985e-15
+```plaintext
+1.148733996146629e-13
 ```
 
 
@@ -87,7 +89,7 @@ al = @allocated mul!(res, op, v, α, β) # α * op * v + β * res, store result 
 println("Allocation of LinearOperator mul! product = $al")
 ```
 
-```
+```plaintext
 Allocation of LinearOperator mul! product = 0
 Allocation of LinearOperator mul! product = 0
 ```
@@ -129,8 +131,8 @@ y = dft * x
 norm(dft' * y - x)  # DFT is a unitary operator
 ```
 
-```
-3.597533769998862e-16
+```plaintext
+3.3612925285989963e-16
 ```
 
 
@@ -139,18 +141,18 @@ norm(dft' * y - x)  # DFT is a unitary operator
 transpose(dft) * y
 ```
 
-```
+```plaintext
 10-element Vector{ComplexF64}:
-  0.8639196387611643 - 0.0im
-  0.0955806766661847 - 0.0im
- 0.08378893040147012 - 0.0im
-  0.8325526447869684 - 0.0im
-  0.7812450893509602 - 0.0im
-  0.6237994365317306 - 0.0im
-  0.9263944055633124 - 0.0im
-  0.7791798322125566 - 0.0im
-  0.6626345949352839 + 0.0im
-  0.7385336370595803 - 0.0im
+   0.7113168325963566 - 0.0im
+   0.2148297961020408 - 0.0im
+   0.9453427110792467 - 0.0im
+   0.7309321298104021 - 0.0im
+  0.23194328498409336 - 0.0im
+   0.9501874396162999 - 0.0im
+   0.5123847829172379 - 0.0im
+   0.9037088931078092 - 0.0im
+ 0.005729552514365821 + 0.0im
+   0.2588088046728426 - 0.0im
 ```
 
 
@@ -184,7 +186,7 @@ op = LinearOperator(Float64, 2, 2, false, false,
                     tcustomfunc!)
 ```
 
-```
+```plaintext
 Linear operator
   nrow: 2
   ncol: 2
@@ -209,7 +211,7 @@ op2 = LinearOperator(Float64, 2, 2, false, false,
                      (res, w) -> tcustomfunc!(res, w, 1.0, 0.))
 ```
 
-```
+```plaintext
 Linear operator
   nrow: 2
   ncol: 2
@@ -234,7 +236,7 @@ println("allocations 1st call = ", @allocated mul!(res, op2, a, 2.0, 3.0))
 println("allocations 2nd call = ", @allocated mul!(res, op2, a, 2.0, 3.0))
 ```
 
-```
+```plaintext
 allocations 1st call = 80
 allocations 2nd call = 0
 ```
@@ -256,7 +258,7 @@ println("eltype(dft)         = $(eltype(dft))")
 println("eltype(v)           = $(eltype(v))")
 ```
 
-```
+```plaintext
 eltype(dft)         = Float64
 eltype(v)           = Float64
 ```
@@ -271,9 +273,9 @@ catch ex
 end
 ```
 
-```
-ex = InexactError(:Float64, Float64, -0.16316596251395854 + 0.6151582477792
-934im)
+```plaintext
+ex = InexactError(:Float64, Float64, 0.47507530806279163 - 0.38323018800681
+87im)
 ```
 
 
@@ -288,7 +290,7 @@ end
 # Using external modules
 ```
 
-```
+```plaintext
 ex = InexactError(:Float64, Float64, 0.8090169943749475 - 0.587785252292473
 1im)
 ```
@@ -310,8 +312,8 @@ b = rand(5)
 norm(b - opAAT * x)
 ```
 
-```
-5.174129014538037e-13
+```plaintext
+1.3658654125318675e-13
 ```
 
 
@@ -337,8 +339,8 @@ end
 r
 ```
 
-```
-4.210954776704542e-13
+```plaintext
+3.8775449152825806e-13
 ```
 
 
@@ -357,7 +359,7 @@ R = opRestriction([2;5], 5)
 R * v
 ```
 
-```
+```plaintext
 2-element Vector{Int64}:
  2
  5
@@ -373,7 +375,7 @@ Notice that it corresponds to a matrix with rows of the identity given by the in
 Matrix(R)
 ```
 
-```
+```plaintext
 2×5 Matrix{Int64}:
  0  1  0  0  0
  0  0  0  0  1
@@ -391,7 +393,7 @@ E = opExtension([2;5], 5)
 E * v
 ```
 
-```
+```plaintext
 5-element Vector{Int64}:
  0
  1
@@ -414,11 +416,11 @@ J = 2:4
 A[I,J] * ones(3)
 ```
 
-```
+```plaintext
 3-element Vector{Float64}:
- 1.0213331097020752
- 1.8384568702252353
- 1.2519959516787202
+ 1.043315409692812
+ 1.126646200633167
+ 1.2315932943898407
 ```
 
 
@@ -427,11 +429,11 @@ A[I,J] * ones(3)
 opRestriction(I, 5) * opA * opExtension(J, 5) * ones(3)
 ```
 
-```
+```plaintext
 3-element Vector{Float64}:
- 1.0213331097020752
- 1.8384568702252353
- 1.2519959516787202
+ 1.043315409692812
+ 1.126646200633167
+ 1.2315932943898407
 ```
 
 
@@ -444,9 +446,9 @@ A main difference with matrices, is that slices **do not** return vectors nor nu
 opA[1,:] * ones(5)
 ```
 
-```
+```plaintext
 1-element Vector{Float64}:
- 1.264969622765566
+ 1.9634567072673046
 ```
 
 
@@ -455,13 +457,13 @@ opA[1,:] * ones(5)
 opA[:,1] * ones(1)
 ```
 
-```
+```plaintext
 5-element Vector{Float64}:
- 0.217289989780464
- 0.8072056013829091
- 0.15799998724825803
- 0.7931044933169284
- 0.9651586890307786
+ 0.02203447865143171
+ 0.18781833339603016
+ 0.1692361439290926
+ 0.20276666600590854
+ 0.24969824326802326
 ```
 
 
@@ -470,9 +472,9 @@ opA[:,1] * ones(1)
 opA[1,1] * ones(1)
 ```
 
-```
+```plaintext
 1-element Vector{Float64}:
- 0.217289989780464
+ 0.02203447865143171
 ```
 
 

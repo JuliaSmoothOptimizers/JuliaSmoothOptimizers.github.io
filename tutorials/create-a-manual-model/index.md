@@ -7,7 +7,7 @@
 
 
 When you know the derivatives of your optimization problem, it is frequently more efficient to use them directly instead of relying on automatic differentiation.
-For that purpose, we have created `ManualNLPModels`.
+For that purpose, we have created `ManualNLPModels`. The package is very crude, due to demand being low, but let us know if you need more functionalities.
 
 For instance, in the logistic regression problem, we have a model
 $h_{\beta}(x) = \sigma(\hat{x}^T \beta) = \sigma(\beta_0 + x^T\beta_{1:p})$,
@@ -25,7 +25,8 @@ where $e$ is the vector with all components equal to 1.
 
 ```julia
 using ManualNLPModels
-using LinearAlgebra
+using LinearAlgebra, Random
+Random.seed!(0)
 
 sigmoid(t) = 1 / (1 + exp(-t))
 h(β, X) = sigmoid.(β[1] .+ X * β[2:end])
@@ -59,7 +60,7 @@ nlp = NLPModel(
 )
 ```
 
-```
+```plaintext
 ManualNLPModels.NLPModel{Float64, Vector{Float64}}
   Problem name: Generic
    All variables: ████████████████████ 51     All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
@@ -118,8 +119,8 @@ ŷ = round.(h(βsol, X))
 sum(ŷ .== y) / n
 ```
 
-```
-0.996
+```plaintext
+1.0
 ```
 
 
@@ -144,17 +145,17 @@ using Logging
 end
 ```
 
-```
-BenchmarkTools.Trial: 1496 samples with 1 evaluation.
- Range (min … max):  2.897 ms …  19.317 ms  ┊ GC (min … max): 0.00% … 0.00%
- Time  (median):     3.122 ms               ┊ GC (median):    0.00%
- Time  (mean ± σ):   3.334 ms ± 899.417 μs  ┊ GC (mean ± σ):  3.16% ± 8.42%
+```plaintext
+BenchmarkTools.Trial: 1649 samples with 1 evaluation.
+ Range (min … max):  2.800 ms …   8.402 ms  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     2.924 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   3.028 ms ± 460.494 μs  ┊ GC (mean ± σ):  2.61% ± 7.68%
 
-  ▅███▇▆▆▄▃▂▁▂▂▂                                              ▁
-  █████████████████▇▆▇▆▅▄▆▄▁▄▁▄▁▅▆▁▄▄▄▁▁▁▁▁▆▇▇▇▆█▄▆▆▆▆▆▅▁▄▄▄▅ █
-  2.9 ms       Histogram: log(frequency) by time      6.18 ms <
+  ▁▅██▆▃                                                       
+  ██████▇▇▅▅▄▁▆▆▅▅▁▄▆▆▆▁▁▁▁▄▁▄▁▄▁▁▁▁▁▁▁▁▁▄▁▁▁▁▁▁▁▁▁▁▁▄▁▁▄▇██▇ █
+  2.8 ms       Histogram: log(frequency) by time      5.19 ms <
 
- Memory estimate: 1.96 MiB, allocs estimate: 1642.
+ Memory estimate: 1.69 MiB, allocs estimate: 1698.
 ```
 
 
@@ -170,19 +171,17 @@ using ADNLPModels
 end
 ```
 
-```
-BenchmarkTools.Trial: 81 samples with 1 evaluation.
- Range (min … max):  45.416 ms … 182.752 ms  ┊ GC (min … max): 0.00% … 0.96
-%
- Time  (median):     53.906 ms               ┊ GC (median):    3.07%
- Time  (mean ± σ):   62.086 ms ±  24.790 ms  ┊ GC (mean ± σ):  2.66% ± 1.93
-%
+```plaintext
+BenchmarkTools.Trial: 56 samples with 1 evaluation.
+ Range (min … max):  89.310 ms … 96.625 ms  ┊ GC (min … max): 0.00% … 1.56%
+ Time  (median):     91.043 ms              ┊ GC (median):    1.62%
+ Time  (mean ± σ):   90.895 ms ±  1.306 ms  ┊ GC (mean ± σ):  1.13% ± 0.75%
 
-  ▄▄█▁                                                          
-  ████▆█▅▆▄▃▃▄▄▃▅▃▁▁▁▁▁▁▃▁▄▁▁▁▁▁▃▁▁▁▁▁▁▁▁▁▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃ ▁
-  45.4 ms         Histogram: frequency by time          179 ms <
+   ▃                █▅▇                                        
+  ▇█▇▁▁▁▁▃▁▁▁▁▁▁▁▁▁▅███▅▁▃▁▁▁▃▁▁▁▁▁▁▁▁▁▃▁▁▁▁▁▁▁▁▁▃▁▁▁▁▁▁▁▁▁▁▃ ▁
+  89.3 ms         Histogram: frequency by time        94.7 ms <
 
- Memory estimate: 35.70 MiB, allocs estimate: 4195.
+ Memory estimate: 30.55 MiB, allocs estimate: 3873.
 ```
 
 
@@ -213,19 +212,19 @@ using NLPModelsJuMP
 end
 ```
 
-```
-BenchmarkTools.Trial: 62 samples with 1 evaluation.
- Range (min … max):  67.193 ms … 130.764 ms  ┊ GC (min … max): 0.00% … 9.64
-%
- Time  (median):     79.384 ms               ┊ GC (median):    8.58%
- Time  (mean ± σ):   81.251 ms ±  11.780 ms  ┊ GC (mean ± σ):  8.22% ± 4.51
-%
+```plaintext
+BenchmarkTools.Trial: 33 samples with 1 evaluation.
+ Range (min … max):  145.608 ms … 170.612 ms  ┊ GC (min … max): 5.13% … 7.1
+6%
+ Time  (median):     149.537 ms               ┊ GC (median):    8.86%
+ Time  (mean ± σ):   152.157 ms ±   5.743 ms  ┊ GC (mean ± σ):  8.78% ± 1.5
+9%
 
-  ▄ ▄  ▄█▄ ▁▄▄     ▁▄   ▄▄ ▁   █   ▁                            
-  █▁█▆▆███▁███▆▆▆▆▁██▆▁▆██▁█▆▁▁█▁▁▁█▆▁▆▆▁▁▁▆▆▆▁▁▁▁▁▁▁▆▁▁▁▁▆▁▁▆ ▁
-  67.2 ms         Histogram: frequency by time          109 ms <
+       ▁ █ ▁                                                     
+  ▄▁▁▄▁█▄█▇█▇▄▄▇▁▄▁▁▁▁▁▄▁▁▁▁▁▄▁▁▄▁▄▁▁▇▁▁▁▁▄▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄ ▁
+  146 ms           Histogram: frequency by time          171 ms <
 
- Memory estimate: 86.79 MiB, allocs estimate: 157611.
+ Memory estimate: 147.57 MiB, allocs estimate: 2149738.
 ```
 
 
@@ -240,17 +239,17 @@ using NLPModels
 @benchmark grad(nlp, β)
 ```
 
-```
+```plaintext
 BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range (min … max):  13.215 μs …  5.959 ms  ┊ GC (min … max): 0.00% … 75.69
+ Range (min … max):  14.300 μs …  3.282 ms  ┊ GC (min … max): 0.00% … 88.57
 %
- Time  (median):     14.245 μs              ┊ GC (median):    0.00%
- Time  (mean ± σ):   16.764 μs ± 80.094 μs  ┊ GC (mean ± σ):  5.03% ±  1.09
+ Time  (median):     16.200 μs              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   17.540 μs ± 55.420 μs  ┊ GC (mean ± σ):  4.84% ±  1.53
 %
 
-    ▁▅▇█▇▄▁                                                    
-  ▃▆███████▇▆▆▅▆▅▆▅▄▄▃▃▃▃▃▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▁▂▂▂▂▂▂▂▂ ▃
-  13.2 μs         Histogram: frequency by time        22.1 μs <
+              ▂▂▁▁█                                            
+  ▁▁▁▁▁▁▂▂▆▆▇███████▆▆▆▅▄▄▄▅▃▃▂▃▃▃▂▄▂▂▂▂▂▂▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ ▂
+  14.3 μs         Histogram: frequency by time        20.9 μs <
 
  Memory estimate: 18.19 KiB, allocs estimate: 8.
 ```
@@ -262,17 +261,17 @@ adnlp = ADNLPModel(β -> myfun(β, X, y), zeros(p + 1))
 @benchmark grad(adnlp, β)
 ```
 
-```
-BenchmarkTools.Trial: 8599 samples with 1 evaluation.
- Range (min … max):  547.551 μs …   3.372 ms  ┊ GC (min … max): 0.00% … 75.
-68%
- Time  (median):     556.262 μs               ┊ GC (median):    0.00%
- Time  (mean ± σ):   577.470 μs ± 173.346 μs  ┊ GC (mean ± σ):  2.23% ±  5.
-93%
+```plaintext
+BenchmarkTools.Trial: 3612 samples with 1 evaluation.
+ Range (min … max):  1.339 ms …   3.323 ms  ┊ GC (min … max): 0.00% … 54.09
+%
+ Time  (median):     1.366 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   1.382 ms ± 169.051 μs  ┊ GC (mean ± σ):  1.03% ±  4.87
+%
 
-  ▄███▇▆▆▅▅▅▄▄▄▃▃▃▂▂▂▂▁▂▁▁▁▁▁▁▁▁▁▁▁ ▁                           ▂
-  ████████████████████████████████████████▇▇▇█▇▆▇▆▇▅▇▅▆▆▅▆▄▄▄▄▅ █
-  548 μs        Histogram: log(frequency) by time        658 μs <
+           ▁▂▃▆▄▅▆▇█▅▆▆▅▄▃▂▂                                   
+  ▂▂▂▃▃▄▅▆▆█████████████████▇█▇▆▆▅▄▄▃▃▂▃▂▂▂▂▂▁▂▂▁▁▁▂▂▂▁▁▁▂▁▁▂ ▄
+  1.34 ms         Histogram: frequency by time        1.43 ms <
 
  Memory estimate: 472.88 KiB, allocs estimate: 42.
 ```
@@ -298,17 +297,17 @@ jumpnlp = MathOptNLPModel(model)
 @benchmark grad(jumpnlp, β)
 ```
 
-```
+```plaintext
 BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range (min … max):  157.428 μs …   3.318 ms  ┊ GC (min … max): 0.00% … 0.0
+ Range (min … max):  162.802 μs … 424.003 μs  ┊ GC (min … max): 0.00% … 0.0
 0%
- Time  (median):     197.261 μs               ┊ GC (median):    0.00%
- Time  (mean ± σ):   248.974 μs ± 129.910 μs  ┊ GC (mean ± σ):  0.00% ± 0.0
+ Time  (median):     164.401 μs               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   165.743 μs ±   5.008 μs  ┊ GC (mean ± σ):  0.00% ± 0.0
 0%
 
-  ▇█▇█▇▆▅▅▄▄▄▄▄▄▄▄▃▃▃▃▂▂▁▂▁▁▁▁▁ ▁▁ ▁▁      ▁                    ▃
-  ████████████████████████████████████████▇██▇██▇▇▇▆▇▆▆▆▆▆▆▆▆▆▆ █
-  157 μs        Histogram: log(frequency) by time        714 μs <
+  ▁▆█▇▆▅▄▂▃▄▄▃▃▂▂▁▁  ▁▂▂▁                                       ▂
+  █████████████████▇██████▇▆▆▇▆▅▇▅▆▄▃▅▄▅▄▃▄▃▃▁▁▁▃▃▄▄▃▃▁▁▄▁▄▃▅▅▆ █
+  163 μs        Histogram: log(frequency) by time        193 μs <
 
  Memory estimate: 496 bytes, allocs estimate: 1.
 ```
