@@ -35,7 +35,7 @@ A sufficient condition for that is that $\nabla^2 f(x_k)$ is positive definite, 
 Since this will not be true in general, the modified Newton method consists of computing $\rho_k \geq 0$ such that $\nabla^2 f(x_k) + \rho_k I$ is positive definite.
 One way to find such a $\rho_k$ is given below
 
-```
+```plaintext
 1. Start with ρ from the last iteration
 2. Try to compute the Cholesky factor of ∇²f(x) + ρI
 3. If not successful, increase ρ to either 1e-8 or 10ρ, whichever is largest, and return to step 2
@@ -63,7 +63,7 @@ contour(-2:0.02:2, -0.5:0.02:1.5, (x,y) -> (x - 1)^2 + 4 * (y - x^2)^2, levels=(
 title!("Contour plot of objective")
 ```
 
-![](creating-a-jso-compliant-solver/figures/index_1_1.png)
+![](figures/index_1_1.png)
 
 
 
@@ -82,19 +82,19 @@ nlp = ADNLPModel(
 )
 ```
 
-```
+```plaintext
 ADNLPModel - Model with automatic differentiation backend ADNLPModels.Forwa
-rdDiffAD{ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.var"##WeaveSandBox
-#312".var"#3#4", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.
-Tag{Main.var"##WeaveSandBox#312".var"#3#4", Float64}, Float64, 2}}}}(3, 0, 
-ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.var"##WeaveSandBox#312".var
-"#3#4", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{Main.
-var"##WeaveSandBox#312".var"#3#4", Float64}, Float64, 2}}}((Partials(1.0, 0
-.0), Partials(0.0, 1.0)), ForwardDiff.Dual{ForwardDiff.Tag{Main.var"##Weave
-SandBox#312".var"#3#4", Float64}, Float64, 2}[Dual{ForwardDiff.Tag{Main.var
-"##WeaveSandBox#312".var"#3#4", Float64}}(0.0,5.0e-324,0.0), Dual{ForwardDi
-ff.Tag{Main.var"##WeaveSandBox#312".var"#3#4", Float64}}(1.0e-323,5.0e-324,
-5.0e-324)]))
+rdDiffAD{ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.##WeaveSandBox#291
+.var"#3#4", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{M
+ain.##WeaveSandBox#291.var"#3#4", Float64}, Float64, 2}}}}(3, 0, ForwardDif
+f.GradientConfig{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#3#4", Float64
+}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#
+291.var"#3#4", Float64}, Float64, 2}}}((Partials(1.0, 0.0), Partials(0.0, 1
+.0)), ForwardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#3#4", F
+loat64}, Float64, 2}[Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#3#4"
+, Float64}}(0.0,6.9115317824871e-310,6.91153177383976e-310), Dual{ForwardDi
+ff.Tag{Main.##WeaveSandBox#291.var"#3#4", Float64}}(0.0,6.9115317824871e-31
+0,6.91153177383976e-310)]))
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
 ⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -153,7 +153,7 @@ The main information you may want is summarised below
 )
 ```
 
-```
+```plaintext
 (2, 0, [-Inf, -Inf], [Inf, Inf], Float64[], Float64[], [-1.2, 1.0])
 ```
 
@@ -169,7 +169,7 @@ using NLPModels
 unconstrained(nlp)
 ```
 
-```
+```plaintext
 true
 ```
 
@@ -184,7 +184,7 @@ x = nlp.meta.x0
 obj(nlp, x)
 ```
 
-```
+```plaintext
 5.614400000000001
 ```
 
@@ -194,7 +194,7 @@ obj(nlp, x)
 grad(nlp, x)
 ```
 
-```
+```plaintext
 2-element Vector{Float64}:
  -12.847999999999999
   -3.5199999999999996
@@ -206,7 +206,7 @@ grad(nlp, x)
 hess(nlp, x)
 ```
 
-```
+```plaintext
 2×2 LinearAlgebra.Symmetric{Float64, Matrix{Float64}}:
  55.12  19.2
  19.2    8.0
@@ -227,7 +227,7 @@ using LinearAlgebra
 Symmetric(hess(nlp, x), :L)
 ```
 
-```
+```plaintext
 2×2 LinearAlgebra.Symmetric{Float64, Matrix{Float64}}:
  55.12  19.2
  19.2    8.0
@@ -245,7 +245,7 @@ factor = cholesky(B, check=false) # check is false to prevent an error from bein
 issuccess(factor)
 ```
 
-```
+```plaintext
 true
 ```
 
@@ -257,7 +257,7 @@ factor = cholesky(B, check=false)
 issuccess(factor)
 ```
 
-```
+```plaintext
 false
 ```
 
@@ -279,7 +279,7 @@ end
 d = factor \ -grad(nlp, x)
 ```
 
-```
+```plaintext
 2-element Vector{Float64}:
   0.48672566371681447
  -0.7281415929203547
@@ -352,7 +352,7 @@ function newton(nlp :: AbstractNLPModel)
 end
 ```
 
-```
+```plaintext
 newton (generic function with 1 method)
 ```
 
@@ -363,11 +363,11 @@ newton (generic function with 1 method)
 Notice the two conditions for the method to be JSO-compliant:
 
 - Input is a NLPModel - Namely, an `AbstractNLPModel`:
-```
+```plaintext
 function newton(nlp :: AbstractNLPModel)
 ```
 - output is a specific struct from the package SolverCore - Namely, a `GenericExecutionStats`:
-```
+```plaintext
 return GenericExecutionStats(status, nlp)
 ```
 For this structure to be used, a `status` argument needs to be passed, indicating what's the situation of the solver run.
@@ -384,7 +384,7 @@ output = newton(nlp)
 println(output)
 ```
 
-```
+```plaintext
 Generic Execution stats
   status: first-order stationary
   objective value: Inf
@@ -434,7 +434,7 @@ function newton(nlp :: AbstractNLPModel)
 end
 ```
 
-```
+```plaintext
 newton (generic function with 1 method)
 ```
 
@@ -450,7 +450,7 @@ output = newton(nlp)
 println(output)
 ```
 
-```
+```plaintext
 Generic Execution stats
   status: first-order stationary
   objective value: 7.141610295610004e-18
@@ -471,7 +471,7 @@ That's already better. Now we can access the solution with
 output.solution
 ```
 
-```
+```plaintext
 2-element Vector{Float64}:
  0.9999999973418803
  0.9999999945459112
@@ -496,7 +496,7 @@ Here's the list:
 SolverCore.show_statuses()
 ```
 
-```
+```plaintext
 STATUSES:
   :acceptable     => solved to within acceptable tolerances
   :exception      => unhandled exception
@@ -580,7 +580,7 @@ function newton(
 end
 ```
 
-```
+```plaintext
 newton (generic function with 1 method)
 ```
 
@@ -589,7 +589,7 @@ newton (generic function with 1 method)
 
 
 Many of the lines are self-explanatory, so let's focus on the complex ones.
-```
+```plaintext
 tired = Δt ≥ max_time > 0 || iter ≥ max_iter > 0
 solved = norm(grad(nlp, x)) ≤ 1e-6
 while !(solved || tired)
@@ -617,7 +617,7 @@ output = lbfgs(nlp)
 print(output)
 ```
 
-```
+```plaintext
 Generic Execution stats
   status: first-order stationary
   objective value: 2.239721910559509e-18
@@ -625,7 +625,7 @@ Generic Execution stats
   dual feasibility: 4.018046284781729e-9
   solution: [0.9999999986742657  0.9999999970013461]
   iterations: 18
-  elapsed time: 5.1975250244140625e-5
+  elapsed time: 6.389617919921875e-5
 ```
 
 
@@ -656,7 +656,7 @@ solvers = Dict(:newton => newton, :lbfgs => lbfgs)
 stats = bmark_solvers(solvers, problems)
 ```
 
-```
+```plaintext
 Dict{Symbol, DataFrames.DataFrame} with 2 entries:
   :newton => 4×39 DataFrame…
   :lbfgs  => 4×39 DataFrame…
@@ -673,7 +673,7 @@ The results is a Dictionary of Symbols to DataFrame tables.
 @show keys(stats)
 ```
 
-```
+```plaintext
 typeof(stats) = Dict{Symbol, DataFrames.DataFrame}
 keys(stats) = [:newton, :lbfgs]
 KeySet for a Dict{Symbol, DataFrames.DataFrame} with 2 entries. Keys:
@@ -692,14 +692,14 @@ cols = [:name, :status, :objective, :elapsed_time, :iter]
 pretty_stats(stats[:newton][!, cols])
 ```
 
-```
+```plaintext
 ┌─────────┬─────────────┬───────────┬──────────────┬────────┐
 │    name │      status │ objective │ elapsed_time │   iter │
 ├─────────┼─────────────┼───────────┼──────────────┼────────┤
-│ Generic │ first_order │  2.47e-31 │     4.72e-01 │      1 │
-│ Generic │ first_order │  3.74e-21 │     5.88e-01 │     21 │
-│ Generic │    max_iter │ -8.36e+00 │     4.65e-01 │    100 │
-│ Generic │ first_order │  1.43e+00 │     4.83e-01 │      5 │
+│ Generic │ first_order │  2.47e-31 │     5.43e-01 │      1 │
+│ Generic │ first_order │  3.74e-21 │     6.25e-01 │     21 │
+│ Generic │    max_iter │ -8.36e+00 │     5.42e-01 │    100 │
+│ Generic │ first_order │  1.43e+00 │     5.82e-01 │      5 │
 └─────────┴─────────────┴───────────┴──────────────┴────────┘
 ```
 
@@ -732,7 +732,7 @@ using Plots
 performance_profile(stats, df -> df.elapsed_time)
 ```
 
-![](creating-a-jso-compliant-solver/figures/index_26_1.png)
+![](figures/index_26_1.png)
 
 
 
@@ -743,7 +743,7 @@ cost(df) = (df.status .!= :first_order) * Inf + df.elapsed_time
 performance_profile(stats, cost)
 ```
 
-![](creating-a-jso-compliant-solver/figures/index_27_1.png)
+![](figures/index_27_1.png)
 
 
 
@@ -827,7 +827,7 @@ function newton2(
 end
 ```
 
-```
+```plaintext
 newton2 (generic function with 1 method)
 ```
 
@@ -844,7 +844,7 @@ cost(df) = (df.status .!= :first_order) * Inf + df.elapsed_time
 performance_profile(stats, cost)
 ```
 
-![](creating-a-jso-compliant-solver/figures/index_29_1.png)
+![](figures/index_29_1.png)
 
 
 

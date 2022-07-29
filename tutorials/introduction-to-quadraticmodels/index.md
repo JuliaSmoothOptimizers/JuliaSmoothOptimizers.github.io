@@ -49,7 +49,7 @@ qmCSC = QuadraticModel(c, HCSC, A = ACSC, lcon = lcon, ucon = ucon, lvar = l, uv
                        c0 = 0.0, name = "QM_CSC")
 ```
 
-```
+```plaintext
 QuadraticModels.QuadraticModel{Float64, Vector{Float64}, SparseArrays.Spars
 eMatrixCSC{Float64, Int64}, SparseArrays.SparseMatrixCSC{Float64, Int64}}
   Problem name: QM_CSC
@@ -98,7 +98,7 @@ qmCOO = QuadraticModel(c, HCOO, A = ACOO, lcon = lcon, ucon = ucon, lvar = l, uv
                        c0 = 0.0, name = "QM_COO")
 ```
 
-```
+```plaintext
 QuadraticModels.QuadraticModel{Float64, Vector{Float64}, SparseMatricesCOO.
 SparseMatrixCOO{Float64, Int64}, SparseMatricesCOO.SparseMatrixCOO{Float64,
  Int64}}
@@ -148,7 +148,7 @@ qmDense = QuadraticModel(c, tril(H), A = A, lcon = lcon, ucon = ucon, lvar = l, 
                          c0 = 0.0, name = "QM_Dense")
 ```
 
-```
+```plaintext
 QuadraticModels.QuadraticModel{Float64, Vector{Float64}, Matrix{Float64}, M
 atrix{Float64}}
   Problem name: QM_Dense
@@ -198,7 +198,7 @@ qmLinop = QuadraticModel(c, LinearOperator(Symmetric(H)), A = LinearOperator(A),
                          c0 = 0.0, name = "QM_Linop")
 ```
 
-```
+```plaintext
 QuadraticModels.QuadraticModel{Float64, Vector{Float64}, LinearOperators.Li
 nearOperator{Float64, Int64, LinearOperators.var"#5#8"{LinearAlgebra.Symmet
 ric{Float64, Matrix{Float64}}}, LinearOperators.var"#6#9"{LinearAlgebra.Sym
@@ -260,7 +260,7 @@ qmCOO2 = QuadraticModel(c, Hrows, Hcols, Hvals, Arows = Arows, Acols = Acols, Av
                         c0 = 0.0, name = "QM_COO2")
 ```
 
-```
+```plaintext
 QuadraticModels.QuadraticModel{Float64, Vector{Float64}, SparseMatricesCOO.
 SparseMatrixCOO{Float64, Int64}, SparseMatricesCOO.SparseMatrixCOO{Float64,
  Int64}}
@@ -322,7 +322,7 @@ qmCOO4 = convert(QuadraticModel{T, S, SparseMatrixCOO{T, Int}, SparseMatrixCOO{T
                  qmCSC)
 ```
 
-```
+```plaintext
 QuadraticModels.QuadraticModel{Float64, Vector{Float64}, SparseMatricesCOO.
 SparseMatrixCOO{Float64, Int64}, SparseMatricesCOO.SparseMatrixCOO{Float64,
  Int64}}
@@ -375,16 +375,18 @@ You can use the API from [`NLPModels.jl`](https://juliasmoothoptimizers.github.i
 Here are some examples:
 
 ```julia
-using NLPModels
+using NLPModels, Random
+Random.seed!(0)
+
 x = rand(3)
 grad(qmCOO, x)
 ```
 
-```
+```plaintext
 3-element Vector{Float64}:
- -3.583315713791568
-  3.1390203949779103
-  1.492999492776443
+ -4.56657066867931
+ -0.12159022189239677
+  0.9913545484469992
 ```
 
 
@@ -393,7 +395,7 @@ grad(qmCOO, x)
 hess(qmCOO, x)
 ```
 
-```
+```plaintext
 3×3 LinearAlgebra.Symmetric{Float64, SparseArrays.SparseMatrixCSC{Float64, 
 Int64}}:
  6.0  2.0  1.0
@@ -412,7 +414,7 @@ using NLPModelsModifiers
 qmSlack = SlackModel(qmCOO)
 ```
 
-```
+```plaintext
 QuadraticModels.QuadraticModel{Float64, Vector{Float64}, SparseMatricesCOO.
 SparseMatrixCOO{Float64, Int64}, SparseMatricesCOO.SparseMatrixCOO{Float64,
  Int64}}
@@ -469,7 +471,7 @@ qps = readqps("AFIRO.SIF")
 qmCOO4 = QuadraticModel(qps)
 ```
 
-```
+```plaintext
 Error: SystemError: opening file "AFIRO.SIF": No such file or directory
 ```
 
@@ -487,22 +489,22 @@ stats = ripqp(qmCOO)
 println(stats)
 ```
 
-```
+```plaintext
 Generic Execution stats
   status: first-order stationary
   objective value: -5.6956521641208
   primal feasibility: 3.885780586188048e-16
-  dual feasibility: 5.3338444772066396e-12
-  solution: [1.2608695586860907  2.502461850390778e-8  0.43478259786166773]
-  multipliers: [4.206802886687191e-12  1.1416487421926103e-10]
-  multipliers_L: [2.327116130402955e-11  0.39130443799558623  6.36537004163
-7979e-11]
+  dual feasibility: 5.334399588718952e-12
+  solution: [1.2608695586860905  2.502461850391081e-8  0.43478259786166773]
+  multipliers: [4.206802886688845e-12  1.141648742192826e-10]
+  multipliers_L: [2.3271161304045762e-11  0.39130443799558634  6.3653700416
+39302e-11]
   multipliers_U: [0.0  0.0  0.0]
   iterations: 32
-  elapsed time: 9.849446058273315
+  elapsed time: 10.904875993728638
   solver specific:
     nvar_slack: 5
-    pdd: 1.4918293923616085e-9
+    pdd: 1.4918291270615607e-9
     absolute_iter_cnt: 8
 ```
 

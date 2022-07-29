@@ -34,19 +34,19 @@ nlp = ADNLPModel(
 )
 ```
 
-```
+```plaintext
 ADNLPModel - Model with automatic differentiation backend ADNLPModels.Forwa
-rdDiffAD{ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.var"##WeaveSandBox
-#312".var"#1#3", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.
-Tag{Main.var"##WeaveSandBox#312".var"#1#3", Float64}, Float64, 2}}}}(3, 2, 
-ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.var"##WeaveSandBox#312".var
-"#1#3", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{Main.
-var"##WeaveSandBox#312".var"#1#3", Float64}, Float64, 2}}}((Partials(1.0, 0
-.0), Partials(0.0, 1.0)), ForwardDiff.Dual{ForwardDiff.Tag{Main.var"##Weave
-SandBox#312".var"#1#3", Float64}, Float64, 2}[Dual{ForwardDiff.Tag{Main.var
-"##WeaveSandBox#312".var"#1#3", Float64}}(5.0e-324,5.0e-324,6.9269887278572
-6e-310), Dual{ForwardDiff.Tag{Main.var"##WeaveSandBox#312".var"#1#3", Float
-64}}(1.5e-323,5.0e-324,6.92698872674423e-310)]))
+rdDiffAD{ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.##WeaveSandBox#291
+.var"#1#3", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{M
+ain.##WeaveSandBox#291.var"#1#3", Float64}, Float64, 2}}}}(3, 2, ForwardDif
+f.GradientConfig{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3", Float64
+}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#
+291.var"#1#3", Float64}, Float64, 2}}}((Partials(1.0, 0.0), Partials(0.0, 1
+.0)), ForwardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3", F
+loat64}, Float64, 2}[Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3"
+, Float64}}(4.766885689800094e180,5.9214442028471925e169,2.1502062465793975
+e-80), Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3", Float64}}(1.
+0921273113031389e69,9.92715016811644e247,0.0)]))
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ████████████
 ████████ 1     
@@ -98,7 +98,7 @@ using NLPModelsIpopt
 output = ipopt(nlp)
 ```
 
-```
+```plaintext
 ***************************************************************************
 ***
 This program contains Ipopt, a library for large-scale nonlinear optimizati
@@ -168,8 +168,8 @@ Number of inequality constraint evaluations          = 8
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 8
 Number of Lagrangian Hessian evaluations             = 7
-Total CPU secs in IPOPT (w/o function evaluations)   =      2.984
-Total CPU secs in NLP function evaluations           =      1.162
+Total CPU secs in IPOPT (w/o function evaluations)   =      2.872
+Total CPU secs in NLP function evaluations           =      1.107
 
 EXIT: Optimal Solution Found.
 "Execution stats: first-order stationary"
@@ -185,7 +185,7 @@ To remove the output, use print_level
 output = ipopt(nlp, print_level=0)
 ```
 
-```
+```plaintext
 "Execution stats: first-order stationary"
 ```
 
@@ -200,7 +200,7 @@ They can be access with `.`.
 print(output)
 ```
 
-```
+```plaintext
 Generic Execution stats
   status: first-order stationary
   objective value: 0.24999991501233096
@@ -211,9 +211,9 @@ Generic Execution stats
   multipliers_L: [0.0  4.000000006828642]
   multipliers_U: [5.000000053347668  5.0084053323090786e-9]
   iterations: 7
-  elapsed time: 0.004
+  elapsed time: 0.003
   solver specific:
-    real_time: 0.004125833511352539
+    real_time: 0.00407719612121582
     internal_msg: :Solve_Succeeded
 ```
 
@@ -224,7 +224,7 @@ x = output.solution
 println("Solution: $x")
 ```
 
-```
+```plaintext
 Solution: [0.5, 0.25]
 ```
 

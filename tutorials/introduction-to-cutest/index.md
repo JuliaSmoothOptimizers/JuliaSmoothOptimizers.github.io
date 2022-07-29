@@ -34,7 +34,7 @@ using CUTEst
 nlp = CUTEstModel("ROSENBR")
 ```
 
-```
+```plaintext
 Problem name: ROSENBR
    All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
 ⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -91,7 +91,7 @@ println("gx = $( grad(nlp, nlp.meta.x0) )")
 println("Hx = $( hess(nlp, nlp.meta.x0) )")
 ```
 
-```
+```plaintext
 x0 = [-1.2, 1.0]
 fx = 24.199999999999996
 gx = [-215.59999999999997, -87.99999999999999]
@@ -117,7 +117,7 @@ v = ones(nlp.meta.nvar)
 hprod(nlp, nlp.meta.x0, v)
 ```
 
-```
+```plaintext
 2-element Vector{Float64}:
  1810.0
   680.0
@@ -135,7 +135,7 @@ H = hess_op(nlp, nlp.meta.x0)
 H * v
 ```
 
-```
+```plaintext
 2-element Vector{Float64}:
  1810.0
   680.0
@@ -187,7 +187,7 @@ cons(nlp, x)
 jac(nlp, x)
 ```
 
-```
+```plaintext
 1×3 SparseArrays.SparseMatrixCSC{Float64, Int64} with 3 stored entries:
  -1.0  -1.0  -2.0
 ```
@@ -205,7 +205,7 @@ print(nlp.meta)
 finalize(nlp)
 ```
 
-```
+```plaintext
 Problem name: HS35
    All variables: ████████████████████ 3      All constraints: ████████████
 ████████ 1     
@@ -247,7 +247,7 @@ problems = CUTEst.select()
 length(problems)
 ```
 
-```
+```plaintext
 1494
 ```
 
@@ -310,7 +310,7 @@ problems = CUTEst.select(contype="unc")
 length(problems)
 ```
 
-```
+```plaintext
 286
 ```
 
@@ -328,7 +328,7 @@ problems = CUTEst.select(min_con=1, only_ineq_con=true, only_free_var=true)
 length(problems)
 ```
 
-```
+```plaintext
 114
 ```
 
@@ -343,7 +343,7 @@ problems = CUTEst.select(min_var=1000, max_var=2000, min_con=100, max_con=500)
 length(problems)
 ```
 
-```
+```plaintext
 3
 ```
 
@@ -358,7 +358,7 @@ problems = CUTEst.select(objtype="sum_of_squares", contype="bounds")
 length(problems)
 ```
 
-```
+```plaintext
 54
 ```
 
@@ -373,7 +373,7 @@ problems = CUTEst.select(objtype="quadratic", contype="linear")
 length(problems)
 ```
 
-```
+```plaintext
 252
 ```
 
