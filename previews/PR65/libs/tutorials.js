@@ -29,7 +29,7 @@ function format_tutorial(t) {
   const isInternal = t.link.slice(0,4) != 'http'
   const hasPrepath = prepath != ""
   if (hasPrepath && isInternal) {
-    link = '/' + link
+    link = '/' + prepath + link
   }
   console.log(link)
   console.log(t.link)
