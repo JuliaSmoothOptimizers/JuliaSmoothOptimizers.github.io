@@ -8,6 +8,8 @@
 
 This tutorial is essentially a collection of examples.
 
+DEBUG.
+
 ## Performance Profile
 
 Performance profiles are straightforward to use. The input is a matrix `T` with entries `T[i,j]` indicating the cost to solve problem `i` using solver `j`. Cost can be, for instance, elapsed time, or number of evaluations. The cost should be positive. If any cost is zero, all measures will be shifted by 1.
@@ -23,7 +25,7 @@ T = 10 * rand(25, 3)
 performance_profile(PlotsBackend(), T, ["Solver 1", "Solver 2", "Solver 3"])
 ```
 
-![](introduction-to-benchmarkprofiles/figures/index_1_1.png)
+![](figures/index_1_1.png)
 
 
 
@@ -34,7 +36,7 @@ T[2:20,1] .= Inf
 performance_profile(PlotsBackend(), T, ["Solver 1", "Solver 2", "Solver 3"])
 ```
 
-![](introduction-to-benchmarkprofiles/figures/index_2_1.png)
+![](figures/index_2_1.png)
 
 
 
@@ -45,7 +47,7 @@ T[:,2] = 100T[:,3]
 performance_profile(PlotsBackend(), T, ["Solver 1", "Solver 2", "Solver 3"])
 ```
 
-![](introduction-to-benchmarkprofiles/figures/index_3_1.png)
+![](figures/index_3_1.png)
 
 
 
@@ -61,4 +63,4 @@ performance_profile(PlotsBackend(), T, ["Solver 1", "Solver 2", "Solver 3"],
 ylabel!("ρ(τ)")
 ```
 
-![](introduction-to-benchmarkprofiles/figures/index_4_1.png)
+![](figures/index_4_1.png)
