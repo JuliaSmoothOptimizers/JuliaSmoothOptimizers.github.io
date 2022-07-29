@@ -22,7 +22,15 @@ function format_tutorial(t) {
     pkgs += format_pkg(pkg)
   }
 
-  link = prepath + t.link
+  link = t.link
+  // link can be internal (/etc) or external (http://some.lnk)
+  // prepath can be "" (local and gh-pages) or "preview/PRXX" (preview)
+  // if the link is internal and it is a preview mode, we have to fix it adding a / before
+  const isInternal = t.link.slice(0,4) != 'http'
+  const hasPrepath = prepatah != ""
+  if (hasPrepath && isInternal) {
+    link = '/' + link
+  }
   console.log(link)
   console.log(t.link)
   return `<div class="news-item">
