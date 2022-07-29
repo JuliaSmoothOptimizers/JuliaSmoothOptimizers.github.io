@@ -7,7 +7,7 @@ We welcome contributions, which can come in many forms:
 
 If you think you found a bug in any of our packages, feel free to open an issue at the specific GitHub repo.
 For our packages, it should be a link like `https://github.com/JuliaSmoothOptimizers/PACKAGE.jl`.
-For our tutorials, you can open an issue here or in the specific tutorial page.
+For our tutorials, you can open an issue here or in <https://github.com/JuliaSmoothOptimizers/JSOTutorials.jl>.
 
 Focused suggestion and requests can also be opened as issues.
 Before opening a pull request, start an issue or a discussion on the topic, please.
@@ -17,7 +17,7 @@ This forum is for general discussion, so questions about any of our packages are
 
 ## New tutorials
 
-Use the [template repo](https://github.com/jso-docs/tutorial-template) and follow instructions there.
+Go to <https://github.com/JuliaSmoothOptimizers/JSOTutorials.jl>.
 
 ## Style, colors, UI, frontend, etc.
 
