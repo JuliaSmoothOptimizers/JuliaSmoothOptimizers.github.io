@@ -22,7 +22,7 @@ function format_tutorial(t) {
     pkgs += format_pkg(pkg)
   }
 
-  link = t.link
+  link = prepath + t.link
   console.log(link)
   console.log(t.link)
   return `<div class="news-item">
