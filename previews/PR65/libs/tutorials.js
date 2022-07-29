@@ -27,7 +27,7 @@ function format_tutorial(t) {
   // prepath can be "" (local and gh-pages) or "preview/PRXX" (preview)
   // if the link is internal and it is a preview mode, we have to fix it adding a / before
   const isInternal = t.link.slice(0,4) != 'http'
-  const hasPrepath = prepatah != ""
+  const hasPrepath = prepath != ""
   if (hasPrepath && isInternal) {
     link = '/' + link
   }
