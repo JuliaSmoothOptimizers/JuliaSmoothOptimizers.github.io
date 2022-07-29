@@ -37,7 +37,7 @@ QM = QuadraticModel(
 )
 ```
 
-```
+```plaintext
 QuadraticModels.QuadraticModel{Float64, Vector{Float64}, SparseMatricesCOO.
 SparseMatrixCOO{Float64, Int64}, SparseMatricesCOO.SparseMatrixCOO{Float64,
  Int64}}
@@ -92,10 +92,10 @@ stats = ripqp(QM)
 println(stats)
 ```
 
-```
+```plaintext
 Generic Execution stats
   status: first-order stationary
-  objective value: 1.124999999785076
+  objective value: 1.1249999997850777
   primal feasibility: 6.138085685914678e-11
   dual feasibility: 3.864633058014988e-10
   solution: [5.6676609869371275e-11  1.5000000000152136  4.704246989775501e
@@ -105,10 +105,10 @@ Generic Execution stats
 ]
   multipliers_U: [0.0  0.0  0.0]
   iterations: 16
-  elapsed time: 10.801410913467407
+  elapsed time: 16.001592874526978
   solver specific:
     nvar_slack: 3
-    pdd: 6.422386806027528e-10
+    pdd: 6.42239516535383e-10
     absolute_iter_cnt: 4
 ```
 
@@ -127,7 +127,7 @@ using QPSReader, QuadraticModels
 QM = QuadraticModel(readqps("QAFIRO.SIF"))
 ```
 
-```
+```plaintext
 Error: SystemError: opening file "QAFIRO.SIF": No such file or directory
 ```
 
@@ -145,7 +145,7 @@ You can deactivate logging with
 stats = ripqp(QM, display = false)
 ```
 
-```
+```plaintext
 "Execution stats: first-order stationary"
 ```
 
@@ -160,13 +160,13 @@ stats = ripqp(QM, history = true)
 pddH = stats.solver_specific[:pddH]
 ```
 
-```
+```plaintext
 5-element Vector{Float64}:
  2.0425814644358002
  0.6845391618145797
  0.0006472337157159482
- 6.426950916840951e-7
- 6.422386806027528e-10
+ 6.426950908481628e-7
+ 6.42239516535383e-10
 ```
 
 
@@ -181,7 +181,7 @@ You can use `RipQP` without scaling with:
 stats = ripqp(QM, scaling = false)
 ```
 
-```
+```plaintext
 "Execution stats: first-order stationary"
 ```
 
@@ -195,7 +195,7 @@ You can also change the [`RipQP.InputTol`](https://juliasmoothoptimizers.github.
 stats = ripqp(QM, itol = InputTol(max_iter = 100, ϵ_rb = 1e-4), scaling = false)
 ```
 
-```
+```plaintext
 "Execution stats: first-order stationary"
 ```
 
@@ -214,7 +214,7 @@ w = SystemWrite(write = true, name="test_", kfirst = 4, kgap=3)
 stats1 = ripqp(QM, w = w)
 ```
 
-```
+```plaintext
 "Execution stats: first-order stationary"
 ```
 
@@ -233,11 +233,11 @@ rhs_aff = readdlm("test_rhs_iter4_aff.rhs", Float64)[:]
 rhs_cc =  readdlm("test_rhs_iter4_cc.rhs", Float64)[:]
 ```
 
-```
+```plaintext
 5-element Vector{Float64}:
  -7.65907083541235e-9
   3.293857956802506e-15
-  1.4101961075442412e-7
+  1.4101961075442407e-7
   0.0
   0.0
 ```
@@ -254,8 +254,8 @@ You can see the elapsed time with:
 stats1.elapsed_time
 ```
 
-```
-0.2061910629272461
+```plaintext
+0.2457740306854248
 ```
 
 
@@ -273,35 +273,35 @@ TimerOutputs.complement!(RipQP.to) # print complement of timed sections
 show(RipQP.to, sortby = :firstexec)
 ```
 
-```
+```plaintext
 ──────────────────────────────────────────────────────────────────────────
 ──────
                                         Time                    Allocations
       
                                ───────────────────────   ──────────────────
 ──────
-       Tot / % measured:            2.42s /  46.9%            178MiB /  60.
-1%    
+       Tot / % measured:            3.21s /  48.4%            207MiB /  48.
+4%    
 
  Section               ncalls     time    %tot     avg     alloc    %tot   
    avg
  ──────────────────────────────────────────────────────────────────────────
 ──────
- ripqp                      1    1.13s  100.0%   1.13s    107MiB  100.0%   
-107MiB
-   ~ripqp~                  1    1.13s   99.9%   1.13s    107MiB   99.9%   
-107MiB
-   allocate workspace       1   62.0μs    0.0%  62.0μs   5.55KiB    0.0%  5
-.55KiB
-   init solver              1   43.4μs    0.0%  43.4μs   3.80KiB    0.0%  3
-.80KiB
-   display                  5    448μs    0.0%  89.7μs   53.3KiB    0.0%  1
-0.7KiB
-   update solver            4   20.0μs    0.0%  5.01μs      960B    0.0%   
+ ripqp                      1    1.55s  100.0%   1.55s    100MiB  100.0%   
+100MiB
+   ~ripqp~                  1    1.55s   99.9%   1.55s    100MiB   99.9%   
+100MiB
+   allocate workspace       1   91.0μs    0.0%  91.0μs   5.73KiB    0.0%  5
+.73KiB
+   init solver              1   53.9μs    0.0%  53.9μs   3.93KiB    0.0%  3
+.93KiB
+   display                  5    685μs    0.0%   137μs   51.0KiB    0.0%  1
+0.2KiB
+   update solver            4   25.4μs    0.0%  6.35μs      960B    0.0%   
   240B
-   solver aff               4   2.08μs    0.0%   520ns     0.00B    0.0%   
+   solver aff               4   3.00μs    0.0%   750ns     0.00B    0.0%   
  0.00B
-   solver cc                4   1.09μs    0.0%   273ns     0.00B    0.0%   
+   solver cc                4   1.10μs    0.0%   275ns     0.00B    0.0%   
  0.00B
  ──────────────────────────────────────────────────────────────────────────
 ──────
