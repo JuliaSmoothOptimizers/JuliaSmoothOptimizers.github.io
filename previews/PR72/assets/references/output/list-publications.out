@@ -239,6 +239,9 @@
 </button>
 ~~~A Unified Efficient Implementation of Trust-region Type Algorithms for Unconstrained Optimization, **J.-P. Dussault**, INFOR: Information Systems and Operational Research, 58(2), 290--309, 2019., [10.1080/03155986.2019.1624490](10.1080/03155986.2019.1624490)
 ### Talks
+- [The JuliaSmoothOptimizers (JSO) Organization](https://www.youtube.com/watch?v=p5Z5QGOUZhE), **Dominique Orban**, JuliaCon / JuMP-dev 2022, 2022-Jul-28
+- [PDE-constrained optimization using JuliaSmoothOptimizers](https://www.youtube.com/watch?v=BvReBcMyujQ), **Tangi Migot**, JuliaCon / JuMP-dev 2022, 2022-Jul-28
+- [A multi-precision algorithm for convex quadratic optimization](https://www.youtube.com/watch?v=4xVOfMZwZMA), **Geoffroy Leconte**, JuliaCon / JuMP-dev 2022, 2022-Jul-27
 - [A roadmap for JuliaSmoothOptimizers and its NLPModels API](https://youtu.be/FsQJ6NEUF6g), **Tangi Migot and Alexis Montoison**, JuMP nonlinear developers call (online)., 2022-Feb-15
 - [Krylov.jl : une bibliothèque Julia pour l’algèbre linéaire numérique](https://www.youtube.com/watch?v=9brh5XHcC8o), **Alexis Montoison**, IVADO Digital October (online)., 2021-Nov-16
 - [Large scale optimization solvers in Julia for data science](https://www.youtube.com/watch?v=uMKQTUfGkWw&), **Tangi Migot**, IVADO Digital October (online)., 2021-Nov-15
