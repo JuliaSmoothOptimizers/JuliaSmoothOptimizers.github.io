@@ -42,6 +42,25 @@
 
 <item>
   <title>
+    <![CDATA[  Conference: JuliaSmoothOptimizers at JuliaCon 2022  ]]>
+  </title>
+  <link> https://juliasmoothoptimizers.github.io/news-and-blogposts/2022/2022-07-30-juliacon22/index.html </link>
+  <guid> https://juliasmoothoptimizers.github.io/news-and-blogposts/2022/2022-07-30-juliacon22/index.html </guid>
+  <description>
+    <![CDATA[  This year&#39;s JuliaCon 2022/JuMP-dev 2022 featured three talks on JuliaSmoothOptimizers.  ]]>
+  </description>  
+    
+  <pubDate>Thu, 11 Aug 2022 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Abel Soares Siqueira</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
     <![CDATA[  Moving our site  ]]>
   </title>
   <link> https://juliasmoothoptimizers.github.io/news-and-blogposts/2022/2022-03-12-new-site/index.html </link>

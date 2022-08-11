@@ -32,6 +32,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>https://juliasmoothoptimizers.github.io/news-and-blogposts/2022/2022-07-30-juliacon22/index.html</loc>
+    <lastmod>2022-08-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>https://juliasmoothoptimizers.github.io/tutorials/introduction-to-cutest/index.html</loc>
     <lastmod>2022-08-11</lastmod>
     <changefreq>monthly</changefreq>
