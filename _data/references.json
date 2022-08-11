@@ -124,5 +124,29 @@
     "where": "JuMP nonlinear developers call (online).",
     "link": "https://youtu.be/FsQJ6NEUF6g",
     "type": "talk"
+  },
+  {
+    "title": "A multi-precision algorithm for convex quadratic optimization",
+    "author": "Geoffroy Leconte",
+    "date": "2022-07-27",
+    "where": "JuliaCon / JuMP-dev 2022",
+    "link": "https://www.youtube.com/watch?v=4xVOfMZwZMA",
+    "type": "talk"
+  },
+  {
+    "title": "The JuliaSmoothOptimizers (JSO) Organization",
+    "author": "Dominique Orban",
+    "date": "2022-07-28",
+    "where": "JuliaCon / JuMP-dev 2022",
+    "link": "https://www.youtube.com/watch?v=p5Z5QGOUZhE",
+    "type": "talk"
+  },
+  {
+    "title": "PDE-constrained optimization using JuliaSmoothOptimizers",
+    "author": "Tangi Migot",
+    "date": "2022-07-28",
+    "where": "JuliaCon / JuMP-dev 2022",
+    "link": "https://www.youtube.com/watch?v=BvReBcMyujQ",
+    "type": "talk"
   }
 ]
