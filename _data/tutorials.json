@@ -70,5 +70,13 @@
     "date": "2022-06-25",
     "tags": ["introduction", "quadratic", "regularized", "solver"],
     "pkgs": ["QuadraticModels", "LinearAlgebra", "SparseMatricesCOO", "RipQP", "QPSReader", "QuadraticModels", "DelimitedFiles", "MatrixMarket", "TimerOutputs"]
+  },
+  {
+    "title": "Introduction to ADNLPModels",
+    "link": "/tutorials/introduction-to-adnlpmodels",
+    "short": "ADNLPModel is simple to use and is useful for classrooms.",
+    "date": "2022-08-11",
+    "tags": ["introduction", "model", "automatic differentiation"],
+    "pkgs": ["NLPModels", "ADNLPModels"]
   }
 ]
