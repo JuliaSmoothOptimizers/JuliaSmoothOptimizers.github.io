@@ -1,0 +1,382 @@
+@def title = "ADNLPModels.jl tutorial"
+@def showall = true
+@def tags = ["models", "nlpmodels", "manual"]
+
+\preamble{Abel Soares Siqueira and Dominique Orban}
+
+
+
+ADNLPModel is simple to use and is useful for classrooms.
+It only needs the objective function $f$ and a starting point $x^0$ to be
+well-defined.
+For constrained problems, you'll also need the constraints function $c$, and
+the constraints vectors $c_L$ and $c_U$, such that $c_L \leq c(x) \leq c_U$.
+Equality constraints will be automatically identified as those indices $i$ for
+which $c_{L_i} = c_{U_i}$.
+
+Let's define the famous Rosenbrock function
+$$
+f(x) = (x_1 - 1)^2 + 100(x_2 - x_1^2)^2,
+$$
+with starting point $x^0 = (-1.2,1.0)$.
+
+```julia
+using ADNLPModels
+
+nlp = ADNLPModel(x->(x[1] - 1.0)^2 + 100*(x[2] - x[1]^2)^2 , [-1.2; 1.0])
+```
+
+```plaintext
+ADNLPModel - Model with automatic differentiation backend ADNLPModels.ADMod
+elBackend{ADNLPModels.ForwardDiffADGradient, ADNLPModels.ForwardDiffADHvpro
+d, ADNLPModels.ForwardDiffADJprod, ADNLPModels.ForwardDiffADJtprod, ADNLPMo
+dels.ForwardDiffADJacobian, ADNLPModels.ForwardDiffADHessian, ADNLPModels.F
+orwardDiffADGHjvprod}(ADNLPModels.ForwardDiffADGradient(ForwardDiff.Gradien
+tConfig{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#2", Float64}, Float6
+4, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#
+1#2", Float64}, Float64, 2}}}((Partials(1.0, 0.0), Partials(0.0, 1.0)), For
+wardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#2", Float64}, 
+Float64, 2}[Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#2", Float64
+}}(0.0,6.91161909006214e-310,6.91161921138727e-310), Dual{ForwardDiff.Tag{M
+ain.##WeaveSandBox#291.var"#1#2", Float64}}(0.0,6.91161909006214e-310,6.911
+5789274634e-310)])), ADNLPModels.ForwardDiffADHvprod(), ADNLPModels.Forward
+DiffADJprod(), ADNLPModels.ForwardDiffADJtprod(), ADNLPModels.ForwardDiffAD
+Jacobian(0), ADNLPModels.ForwardDiffADHessian(3), ADNLPModels.ForwardDiffAD
+GHjvprod())
+  Problem name: Generic
+   All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 2                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: (  0.00% sparsity)   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: (------% spa
+rsity)         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0
+```
+
+
+
+
+
+This is enough to define the model.
+Let's get the objective function value at $x^0$, using only `nlp`.
+
+```julia
+using NLPModels # To access the API
+
+fx = obj(nlp, nlp.meta.x0)
+println("fx = $fx")
+```
+
+```plaintext
+fx = 24.199999999999996
+```
+
+
+
+
+
+Done.
+Let's try the gradient and Hessian.
+
+```julia
+gx = grad(nlp, nlp.meta.x0)
+Hx = hess(nlp, nlp.meta.x0)
+println("gx = $gx")
+println("Hx = $Hx")
+```
+
+```plaintext
+gx = [-215.59999999999997, -87.99999999999999]
+Hx = [1330.0 480.0; 480.0 200.0]
+```
+
+
+
+
+
+Notice that the Hessian is *dense*. This is a current limitation of this model. It
+doesn't return sparse matrices, so use it with care.
+
+Let's do something a little more complex here, defining a function to try to
+solve this problem through steepest descent method with Armijo search.
+Namely, the method
+
+1. Given $x^0$, $\varepsilon > 0$, and $\eta \in (0,1)$. Set $k = 0$;
+2. If $\Vert \nabla f(x^k) \Vert < \varepsilon$ STOP with $x^* = x^k$;
+3. Compute $d^k = -\nabla f(x^k)$;
+4. Compute $\alpha_k \in (0,1]$ such that $f(x^k + \alpha_kd^k) < f(x^k) + \alpha_k\eta \nabla f(x^k)^Td^k$
+5. Define $x^{k+1} = x^k + \alpha_kx^k$
+6. Update $k = k + 1$ and go to step 2.
+
+```julia
+using LinearAlgebra
+
+function steepest(nlp; itmax=100000, eta=1e-4, eps=1e-6, sigma=0.66)
+  x = nlp.meta.x0
+  fx = obj(nlp, x)
+  ∇fx = grad(nlp, x)
+  slope = dot(∇fx, ∇fx)
+  ∇f_norm = sqrt(slope)
+  iter = 0
+  while ∇f_norm > eps && iter < itmax
+    t = 1.0
+    x_trial = x - t * ∇fx
+    f_trial = obj(nlp, x_trial)
+    while f_trial > fx - eta * t * slope
+      t *= sigma
+      x_trial = x - t * ∇fx
+      f_trial = obj(nlp, x_trial)
+    end
+    x = x_trial
+    fx = f_trial
+    ∇fx = grad(nlp, x)
+    slope = dot(∇fx, ∇fx)
+    ∇f_norm = sqrt(slope)
+    iter += 1
+  end
+  optimal = ∇f_norm <= eps
+  return x, fx, ∇f_norm, optimal, iter
+end
+
+x, fx, ngx, optimal, iter = steepest(nlp)
+println("x = $x")
+println("fx = $fx")
+println("ngx = $ngx")
+println("optimal = $optimal")
+println("iter = $iter")
+```
+
+```plaintext
+x = [1.0000006499501406, 1.0000013043156974]
+fx = 4.2438440239813445e-13
+ngx = 9.984661274466946e-7
+optimal = true
+iter = 17962
+```
+
+
+
+
+
+Maybe this code is too complicated? If you're in a class you just want to show a
+Newton step.
+
+```julia
+g(x) = grad(nlp, x)
+H(x) = hess(nlp, x)
+x = nlp.meta.x0
+d = -H(x)\g(x)
+```
+
+```plaintext
+2-element Vector{Float64}:
+ 0.02471910112359557
+ 0.3806741573033705
+```
+
+
+
+
+
+or a few
+
+```julia
+for i = 1:5
+  global x
+  x = x - H(x)\g(x)
+  println("x = $x")
+end
+```
+
+```plaintext
+x = [-1.1752808988764043, 1.3806741573033705]
+x = [0.7631148711767448, -3.1750338547488415]
+x = [0.7634296788843487, 0.5828247754975671]
+x = [0.9999953110849988, 0.9440273238534903]
+x = [0.999995695653676, 0.9999913913257314]
+```
+
+
+
+
+
+Also, notice how we can reuse the method.
+
+```julia
+f(x) = (x[1]^2 + x[2]^2 - 5)^2 + (x[1]*x[2] - 2)^2
+x0 = [3.0; 2.0]
+nlp = ADNLPModel(f, x0)
+
+x, fx, ngx, optimal, iter = steepest(nlp)
+```
+
+```plaintext
+([1.9999999068493834, 1.000000113517522], 3.911490500207018e-14, 8.97987092
+7068038e-7, true, 153)
+```
+
+
+
+
+
+External models can be tested with `steepest` as well, as long as they implement `obj` and `grad`.
+
+For constrained minimization, you need the constraints vector and bounds too.
+Bounds on the variables can be passed through a new vector.
+
+```julia
+using NLPModels, ADNLPModels # hide
+f(x) = (x[1] - 1.0)^2 + 100*(x[2] - x[1]^2)^2
+x0 = [-1.2; 1.0]
+lvar = [-Inf; 0.1]
+uvar = [0.5; 0.5]
+c(x) = [x[1] + x[2] - 2; x[1]^2 + x[2]^2]
+lcon = [0.0; -Inf]
+ucon = [Inf; 1.0]
+nlp = ADNLPModel(f, x0, lvar, uvar, c, lcon, ucon)
+
+println("cx = $(cons(nlp, nlp.meta.x0))")
+println("Jx = $(jac(nlp, nlp.meta.x0))")
+```
+
+```plaintext
+cx = [-2.2, 2.44]
+Jx = sparse([1, 2, 1, 2], [1, 1, 2, 2], [1.0, -2.4, 1.0, 2.0], 2, 2)
+```
+
+
+
+
+
+## ADNLSModel tutorial
+
+In addition to the general nonlinear model, we can define the residual function for a
+nonlinear least-squares problem. In other words, the objective function of the problem
+is of the form $f(x) = \tfrac{1}{2}\|F(x)\|^2$, and we can define the function $F$
+and its derivatives.
+
+A simple way to define an NLS problem is with `ADNLSModel`, which uses automatic
+differentiation.
+
+```julia
+using NLPModels, ADNLPModels # hide
+F(x) = [x[1] - 1.0; 10 * (x[2] - x[1]^2)]
+x0 = [-1.2; 1.0]
+nls = ADNLSModel(F, x0, 2) # 2 nonlinear equations
+```
+
+```plaintext
+ADNLSModel - Nonlinear least-squares model with automatic differentiation b
+ackend ADNLPModels.ADModelBackend{ADNLPModels.ForwardDiffADGradient, ADNLPM
+odels.ForwardDiffADHvprod, ADNLPModels.ForwardDiffADJprod, ADNLPModels.Forw
+ardDiffADJtprod, ADNLPModels.ForwardDiffADJacobian, ADNLPModels.ForwardDiff
+ADHessian, ADNLPModels.ForwardDiffADGHjvprod}(ADNLPModels.ForwardDiffADGrad
+ient(ForwardDiff.GradientConfig{ForwardDiff.Tag{ADNLPModels.var"#82#84"{typ
+eof(Main.##WeaveSandBox#291.F)}, Float64}, Float64, 2, Vector{ForwardDiff.D
+ual{ForwardDiff.Tag{ADNLPModels.var"#82#84"{typeof(Main.##WeaveSandBox#291.
+F)}, Float64}, Float64, 2}}}((Partials(1.0, 0.0), Partials(0.0, 1.0)), Forw
+ardDiff.Dual{ForwardDiff.Tag{ADNLPModels.var"#82#84"{typeof(Main.##WeaveSan
+dBox#291.F)}, Float64}, Float64, 2}[Dual{ForwardDiff.Tag{ADNLPModels.var"#8
+2#84"{typeof(Main.##WeaveSandBox#291.F)}, Float64}}(8.4e-323,1.5e-323,6.911
+6220629113e-310), Dual{ForwardDiff.Tag{ADNLPModels.var"#82#84"{typeof(Main.
+##WeaveSandBox#291.F)}, Float64}}(1.43e-322,2.5e-323,6.91162033482935e-310)
+])), ADNLPModels.ForwardDiffADHvprod(), ADNLPModels.ForwardDiffADJprod(), A
+DNLPModels.ForwardDiffADJtprod(), ADNLPModels.ForwardDiffADJacobian(0), ADN
+LPModels.ForwardDiffADHessian(3), ADNLPModels.ForwardDiffADGHjvprod())
+  Problem name: Generic
+   All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0        All residuals: ████████████████████ 2     
+            free: ████████████████████ 2                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0            nonlinear: ████████████████████ 2     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzj: (  0.00% sparsity)   4     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzh: (  0.00% sparsity)   3     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: (  0.00% sparsity)   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: (------% spa
+rsity)         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0             residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+    jac_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       jprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0      jtprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+   hess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       jhess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0       hprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0
+```
+
+
+
+```julia
+residual(nls, x0)
+```
+
+```plaintext
+2-element Vector{Float64}:
+ -2.2
+ -4.3999999999999995
+```
+
+
+
+```julia
+jac_residual(nls, x0)
+```
+
+```plaintext
+2×2 Matrix{Float64}:
+  1.0   0.0
+ 24.0  10.0
+```
+
+
