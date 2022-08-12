@@ -86,5 +86,13 @@
     "date": "2022-08-12",
     "tags": ["introduction", "model", "automatic differentiation", "jump"],
     "pkgs": ["NLPModels", "NLPModelsJuMP"]
+  },
+  {
+    "title": "Introduction to OptimizationProblems",
+    "link": "/tutorials/introduction-to-optimizationproblems",
+    "short": "OptimizationProblems is a collection of problems in JuMP and ADNLPModel format.",
+    "date": "2022-08-12",
+    "tags": ["introduction", "model", "automatic differentiation", "jump", "test set"],
+    "pkgs": ["ADNLPModels", "NLPModels", "NLPModelsJuMP", "OptimizationProblems"]
   }
 ]
