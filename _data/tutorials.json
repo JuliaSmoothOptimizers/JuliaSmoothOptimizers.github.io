@@ -78,5 +78,13 @@
     "date": "2022-08-11",
     "tags": ["introduction", "model", "automatic differentiation"],
     "pkgs": ["NLPModels", "ADNLPModels"]
+  },
+  {
+    "title": "Introduction to NLPModelsJuMP",
+    "link": "/tutorials/introduction-to-nlpmodelsjump",
+    "short": "NLPModelsJuMP is a combination of NLPModels and JuMP.",
+    "date": "2022-08-12",
+    "tags": ["introduction", "model", "automatic differentiation", "jump"],
+    "pkgs": ["NLPModels", "NLPModelsJuMP"]
   }
 ]
