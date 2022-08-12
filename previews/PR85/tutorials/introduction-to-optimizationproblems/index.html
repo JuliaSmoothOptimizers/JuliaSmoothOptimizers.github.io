@@ -1,0 +1,915 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR85/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR85//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR85//assets/favicon.png"> <title>OptimizationProblems.jl tutorial</title> <script src="/previews/PR85/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR85/"> <img src="https://jso-preview.netlify.app/previews/PR85//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR85//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR85//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR85//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR85//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR85//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR85//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR85//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR85//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR85//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >OptimizationProblems.jl tutorial</a></h1></p> <div class=author >by Tangi Migot</div> <p><a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/"><img class=badge  src="https://img.shields.io/badge/ADNLPModels-JSO-hsl(9,100%25,30%25)?style=flat-square&labelColor=hsl(9,30%25,30%25)"></a> <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img class=badge  src="https://img.shields.io/badge/NLPModels-JSO-hsl(175,100%25,30%25)?style=flat-square&labelColor=hsl(175,30%25,30%25)"></a> <a href="https://juliasmoothoptimizers.github.io/NLPModelsJuMP.jl/stable/"><img class=badge  src="https://img.shields.io/badge/NLPModelsJuMP-JSO-hsl(193,100%25,30%25)?style=flat-square&labelColor=hsl(193,30%25,30%25)"></a> <a href="https://juliasmoothoptimizers.github.io/OptimizationProblems.jl/stable/"><img class=badge  src="https://img.shields.io/badge/OptimizationProblems-JSO-hsl(240,100%25,30%25)?style=flat-square&labelColor=hsl(240,30%25,30%25)"></a> <p>In this tutorial, we will see how to access the problems in <a href="https://github.com/JuliaOpt/JuMP.jl">JuMP</a> and <a href="https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl">ADNLPModel</a> syntax. This package is subdivided in two submodules: <code>PureJuMP</code> for the JuMP problems, <code>ADNLPProblems</code> for the ADNLPModel problems. </p> <h2 id=problems_in_jump_syntax_purejump ><a href="#problems_in_jump_syntax_purejump" class=header-anchor >Problems in JuMP syntax: PureJuMP</a></h2> <p>You can obtain the list of problems currently defined with <code>OptimizationProblems.meta&#91;&#33;, :name&#93;</code>.</p> <pre><code class=language-julia >using OptimizationProblems, OptimizationProblems.PureJuMP
+problems &#61; OptimizationProblems.meta&#91;&#33;, :name&#93;
+length&#40;problems&#41;</code></pre> <pre><code class=language-plaintext >261</code></pre>
+<p>Then, it suffices to select any of this problem to get the JuMP model.</p>
+<pre><code class=language-julia >jump_model &#61; OptimizationProblems.PureJuMP.zangwil3&#40;&#41;</code></pre>
+<pre><code class=language-plaintext >A JuMP Model
+Minimization problem with:
+Variables: 3
+Objective function type: Nonlinear
+&#96;JuMP.AffExpr&#96;-in-&#96;MathOptInterface.EqualTo&#123;Float64&#125;&#96;: 3 constraints
+Model mode: AUTOMATIC
+CachingOptimizer state: NO_OPTIMIZER
+Solver name: No optimizer attached.
+Names registered in the model: constr1, constr2, constr3, x</code></pre>
+<p>Note that certain problems are scalable, i.e., their size depends on parameters that can be modified. The list of those problems is available once again using <code>meta</code>:</p>
+<pre><code class=language-julia >var_problems &#61; OptimizationProblems.meta&#91;OptimizationProblems.meta.variable_nvar, :name&#93;
+length&#40;var_problems&#41;</code></pre>
+<pre><code class=language-plaintext >84</code></pre>
+<p>Then, using the keyword <code>n</code>, it is possible to specify the targeted number of variables.</p>
+<pre><code class=language-julia >jump_model_12 &#61; OptimizationProblems.PureJuMP.woods&#40;n&#61;12&#41;</code></pre>
+<pre><code class=language-plaintext >A JuMP Model
+Minimization problem with:
+Variables: 12
+Objective function type: Nonlinear
+Model mode: AUTOMATIC
+CachingOptimizer state: NO_OPTIMIZER
+Solver name: No optimizer attached.
+Names registered in the model: x</code></pre>
+<pre><code class=language-julia >jump_model_120 &#61; OptimizationProblems.PureJuMP.woods&#40;n&#61;120&#41;</code></pre>
+<pre><code class=language-plaintext >A JuMP Model
+Minimization problem with:
+Variables: 120
+Objective function type: Nonlinear
+Model mode: AUTOMATIC
+CachingOptimizer state: NO_OPTIMIZER
+Solver name: No optimizer attached.
+Names registered in the model: x</code></pre>
+<p>These problems can be converted as <a href="https://github.com/JuliaSmoothOptimizers/NLPModels.jl">NLPModels</a> via <a href="https://github.com/JuliaSmoothOptimizers/NLPModelsJuMP.jl">NLPModelsJuMP</a> to facilitate evaluating objective, constraints and their derivatives.</p>
+<pre><code class=language-julia >using NLPModels, NLPModelsJuMP
+nlp_model_120 &#61; MathOptNLPModel&#40;jump_model_120&#41;
+obj&#40;nlp_model_120, zeros&#40;120&#41;&#41;</code></pre>
+<pre><code class=language-plaintext >Error: ArgumentError: Package NLPModelsJuMP not found in current path:
+- Run &#96;import Pkg; Pkg.add&#40;&quot;NLPModelsJuMP&quot;&#41;&#96; to install the NLPModelsJuMP p
+ackage.</code></pre>
+<h2 id=problems_in_adnlpmodel_syntax_adnlpproblems ><a href="#problems_in_adnlpmodel_syntax_adnlpproblems" class=header-anchor >Problems in ADNLPModel syntax: ADNLPProblems</a></h2>
+<p>This package also offers <a href="https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl">ADNLPModel</a> test problems. This is an optional dependency, so <code>ADNLPModels</code> has to be added first.</p>
+<pre><code class=language-julia >using ADNLPModels</code></pre>
+<p>You can obtain the list of problems currently defined with <code>OptimizationProblems.meta&#91;&#33;, :name&#93;</code>:</p>
+<pre><code class=language-julia >using OptimizationProblems, OptimizationProblems.ADNLPProblems
+problems &#61; OptimizationProblems.meta&#91;&#33;, :name&#93;
+length&#40;problems&#41;</code></pre>
+<pre><code class=language-plaintext >261</code></pre>
+<p>Similarly, to the PureJuMP models, it suffices to select any of this problem to get the model.</p>
+<pre><code class=language-julia >nlp &#61; OptimizationProblems.ADNLPProblems.zangwil3&#40;&#41;</code></pre>
+<pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADNLPModels.ADMod
+elBackend&#123;ADNLPModels.ForwardDiffADGradient, ADNLPModels.ForwardDiffADHvpro
+d, ADNLPModels.ForwardDiffADJprod, ADNLPModels.ForwardDiffADJtprod, ADNLPMo
+dels.ForwardDiffADJacobian, ADNLPModels.ForwardDiffADHessian, ADNLPModels.F
+orwardDiffADGHjvprod&#125;&#40;ADNLPModels.ForwardDiffADGradient&#40;ForwardDiff.Gradien
+tConfig&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1332&quot;&#123;Flo
+at64&#125;, Float64&#125;, Float64, 3, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;Optimi
+zationProblems.ADNLPProblems.var&quot;#f#1332&quot;&#123;Float64&#125;, Float64&#125;, Float64, 3&#125;&#125;&#125;
+&#40;&#40;Partials&#40;1.0, 0.0, 0.0&#41;, Partials&#40;0.0, 1.0, 0.0&#41;, Partials&#40;0.0, 0.0, 1.0&#41;
+&#41;, ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;
+#f#1332&quot;&#123;Float64&#125;, Float64&#125;, Float64, 3&#125;&#91;Dual&#123;ForwardDiff.Tag&#123;OptimizationP
+roblems.ADNLPProblems.var&quot;#f#1332&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,0.0,0.0,0.0&#41;, Du
+al&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1332&quot;&#123;Float64&#125;
+, Float64&#125;&#125;&#40;0.0,0.0,0.0,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADN
+LPProblems.var&quot;#f#1332&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,0.0,0.0,0.0&#41;&#93;&#41;&#41;, ADNLPModel
+s.ForwardDiffADHvprod&#40;&#41;, ADNLPModels.ForwardDiffADJprod&#40;&#41;, ADNLPModels.Forw
+ardDiffADJtprod&#40;&#41;, ADNLPModels.ForwardDiffADJacobian&#40;9&#41;, ADNLPModels.Forwar
+dDiffADHessian&#40;6&#41;, ADNLPModels.ForwardDiffADGHjvprod&#40;&#41;&#41;
+  Problem name: zangwil3
+   All variables: ████████████████████ 3      All constraints: ████████████
+████████ 3     
+            free: ████████████████████ 3                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ████████████
+████████ 3     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   6               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ████████████
+████████ 3     
+                                                         nnzj: &#40;  0.00&#37; spa
+rsity&#41;   9     
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<p>Note that some of these problems are scalable, i.e., their size depends on some parameters that can be modified.</p>
+<pre><code class=language-julia >nlp_12 &#61; OptimizationProblems.ADNLPProblems.woods&#40;n&#61;12&#41;</code></pre>
+<pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADNLPModels.ADMod
+elBackend&#123;ADNLPModels.ForwardDiffADGradient, ADNLPModels.ForwardDiffADHvpro
+d, ADNLPModels.ForwardDiffADJprod, ADNLPModels.ForwardDiffADJtprod, ADNLPMo
+dels.ForwardDiffADJacobian, ADNLPModels.ForwardDiffADHessian, ADNLPModels.F
+orwardDiffADGHjvprod&#125;&#40;ADNLPModels.ForwardDiffADGradient&#40;ForwardDiff.Gradien
+tConfig&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Flo
+at64&#125;, Float64&#125;, Float64, 12, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;Optim
+izationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;, Float64, 12&#125;
+&#125;&#125;&#40;&#40;Partials&#40;1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, P
+artials&#40;0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partia
+ls&#40;0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0&#41;&#41;, ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.A
+DNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;, Float64, 12&#125;&#91;Dual&#123;ForwardDiff
+.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;2.
+1219957915e-314,3.8195924245e-313,2.5463949502e-313,5.304989478e-313,6.5781
+869534e-313,4.6683907412e-313,4.6683907412e-313,4.66839074175e-313,2.546394
+9509e-313,8.912382324e-313,7.6391848497e-313,7.63918484925e-313,9.973380219
+3e-313&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#132
+9&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;1.06099789566e-312,2.5463949517e-313,2.33419537065e-
+313,2.3341953706e-313,2.3341953706e-313,2.3341953706e-313,4.243991582e-314,
+1.10343781131e-312,4.2439916076e-314,1.12465776922e-312,4.243991608e-314,1.
+14587772713e-312,4.2439916086e-314&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProbl
+ems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;1.16709768504e-312,4.243
+991609e-314,1.18831764295e-312,4.2439916096e-314,1.20953760086e-312,4.24399
+161e-314,6.9033212082815e-310,6.90332120828465e-310,6.9033212082878e-310,6.
+903321208291e-310,6.90332120829414e-310,6.9033212082973e-310,6.903321208300
+46e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#13
+29&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.90332120830363e-310,6.9033212083068e-310,6.903321
+20830995e-310,6.9033212083131e-310,6.90332120831627e-310,6.90332120831944e-
+310,6.9033212083226e-310,6.90332120832576e-310,6.9033212083289e-310,6.90332
+12083321e-310,6.90332120833525e-310,6.9033212083384e-310,6.90332120834157e-
+310&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;
+Float64&#125;, Float64&#125;&#125;&#40;6.90332120834473e-310,6.9033212083479e-310,6.9033212083
+5106e-310,6.9033212083542e-310,6.9033212083574e-310,6.90332120836054e-310,6
+.9033212083637e-310,6.90332120836687e-310,6.90332120837003e-310,6.903321208
+17517e-310,6.9033212083732e-310,6.90332120817517e-310,6.90332120837635e-310
+&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Flo
+at64&#125;, Float64&#125;&#125;&#40;6.90332120838584e-310,6.90332120817517e-310,6.903321208205
+6e-310,6.903321208389e-310,6.90332120839216e-310,6.90332120817517e-310,6.90
+33212083795e-310,6.90332120817517e-310,6.9033212083795e-310,6.9033212081751
+7e-310,6.9033212083827e-310,6.90332120817517e-310,6.9033212083827e-310&#41;, Du
+al&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;
+, Float64&#125;&#125;&#40;6.90332120817517e-310,6.9033212082056e-310,6.9033212083953e-310
+,6.90332120817517e-310,6.90332120840165e-310,6.9033212084048e-310,6.9033212
+0840797e-310,6.90332120841113e-310,6.9033212084143e-310,6.90332120841746e-3
+10,6.9033212084206e-310,6.9033212084238e-310,6.90332120842694e-310&#41;, Dual&#123;F
+orwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Fl
+oat64&#125;&#125;&#40;6.9033212084301e-310,6.90332120843327e-310,6.90332120843643e-310,6.
+9033212084396e-310,6.90332120844275e-310,6.9033212084459e-310,6.90332120844
+91e-310,6.90332120845224e-310,6.9033212084554e-310,6.90332120845856e-310,6.
+90332120846173e-310,6.9033212084649e-310,6.90332120846805e-310&#41;, Dual&#123;Forwa
+rdDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float6
+4&#125;&#125;&#40;6.9033212084712e-310,6.90332120847437e-310,6.90332120847754e-310,6.9033
+212084807e-310,6.90332120848386e-310,6.903321208487e-310,6.9033212084902e-3
+10,6.90332120849335e-310,6.9033212084965e-310,6.90332120849967e-310,6.90332
+120850283e-310,6.903321208506e-310,6.90332120850916e-310&#41;, Dual&#123;ForwardDiff
+.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.
+9033212085123e-310,6.9033212085155e-310,6.90332120851864e-310,6.90332120852
+18e-310,6.90332120852497e-310,6.90332120852813e-310,6.9033212085313e-310,6.
+90332120853445e-310,6.9033212085376e-310,6.9033212085408e-310,6.90332120854
+394e-310,6.9033212085471e-310,6.90332120855026e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;
+OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.90332
+120855342e-310,6.9033212085566e-310,6.90332120855975e-310,6.9033212085629e-
+310,6.90332120856607e-310,6.90332120856924e-310,6.9033212085724e-310,6.9033
+2120857556e-310,6.9033212085787e-310,6.9033212085819e-310,6.90332120858505e
+-310,6.9033212085882e-310,6.90332120859137e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;Opti
+mizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903321208
+59453e-310,6.9033212085977e-310,6.90332120860086e-310,6.903321208604e-310,6
+.9033212086072e-310,6.90332120861034e-310,6.9033212086135e-310,6.9033212086
+1667e-310,6.90332120837635e-310,6.9033212083795e-310,6.9033212083827e-310,0
+.0,0.0&#41;&#93;&#41;&#41;, ADNLPModels.ForwardDiffADHvprod&#40;&#41;, ADNLPModels.ForwardDiffADJpr
+od&#40;&#41;, ADNLPModels.ForwardDiffADJtprod&#40;&#41;, ADNLPModels.ForwardDiffADJacobian&#40;
+0&#41;, ADNLPModels.ForwardDiffADHessian&#40;78&#41;, ADNLPModels.ForwardDiffADGHjvprod
+&#40;&#41;&#41;
+  Problem name: woods
+   All variables: ████████████████████ 12     All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 12                free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   78              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; spa
+rsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<pre><code class=language-julia >nlp_120 &#61; OptimizationProblems.ADNLPProblems.woods&#40;n&#61;120&#41;</code></pre>
+<pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADNLPModels.ADMod
+elBackend&#123;ADNLPModels.ForwardDiffADGradient, ADNLPModels.ForwardDiffADHvpro
+d, ADNLPModels.ForwardDiffADJprod, ADNLPModels.ForwardDiffADJtprod, ADNLPMo
+dels.ForwardDiffADJacobian, ADNLPModels.ForwardDiffADHessian, ADNLPModels.F
+orwardDiffADGHjvprod&#125;&#40;ADNLPModels.ForwardDiffADGradient&#40;ForwardDiff.Gradien
+tConfig&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Flo
+at64&#125;, Float64&#125;, Float64, 12, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;Optim
+izationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;, Float64, 12&#125;
+&#125;&#125;&#40;&#40;Partials&#40;1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, P
+artials&#40;0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partia
+ls&#40;0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0, 0.0&#41;, Partials&#40;0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.
+0, 0.0, 0.0, 1.0&#41;&#41;, ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.A
+DNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;, Float64, 12&#125;&#91;Dual&#123;ForwardDiff
+.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.
+0,6.3966703e-316,6.903326239131e-310,3.8341764e-316,6.3966794e-316,6.544963
+5e-316,3.56856976e-316,6.39668056e-316,6.903326239131e-310,3.83357165e-316,
+0.0,6.59488626e-316,3.56856976e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProb
+lems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;5.56596175e-316,6.90332
+6239131e-310,3.8341835e-316,0.0,1.5965996e-316,3.56856976e-316,5.51260977e-
+316,6.903326239131e-310,1.0e-323,0.0,NaN,0.0,2.22944316e-316&#41;, Dual&#123;Forward
+Diff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;
+&#125;&#40;6.903326239131e-310,3.833574e-316,5.48824127e-316,7.5700181e-316,3.568569
+76e-316,5.48824246e-316,6.903326239131e-310,3.8341906e-316,5.5125572e-316,5
+.48627687e-316,3.56856976e-316,5.5125584e-316,6.903326239131e-310&#41;, Dual&#123;Fo
+rwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Flo
+at64&#125;&#125;&#40;3.8335835e-316,0.0,1.7526548e-316,3.56856976e-316,6.44386265e-316,6.
+903326239131e-310,3.8335859e-316,0.0,2.7745794e-316,3.56856976e-316,5.56610
+09e-316,6.903326239131e-310,3.8335906e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimizat
+ionProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.75645956e-316,
+6.5948926e-316,3.56856976e-316,6.75646075e-316,6.903326239131e-310,3.834197
+73e-316,0.0,3.651738e-316,3.56856976e-316,3.58475535e-316,6.903326239131e-3
+10,1.0e-323,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.v
+ar&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;NaN,0.0,0.0,6.903326239131e-310,3.83359774e
+-316,4.08117e-316,9.8787497e-316,3.56856976e-316,4.08117117e-316,6.90332623
+9131e-310,3.8336001e-316,0.0,1.7526524e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimiza
+tionProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.56856976e-316
+,6.4438516e-316,6.903326239131e-310,3.8336025e-316,0.0,7.3544517e-316,3.568
+56976e-316,9.851099e-316,6.903326239131e-310,3.83421196e-316,0.0,1.7286369e
+-316,3.56856976e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProbl
+ems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;5.51255365e-316,6.903326239131e-310,1.
+0e-323,0.0,NaN,0.0,0.0,6.903326239131e-310,3.8342167e-316,0.0,2.1585222e-31
+6,3.56856976e-316,9.85106345e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProble
+ms.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,3.833
+61196e-316,4.0810759e-316,2.8514386e-316,3.56856976e-316,4.0810771e-316,6.9
+03326239131e-310,3.83476215e-316,6.75640423e-316,4.5738906e-316,3.56856976e
+-316,6.7564054e-316,6.903326239131e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimization
+Problems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.8336167e-316,5.51
+256195e-316,9.8787434e-316,3.56856976e-316,5.51256313e-316,6.903326239131e-
+310,6.95258723262955e-310,2.81605363e-316,NaN,0.0,2.8160548e-316,6.90332623
+9131e-310,6.95258723262955e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems
+.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,NaN,0.0,5.5661317e-316,
+6.903326239131e-310,3.8336238e-316,6.15938637e-316,4.3438307e-316,3.5685697
+6e-316,6.15938755e-316,6.903326239131e-310,3.8342096e-316,0.0&#41;, Dual&#123;Forwar
+dDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64
+&#125;&#125;&#40;3.6517467e-316,3.56856976e-316,6.5450987e-316,6.903326239131e-310,3.8342
+3567e-316,9.8510528e-316,2.15852854e-316,3.56856976e-316,9.85105397e-316,6.
+903326239131e-310,3.83423804e-316,5.48821677e-316,9.3019933e-316&#41;, Dual&#123;For
+wardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Floa
+t64&#125;&#125;&#40;3.56856976e-316,5.48821795e-316,6.903326239131e-310,6.95258723262955e
+-310,0.0,NaN,0.0,2.8160493e-316,6.903326239131e-310,3.8342428e-316,3.584794
+5e-316,3.42862665e-316,3.56856976e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationP
+roblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.58479566e-316,6.90
+3326239131e-310,3.8336357e-316,0.0,4.34382516e-316,3.56856976e-316,6.159392
+3e-316,6.903326239131e-310,3.8336404e-316,0.0,2.8514742e-316,3.56856976e-31
+6,3.1465784e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.
+var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,3.8336428e-316,3.58462
+294e-316,3.95147656e-316,3.56856976e-316,3.5846241e-316,6.903326239131e-310
+,3.83424516e-316,2.8161572e-316,3.1277948e-316,3.56856976e-316,2.81615837e-
+316,6.903326239131e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPPr
+oblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.83364754e-316,5.5126726e-316,5.19
+40497e-316,3.56856976e-316,5.5126738e-316,6.903326239131e-310,3.83425465e-3
+16,0.0,6.26255953e-316,3.56856976e-316,3.5847498e-316,6.903326239131e-310,3
+.8336523e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var
+&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,7.47521006e-316,3.56856976e-316,6.4438587
+e-316,6.903326239131e-310,3.834257e-316,0.0,3.1077389e-316,3.56856976e-316,
+7.9498791e-316,6.903326239131e-310,3.833657e-316,9.8511421e-316&#41;, Dual&#123;Forw
+ardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float
+64&#125;&#125;&#40;3.1367789e-316,3.56856976e-316,9.8511433e-316,6.903326239131e-310,3.83
+36594e-316,3.146544e-316,5.1940552e-316,3.56856976e-316,3.1465452e-316,6.90
+3326239131e-310,3.83426887e-316,0.0,3.2063461e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;O
+ptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.568569
+76e-316,5.51271096e-316,6.903326239131e-310,3.83366177e-316,3.1465725e-316,
+2.8514797e-316,3.56856976e-316,3.14657367e-316,6.903326239131e-310,3.834273
+6e-316,3.58473677e-316,6.26256585e-316,3.56856976e-316&#41;, Dual&#123;ForwardDiff.T
+ag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.58
+473796e-316,6.903326239131e-310,3.8336689e-316,9.85119744e-316,3.13678563e-
+316,3.56856976e-316,9.85119863e-316,6.903326239131e-310,3.83427836e-316,9.8
+511089e-316,7.35462603e-316,3.56856976e-316,9.8511101e-316&#41;, Dual&#123;ForwardDi
+ff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;
+6.903326239131e-310,3.83428073e-316,0.0,5.1942564e-316,3.56856976e-316,5.51
+267855e-316,6.903326239131e-310,3.83427125e-316,6.15933973e-316,4.4935713e-
+316,3.56856976e-316,6.1593409e-316,6.903326239131e-310&#41;, Dual&#123;ForwardDiff.T
+ag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.83
+428548e-316,6.1593603e-316,4.49357685e-316,3.56856976e-316,6.15936147e-316,
+6.903326239131e-310,6.95258723262955e-310,6.15929467e-316,NaN,0.0,6.1592958
+6e-316,6.903326239131e-310,3.8336831e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimizati
+onProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,1.7284013e-31
+6,3.56856976e-316,5.5127141e-316,6.903326239131e-310,3.8336855e-316,5.51258
+487e-316,3.9514655e-316,3.56856976e-316,5.51258606e-316,6.903326239131e-310
+,3.83368785e-316,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProbl
+ems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;7.85954175e-316,3.56856976e-316,5.4883
+0807e-316,6.903326239131e-310,3.83429496e-316,6.15935e-316,3.2063548e-316,3
+.56856976e-316,6.1593512e-316,6.903326239131e-310,3.8342997e-316,0.0,6.2625
+5083e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#
+1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.56856976e-316,3.58475535e-316,6.903326239131e-3
+10,3.83369497e-316,0.0,5.91473257e-316,3.56856976e-316,6.3966442e-316,6.903
+326239131e-310,3.83369734e-316,0.0,6.59487757e-316,3.56856976e-316&#41;, Dual&#123;F
+orwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Fl
+oat64&#125;&#125;&#40;3.58475535e-316,6.903326239131e-310,3.8342831e-316,2.81604335e-316,
+7.4290011e-316,3.56856976e-316,2.81604454e-316,6.903326239131e-310,6.952587
+23265248e-310,6.75639474e-316,NaN,0.0,6.75639593e-316&#41;, Dual&#123;ForwardDiff.Ta
+g&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903
+326239131e-310,3.83431156e-316,0.0,6.5946839e-316,3.56856976e-316,5.5660123
+4e-316,6.903326239131e-310,3.83366414e-316,5.56603645e-316,5.56750403e-316,
+3.56856976e-316,5.56603764e-316,6.903326239131e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;
+OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.83370
+92e-316,3.58475416e-316,3.2061651e-316,3.56856976e-316,3.58475535e-316,6.90
+3326239131e-310,3.833676e-316,5.5660894e-316,6.5184634e-316,3.56856976e-316
+,5.5660906e-316,6.903326239131e-310,3.83432105e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;
+OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;5.51259
+83e-316,3.75572854e-316,3.56856976e-316,5.5125995e-316,6.903326239131e-310,
+3.8343234e-316,0.0,2.8516046e-316,3.56856976e-316,4.0810866e-316,6.90332623
+9131e-310,3.8337187e-316,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.AD
+NLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;2.2411031e-316,3.56856976e-316
+,7.94984825e-316,6.903326239131e-310,3.83372105e-316,3.1466144e-316,3.97275
+814e-316,3.56856976e-316,3.14661556e-316,6.903326239131e-310,3.83372343e-31
+6,0.0,4.34376113e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProb
+lems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.56856976e-316,3.1465523e-316,6.9033
+26239131e-310,3.83433053e-316,7.9498028e-316,3.62285453e-316,3.56856976e-31
+6,7.949804e-316,6.903326239131e-310,3.8343353e-316,7.94980754e-316,3.691898
+4e-316,3.56856976e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPPro
+blems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;7.94980873e-316,6.903326239131e-310,
+3.83433765e-316,5.56600167e-316,3.6267201e-316,3.56856976e-316,5.56600286e-
+316,6.903326239131e-310,3.83434e-316,5.5125896e-316,3.75570997e-316,3.56856
+976e-316,5.5125908e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPPr
+oblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,3.834276e-316,5
+.48822625e-316,8.03939706e-316,3.56856976e-316,5.48822744e-316,6.9033262391
+31e-310,6.95258723262955e-310,5.51251847e-316,NaN,0.0,5.51251966e-316,6.903
+326239131e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.va
+r&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.8337258e-316,0.0,2.15869533e-316,3.5685697
+6e-316,7.94989964e-316,6.903326239131e-310,3.8337424e-316,6.1593911e-316,4.
+34376745e-316,3.56856976e-316,6.1593923e-316,6.903326239131e-310,3.8343519e
+-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;
+&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,3.7557155e-316,3.56856976e-316,5.51259476e-316,6.9
+03326239131e-310,3.83434713e-316,2.81615244e-316,3.75488507e-316,3.56856976
+e-316,2.81615363e-316,6.903326239131e-310,3.83372817e-316,6.39663906e-316&#41;,
+ Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float
+64&#125;, Float64&#125;&#125;&#40;4.36339174e-316,3.56856976e-316,6.39664025e-316,6.9033262391
+31e-310,3.83422856e-316,6.545088e-316,3.651753e-316,3.56856976e-316,6.54508
+92e-316,6.903326239131e-310,3.83375426e-316,3.14653137e-316,5.91426143e-316
+&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Flo
+at64&#125;, Float64&#125;&#125;&#40;3.56856976e-316,3.14653256e-316,6.903326239131e-310,3.8343
+6374e-316,0.0,2.85159276e-316,3.56856976e-316,4.0810866e-316,6.903326239131
+e-310,3.83375663e-316,7.9498178e-316,3.7003667e-316,3.56856976e-316&#41;, Dual&#123;
+ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, F
+loat64&#125;&#125;&#40;7.949819e-316,6.903326239131e-310,3.833759e-316,5.4883069e-316,5.9
+142634e-316,3.56856976e-316,5.48830807e-316,6.903326239131e-310,1.0e-323,0.
+0,NaN,0.0,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var
+&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,3.8343732e-316,6.44378795
+e-316,3.8559729e-316,3.56856976e-316,6.44378913e-316,6.903326239131e-310,6.
+95258723262955e-310,3.0493214e-316,NaN,0.0,3.04932257e-316,6.903326239131e-
+310&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;
+Float64&#125;, Float64&#125;&#125;&#40;6.95258723262955e-310,3.0493214e-316,NaN,0.0,3.04932257
+e-316,6.903326239131e-310,3.83438034e-316,0.0,2.85158564e-316,3.56856976e-3
+16,4.08108184e-316,6.903326239131e-310,3.83369022e-316&#41;, Dual&#123;ForwardDiff.T
+ag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,
+5.4142164e-316,3.56856976e-316,5.4882567e-316,6.903326239131e-310,3.8343827
+e-316,0.0,4.11888774e-316,3.56856976e-316,5.48826696e-316,6.903326239131e-3
+10,3.83377323e-316,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPPro
+blems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;4.25767355e-316,3.56856976e-316,7.94
+983323e-316,6.903326239131e-310,3.8343898e-316,0.0,2.2768142e-316,3.5685697
+6e-316,2.8160801e-316,6.903326239131e-310,6.95258723262955e-310,4.08114626e
+-316,NaN&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1
+329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,4.08114745e-316,6.903326239131e-310,3.8337851e
+-316,0.0,5.5127584e-316,3.56856976e-316,6.15935593e-316,6.903326239131e-310
+,3.83378983e-316,5.56608467e-316,6.51847368e-316,3.56856976e-316&#41;, Dual&#123;For
+wardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Floa
+t64&#125;&#125;&#40;5.56608586e-316,6.903326239131e-310,3.8337922e-316,0.0,1.7497497e-316
+,3.56856976e-316,5.5126825e-316,6.903326239131e-310,1.0e-323,0.0,NaN,0.0,0.
+0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Fl
+oat64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,3.83439694e-316,7.94979806e-316,4.021
+5564e-316,3.56856976e-316,7.94979924e-316,6.903326239131e-310,3.83379694e-3
+16,6.3966343e-316,4.847748e-316,3.56856976e-316,6.3966355e-316,6.9033262391
+31e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#13
+29&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.8337661e-316,7.94988817e-316,5.9142654e-316,3.568
+56976e-316,7.94988936e-316,6.903326239131e-310,3.8344088e-316,6.39667464e-3
+16,7.3546707e-316,3.56856976e-316,6.3966758e-316,6.903326239131e-310,3.8337
+993e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1
+329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,3.65186685e-316,3.56856976e-316,6.5451896e-316
+,6.903326239131e-310,3.8344159e-316,0.0,2.1585135e-316,3.56856976e-316,3.58
+475535e-316,6.903326239131e-310,3.83440405e-316,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;
+OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.54498
+68e-316,3.56856976e-316,6.39676673e-316,6.903326239131e-310,3.83370683e-316
+,0.0,3.6519198e-316,3.56856976e-316,5.48831835e-316,6.903326239131e-310,3.8
+338159e-316,0.0,4.2576617e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.
+ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.56856976e-316,7.94983323e-
+316,6.903326239131e-310,3.8338183e-316,0.0,6.59481947e-316,3.56856976e-316,
+5.56607637e-316,6.903326239131e-310,3.83441354e-316,6.6088201e-316,5.567712
+7e-316,3.56856976e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPPro
+blems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.6088213e-316,6.903326239131e-310,3
+.8344183e-316,6.54521844e-316,2.2768442e-316,3.56856976e-316,6.5452196e-316
+,6.903326239131e-310,3.8338254e-316,6.7563995e-316,4.3437896e-316,3.5685697
+6e-316,6.75640067e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPPro
+blems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,6.95258723262955
+e-310,4.081151e-316,NaN,0.0,4.0811522e-316,6.903326239131e-310,3.83383014e-
+316,6.3967205e-316,5.56754434e-316,3.56856976e-316,6.39672167e-316,6.903326
+239131e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#
+f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.8338325e-316,0.0,4.2576546e-316,3.56856976e-3
+16,7.9498285e-316,6.903326239131e-310,3.8338349e-316,6.6088612e-316,3.42875
+076e-316,3.56856976e-316,6.6088624e-316,6.903326239131e-310,3.83383726e-316
+&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Flo
+at64&#125;, Float64&#125;&#125;&#40;0.0,4.2468697e-316,3.56856976e-316,7.949838e-316,6.9033262
+39131e-310,3.83383963e-316,0.0,3.1367398e-316,3.56856976e-316,3.04922455e-3
+16,6.903326239131e-310,3.833842e-316,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimizatio
+nProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.65187397e-316,3.
+56856976e-316,6.5451793e-316,6.903326239131e-310,3.8342665e-316,5.4882215e-
+316,3.13072404e-316,3.56856976e-316,5.4882227e-316,6.903326239131e-310,1.0e
+-323,0.0,NaN&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;
+#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,0.0,6.903326239131e-310,3.8344562e-316,0.0
+,2.85161173e-316,3.56856976e-316,4.0810945e-316,6.903326239131e-310,3.83445
+86e-316,0.0,7.5359912e-316,3.56856976e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimizat
+ionProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;5.5127007e-316,6
+.903326239131e-310,3.8338515e-316,7.9498273e-316,4.25764825e-316,3.56856976
+e-316,7.9498285e-316,6.903326239131e-310,3.83385623e-316,3.1465772e-316,2.8
+514165e-316,3.56856976e-316,3.1465784e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimizat
+ionProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-
+310,6.95258723254734e-310,0.0,NaN,0.0,5.4882322e-316,6.903326239131e-310,6.
+952587232643e-310,2.8160742e-316,NaN,0.0,2.81607537e-316,6.903326239131e-31
+0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Fl
+oat64&#125;, Float64&#125;&#125;&#40;3.83446334e-316,3.731596e-316,7.3554513e-316,3.56856976e-
+316,3.7315972e-316,6.903326239131e-310,6.95258723262955e-310,5.51257144e-31
+6,NaN,0.0,5.5125726e-316,6.903326239131e-310,1.0e-323&#41;, Dual&#123;ForwardDiff.Ta
+g&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,N
+aN,0.0,0.0,6.903326239131e-310,1.0e-323,0.0,NaN,0.0,0.0,6.903326239131e-310
+,1.0e-323,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var
+&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;NaN,0.0,2.2294582e-316,6.903326239131e-310,3.
+833593e-316,5.48830214e-316,7.8595473e-316,3.56856976e-316,5.48830333e-316,
+6.903326239131e-310,3.83387757e-316,5.4881646e-316,3.65184156e-316&#41;, Dual&#123;F
+orwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Fl
+oat64&#125;&#125;&#40;3.56856976e-316,5.4881658e-316,6.903326239131e-310,1.0e-323,0.0,NaN
+,0.0,0.0,6.903326239131e-310,3.8338823e-316,0.0,7.9171087e-316,3.56856976e-
+316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;
+Float64&#125;, Float64&#125;&#125;&#40;3.7316059e-316,6.903326239131e-310,1.0e-323,0.0,NaN,0.0
+,0.0,6.903326239131e-310,3.83449417e-316,0.0,6.54485125e-316,3.56856976e-31
+6,6.3967264e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.
+var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,3.83388943e-316,0.0,7.
+5356505e-316,3.56856976e-316,3.58462887e-316,6.903326239131e-310,3.8338918e
+-316,0.0,4.3437141e-316,3.56856976e-316,6.15934566e-316,6.903326239131e-310
+&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Flo
+at64&#125;, Float64&#125;&#125;&#40;3.8345013e-316,5.51253665e-316,8.2713996e-316,3.56856976e-
+316,5.51253784e-316,6.903326239131e-310,3.83450365e-316,0.0,4.573904e-316,3
+.56856976e-316,6.75641016e-316,6.903326239131e-310,3.8344823e-316&#41;, Dual&#123;Fo
+rwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Flo
+at64&#125;&#125;&#40;6.60881536e-316,6.51122237e-316,3.56856976e-316,6.60881654e-316,6.90
+3326239131e-310,3.8345084e-316,0.0,5.56764157e-316,3.56856976e-316,6.608811
+e-316,6.903326239131e-310,6.95258723262955e-310,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;
+OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;NaN,0.0
+,9.8511599e-316,6.903326239131e-310,3.83390603e-316,0.0,6.5450536e-316,3.56
+856976e-316,6.3966853e-316,6.903326239131e-310,3.8339084e-316,0.0,1.5975284
+6e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#132
+9&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.56856976e-316,5.5125149e-316,6.903326239131e-310,3
+.8345179e-316,0.0,8.27140515e-316,3.56856976e-316,5.5125418e-316,6.90332623
+9131e-310,3.83452026e-316,0.0,4.573923e-316,3.56856976e-316&#41;, Dual&#123;ForwardD
+iff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;
+&#40;6.7564149e-316,6.903326239131e-310,3.83452263e-316,5.51270503e-316,5.05396
+666e-316,3.56856976e-316,5.5127062e-316,6.903326239131e-310,1.0e-323,0.0,Na
+N,0.0,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#
+1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,3.83392026e-316,0.0,4.4941009
+6e-316,3.56856976e-316,5.56609535e-316,6.903326239131e-310,3.83392263e-316,
+0.0,2.2768691e-316,3.56856976e-316,6.5450734e-316,6.903326239131e-310&#41;, Dua
+l&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;,
+ Float64&#125;&#125;&#40;6.95258723262955e-310,0.0,NaN,0.0,5.4881705e-316,6.903326239131e
+-310,3.8339274e-316,6.54517417e-316,2.27685805e-316,3.56856976e-316,6.54517
+535e-316,6.903326239131e-310,3.83453686e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimiz
+ationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,4.5739159e
+-316,3.56856976e-316,6.75641016e-316,6.903326239131e-310,3.8339321e-316,0.0
+,3.19289963e-316,3.56856976e-316,6.44386976e-316,6.903326239131e-310,3.8339
+345e-316,2.2295313e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPPr
+oblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;4.34372516e-316,3.56856976e-316,2.2
+295325e-316,6.903326239131e-310,1.0e-323,0.0,NaN,0.0,3.04923957e-316,6.9033
+26239131e-310,3.83454634e-316,6.1594259e-316,4.4935065e-316&#41;, Dual&#123;ForwardD
+iff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;
+&#40;3.56856976e-316,6.1594271e-316,6.903326239131e-310,3.83391315e-316,6.54514
+413e-316,7.53567065e-316,3.56856976e-316,6.5451453e-316,6.903326239131e-310
+,3.83452737e-316,0.0,6.51120735e-316,3.56856976e-316&#41;, Dual&#123;ForwardDiff.Tag
+&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.5847
+5535e-316,6.903326239131e-310,3.83394635e-316,5.56599693e-316,7.91712925e-3
+16,3.56856976e-316,5.5659981e-316,6.903326239131e-310,3.83455583e-316,0.0,4
+.2470112e-316,3.56856976e-316,6.54508366e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimi
+zationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.90332623913
+1e-310,3.8345582e-316,5.51254535e-316,8.2714182e-316,3.56856976e-316,5.5125
+4653e-316,6.903326239131e-310,3.83456057e-316,0.0,3.4287065e-316,3.56856976
+e-316,2.2294487e-316,6.903326239131e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimizatio
+nProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.83453923e-316,0.
+0,6.51121605e-316,3.56856976e-316,6.60882603e-316,6.903326239131e-310,3.833
+9582e-316,0.0,6.5450449e-316,3.56856976e-316,3.58475535e-316,6.903326239131
+e-310,1.0e-323&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.va
+r&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,NaN,0.0,0.0,6.903326239131e-310,3.834570
+06e-316,0.0,7.0802935e-316,3.56856976e-316,6.54513425e-316,6.903326239131e-
+310,3.8339653e-316,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPPro
+blems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;2.02100833e-316,3.56856976e-316,9.85
+113855e-316,6.903326239131e-310,6.95258723254734e-310,0.0,NaN,0.0,7.9498134
+7e-316,6.903326239131e-310,1.0e-323,0.0,NaN&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimiza
+tionProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,2.22951826e
+-316,6.903326239131e-310,1.0e-323,0.0,NaN,0.0,0.0,6.903326239131e-310,1.0e-
+323,0.0,NaN,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.v
+ar&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,6.903326239131e-310,1.0e-323,0.0,NaN,0.
+0,0.0,6.903326239131e-310,3.83397955e-316,4.08108065e-316,2.8515793e-316,3.
+56856976e-316,4.08108184e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.A
+DNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,6.9525872
+3262955e-310,3.58466246e-316,NaN,0.0,3.58466365e-316,6.903326239131e-310,3.
+8345914e-316,5.5659558e-316,6.59479615e-316,3.56856976e-316,5.565957e-316,6
+.903326239131e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblem
+s.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.95258723262955e-310,0.0,NaN,0.0,3.5847
+2215e-316,6.903326239131e-310,1.0e-323,0.0,NaN,0.0,0.0,6.903326239131e-310,
+3.8345985e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.va
+r&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;2.10505206e-316,5.5551184e-316,3.56856976e-3
+16,2.10505324e-316,6.903326239131e-310,3.8339938e-316,9.8510575e-316,8.2716
+3756e-316,3.56856976e-316,9.8510587e-316,6.903326239131e-310,3.8346009e-316
+,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;
+&#123;Float64&#125;, Float64&#125;&#125;&#40;2.1586495e-316,3.56856976e-316,9.85114724e-316,6.90332
+6239131e-310,6.9525872325323e-310,0.0,NaN,0.0,5.48819503e-316,6.90332623913
+1e-310,1.0e-323,0.0,NaN&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPPr
+oblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,2.2295088e-316,6.903326239131e-
+310,3.83461037e-316,0.0,6.61509197e-316,3.56856976e-316,5.4882978e-316,6.90
+3326239131e-310,1.0e-323,0.0,NaN,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationPro
+blems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,6.903326239131e-31
+0,3.834008e-316,4.0811747e-316,9.87881294e-316,3.56856976e-316,4.0811759e-3
+16,6.903326239131e-310,3.8346175e-316,0.0,2.27669007e-316,3.56856976e-316,6
+.1593773e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var
+&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,3.83401275e-316,6.5450927
+5e-316,7.2625808e-316,3.56856976e-316,6.54509393e-316,6.903326239131e-310,1
+.0e-323,0.0,NaN,0.0,3.04918186e-316,6.903326239131e-310&#41;, Dual&#123;ForwardDiff.
+Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.8
+346246e-316,3.0491878e-316,6.2626544e-316,3.56856976e-316,3.049189e-316,6.9
+03326239131e-310,1.0e-323,0.0,NaN,0.0,0.0,6.903326239131e-310,6.95258723262
+955e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1
+329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;5.5125667e-316,NaN,0.0,5.5125679e-316,6.9033262391
+31e-310,1.0e-323,0.0,NaN,0.0,0.0,6.903326239131e-310,3.8346341e-316,5.51257
+62e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#13
+29&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.9514469e-316,3.56856976e-316,5.51257736e-316,6.90
+3326239131e-310,3.834027e-316,5.51270977e-316,6.5183788e-316,3.56856976e-31
+6,5.51271096e-316,6.903326239131e-310,1.0e-323,0.0,NaN&#41;, Dual&#123;ForwardDiff.T
+ag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,
+0.0,6.903326239131e-310,3.83463646e-316,0.0,7.2626804e-316,3.56856976e-316,
+3.1465634e-316,6.903326239131e-310,1.0e-323,0.0,NaN,0.0&#41;, Dual&#123;ForwardDiff.
+Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0
+,6.903326239131e-310,3.83464595e-316,3.73160075e-316,6.44600334e-316,3.5685
+6976e-316,3.73160193e-316,6.903326239131e-310,3.8340412e-316,0.0,5.474826e-
+316,3.56856976e-316,5.48825194e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProb
+lems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,3.8
+340436e-316,3.58460397e-316,9.8788019e-316,3.56856976e-316,3.58460515e-316,
+6.903326239131e-310,1.0e-323,0.0,NaN,0.0,0.0,6.903326239131e-310&#41;, Dual&#123;For
+wardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Floa
+t64&#125;&#125;&#40;3.83465543e-316,0.0,1.75007933e-316,3.56856976e-316,3.14658157e-316,6
+.903326239131e-310,3.8346578e-316,0.0,3.9514398e-316,3.56856976e-316,4.0811
+8065e-316,6.903326239131e-310,3.83405307e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimi
+zationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.5847415e-31
+6,6.2624694e-316,3.56856976e-316,3.5847427e-316,6.903326239131e-310,3.83404
+83e-316,3.7315802e-316,6.64790306e-316,3.56856976e-316,3.7315814e-316,6.903
+326239131e-310,3.8346649e-316,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProble
+ms.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.5111603e-316,3.56856976
+e-316,6.60880073e-316,6.903326239131e-310,3.8340602e-316,3.58478974e-316,3.
+95164454e-316,3.56856976e-316,3.5847909e-316,6.903326239131e-310,3.83466255
+e-316,0.0,3.76459366e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLP
+Problems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.56856976e-316,3.14653256e-316,6
+.903326239131e-310,6.95258723262955e-310,0.0,NaN,0.0,3.5847324e-316,6.90332
+6239131e-310,3.8340649e-316,0.0,6.26249273e-316,3.56856976e-316&#41;, Dual&#123;Forw
+ardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float
+64&#125;&#125;&#40;6.44383103e-316,6.903326239131e-310,3.8346744e-316,7.94982256e-316,7.5
+355173e-316,3.56856976e-316,7.94982375e-316,6.903326239131e-310,1.0e-323,0.
+0,NaN,0.0,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var
+&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,3.83467678e-316,0.0,1.728
+4843e-316,3.56856976e-316,5.51252835e-316,6.903326239131e-310,3.83466017e-3
+16,6.44384407e-316,6.46834696e-316,3.56856976e-316,6.44384526e-316,6.903326
+239131e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#
+f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.95258723262955e-310,0.0,NaN,0.0,6.3968015e-31
+6,6.903326239131e-310,3.83468863e-316,0.0,2.38076796e-316,3.56856976e-316,3
+.14653256e-316,6.903326239131e-310,3.8340839e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;Op
+timizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,6.518
+3725e-316,3.56856976e-316,3.14653967e-316,6.903326239131e-310,3.8346934e-31
+6,0.0,3.95145245e-316,3.56856976e-316,5.5125813e-316,6.903326239131e-310,3.
+83408627e-316,5.51268606e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.A
+DNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;5.5552425e-316,3.56856976e-31
+6,5.51268724e-316,6.903326239131e-310,1.0e-323,0.0,NaN,0.0,2.22949297e-316,
+6.903326239131e-310,1.0e-323,0.0,NaN&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationPro
+blems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,0.0,6.903326239131
+e-310,3.83409575e-316,0.0,5.47480703e-316,3.56856976e-316,5.4882472e-316,6.
+903326239131e-310,3.8346815e-316,0.0,6.5947179e-316,3.56856976e-316&#41;, Dual&#123;
+ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, F
+loat64&#125;&#125;&#40;5.5660811e-316,6.903326239131e-310,1.0e-323,0.0,NaN,0.0,2.22949297
+e-316,6.903326239131e-310,3.83410287e-316,0.0,1.80516093e-316,3.56856976e-3
+16,5.5126066e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems
+.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,6.95258723262955e-310
+,5.48817487e-316,NaN,0.0,5.48817605e-316,6.903326239131e-310,6.952587232629
+55e-310,3.04932613e-316,NaN,0.0,3.0493273e-316,6.903326239131e-310&#41;, Dual&#123;F
+orwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Fl
+oat64&#125;&#125;&#40;3.83410524e-316,3.5846577e-316,7.5356833e-316,3.56856976e-316,3.584
+6589e-316,6.903326239131e-310,3.8347171e-316,0.0,6.54488524e-316,3.56856976
+e-316,6.39677147e-316,6.903326239131e-310,3.83411473e-316&#41;, Dual&#123;ForwardDif
+f.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;5
+.488246e-316,5.4748007e-316,3.56856976e-316,5.4882472e-316,6.903326239131e-
+310,3.8341171e-316,3.58468223e-316,3.8558472e-316,3.56856976e-316,3.5846834
+e-316,6.903326239131e-310,3.8347266e-316,4.08116524e-316&#41;, Dual&#123;ForwardDiff
+.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;3.
+12842486e-316,3.56856976e-316,4.0811664e-316,6.903326239131e-310,1.0e-323,0
+.0,NaN,0.0,0.0,6.903326239131e-310,3.8347242e-316,0.0,6.3329643e-316&#41;, Dual
+&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, 
+Float64&#125;&#125;&#40;3.56856976e-316,6.44383577e-316,6.903326239131e-310,3.8347337e-31
+6,0.0,1.66409926e-316,3.56856976e-316,6.4438484e-316,6.903326239131e-310,1.
+0e-323,0.0,NaN,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblem
+s.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;0.0,6.903326239131e-310,3.8347313e-316,7
+.9497364e-316,2.15861707e-316,3.56856976e-316,7.9497376e-316,6.903326239131
+e-310,3.8347408e-316,4.0811605e-316,7.08022276e-316,3.56856976e-316,4.08116
+17e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#13
+29&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,3.8347432e-316,0.0,4.5738969e-3
+16,3.56856976e-316,6.7564054e-316,6.903326239131e-310,6.9525872325323e-310,
+0.0,NaN,0.0,7.94976683e-316,6.903326239131e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;Opti
+mizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.952587232
+62955e-310,0.0,NaN,0.0,9.85104843e-316,6.903326239131e-310,1.0e-323,0.0,NaN
+,0.0,3.0492301e-316,6.903326239131e-310,6.95258723262955e-310&#41;, Dual&#123;Forwar
+dDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64
+&#125;&#125;&#40;0.0,NaN,0.0,2.22941787e-316,6.903326239131e-310,1.0e-323,0.0,NaN,0.0,0.0
+,6.903326239131e-310,1.0e-323,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProble
+ms.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;NaN,0.0,0.0,6.90332623913
+1e-310,3.83415267e-316,0.0,6.4685509e-316,3.56856976e-316,7.94988936e-316,6
+.903326239131e-310,3.83415504e-316,2.22941194e-316,7.35475923e-316&#41;, Dual&#123;F
+orwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Fl
+oat64&#125;&#125;&#40;3.56856976e-316,2.22941312e-316,6.903326239131e-310,3.8347645e-316,
+6.44383933e-316,6.46835724e-316,3.56856976e-316,6.4438405e-316,6.9033262391
+31e-310,3.8347669e-316,0.0,3.16568966e-316,3.56856976e-316&#41;, Dual&#123;ForwardDi
+ff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;
+6.1593662e-316,6.903326239131e-310,3.8341574e-316,0.0,5.47481415e-316,3.568
+56976e-316,5.48825194e-316,6.903326239131e-310,6.95258723265248e-310,6.9525
+872326769e-310,NaN,0.0,6.15934566e-316&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationP
+roblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;6.903326239131e-310,
+3.8341598e-316,5.48823653e-316,8.271583e-316,3.56856976e-316,5.4882377e-316
+,6.903326239131e-310,3.83416927e-316,7.94988343e-316,6.46855644e-316,3.5685
+6976e-316,7.9498846e-316,6.079e-320&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProb
+lems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;2.22e-321,5.1502794e-31
+6,5.5114485e-316,5.5106082e-316,0.0,NaN,0.0,5.0e-324,0.0,6.7508549e-316,0.0
+,1.6e-322,9.443317726047391e21&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.
+ADNLPProblems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;7.558125123061879e-154,3.398
+235778115e-312,7.8551510299e-313,6.75085725e-316,8.487983164e-314,-1.105587
+1916232541e-244,-2.986397015342954e-254,1.2989153463666738e287,5.8801323708
+32126e137,1.268934864557806e-231,-1.692812158093192e306,3.910462211847e-312
+,2.42280991429251e-309&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPPro
+blems.var&quot;#f#1329&quot;&#123;Float64&#125;, Float64&#125;&#125;&#40;-1.8370094195097775e282,-9.782954743
+948183e26,1.33586203965988e-309,2.736761793400046e44,1.033e-321,6.903327377
+96695e-310,6.90332737796695e-310,3.7167341292703204e-268,1.1553676697937789
+e48,1.19786786865135e-309,3.79171665626112e-309,-9.277781942621371e-299,7.8
+52738716730545e42&#41;&#93;&#41;&#41;, ADNLPModels.ForwardDiffADHvprod&#40;&#41;, ADNLPModels.Forwa
+rdDiffADJprod&#40;&#41;, ADNLPModels.ForwardDiffADJtprod&#40;&#41;, ADNLPModels.ForwardDiff
+ADJacobian&#40;0&#41;, ADNLPModels.ForwardDiffADHessian&#40;7260&#41;, ADNLPModels.ForwardD
+iffADGHjvprod&#40;&#41;&#41;
+  Problem name: woods
+   All variables: ████████████████████ 120    All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 120               free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   7260            linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; spa
+rsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<p>One of the advantages of these problems is that they are type-stable. Indeed, one can specify the output type with the keyword <code>type</code> as follows.</p>
+<pre><code class=language-julia >nlp16_12 &#61; OptimizationProblems.ADNLPProblems.woods&#40;n&#61;12, type&#61;Val&#40;Float16&#41;&#41;</code></pre>
+<pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADNLPModels.ADMod
+elBackend&#123;ADNLPModels.ForwardDiffADGradient, ADNLPModels.ForwardDiffADHvpro
+d, ADNLPModels.ForwardDiffADJprod, ADNLPModels.ForwardDiffADJtprod, ADNLPMo
+dels.ForwardDiffADJacobian, ADNLPModels.ForwardDiffADHessian, ADNLPModels.F
+orwardDiffADGHjvprod&#125;&#40;ADNLPModels.ForwardDiffADGradient&#40;ForwardDiff.Gradien
+tConfig&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Flo
+at16&#125;, Float16&#125;, Float16, 12, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;Optim
+izationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float16&#125;, Float16&#125;, Float16, 12&#125;
+&#125;&#125;&#40;&#40;Partials&#40;Float16&#40;1.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float1
+6&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0
+&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;&#41;, Partials&#40;Float16&#40;0.0&#41;, Float16&#40;1.0&#41;, Float1
+6&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0
+&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;&#41;, Partials&#40;Float1
+6&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;1.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0
+&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Fl
+oat16&#40;0.0&#41;&#41;, Partials&#40;Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;1.0
+&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Fl
+oat16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;&#41;, Partials&#40;Float16&#40;0.0&#41;, Float16&#40;0.0
+&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;1.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Fl
+oat16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;&#41;, Partia
+ls&#40;Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Fl
+oat16&#40;1.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16
+&#40;0.0&#41;, Float16&#40;0.0&#41;&#41;, Partials&#40;Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Fl
+oat16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;1.0&#41;, Float16&#40;0.0&#41;, Float16
+&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;&#41;, Partials&#40;Float16&#40;0.0&#41;, Fl
+oat16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16
+&#40;0.0&#41;, Float16&#40;1.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;
+&#41;, Partials&#40;Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16
+&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;1.0&#41;, Float16&#40;0.0&#41;
+, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;&#41;, Partials&#40;Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16
+&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;
+, Float16&#40;0.0&#41;, Float16&#40;1.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;&#41;, Partials&#40;Float16
+&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;
+, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;1.0&#41;, Flo
+at16&#40;0.0&#41;&#41;, Partials&#40;Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;
+, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;0.0&#41;, Flo
+at16&#40;0.0&#41;, Float16&#40;0.0&#41;, Float16&#40;1.0&#41;&#41;&#41;, ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;O
+ptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float16&#125;, Float16&#125;, Float16,
+ 12&#125;&#91;Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;F
+loat16&#125;, Float16&#125;&#125;&#40;-2.344,0.3552,NaN,0.0,-2.469,0.3552,NaN,0.0,-2.594,0.355
+2,NaN,0.0,-2.719&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.
+var&quot;#f#1329&quot;&#123;Float16&#125;, Float16&#125;&#125;&#40;0.3552,NaN,0.0,-2.844,0.3552,NaN,0.0,-2.96
+9,0.3552,NaN,0.0,-3.094,0.3552&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.
+ADNLPProblems.var&quot;#f#1329&quot;&#123;Float16&#125;, Float16&#125;&#125;&#40;NaN,0.0,-3.219,0.3552,NaN,0.
+0,-3.344,0.3552,NaN,0.0,-3.469,0.3552,NaN&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimizati
+onProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float16&#125;, Float16&#125;&#125;&#40;0.0,-3.594,0.3552
+,NaN,0.0,-3.719,0.3552,NaN,0.0,-3.844,0.3552,NaN,0.0&#41;, Dual&#123;ForwardDiff.Tag
+&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float16&#125;, Float16&#125;&#125;&#40;-3.969
+,0.3552,NaN,0.0,-4.188,0.3552,NaN,0.0,-4.438,0.3552,NaN,0.0,-4.688&#41;, Dual&#123;F
+orwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float16&#125;, Fl
+oat16&#125;&#125;&#40;0.3552,NaN,0.0,-4.938,0.3552,NaN,0.0,-5.188,0.3552,NaN,0.0,-5.438,0
+.3552&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329
+&quot;&#123;Float16&#125;, Float16&#125;&#125;&#40;NaN,0.0,-5.688,0.3552,NaN,0.0,-5.938,0.3552,NaN,0.0,-
+6.188,0.3552,NaN&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.
+var&quot;#f#1329&quot;&#123;Float16&#125;, Float16&#125;&#125;&#40;0.0,-6.438,0.3552,NaN,0.0,-6.688,0.3552,Na
+N,0.0,-6.938,0.3552,NaN,0.0&#41;, Dual&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADN
+LPProblems.var&quot;#f#1329&quot;&#123;Float16&#125;, Float16&#125;&#125;&#40;-7.188,0.3552,NaN,0.0,-7.438,0.
+3552,NaN,0.0,-7.688,0.3552,NaN,0.0,-7.938&#41;, Dual&#123;ForwardDiff.Tag&#123;Optimizati
+onProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float16&#125;, Float16&#125;&#125;&#40;0.3552,NaN,0.0,-8
+.375,0.3552,NaN,0.0,-8.875,0.3552,NaN,0.0,-9.375,0.3552&#41;, Dual&#123;ForwardDiff.
+Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float16&#125;, Float16&#125;&#125;&#40;NaN
+,0.0,-9.875,0.3552,NaN,0.0,-10.375,0.3552,NaN,0.0,-10.875,0.3552,NaN&#41;, Dual
+&#123;ForwardDiff.Tag&#123;OptimizationProblems.ADNLPProblems.var&quot;#f#1329&quot;&#123;Float16&#125;, 
+Float16&#125;&#125;&#40;0.0,-11.375,0.3552,NaN,0.0,-13.5,-4.42e3,NaN,0.0,-12.0,-0.02345,N
+aN,0.0&#41;&#93;&#41;&#41;, ADNLPModels.ForwardDiffADHvprod&#40;&#41;, ADNLPModels.ForwardDiffADJpr
+od&#40;&#41;, ADNLPModels.ForwardDiffADJtprod&#40;&#41;, ADNLPModels.ForwardDiffADJacobian&#40;
+0&#41;, ADNLPModels.ForwardDiffADHessian&#40;78&#41;, ADNLPModels.ForwardDiffADGHjvprod
+&#40;&#41;&#41;
+  Problem name: woods
+   All variables: ████████████████████ 12     All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 12                free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   78              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; spa
+rsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<p>Then, all the API will be compatible with the precised type.</p>
+<pre><code class=language-julia >using NLPModels
+obj&#40;nlp16_12, zeros&#40;Float16, 12&#41;&#41;</code></pre>
+<pre><code class=language-plaintext >Float16&#40;126.0&#41;</code></pre>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
