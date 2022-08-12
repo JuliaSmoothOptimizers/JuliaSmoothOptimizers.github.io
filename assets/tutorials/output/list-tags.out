@@ -126,6 +126,13 @@
   <span>test</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('test set')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>test set</span>
+</button>
+~~~
 ~~~
 <button onclick="pkgs_click('ADNLPModels')" class="button is-small is-danger is-outlined mt-2">
 <span class="icon is-small">
@@ -244,6 +251,14 @@
   <ion-icon name="cube"></ion-icon>
 </span>
 <span>NLPModelsModifiers.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('OptimizationProblems')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>OptimizationProblems.jl</span>
 </button>
 ~~~
 ~~~
