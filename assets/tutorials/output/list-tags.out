@@ -35,6 +35,13 @@
   <span>introduction</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('jump')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>jump</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('linear-operators')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
