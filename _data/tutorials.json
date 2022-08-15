@@ -94,5 +94,13 @@
     "date": "2022-08-12",
     "tags": ["introduction", "model", "automatic differentiation", "jump", "test set"],
     "pkgs": ["ADNLPModels", "NLPModels", "NLPModelsJuMP", "OptimizationProblems"]
+  },
+  {
+    "title": "Introduction to NLPModelsIpopt",
+    "link": "/tutorials/introduction-to-nlpmodelsipopt",
+    "short": "NLPModelsIpopt is a thin IPOPT wrapper for NLPModels.",
+    "date": "2022-08-15",
+    "tags": ["introduction", "model", "ipopt", "solver"],
+    "pkgs": ["ADNLPModels", "NLPModels", "NLPModelsIpopt", "Ipopt", "JuMP"]
   }
 ]

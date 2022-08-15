@@ -35,6 +35,13 @@
   <span>introduction</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('ipopt')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>ipopt</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('jump')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
@@ -174,11 +181,27 @@
 </button>
 ~~~
 ~~~
+<button onclick="pkgs_click('Ipopt')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>Ipopt.jl</span>
+</button>
+~~~
+~~~
 <button onclick="pkgs_click('JSOSolvers')" class="button is-small is-danger is-outlined mt-2">
 <span class="icon is-small">
   <ion-icon name="cube"></ion-icon>
 </span>
 <span>JSOSolvers.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('JuMP')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>JuMP.jl</span>
 </button>
 ~~~
 ~~~
