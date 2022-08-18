@@ -43,7 +43,7 @@ Our HSL wrapper exports both of these methods, which are the main ones used in o
 QRMumps and MUMPS are packages for the solution of sparse, linear systems on multicore computers.
 QRMumps implements a direct solution method based on the QR or Cholesky factorization of the input matrix.
 Therefore, it is suited to solving sparse least-squares problems, to computing the minimum-norm solution of sparse, underdetermined problems and to solving symmetric, positive-definite sparse linear systems.
-Mumps implements a direct solution method based on the LDL or LU factorization of the input matrix and is suited to solving general symmetric or unsymmetric linear systems.
+MUMPS implements a direct solution method based on the LDL or LU factorization of the input matrix and is suited to solving general symmetric or unsymmetric linear systems.
 These software support real and complex, single or double precision arithmetic.
 
 ### LDLFactorizations
