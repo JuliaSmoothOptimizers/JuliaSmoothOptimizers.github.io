@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<rss version="2.0"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:media="http://search.yahoo.com/mrss/"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:georss="http://www.georss.org/georss">
+
+  <channel>
+    <title>
+      <![CDATA[  Julia Smooth Optimizers  ]]>
+    </title>
+    <link> https://jso-preview.netlify.app/previews/PR92/ </link>
+    <description>
+      <![CDATA[  Julia Smooth Optimizers  ]]>
+    </description>
+    <atom:link
+      href="https://jso-preview.netlify.app/previews/PR92/feed.xml"
+      rel="self"
+      type="application/rss+xml" />
+
+
+<item>
+  <title>
+    <![CDATA[  New package: DCISolver.jl  ]]>
+  </title>
+  <link> https://jso-preview.netlify.app/previews/PR92/news-and-blogposts/2022/2022-03-15-dcisolver/index.html </link>
+  <guid> https://jso-preview.netlify.app/previews/PR92/news-and-blogposts/2022/2022-03-15-dcisolver/index.html </guid>
+  <description>
+    <![CDATA[  We are very happy to announce the publication in the Journal of Open Source Software of the paper DCISolver.jl: A Julia Solver for Nonlinear Optimization using Dynamic Control of Infeasibility.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 19 Aug 2022 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Abel Soares Siqueira</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Conference: JuliaSmoothOptimizers at JuliaCon 2022  ]]>
+  </title>
+  <link> https://jso-preview.netlify.app/previews/PR92/news-and-blogposts/2022/2022-07-30-juliacon22/index.html </link>
+  <guid> https://jso-preview.netlify.app/previews/PR92/news-and-blogposts/2022/2022-07-30-juliacon22/index.html </guid>
+  <description>
+    <![CDATA[  This year&#39;s JuliaCon 2022/JuMP-dev 2022 featured three talks on JuliaSmoothOptimizers.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 19 Aug 2022 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Abel Soares Siqueira</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Moving our site  ]]>
+  </title>
+  <link> https://jso-preview.netlify.app/previews/PR92/news-and-blogposts/2022/2022-03-12-new-site/index.html </link>
+  <guid> https://jso-preview.netlify.app/previews/PR92/news-and-blogposts/2022/2022-03-12-new-site/index.html </guid>
+  <description>
+    <![CDATA[  The Julia Smooth Optimizers organization has moved to this new website, where we will aggregate all our tutorials and news.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 19 Aug 2022 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Abel Soares Siqueira</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Conference: JuliaSmoothOptimizers at Optimization Days Montréal  ]]>
+  </title>
+  <link> https://jso-preview.netlify.app/previews/PR92/news-and-blogposts/2022/2022-05-18-jopt22/index.html </link>
+  <guid> https://jso-preview.netlify.app/previews/PR92/news-and-blogposts/2022/2022-05-18-jopt22/index.html </guid>
+  <description>
+    <![CDATA[  We organized a steam of sessions on ’’Numerical optimization and linear algebra with Julia’’ at Optimization Days 2022, held at HEC Montréal, May 16-18, 2022.  ]]>
+  </description>  
+    
+  <pubDate>Fri, 19 Aug 2022 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Abel Soares Siqueira</atom:name>
+  </atom:author>
+        
+</item>
+</channel></rss>
