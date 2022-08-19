@@ -38,6 +38,14 @@ Factorization methods have been studied for a few decades, and some packages are
 One of these packages is HSL, which defines some well-known methods such as MA57 and MA97.
 Our HSL wrapper exports both of these methods, which are the main ones used in our context.
 
+### QRMumps and MUMPS
+
+QRMumps and MUMPS are packages for the solution of sparse, linear systems on multicore computers.
+QRMumps implements a direct solution method based on the QR or Cholesky factorization of the input matrix.
+Therefore, it is suited to solving sparse least-squares problems, to computing the minimum-norm solution of sparse, underdetermined problems and to solving symmetric, positive-definite sparse linear systems.
+MUMPS implements a direct solution method based on the LDL or LU factorization of the input matrix and is suited to solving square symmetric or unsymmetric linear systems.
+QRMumps and MUMPS support real and complex, single and double precision arithmetic.
+
 ### LDLFactorizations
 
 Two drawbacks of HSL are that it is proprietary and it can't handle element types except 32 bits and 64 bits native floating point numbers.
