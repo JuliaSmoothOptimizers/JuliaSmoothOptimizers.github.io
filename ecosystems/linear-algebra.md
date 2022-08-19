@@ -48,5 +48,5 @@ These software support real and complex, single or double precision arithmetic.
 
 ### LDLFactorizations
 
-Two drawbacks of JSL are that it is proprietary and it can't handle element types except 32 bits and 64 bits native floating point numbers.
+Two drawbacks of HSL are that it is proprietary and it can't handle element types except 32 bits and 64 bits native floating point numbers.
 LDLFactorizations implements a factorization for symmetric matrices to compete with MA57 that solves both of these problems.
