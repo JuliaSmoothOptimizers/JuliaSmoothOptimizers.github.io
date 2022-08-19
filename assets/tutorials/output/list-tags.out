@@ -21,6 +21,13 @@
   <span>benchmark</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('cannoles')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>cannoles</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('comparison')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
@@ -47,6 +54,13 @@
     <ion-icon name="pricetag"></ion-icon>
   </span>
   <span>jump</span>
+</button>
+~~~
+~~~<button onclick="tags_click('least-sqaures')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>least-sqaures</span>
 </button>
 ~~~
 ~~~<button onclick="tags_click('linear-operators')" class="button is-small is-link is-outlined mt-2">
@@ -162,6 +176,14 @@
   <ion-icon name="cube"></ion-icon>
 </span>
 <span>CUTEst.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('CaNNOLeS')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>CaNNOLeS.jl</span>
 </button>
 ~~~
 ~~~
