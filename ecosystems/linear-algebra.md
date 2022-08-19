@@ -43,10 +43,10 @@ Our HSL wrapper exports both of these methods, which are the main ones used in o
 QRMumps and MUMPS are packages for the solution of sparse, linear systems on multicore computers.
 QRMumps implements a direct solution method based on the QR or Cholesky factorization of the input matrix.
 Therefore, it is suited to solving sparse least-squares problems, to computing the minimum-norm solution of sparse, underdetermined problems and to solving symmetric, positive-definite sparse linear systems.
-MUMPS implements a direct solution method based on the LDL or LU factorization of the input matrix and is suited to solving general symmetric or unsymmetric linear systems.
+MUMPS implements a direct solution method based on the LDL or LU factorization of the input matrix and is suited to solving square symmetric or unsymmetric linear systems.
 These software support real and complex, single or double precision arithmetic.
 
 ### LDLFactorizations
 
-Drawbacks of the previous packages are that they are proprietary and/or they can't handle element types except 32 bits and 64 bits native floating point numbers.
+Two drawbacks of JSL are that it is proprietary and it can't handle element types except 32 bits and 64 bits native floating point numbers.
 LDLFactorizations implements a factorization for symmetric matrices to compete with MA57 that solves both of these problems.
