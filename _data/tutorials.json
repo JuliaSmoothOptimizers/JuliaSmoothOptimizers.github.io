@@ -102,5 +102,13 @@
     "date": "2022-08-15",
     "tags": ["introduction", "model", "ipopt", "solver"],
     "pkgs": ["ADNLPModels", "NLPModels", "NLPModelsIpopt", "Ipopt", "JuMP"]
+  },
+  {
+    "title": "Introduction to CaNNOLeS",
+    "link": "/tutorials/introduction-to-cannoles",
+    "short": "CaNNOLeS is a solver for equality-constrained nonlinear least-squares problems.",
+    "date": "2022-08-19",
+    "tags": ["introduction", "least-sqaures", "cannoles", "solver"],
+    "pkgs": ["ADNLPModels", "NLPModels", "CaNNOLeS"]
   }
 ]
