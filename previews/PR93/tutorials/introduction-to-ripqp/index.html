@@ -1,0 +1,232 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR93/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR93//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR93//assets/favicon.png"> <title>Template</title> <script src="/previews/PR93/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR93/"> <img src="https://jso-preview.netlify.app/previews/PR93//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR93//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR93//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR93//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR93//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR93//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR93//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR93//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR93//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR93//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Template</a></h1></p> <div class=author >by Geoffroy Leconte</div> <p><img class=badge  src="https://img.shields.io/badge/DelimitedFiles-STDLIB-666?style=flat-square&labelColor=444"> <img class=badge  src="https://img.shields.io/badge/LinearAlgebra-STDLIB-666?style=flat-square&labelColor=444"> <a href="https://juliasmoothoptimizers.github.io/QPSReader.jl/stable/"><img class=badge  src="https://img.shields.io/badge/QPSReader-JSO-hsl(276,100%25,30%25)?style=flat-square&labelColor=hsl(276,30%25,30%25)"></a> <a href="https://juliasmoothoptimizers.github.io/QuadraticModels.jl/stable/"><img class=badge  src="https://img.shields.io/badge/QuadraticModels-JSO-hsl(295,100%25,30%25)?style=flat-square&labelColor=hsl(295,30%25,30%25)"></a> <a href="https://juliasmoothoptimizers.github.io/RipQP.jl/stable/"><img class=badge  src="https://img.shields.io/badge/RipQP-JSO-hsl(304,100%25,30%25)?style=flat-square&labelColor=hsl(304,30%25,30%25)"></a> <a href="https://juliasmoothoptimizers.github.io/SparseMatricesCOO.jl/stable/"><img class=badge  src="https://img.shields.io/badge/SparseMatricesCOO-JSO-hsl(350,100%25,30%25)?style=flat-square&labelColor=hsl(350,30%25,30%25)"></a> <h2 id=input ><a href="#input" class=header-anchor >Input</a></h2> <p>RipQP uses the package <a href="https://github.com/JuliaSmoothOptimizers/QuadraticModels.jl">QuadraticModels.jl</a> to model convex quadratic problems.</p> <p>Here is a basic example:</p> <pre><code class=language-julia >using QuadraticModels, LinearAlgebra, SparseMatricesCOO
+Q &#61; &#91;6. 2. 1.
+     2. 5. 2.
+     1. 2. 4.&#93;
+c &#61; &#91;-8.; -3; -3&#93;
+A &#61; &#91;1. 0. 1.
+     0. 2. 1.&#93;
+b &#61; &#91;0.; 3&#93;
+l &#61; &#91;0.;0;0&#93;
+u &#61; &#91;Inf; Inf; Inf&#93;
+QM &#61; QuadraticModel&#40;
+  c,
+  SparseMatrixCOO&#40;tril&#40;Q&#41;&#41;,
+  A&#61;SparseMatrixCOO&#40;A&#41;,
+  lcon&#61;b,
+  ucon&#61;b,
+  lvar&#61;l,
+  uvar&#61;u,
+  c0&#61;0.,
+  name&#61;&quot;QM&quot;
+&#41;</code></pre> <pre><code class=language-plaintext >QuadraticModels.QuadraticModel&#123;Float64, Vector&#123;Float64&#125;, SparseMatricesCOO.
+SparseMatrixCOO&#123;Float64, Int64&#125;, SparseMatricesCOO.SparseMatrixCOO&#123;Float64,
+ Int64&#125;&#125;
+  Problem name: QM
+   All variables: ████████████████████ 3      All constraints: ████████████
+████████ 2     
+            free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ████████████████████ 3                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ████████████
+████████ 2     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   6               linear: ████████████
+████████ 2     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40; 33.33&#37; spa
+rsity&#41;   4     
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre> <p>Once your <code>QuadraticModel</code> is loaded, you can simply solve it RipQP:</p> <pre><code class=language-julia >using RipQP
+stats &#61; ripqp&#40;QM&#41;
+println&#40;stats&#41;</code></pre> <pre><code class=language-plaintext >Generic Execution stats
+  status: first-order stationary
+  objective value: 1.1249999997850777
+  primal feasibility: 6.138085685914678e-11
+  dual feasibility: 3.864633058014988e-10
+  solution: &#91;5.6676609869371275e-11  1.5000000000152136  4.704246989775501e
+-12&#93;
+  multipliers: &#91;-9.305014036788608  2.2499999995728555&#93;
+  multipliers_L: &#91;4.305014036777336  7.44283917646875e-10  7.05501403716986
+&#93;
+  multipliers_U: &#91;0.0  0.0  0.0&#93;
+  iterations: 16
+  elapsed time: 16.001592874526978
+  solver specific:
+    nvar_slack: 3
+    pdd: 6.42239516535383e-10
+    absolute_iter_cnt: 4</code></pre> <p>The <code>stats</code> output is a <a href="https://juliasmoothoptimizers.github.io/SolverCore.jl/dev/reference/#SolverCore.GenericExecutionStats">GenericExecutionStats</a>.</p> <p>It is also possible to use the package <a href="https://github.com/JuliaSmoothOptimizers/QPSReader.jl">QPSReader.jl</a> in order to read convex quadratic problems in MPS or SIF formats: &#40;download <a href="https://raw.githubusercontent.com/JuliaSmoothOptimizers/RipQP.jl/main/test/QAFIRO.SIF">QAFIRO</a>&#41;</p> <pre><code class=language-julia >using QPSReader, QuadraticModels
+QM &#61; QuadraticModel&#40;readqps&#40;&quot;QAFIRO.SIF&quot;&#41;&#41;</code></pre> <pre><code class=language-plaintext >Error: SystemError: opening file &quot;QAFIRO.SIF&quot;: No such file or directory</code></pre>
+<h2 id=logging ><a href="#logging" class=header-anchor >Logging</a></h2>
+<p>RipQP displays some logs at each iterate.</p>
+<p>You can deactivate logging with</p>
+<pre><code class=language-julia >stats &#61; ripqp&#40;QM, display &#61; false&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<p>It is also possible to get a history of several quantities such as the primal and dual residuals and the relative primal-dual gap. These quantites are available in the dictionary <code>solver_specific</code> of the <code>stats</code>.</p>
+<pre><code class=language-julia >stats &#61; ripqp&#40;QM, history &#61; true&#41;
+pddH &#61; stats.solver_specific&#91;:pddH&#93;</code></pre>
+<pre><code class=language-plaintext >5-element Vector&#123;Float64&#125;:
+ 2.0425814644358002
+ 0.6845391618145797
+ 0.0006472337157159482
+ 6.426950908481628e-7
+ 6.42239516535383e-10</code></pre>
+<h2 id=change_configuration_and_tolerances ><a href="#change_configuration_and_tolerances" class=header-anchor >Change configuration and tolerances</a></h2>
+<p>You can use <code>RipQP</code> without scaling with:</p>
+<pre><code class=language-julia >stats &#61; ripqp&#40;QM, scaling &#61; false&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<p>You can also change the <a href="https://juliasmoothoptimizers.github.io/RipQP.jl/stable/API/#RipQP.InputTol"><code>RipQP.InputTol</code></a> type to change the tolerances for the stopping criteria:</p>
+<pre><code class=language-julia >stats &#61; ripqp&#40;QM, itol &#61; InputTol&#40;max_iter &#61; 100, ϵ_rb &#61; 1e-4&#41;, scaling &#61; false&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<h2 id=save_the_interior-point_system ><a href="#save_the_interior-point_system" class=header-anchor >Save the Interior-Point system</a></h2>
+<p>At every iteration, RipQP solves two linear systems with the default Predictor-Corrector method &#40;the affine system and the corrector-centering system&#41;, or one linear system with the Infeasible Path-Following method.</p>
+<p>To save these systems, you can use:</p>
+<pre><code class=language-julia >w &#61; SystemWrite&#40;write &#61; true, name&#61;&quot;test_&quot;, kfirst &#61; 4, kgap&#61;3&#41;
+stats1 &#61; ripqp&#40;QM, w &#61; w&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<p>This will save one matrix and the associated two right hand sides of the PC method every three iterations starting at iteration four. Then, you can read the saved files with:</p>
+<pre><code class=language-julia >using DelimitedFiles, MatrixMarket
+K &#61; MatrixMarket.mmread&#40;&quot;test_K_iter4.mtx&quot;&#41;
+rhs_aff &#61; readdlm&#40;&quot;test_rhs_iter4_aff.rhs&quot;, Float64&#41;&#91;:&#93;
+rhs_cc &#61;  readdlm&#40;&quot;test_rhs_iter4_cc.rhs&quot;, Float64&#41;&#91;:&#93;</code></pre>
+<pre><code class=language-plaintext >5-element Vector&#123;Float64&#125;:
+ -7.65907083541235e-9
+  3.293857956802506e-15
+  1.4101961075442407e-7
+  0.0
+  0.0</code></pre>
+<h2 id=timers ><a href="#timers" class=header-anchor >Timers</a></h2>
+<p>You can see the elapsed time with:</p>
+<pre><code class=language-julia >stats1.elapsed_time</code></pre>
+<pre><code class=language-plaintext >0.2457740306854248</code></pre>
+<p>For more advance timers you can use <a href="https://github.com/KristofferC/TimerOutputs.jl">TimerOutputs.jl</a>:</p>
+<pre><code class=language-julia >using TimerOutputs
+TimerOutputs.enable_debug_timings&#40;RipQP&#41;
+reset_timer&#33;&#40;RipQP.to&#41;
+stats &#61; ripqp&#40;QM&#41;
+TimerOutputs.complement&#33;&#40;RipQP.to&#41; # print complement of timed sections
+show&#40;RipQP.to, sortby &#61; :firstexec&#41;</code></pre>
+<pre><code class=language-plaintext >──────────────────────────────────────────────────────────────────────────
+──────
+                                        Time                    Allocations
+      
+                               ───────────────────────   ──────────────────
+──────
+       Tot / &#37; measured:            3.21s /  48.4&#37;            207MiB /  48.
+4&#37;    
+
+ Section               ncalls     time    &#37;tot     avg     alloc    &#37;tot   
+   avg
+ ──────────────────────────────────────────────────────────────────────────
+──────
+ ripqp                      1    1.55s  100.0&#37;   1.55s    100MiB  100.0&#37;   
+100MiB
+   ~ripqp~                  1    1.55s   99.9&#37;   1.55s    100MiB   99.9&#37;   
+100MiB
+   allocate workspace       1   91.0μs    0.0&#37;  91.0μs   5.73KiB    0.0&#37;  5
+.73KiB
+   init solver              1   53.9μs    0.0&#37;  53.9μs   3.93KiB    0.0&#37;  3
+.93KiB
+   display                  5    685μs    0.0&#37;   137μs   51.0KiB    0.0&#37;  1
+0.2KiB
+   update solver            4   25.4μs    0.0&#37;  6.35μs      960B    0.0&#37;   
+  240B
+   solver aff               4   3.00μs    0.0&#37;   750ns     0.00B    0.0&#37;   
+ 0.00B
+   solver cc                4   1.10μs    0.0&#37;   275ns     0.00B    0.0&#37;   
+ 0.00B
+ ──────────────────────────────────────────────────────────────────────────
+──────</code></pre>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
