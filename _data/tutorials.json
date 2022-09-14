@@ -110,5 +110,13 @@
     "date": "2022-08-19",
     "tags": ["introduction", "least-sqaures", "cannoles", "solver"],
     "pkgs": ["ADNLPModels", "NLPModels", "CaNNOLeS"]
+  },
+  {
+    "title": "Test allocations of NLPModels",
+    "link": "/tutorials/check-allocations-nlpmodels",
+    "short": "NLPModelsTest has a new feature to check allocaitons of NLPModels.",
+    "date": "2022-09-14",
+    "tags": ["models", "manual", "tests"], 
+    "pkgs": ["NLPModelsTest"]
   }
 ]
