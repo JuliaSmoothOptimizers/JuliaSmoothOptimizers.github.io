@@ -91,6 +91,13 @@
   <span>model</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('models')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>models</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('pde')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
@@ -152,6 +159,13 @@
     <ion-icon name="pricetag"></ion-icon>
   </span>
   <span>test set</span>
+</button>
+~~~
+~~~<button onclick="tags_click('tests')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>tests</span>
 </button>
 ~~~
 ~~~
@@ -296,6 +310,14 @@
   <ion-icon name="cube"></ion-icon>
 </span>
 <span>NLPModelsModifiers.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('NLPModelsTest')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>NLPModelsTest.jl</span>
 </button>
 ~~~
 ~~~
