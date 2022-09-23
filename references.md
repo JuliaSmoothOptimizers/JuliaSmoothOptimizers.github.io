@@ -41,6 +41,7 @@ function bib_string(
     push!(V, date)
   end
   if isdoi
+    replace(link, "https://doi.org/" => "")
     push!(V, "[$link](https://doi.org/" * link * ")")
   end
   str = join(V, ", ")
