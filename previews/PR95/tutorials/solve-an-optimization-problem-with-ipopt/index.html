@@ -1,0 +1,233 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR95//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR95/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR95//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR95//assets/favicon.png"> <title>How to solve a small optimization problem with Ipopt + NLPModels</title> <script src="/previews/PR95/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR95/"> <img src="https://jso-preview.netlify.app/previews/PR95//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR95//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR95//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR95//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR95//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR95//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR95//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR95//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR95//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR95//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >How to solve a small optimization problem with Ipopt + NLPModels</a></h1></p> <div class=author >by Abel S. Siqueira</div> <p><a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/"><img class=badge  src="https://img.shields.io/badge/ADNLPModels-JSO-hsl(9,100%25,30%25)?style=flat-square&labelColor=hsl(9,30%25,30%25)"></a> <a href="https://juliasmoothoptimizers.github.io/NLPModelsIpopt.jl/stable/"><img class=badge  src="https://img.shields.io/badge/NLPModelsIpopt-JSO-hsl(184,100%25,30%25)?style=flat-square&labelColor=hsl(184,30%25,30%25)"></a> <p>To solve an optimization problem with Ipopt, the first thing to do is define your problem. In this example, let&#39;s assume we want to solve the following problem:</p> \[\begin{aligned} \text{min}_x \quad & (x_1 - 1)^2 + 4 (x_2 - x_1)^2 \\ \text{s.to} \quad & x_1^2 + x_2^2 \leq 1 \\ & x_1 \leq 0.5 \\ & 0.25 \leq x_2 \leq 0.75 \end{aligned}\] <p>Since our problem is simple, ADNLPModels is a perfect choice. It defines an model that uses automatic differentiation. It is just a matter of passing your functions and arrays to the constructor <code>ADNLPModel</code>.</p> <pre><code class=language-julia >using ADNLPModels
+
+nlp &#61; ADNLPModel&#40;
+  x -&gt; &#40;x&#91;1&#93; - 1&#41;^2 &#43; 4 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;, # f&#40;x&#41;
+  &#91;0.5; 0.5&#93;, # starting point, which can be your guess
+  &#91;-Inf; 0.25&#93;, # lower bounds on variables
+  &#91;0.5; 0.75&#93;,  # upper bounds on variables
+  x -&gt; &#91;x&#91;1&#93;^2 &#43; x&#91;2&#93;^2&#93;, # constraints function - must be an array
+  &#91;-Inf&#93;, # lower bounds on constraints
+  &#91;1.0&#93;   # upper bounds on constraints
+&#41;</code></pre> <pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADNLPModels.Forwa
+rdDiffAD&#123;ForwardDiff.GradientConfig&#123;ForwardDiff.Tag&#123;Main.##WeaveSandBox#291
+.var&quot;#1#3&quot;, Float64&#125;, Float64, 2, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;M
+ain.##WeaveSandBox#291.var&quot;#1#3&quot;, Float64&#125;, Float64, 2&#125;&#125;&#125;&#125;&#40;3, 2, ForwardDif
+f.GradientConfig&#123;ForwardDiff.Tag&#123;Main.##WeaveSandBox#291.var&quot;#1#3&quot;, Float64
+&#125;, Float64, 2, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;Main.##WeaveSandBox#
+291.var&quot;#1#3&quot;, Float64&#125;, Float64, 2&#125;&#125;&#125;&#40;&#40;Partials&#40;1.0, 0.0&#41;, Partials&#40;0.0, 1
+.0&#41;&#41;, ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;Main.##WeaveSandBox#291.var&quot;#1#3&quot;, F
+loat64&#125;, Float64, 2&#125;&#91;Dual&#123;ForwardDiff.Tag&#123;Main.##WeaveSandBox#291.var&quot;#1#3&quot;
+, Float64&#125;&#125;&#40;4.766885689800094e180,5.9214442028471925e169,2.1502062465793975
+e-80&#41;, Dual&#123;ForwardDiff.Tag&#123;Main.##WeaveSandBox#291.var&quot;#1#3&quot;, Float64&#125;&#125;&#40;1.
+0921273113031389e69,9.92715016811644e247,0.0&#41;&#93;&#41;&#41;
+  Problem name: Generic
+   All variables: ████████████████████ 2      All constraints: ████████████
+████████ 1     
+            free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1                upper: ████████████
+████████ 1     
+         low/upp: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ████████████
+████████ 1     
+                                                         nnzj: &#40;  0.00&#37; spa
+rsity&#41;   2     
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre> <p>Now, just pass your problem to ipopt.</p> <pre><code class=language-julia >using NLPModelsIpopt
+
+output &#61; ipopt&#40;nlp&#41;</code></pre> <pre><code class=language-plaintext >***************************************************************************
+***
+This program contains Ipopt, a library for large-scale nonlinear optimizati
+on.
+ Ipopt is released as open source code under the Eclipse Public License &#40;EP
+L&#41;.
+         For more information visit https://github.com/coin-or/Ipopt
+***************************************************************************
+***
+
+This is Ipopt version 3.13.4, running with linear solver mumps.
+NOTE: Other linear solvers might be more efficient &#40;see Ipopt documentation
+&#41;.
+
+Number of nonzeros in equality constraint Jacobian...:        0
+Number of nonzeros in inequality constraint Jacobian.:        2
+Number of nonzeros in Lagrangian Hessian.............:        3
+
+Total number of variables............................:        2
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        1
+                     variables with only upper bounds:        1
+Total number of equality constraints.................:        0
+Total number of inequality constraints...............:        1
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        1
+
+iter    objective    inf_pr   inf_du lg&#40;mu&#41;  ||d||  lg&#40;rg&#41; alpha_du alpha_p
+r  ls
+   0  1.2997000e&#43;00 0.00e&#43;00 4.29e&#43;00  -1.0 0.00e&#43;00    -  0.00e&#43;00 0.00e&#43;0
+0   0
+   1  4.5361290e-01 0.00e&#43;00 2.41e&#43;00  -1.0 4.35e-01    -  4.59e-01 6.35e-0
+1f  1
+   2  5.5431421e-01 0.00e&#43;00 5.91e-02  -1.0 1.22e-01    -  1.00e&#43;00 1.00e&#43;0
+0f  1
+   3  3.0224698e-01 0.00e&#43;00 1.58e-02  -1.7 5.64e-02    -  1.00e&#43;00 1.00e&#43;0
+0f  1
+   4  2.5558473e-01 0.00e&#43;00 2.94e-04  -2.5 7.49e-03    -  1.00e&#43;00 1.00e&#43;0
+0h  1
+   5  2.5030180e-01 0.00e&#43;00 5.43e-06  -3.8 6.84e-04    -  1.00e&#43;00 1.00e&#43;0
+0h  1
+   6  2.5000360e-01 0.00e&#43;00 1.67e-08  -5.7 3.83e-05    -  1.00e&#43;00 1.00e&#43;0
+0h  1
+   7  2.4999992e-01 0.00e&#43;00 2.49e-12  -8.6 4.64e-07    -  1.00e&#43;00 1.00e&#43;0
+0h  1
+
+Number of Iterations....: 7
+
+                                   &#40;scaled&#41;                 &#40;unscaled&#41;
+Objective...............:   2.4999991501233096e-01    2.4999991501233096e-0
+1
+Dual infeasibility......:   2.4923148672798348e-12    2.4923148672798348e-1
+2
+Constraint violation....:   0.0000000000000000e&#43;00    0.0000000000000000e&#43;0
+0
+Complementarity.........:   2.5082196362733705e-09    2.5082196362733705e-0
+9
+Overall NLP error.......:   2.5082196362733705e-09    2.5082196362733705e-0
+9
+
+
+Number of objective function evaluations             &#61; 8
+Number of objective gradient evaluations             &#61; 8
+Number of equality constraint evaluations            &#61; 0
+Number of inequality constraint evaluations          &#61; 8
+Number of equality constraint Jacobian evaluations   &#61; 0
+Number of inequality constraint Jacobian evaluations &#61; 8
+Number of Lagrangian Hessian evaluations             &#61; 7
+Total CPU secs in IPOPT &#40;w/o function evaluations&#41;   &#61;      2.872
+Total CPU secs in NLP function evaluations           &#61;      1.107
+
+EXIT: Optimal Solution Found.
+&quot;Execution stats: first-order stationary&quot;</code></pre> <p>To remove the output, use print_level</p> <pre><code class=language-julia >output &#61; ipopt&#40;nlp, print_level&#61;0&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<p>The <code>output</code> variable containt essential information about the solution. They can be access with <code>.</code>.</p>
+<pre><code class=language-julia >print&#40;output&#41;</code></pre>
+<pre><code class=language-plaintext >Generic Execution stats
+  status: first-order stationary
+  objective value: 0.24999991501233096
+  primal feasibility: 0.0
+  dual feasibility: 2.4923148672798348e-12
+  solution: &#91;0.5  0.25&#93;
+  multipliers: &#91;3.6454575515314157e-9&#93;
+  multipliers_L: &#91;0.0  4.000000006828642&#93;
+  multipliers_U: &#91;5.000000053347668  5.0084053323090786e-9&#93;
+  iterations: 7
+  elapsed time: 0.003
+  solver specific:
+    real_time: 0.00407719612121582
+    internal_msg: :Solve_Succeeded</code></pre>
+<pre><code class=language-julia >x &#61; output.solution
+println&#40;&quot;Solution: &#36;x&quot;&#41;</code></pre>
+<pre><code class=language-plaintext >Solution: &#91;0.5, 0.25&#93;</code></pre>
+<p>That&#39;s it. If your model is more complex, you should look into NLPModelsJuMP.jl. On the other hand, if you need more control and want to input your model manually, look for the specific how-to.</p>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR95/libs/katex/katex.min.js"></script>
+<script src="/previews/PR95/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
