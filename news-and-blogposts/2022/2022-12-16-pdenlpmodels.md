@@ -8,12 +8,13 @@ We are very happy to announce the publication in the Journal of Open Source Soft
 [PDENLPModels.jl](https://github.com/JuliaSmoothOptimizers/PDENLPModels.jl) is a Julia package that specializes the [NLPModel API](https://github.com/JuliaSmoothOptimizers/NLPModels.jl) for modeling and discretizing optimization problems with mixed algebraic and PDE in the constraints.
 
 We consider optimization problems of the form: find functions $y, u$ and $κ \in \mathbb{R}^n$ satisfying
-```math
-min      ∫_Ω​ f(κ,y,u) dΩ​
-s.t.     y solution of a PDE(κ,u)=0
-         lcon <= c(κ,y,u) <= ucon
-         lvar <= (κ,y,u)  <= uvar
-```
+$$
+  \begin{array}{lll}
+    \underset{y, u, \theta}{\text{minimize}} \int_\Omega J(y, u, \theta)d\Omega \ \text{ subject to} & e(y, u, \theta) = 0, & \text{(governing PDE on $\Omega$)} \\
+    & l_{yu} \leq (y, u) \leq u_{yu}, & \text{(functional bound constraints)} \\
+    & l_{\theta} \leq \theta \leq u_{\theta}, & \text{(bound constraints)}
+	\end{array}
+$$
 
 The main challenges in modeling such a problem are to be able to discretize the domain and generate corresponding discretizations of the objective and constraints, and their evaluate derivatives with respect to all variables.
 We use [Gridap.jl](https://github.com/gridap/Gridap.jl) to define the domain, meshes, function spaces, and finite-element families to approximate unknowns, and to model functionals and sets of PDEs in a weak form. 
@@ -28,26 +29,13 @@ As such, PDENLPModels offers an interface between generic PDE-constrained optimi
 ## Example
 
 The following example shows how to solve a Poisson control problem with Dirichlet boundary conditions using [`DCISolver.jl`](https://github.com/JuliaSmoothOptimizers/DCISolver.jl):
-\begin{equation*}
-  \begin{array}{lll}
-    \underset{y, u}{\text{minimize}} \int_{(-1,1)^2} \frac{1}{2}\|y_d - y\|^2 +\frac{\alpha}{2}\|u\|^2 d\Omega \quad \mbox{subject to} & \Delta y - u - h = 0, & \mbox{on } \Omega.\\
-    & y = 0, & \mbox{on } \partial\Omega,
-  \end{array}
-\end{equation*}
-
+find functions $y \in H^1_0$ and $u \in H^1$ satisfying
 $$
   \begin{array}{lll}
     \underset{y, u}{\text{minimize}} \int_{(-1,1)^2} \frac{1}{2}\|y_d - y\|^2 +\frac{\alpha}{2}\|u\|^2 d\Omega \quad \text{subject to} & \Delta y - u - h = 0, & \text{on } \Omega.\\
     & y = 0, & \text{on } \partial\Omega,
   \end{array}
 $$
-find functions $y \in H^1_0$ and $u \in H^1$ satisfying
-```math
-min   0.5 ∫_Ω​ |y(x) - yd(x)|^2dx + 0.5 * α * ∫_Ω​ |u|^2
-s.t.          -Δy = u + h,   for    x ∈  Ω
-               y  = 0,       for    x ∈ ∂Ω
-where yd(x) = -x[1]^2, h(x) = 1 and α = 1e-2.
-```
 for some given functions $y_d:(-1,1)^2 \rightarrow \mathbb{R}$ and $h:(-1,1)^2 \rightarrow \mathbb{R}$, and $\alpha > 0$.
 
 ```julia
