@@ -7,16 +7,12 @@ We are very happy to announce the publication in the Journal of Open Source Soft
 
 [PDENLPModels.jl](https://github.com/JuliaSmoothOptimizers/PDENLPModels.jl) is a Julia package that specializes the [NLPModel API](https://github.com/JuliaSmoothOptimizers/NLPModels.jl) for modeling and discretizing optimization problems with mixed algebraic and PDE in the constraints.
 
-We consider optimization problems of the form: find functions (y,u) and κ ∈ ℜⁿ satisfying
+We consider optimization problems of the form: find functions $y, u$ and $κ \in \mathbb{R}^n$ satisfying
 ```math
-\left\lbrace
-\begin{aligned}
-\min\limits_{κ,y,u} \  & \int_{\Omega} f(κ,y,u)dx, \\
-\text{ s.t. } & \text{y solution of a PDE(κ,u)},\\
-                  & lcon \leq c(κ,y,u) \leq ucon,\\
-                  & lvar \leq (κ,y,u)  \leq uvar.\\
-\end{aligned}
-\right.
+min      ∫_Ω​ f(κ,y,u) dΩ​
+s.t.     y solution of a PDE(κ,u)=0
+         lcon <= c(κ,y,u) <= ucon
+         lvar <= (κ,y,u)  <= uvar
 ```
 
 The main challenges in modeling such a problem are to be able to discretize the domain and generate corresponding discretizations of the objective and constraints, and their evaluate derivatives with respect to all variables.
@@ -38,7 +34,21 @@ The following example shows how to solve a Poisson control problem with Dirichle
     & y = 0, & \mbox{on } \partial\Omega,
   \end{array}
 \end{equation*}
-for some given functions $y_d, h:(-1,1)^2 \rightarrow \mathbb{R}$, and $\alpha > 0$.
+
+$$
+  \begin{array}{lll}
+    \underset{y, u}{\text{minimize}} \int_{(-1,1)^2} \frac{1}{2}\|y_d - y\|^2 +\frac{\alpha}{2}\|u\|^2 d\Omega \quad \text{subject to} & \Delta y - u - h = 0, & \text{on } \Omega.\\
+    & y = 0, & \text{on } \partial\Omega,
+  \end{array}
+$$
+find functions $y \in H^1_0$ and $u \in H^1$ satisfying
+```math
+min   0.5 ∫_Ω​ |y(x) - yd(x)|^2dx + 0.5 * α * ∫_Ω​ |u|^2
+s.t.          -Δy = u + h,   for    x ∈  Ω
+               y  = 0,       for    x ∈ ∂Ω
+where yd(x) = -x[1]^2, h(x) = 1 and α = 1e-2.
+```
+for some given functions $y_d:(-1,1)^2 \rightarrow \mathbb{R}$ and $h:(-1,1)^2 \rightarrow \mathbb{R}$, and $\alpha > 0$.
 
 ```julia
 using DCISolver, Gridap, PDENLPModels
