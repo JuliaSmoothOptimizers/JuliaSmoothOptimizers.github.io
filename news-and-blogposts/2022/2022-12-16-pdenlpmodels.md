@@ -31,7 +31,7 @@ As such, PDENLPModels offers an interface between generic PDE-constrained optimi
 
 ## Example
 
-The following example shows how to solve a Poisson control problem with Dirichlet boundary conditions using \texttt{DCISolver.jl}:
+The following example shows how to solve a Poisson control problem with Dirichlet boundary conditions using [`DCISolver.jl`](https://github.com/JuliaSmoothOptimizers/DCISolver.jl):
 \begin{equation*}
   \begin{array}{lll}
     \underset{y, u}{\text{minimize}} \int_{(-1,1)^2} \frac{1}{2}\|y_d - y\|^2 +\frac{\alpha}{2}\|u\|^2 d\Omega \quad \mbox{subject to} & \Delta y - u - h = 0, & \mbox{on } \Omega.\\
