@@ -36,6 +36,24 @@
 </button>
 ~~~DCISolver.jl: A Julia Solver for Nonlinear Optimization using Dynamic Control of Infeasibility, **T. Migot, D. Orban, A. S. Siqueira**, Journal of Open Source Software, 7(70), 3991, 2022., [10.21105/joss.03991](https://doi.org/10.21105/joss.03991)
 - ~~~
+<button data-clipboard-text="@article{migot-orban-siqueira-pdenlpmodels-2022,
+ pages         = {4736},
+ author        = {Migot, Tangi and Orban, Dominique and Siqueira, Abel  Soares},
+ journal       = {Journal of Open Source Software},
+ title         = {{PDENLPModels.jl}: An {NLPModel API} for Optimization Problems with {PDE}-Constraints},
+ publisher     = {The Open Journal},
+ number        = {80},
+ doi           = {10.21105/joss.04736},
+ year          = {2022},
+ url           = {https://doi.org/10.21105/joss.04736},
+ volume        = {7}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~PDENLPModels.jl: An NLPModel API for Optimization Problems with PDE-Constraints, **Tangi Migot, Dominique Orban, Abel Soares Siqueira**, Journal of Open Source Software, 7(80), 4736, 2022., [10.21105/joss.04736](https://doi.org/10.21105/joss.04736)
+- ~~~
 <button data-clipboard-text="@article{aravkin-baraldi-orban-2022,
  number        = {2},
  pages         = {900--929},
