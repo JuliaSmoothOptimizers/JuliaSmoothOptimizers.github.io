@@ -1,7 +1,7 @@
-@def title = "New package: PDENLPModels.jl"
+@def title = "New publication about PDENLPModels.jl"
 @def rss_description = "We are very happy to announce the publication in the Journal of Open Source Software of the paper PDENLPModels.jl: A NLPModel API for optimization problems with PDE-constraints."
 
-# New package: PDENLPModels.jl
+# New publication about PDENLPModels.jl
 
 We are very happy to announce the publication in the Journal of Open Source Software of the paper **PDENLPModels.jl: A NLPModel API for optimization problems with PDE-constraints**. It is accessible in open access [here](https://joss.theoj.org/papers/10.21105/joss.04736).
 
