@@ -21,6 +21,13 @@
   <span>benchmark</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('callback')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>callback</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('cannoles')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
@@ -56,11 +63,11 @@
   <span>jump</span>
 </button>
 ~~~
-~~~<button onclick="tags_click('least-sqaures')" class="button is-small is-link is-outlined mt-2">
+~~~<button onclick="tags_click('least-squares')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
   </span>
-  <span>least-sqaures</span>
+  <span>least-squares</span>
 </button>
 ~~~
 ~~~<button onclick="tags_click('linear-operators')" class="button is-small is-link is-outlined mt-2">
@@ -105,6 +112,13 @@
   <span>pde</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('percival')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>percival</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('problem')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
@@ -145,6 +159,13 @@
     <ion-icon name="pricetag"></ion-icon>
   </span>
   <span>solver</span>
+</button>
+~~~
+~~~<button onclick="tags_click('solvers')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>solvers</span>
 </button>
 ~~~
 ~~~<button onclick="tags_click('test')" class="button is-small is-link is-outlined mt-2">
@@ -334,6 +355,14 @@
   <ion-icon name="cube"></ion-icon>
 </span>
 <span>PDENLPModels.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('Percival')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>Percival.jl</span>
 </button>
 ~~~
 ~~~
