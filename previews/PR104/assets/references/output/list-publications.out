@@ -88,7 +88,25 @@
 </button>
 ~~~TriCG and TriMR: Two Iterative Methods for Symmetric Quasi-definite Systems, **A. Montoison, D. Orban**, SIAM Journal on Scientific Computing, 43(4), A2502--A2525, 2021., [10.1137/20m1363030](https://doi.org/10.1137/20m1363030)
 - ~~~
-<button data-clipboard-text="@article{Ek2021,
+<button data-clipboard-text="@article{Ek2021-a,
+ pages         = {155--191},
+ author        = {Ek, D. and Forsgren, A.},
+ journal       = {Computational Optimization and Applications},
+ title         = {Approximate solution of system of equations arising in interior-point methods for bound-constrained optimization},
+ publisher     = {Springer Science and Business Media LLC},
+ number        = {1},
+ doi           = {10.1007/s10589-021-00265-8},
+ year          = {2021},
+ url           = {https://doi.org/10.1007/s10589-021-00265-8},
+ volume        = {79}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~Approximate solution of system of equations arising in interior-point methods for bound-constrained optimization, **D. Ek, A. Forsgren**, Computational Optimization and Applications, 79(1), 155--191, 2021., [10.1007/s10589-021-00265-8](https://doi.org/10.1007/s10589-021-00265-8)
+- ~~~
+<button data-clipboard-text="@article{Ek2021-b,
  pages         = {789--816},
  author        = {Ek, D. and Forsgren, A.},
  journal       = {Computational Optimization and Applications},
