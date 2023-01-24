@@ -71,7 +71,11 @@ for (type_, title) in [
   selected = sort(filter(x -> x.type == type_, bib), by=x -> x.year, rev=true)
   length(selected) == 0 && continue
 
-  println("### $title")
+  if length(selected) > 1
+    println("### $title ($(length(selected)))")
+  else
+    println("### $title")
+  end
 
   for v in selected
     str = bib_string(v.names, v.title, v.in, "", v.link, isdoi=true)
@@ -88,7 +92,11 @@ for (type_, title) in [
   selected = filter(x -> x["type"] == type_, json)
   length(selected) == 0 && continue
 
-  println("### $title")
+  if length(selected) > 1
+    println("### $title ($(length(selected)))")
+  else
+    println("### $title")
+  end
 
   for v in selected
     str = bib_string(v["author"], v["title"], v["where"], Dates.format(Date(v["date"]), "yyyy-u-d"), get(v, "link", nothing))
