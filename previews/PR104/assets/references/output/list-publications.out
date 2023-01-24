@@ -39,7 +39,7 @@
  pages         = {4736},
  author        = {Migot, T. and Orban, D. and Siqueira, A. S.},
  journal       = {Journal of Open Source Software},
- title         = {{PDENLPModels.jl}: An {NLPModel API} for Optimization Problems with {PDE}-Constraints},
+ title         = {PDENLPModels.jl: An NLPModel API for Optimization Problems with PDE-Constraints},
  publisher     = {The Open Journal},
  number        = {80},
  doi           = {10.21105/joss.04736},
@@ -62,13 +62,29 @@
  url           = {https://doi.org/10.1137/21M1409536},
  volume        = {32},
  journal       = {SIAM Journal on Optimization},
- title         = {A Proximal Quasi-{N}ewton Trust-Region Method for Nonsmooth Regularized Optimization}
+ title         = {A Proximal Quasi-Newton Trust-Region Method for Nonsmooth Regularized Optimization}
 }" class="copy-ref">
 <span class="icon is-small has-text-primary">
 <ion-icon size="small" name="copy"></ion-icon>
 </span>
 </button>
 ~~~A Proximal Quasi-Newton Trust-Region Method for Nonsmooth Regularized Optimization, **A. Y. Aravkin, R. Baraldi, D. Orban**, SIAM Journal on Optimization, 32(2), 900--929, 2022., [10.1137/21M1409536](https://doi.org/10.1137/21M1409536)
+- ~~~
+<button data-clipboard-text="@article{Ma2021,
+ publisher     = {Springer International Publishing},
+ pages         = {153--182},
+ doi           = {10.1007/978-3-030-72040-7_8},
+ booktitle     = {Numerical Analysis and Optimization},
+ author        = {Ma, D. and Orban, D. and Saunders, M. A.},
+ year          = {2021},
+ url           = {https://doi.org/10.1007/978-3-030-72040-7_8},
+ title         = {A Julia Implementation of Algorithm NCL for Constrained Optimization}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~A Julia Implementation of Algorithm NCL for Constrained Optimization, **D. Ma, D. Orban, M. A. Saunders**, 153--182, 2021., [10.1007/978-3-030-72040-7_8](https://doi.org/10.1007/978-3-030-72040-7_8)
 - ~~~
 <button data-clipboard-text="@article{Montoison2021,
  pages         = {A2502--A2525},
