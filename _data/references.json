@@ -102,6 +102,13 @@
     "type": "classes"
   },
   {
+    "title": "TriCG and TriMR: Two Iterative Methods for Symmetric Quasi-Definite Systems",
+    "author": "Alexis Montoison and Dominique Orban",
+    "where": "SIAM Conference on Applied Linear Algebra (LA21)",
+    "date": "2021-05-21",
+    "type": "talk"
+  },
+  {
     "title": "Large scale optimization solvers in Julia for data science",
     "author": "Tangi Migot",
     "date": "2021-11-15",
@@ -126,6 +133,20 @@
     "type": "talk"
   },
   {
+    "title": "GPMR: An Iterative Method for Unsymmetric Partitioned Linear Systems",
+    "author": "Alexis Montoison and Dominique Orban",
+    "where": "17th Copper Mountain Conference On Iterative Methods",
+    "date": "2022-04-04",
+    "type": "talk"
+  },
+  {
+    "title": "Krylov.jl: A Julia basket of hand-picked Krylov solvers",
+    "author": "Alexis Montoison and Dominique Orban",
+    "where": "LA/Opt Seminar, ICME, Stanford University",
+    "date": "2022-04-06",
+    "type": "talk"
+  },
+  {
     "title": "A multi-precision algorithm for convex quadratic optimization",
     "author": "Geoffroy Leconte",
     "date": "2022-07-27",
@@ -147,6 +168,14 @@
     "date": "2022-07-28",
     "where": "JuliaCon / JuMP-dev 2022",
     "link": "https://www.youtube.com/watch?v=BvReBcMyujQ",
+    "type": "talk"
+  },
+  {
+    "title": "Introduction to Julia -- Krylov.jl",
+    "author": "Alexis Montoison and Dominique Orban",
+    "where": "STFC-Rutherford Appleton Laboratory, England",
+    "date": "2022-12-08",
+    "link": "https://github.com/amontoison/STFC-Krylov",
     "type": "talk"
   }
 ]
