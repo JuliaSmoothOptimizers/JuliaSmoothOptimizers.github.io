@@ -257,12 +257,16 @@
 </button>
 ~~~A Unified Efficient Implementation of Trust-region Type Algorithms for Unconstrained Optimization, **J.-P. Dussault**, INFOR: Information Systems and Operational Research, 58(2), 290--309, 2019., [10.1080/03155986.2019.1624490](https://doi.org/10.1080/03155986.2019.1624490)
 ### Talks
+- [Introduction to Julia -- Krylov.jl](https://github.com/amontoison/STFC-Krylov), **Alexis Montoison and Dominique Orban**, STFC-Rutherford Appleton Laboratory, England, 2022-Dec-8
 - [The JuliaSmoothOptimizers (JSO) Organization](https://www.youtube.com/watch?v=p5Z5QGOUZhE), **Dominique Orban**, JuliaCon / JuMP-dev 2022, 2022-Jul-28
 - [PDE-constrained optimization using JuliaSmoothOptimizers](https://www.youtube.com/watch?v=BvReBcMyujQ), **Tangi Migot**, JuliaCon / JuMP-dev 2022, 2022-Jul-28
 - [A multi-precision algorithm for convex quadratic optimization](https://www.youtube.com/watch?v=4xVOfMZwZMA), **Geoffroy Leconte**, JuliaCon / JuMP-dev 2022, 2022-Jul-27
+- Krylov.jl: A Julia basket of hand-picked Krylov solvers, **Alexis Montoison and Dominique Orban**, LA/Opt Seminar, ICME, Stanford University, 2022-Apr-6
+- GPMR: An Iterative Method for Unsymmetric Partitioned Linear Systems, **Alexis Montoison and Dominique Orban**, 17th Copper Mountain Conference On Iterative Methods, 2022-Apr-4
 - [A roadmap for JuliaSmoothOptimizers and its NLPModels API](https://youtu.be/FsQJ6NEUF6g), **Tangi Migot and Alexis Montoison**, JuMP nonlinear developers call (online)., 2022-Feb-15
 - [Krylov.jl : une bibliothèque Julia pour l’algèbre linéaire numérique](https://www.youtube.com/watch?v=9brh5XHcC8o), **Alexis Montoison**, IVADO Digital October (online)., 2021-Nov-16
 - [Large scale optimization solvers in Julia for data science](https://www.youtube.com/watch?v=uMKQTUfGkWw&), **Tangi Migot**, IVADO Digital October (online)., 2021-Nov-15
+- TriCG and TriMR: Two Iterative Methods for Symmetric Quasi-Definite Systems, **Alexis Montoison and Dominique Orban**, SIAM Conference on Applied Linear Algebra (LA21), 2021-May-21
 - [Otimização na Linguagem Julia](https://docs.google.com/presentation/d/e/2PACX-1vTExSw03IXqsEOOjWeFvvC0FLodFUw5RpIQJLNUALql9jWPjS6GG4fyVeRn3BqehrT5AmfpWYvR4Tpo/pub?start=true&loop=false&delayms=5000&slide=id.g5c57578bdc_0_1264), **Abel S. Siqueira**, Palestra no Congresso Internacional de Biomassa - 4° Expo Biomassa - Curitiba/PR, Brazil., 2019-Jun-26
 - [JuliaSmoothOptimizers](http://abelsiqueira.github.io/assets/2019-05-31-PPGM.ipynb), **Abel S. Siqueira**, Talk at PPGM - UFPR. Curitiba/PR, Brazil., 2019-May-31
 - [JuliaSmoothOptimizers](http://abelsiqueira.github.io/assets/2019-02-07-GERAD.tar.gz), **Abel S. Siqueira**, Tutorial: Modeling and optimization tools in Julia: An introduction to JuMP and JSO. GERAD. Montreal/QC, Canada, 2019-Feb-7
