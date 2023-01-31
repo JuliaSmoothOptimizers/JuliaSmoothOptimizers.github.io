@@ -134,5 +134,13 @@
     "date": "2023-01-31",
     "tags": ["introduction", "model", "least-squares", "nlsmodels", "test set", "bundle adjustment"],
     "pkgs": ["NLPModels", "BundleAdjustmentModels"]
+  },
+  {
+    "title": "Solve a PDE-constrained optimization problem",
+    "link": "/tutorials/introduction-to-pdenlpmodels",
+    "short": "In this tutorial you will learn how to use JSO-compliant solvers to solve a PDE-constrained optimization problem discretized with PDENLPModels.jl.",
+    "date": "2023-01-31",
+    "tags": ["models", "nlpmodels", "test set", "PDE"],
+    "pkgs": ["DCISolver", "JSOSolvers", "NLPModels" , "NLPModelsIpopt" , "NLPModelsModifiers", "PDENLPModels"]
   }
 ]

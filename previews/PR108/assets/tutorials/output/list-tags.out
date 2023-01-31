@@ -7,6 +7,13 @@
   <span>Clear selection</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('PDE')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>PDE</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('automatic differentiation')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
@@ -110,6 +117,13 @@
     <ion-icon name="pricetag"></ion-icon>
   </span>
   <span>models</span>
+</button>
+~~~
+~~~<button onclick="tags_click('nlpmodels')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>nlpmodels</span>
 </button>
 ~~~
 ~~~<button onclick="tags_click('nlsmodels')" class="button is-small is-link is-outlined mt-2">
