@@ -126,5 +126,13 @@
     "date": "2022-12-23",
     "tags": ["solvers", "callback", "percival"],
     "pkgs": ["NLPModelsJuMP", "JSOSolvers", "Percival"]
+  },
+  {
+    "title": "Introduction to BundleAdjustmentModels",
+    "link": "/tutorials/introduction-to-bundleadjustmentmodels",
+    "short": "A Julia repository of bundle adjustment problems from the Bundle Adjustment in the Large repository.",
+    "date": "2023-01-31",
+    "tags": ["introduction", "model", "least-squares", "nlsmodels", "test set", "bundle adjustment"],
+    "pkgs": ["NLPModels", "BundleAdjustmentModels"]
   }
 ]
