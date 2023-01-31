@@ -21,6 +21,13 @@
   <span>benchmark</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('bundle adjustment')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>bundle adjustment</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('callback')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
@@ -103,6 +110,13 @@
     <ion-icon name="pricetag"></ion-icon>
   </span>
   <span>models</span>
+</button>
+~~~
+~~~<button onclick="tags_click('nlsmodels')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>nlsmodels</span>
 </button>
 ~~~
 ~~~<button onclick="tags_click('pde')" class="button is-small is-link is-outlined mt-2">
@@ -203,6 +217,14 @@
   <ion-icon name="cube"></ion-icon>
 </span>
 <span>BenchmarkProfiles.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('BundleAdjustmentModels')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>BundleAdjustmentModels.jl</span>
 </button>
 ~~~
 ~~~
