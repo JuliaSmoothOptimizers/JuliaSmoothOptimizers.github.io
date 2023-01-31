@@ -1,0 +1,219 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR107//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR107/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR107//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR107//assets/favicon.png"> <title>CUTEst tutorial</title> <script src="/previews/PR107/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR107/"> <img src="https://jso-preview.netlify.app/previews/PR107//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR107//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR107//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR107//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR107//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR107//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR107//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR107//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR107//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR107//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >CUTEst tutorial</a></h1></p> <div class=author >by Abel Soares Siqueira and Dominique Orban</div> <p><a href="https://juliasmoothoptimizers.github.io/CUTEst.jl/stable/"><img class=badge  src="https://img.shields.io/badge/CUTEst-JSO-hsl(73,100%25,30%25)?style=flat-square&labelColor=hsl(73,30%25,30%25)"></a> <a href="https://juliasmoothoptimizers.github.io/Krylov.jl/stable/"><img class=badge  src="https://img.shields.io/badge/Krylov-JSO-hsl(110,100%25,30%25)?style=flat-square&labelColor=hsl(110,30%25,30%25)"></a> <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img class=badge  src="https://img.shields.io/badge/NLPModels-JSO-hsl(175,100%25,30%25)?style=flat-square&labelColor=hsl(175,30%25,30%25)"></a> <div class=franklin-toc ><ol><li><a href="#introduction">Introduction</a><li><a href="#nlpmodels_interface">NLPModels interface</a><li><a href="#selection_tool">Selection tool</a><ol><li><a href="#unconstrained_problems">Unconstrained problems</a><li><a href="#equalityinequality_constrainted_problems_with_unbounded_variables">Equality/Inequality constrainted problems with unbounded variables</a><li><a href="#size_range">Size range</a><li><a href="#sum-of-squares_problems_with_bounds">Sum-of-squares problems with bounds</a><li><a href="#quadratic_programming_with_linear_constraints">Quadratic programming with linear constraints.</a></ol></ol></div> <h2 id=introduction ><a href="#introduction" class=header-anchor >Introduction</a></h2> <p>CUTEst can be accessed in two ways.</p> <ul> <li><p>The first, easiest, and recommended for most users, is using the <a href="https://github.com/JuliaSmoothOptimizers/NLPModels.jl">NLPModels.jl</a>. This is recommended because if you develop something for this an <code>NLPModel</code>, then it can work with CUTEst, but also with other models.</p> <li><p>The second is the core interface, which is just a wrapper of the Fortran functions, and is not recommended unless you really need and know what you&#39;re doing</p> </ul> <h2 id=nlpmodels_interface ><a href="#nlpmodels_interface" class=header-anchor >NLPModels interface</a></h2> <p>NLPModels defines an abstract interface to access the objective, constraints, derivatives, etc. of the problem. A <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/latest/api/">reference guide</a> is available to check what you need.</p> <p>Once CUTEst has been installed, open a problem with</p> <pre><code class=language-julia >using CUTEst
+
+nlp &#61; CUTEstModel&#40;&quot;ROSENBR&quot;&#41;</code></pre> <pre><code class=language-plaintext >Problem name: ROSENBR
+   All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 2                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; spa
+rsity&#41;</code></pre> <p>That&#39;s it. You can use <code>nlp</code> like any other NLPModel, with one <strong>important exception</strong>. You have to finalize the model after using it. To be exact, you have to finalize it before opening a new one. There is no problem in closing Julia before finalizing it, for instance.</p> <pre><code class=language-julia >finalize&#40;nlp&#41;</code></pre>
+<p>Being a NLPModel means that everything created for an AbstractNLPModel will work for CUTEstModel. For instance, <a href="https://github.com/JuliaSmoothOptimizers/JSOSolvers.jl">JSOSolvers.jl</a> has implementations of optimization methods for AbstractNLPModels.</p>
+<p>Let&#39;s make some demonstration of the CUTEstModel.</p>
+<pre><code class=language-julia >using CUTEst, NLPModels
+
+nlp &#61; CUTEstModel&#40;&quot;ROSENBR&quot;&#41;
+println&#40;&quot;x0 &#61; &#36;&#40; nlp.meta.x0 &#41;&quot;&#41;
+println&#40;&quot;fx &#61; &#36;&#40; obj&#40;nlp, nlp.meta.x0&#41; &#41;&quot;&#41;
+println&#40;&quot;gx &#61; &#36;&#40; grad&#40;nlp, nlp.meta.x0&#41; &#41;&quot;&#41;
+println&#40;&quot;Hx &#61; &#36;&#40; hess&#40;nlp, nlp.meta.x0&#41; &#41;&quot;&#41;</code></pre>
+<pre><code class=language-plaintext >x0 &#61; &#91;-1.2, 1.0&#93;
+fx &#61; 24.199999999999996
+gx &#61; &#91;-215.59999999999997, -87.99999999999999&#93;
+Hx &#61; &#91;1330.0 480.0; 480.0 200.0&#93;</code></pre>
+<p>Remember to check the <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/latest/api/">API</a> in case of doubts about these functions.</p>
+<p>Notice how <code>hess</code> returns a symmetric matrix. For decompositions that should be enough. For iterative solvers, you may want \(\nabla^2 f(x) v\) instead, so only the lower triangle won&#39;t do. But you do have</p>
+<pre><code class=language-julia >v &#61; ones&#40;nlp.meta.nvar&#41;
+hprod&#40;nlp, nlp.meta.x0, v&#41;</code></pre>
+<pre><code class=language-plaintext >2-element Vector&#123;Float64&#125;:
+ 1810.0
+  680.0</code></pre>
+<p>You can also use a <a href="https://github.com/JuliaSmoothOptimizers/LinearOperators.jl">LinearOperator</a>,</p>
+<pre><code class=language-julia >H &#61; hess_op&#40;nlp, nlp.meta.x0&#41;
+H * v</code></pre>
+<pre><code class=language-plaintext >2-element Vector&#123;Float64&#125;:
+ 1810.0
+  680.0</code></pre>
+<p>This way, you can use a <a href="https://github.com/JuliaSmoothOptimizers/Krylov.jl">Krylov</a> method to solve the linear system with the Hessian as matrix. For instance, here is an example computation of a Newton trust-region step.</p>
+<pre><code class=language-julia >using Krylov
+
+function newton&#40;&#41;
+  Delta &#61; 10.0
+  x &#61; nlp.meta.x0
+  println&#40;&quot;0: x &#61; &#36;x&quot;&#41;
+  for i &#61; 1:5
+    print&#40;&quot;&#36;i: &quot;&#41;
+    H &#61; hess_op&#40;nlp, x&#41;
+    d, stats &#61; Krylov.cg&#40;H, -grad&#40;nlp, x&#41;, radius&#61;Delta&#41;
+    x &#61; x &#43; d
+    println&#40;&quot;x &#61; &#36;x&quot;&#41;
+  end
+end
+
+finalize&#40;nlp&#41;</code></pre>
+<p>There is no difference in calling a constrained problem, only that some additional functions are available.</p>
+<pre><code class=language-julia >using CUTEst, NLPModels
+
+nlp &#61; CUTEstModel&#40;&quot;HS35&quot;&#41;
+
+x &#61; nlp.meta.x0
+
+cons&#40;nlp, x&#41;
+
+jac&#40;nlp, x&#41;</code></pre>
+<pre><code class=language-plaintext >1×3 SparseArrays.SparseMatrixCSC&#123;Float64, Int64&#125; with 3 stored entries:
+ -1.0  -1.0  -2.0</code></pre>
+<p>To find out whether these constraints are equalities or inequalities we can check <code>nlp.meta</code></p>
+<pre><code class=language-julia >print&#40;nlp.meta&#41;
+
+finalize&#40;nlp&#41;</code></pre>
+<pre><code class=language-plaintext >Problem name: HS35
+   All variables: ████████████████████ 3      All constraints: ████████████
+████████ 1     
+            free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ████████████████████ 3                lower: ████████████
+████████ 1     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40; 16.67&#37; sparsity&#41;   5               linear: ████████████
+████████ 1     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
+⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;  0.00&#37; spa
+rsity&#41;   3</code></pre>
+<h2 id=selection_tool ><a href="#selection_tool" class=header-anchor >Selection tool</a></h2>
+<p>CUTEst comes with a simple selection tool. It uses a static file generated from the original <code>CLASSF.DB</code> and an execution of each problem.</p>
+<p>The selection tool works like a filter on the complete set of problems. Using the tool without arguments will return the complete set of problems.</p>
+<pre><code class=language-julia >problems &#61; CUTEst.select&#40;&#41;
+length&#40;problems&#41;</code></pre>
+<pre><code class=language-plaintext >1494</code></pre>
+<p>The list of keyword arguments to filter the problems is given below, with their default value.</p>
+<table><tr><th align=right >argument<th align=right >default<th align=right >description<tr><td align=right ><code>min_var</code><td align=right ><code>0</code><td align=right >Minimum number of variables<tr><td align=right ><code>max_var</code><td align=right ><code>Inf</code><td align=right >Maximum number of variables<tr><td align=right ><code>min_con</code><td align=right ><code>0</code><td align=right >Minimum number of constraints &#40;not bounds&#41;<tr><td align=right ><code>max_con</code><td align=right ><code>Inf</code><td align=right >Maximum number of constraints<tr><td align=right ><code>objtype</code><td align=right ><em>all types</em><td align=right >Type of the objective function. See below.<tr><td align=right ><code>contype</code><td align=right ><em>all types</em><td align=right >Type of the constraints. See below.<tr><td align=right ><code>only_free_var</code><td align=right ><code>false</code><td align=right >Whether to exclude problems with bounded variables.<tr><td align=right ><code>only_bnd_var</code><td align=right ><code>false</code><td align=right >Whether to exclude problem with any free variables.<tr><td align=right ><code>only_linear_con</code><td align=right ><code>false</code><td align=right >Whether to exclude problems with nonlinear constraints.<tr><td align=right ><code>only_nonlinear_con</code><td align=right ><code>false</code><td align=right >Whether to exclude problems with any linear constraints.<tr><td align=right ><code>only_equ_con</code><td align=right ><code>false</code><td align=right >Whether to exclude problems with inequality constraints<tr><td align=right ><code>only_ineq_con</code><td align=right ><code>false</code><td align=right >Whether to exclude problems with equality constraints<tr><td align=right ><code>custom_filter</code><td align=right >nothing<td align=right >A custom filter to be applied to the entries. This requires knowledge of the inner structure, and is present only because we haven&#39;t implemented every useful combination yet. <em>We welcome pull-requests with implementations of additional queries.</em></table>
+<table><tr><th align=right ><code>objtype</code><th align=right >description<tr><td align=right >&quot;none&quot; or &quot;N&quot;<td align=right >There is no objective function.<tr><td align=right >&quot;constants&quot; or &quot;C&quot;<td align=right >The objective function is constant.<tr><td align=right >&quot;linear&quot; or &quot;L&quot;<td align=right >The objective function is linear.<tr><td align=right >&quot;quadratic&quot; or &quot;Q&quot;<td align=right >The objective function is quadratic.<tr><td align=right >&quot;sum<em>of</em>squares&quot; or &quot;S&quot;<td align=right >The objective function is a sum of squares.<tr><td align=right >&quot;other&quot; or &quot;O&quot;<td align=right >The objective function is none of the above.</table>
+<table><tr><th align=right ><code>contype</code><th align=right >description<tr><td align=right >&quot;unc&quot; or &quot;U&quot;<td align=right >There are no constraints nor bounds on the variables.<tr><td align=right >&quot;fixed_vars&quot; or &quot;X&quot;<td align=right >The only constraints are fixed variables.<tr><td align=right >&quot;bounds&quot; or &quot;B&quot;<td align=right >The only constraints are bounds on the variables.<tr><td align=right >&quot;network&quot; or &quot;N&quot;<td align=right >The constraints represent the adjacency matrix of a linear network.<tr><td align=right >&quot;linear&quot; or &quot;L&quot;<td align=right >The constraints are linear.<tr><td align=right >&quot;quadratic&quot; or &quot;Q&quot;<td align=right >The constraints are quadratic.<tr><td align=right >&quot;other&quot; or &quot;O&quot;<td align=right >The constraints are more general than any of the above.</table>
+<p>The selection tool is not as complete as we would like. Some combinations are still hard to create. Below we create some of the simpler ones.</p>
+<h3 id=unconstrained_problems ><a href="#unconstrained_problems" class=header-anchor >Unconstrained problems</a></h3>
+<p>No constraints and no bounds. There are two options:</p>
+<pre><code class=language-julia >problems &#61; CUTEst.select&#40;max_con&#61;0, only_free_var&#61;true&#41;
+length&#40;problems&#41;
+
+problems &#61; CUTEst.select&#40;contype&#61;&quot;unc&quot;&#41;
+length&#40;problems&#41;</code></pre>
+<pre><code class=language-plaintext >286</code></pre>
+<h3 id=equalityinequality_constrainted_problems_with_unbounded_variables ><a href="#equalityinequality_constrainted_problems_with_unbounded_variables" class=header-anchor >Equality/Inequality constrainted problems with unbounded variables</a></h3>
+<pre><code class=language-julia >problems &#61; CUTEst.select&#40;min_con&#61;1, only_equ_con&#61;true, only_free_var&#61;true&#41;
+length&#40;problems&#41;
+
+problems &#61; CUTEst.select&#40;min_con&#61;1, only_ineq_con&#61;true, only_free_var&#61;true&#41;
+length&#40;problems&#41;</code></pre>
+<pre><code class=language-plaintext >114</code></pre>
+<h3 id=size_range ><a href="#size_range" class=header-anchor >Size range</a></h3>
+<pre><code class=language-julia >problems &#61; CUTEst.select&#40;min_var&#61;1000, max_var&#61;2000, min_con&#61;100, max_con&#61;500&#41;
+length&#40;problems&#41;</code></pre>
+<pre><code class=language-plaintext >3</code></pre>
+<h3 id=sum-of-squares_problems_with_bounds ><a href="#sum-of-squares_problems_with_bounds" class=header-anchor >Sum-of-squares problems with bounds</a></h3>
+<pre><code class=language-julia >problems &#61; CUTEst.select&#40;objtype&#61;&quot;sum_of_squares&quot;, contype&#61;&quot;bounds&quot;&#41;
+length&#40;problems&#41;</code></pre>
+<pre><code class=language-plaintext >54</code></pre>
+<h3 id=quadratic_programming_with_linear_constraints ><a href="#quadratic_programming_with_linear_constraints" class=header-anchor >Quadratic programming with linear constraints.</a></h3>
+<pre><code class=language-julia >problems &#61; CUTEst.select&#40;objtype&#61;&quot;quadratic&quot;, contype&#61;&quot;linear&quot;&#41;
+length&#40;problems&#41;</code></pre>
+<pre><code class=language-plaintext >252</code></pre>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR107/libs/katex/katex.min.js"></script>
+<script src="/previews/PR107/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
