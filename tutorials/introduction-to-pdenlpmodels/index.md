@@ -7,7 +7,7 @@
 
 
 
-In this tutorial you will learn how to use JSO-compliant solvers to solve a PDE-constrained optimization problem discretized with [PDENLPModels.jl](https://github.com/JuliaSmoothOptimizers/PDENLPModels.jl).
+In this tutorial, you will learn how to use JSO-compliant solvers to solve a PDE-constrained optimization problem discretized with [PDENLPModels.jl](https://github.com/JuliaSmoothOptimizers/PDENLPModels.jl).
 
 \toc
 
@@ -254,7 +254,7 @@ stats_ipopt.elapsed_time, stats_dci.elapsed_time
 ```
 
 ```plaintext
-(66.64, 20.126019954681396)
+(69.343, 21.0176260471344)
 ```
 
 
