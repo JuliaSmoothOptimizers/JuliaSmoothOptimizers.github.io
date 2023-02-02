@@ -1,0 +1,269 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR110/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR110//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR110//assets/favicon.png"> <title>Introduction to BundleAdjustmentModels</title> <script src="/previews/PR110/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR110/"> <img src="https://jso-preview.netlify.app/previews/PR110//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR110//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR110//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR110//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR110//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR110//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR110//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR110//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR110//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR110//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Introduction to BundleAdjustmentModels</a></h1></p> <div class=author >by Antonin Kenens and Tangi Migot</div> <p><a href="https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/stable/"><img class=badge  src="https://img.shields.io/badge/BundleAdjustmentModels-JSO-hsl(55,100%25,30%25)?style=flat-square&labelColor=hsl(55,30%25,30%25)"></a> <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img class=badge  src="https://img.shields.io/badge/NLPModels-JSO-hsl(175,100%25,30%25)?style=flat-square&labelColor=hsl(175,30%25,30%25)"></a> <p>A Julia repository of <a href="https://en.wikipedia.org/wiki/Bundle_adjustment">bundle adjustment</a> problems from the <a href="http://grail.cs.washington.edu/projects/bal/">Bundle Adjustment in the Large</a> repository.</p> <pre><code class=language-julia >using BundleAdjustmentModels</code></pre>
+<h2 id=get_the_list_of_problems ><a href="#get_the_list_of_problems" class=header-anchor >Get the list of problems</a></h2>
+<p>The function <code>problems_df&#40;&#41;</code> returns a <code>Dataframe</code> of all the bundle adjustment problems.</p>
+<p>There are 74 different models organized in the <code>Dataframe</code> with the following elements:</p>
+<ul>
+<li><p>the name of the model;</p>
+
+<li><p>the group of the model;</p>
+
+<li><p>the size of the jacobian matrix &#40;<code>nequ</code>, <code>nvar</code>&#41;;</p>
+
+<li><p>the number of non-zeros elements in the jacobian matrix &#40;<code>nnzj</code>&#41;.</p>
+
+</ul>
+<pre><code class=language-julia >df &#61; problems_df&#40;&#41;</code></pre>
+<pre><code class=language-plaintext >74×5 DataFrame
+ Row │ name                     group      nequ      nvar     nnzj
+     │ String                   String     Int64     Int64    Int64
+─────┼──────────────────────────────────────────────────────────────────
+   1 │ problem-16-22106-pre     dubrovnik    167436    66462    2009232
+   2 │ problem-88-64298-pre     dubrovnik    767874   193686    9214488
+   3 │ problem-135-90642-pre    dubrovnik   1106672   273141   13280064
+   4 │ problem-142-93602-pre    dubrovnik   1131216   282084   13574592
+   5 │ problem-150-95821-pre    dubrovnik   1136238   288813   13634856
+   6 │ problem-161-103832-pre   dubrovnik   1184038   312945   14208456
+   7 │ problem-173-111908-pre   dubrovnik   1269140   337281   15229680
+   8 │ problem-182-116770-pre   dubrovnik   1337410   351948   16048920
+  ⋮  │            ⋮                 ⋮         ⋮         ⋮         ⋮
+  68 │ problem-1158-802917-pre  venice      8261006  2419173   99132072
+  69 │ problem-1184-816583-pre  venice      8358094  2460405  100297128
+  70 │ problem-1238-843534-pre  venice      8581006  2541744  102972072
+  71 │ problem-1288-866452-pre  venice      8766012  2610948  105192144
+  72 │ problem-1350-894716-pre  venice      9034252  2696298  108411024
+  73 │ problem-1408-912229-pre  venice      9269060  2749359  111228720
+  74 │ problem-1778-993923-pre  venice     10003892  2997771  120046704
+                                                         59 rows omitted</code></pre>
+<p>For instance, it is possible to select the problems where the Jacobian matrix of the residual has at least 50000 lines and less than 34000 columns.</p>
+<pre><code class=language-julia >filter_df &#61; df&#91; &#40; df.nequ .≥ 50000 &#41; .&amp; &#40; df.nvar .≤ 34000 &#41;, :&#93;</code></pre>
+<pre><code class=language-plaintext >2×5 DataFrame
+ Row │ name                  group    nequ   nvar   nnzj
+     │ String                String   Int64  Int64  Int64
+─────┼──────────────────────────────────────────────────────
+   1 │ problem-49-7776-pre   ladybug  63686  23769   764232
+   2 │ problem-73-11032-pre  ladybug  92244  33753  1106928</code></pre>
+<p>The <code>Dataframe</code> is listing the matrices that you can have access to, but they still need to be downloaded.</p>
+<p>Following the example above, we filtered two problems.  What we want to do now is to select the first one in the listing.</p>
+<pre><code class=language-julia >name &#61; filter_df&#91;1, :name&#93; # select the name of the first problem</code></pre>
+<pre><code class=language-plaintext >&quot;problem-49-7776-pre&quot;</code></pre>
+<p>Now that the name is selected, we need to access the problem itself, and there are 2 solutions:</p>
+<ul>
+<li><p>You can download the problem&#39;s archive file;</p>
+
+<li><p>You can automatically create a nonlinear least squares problem using <a href="https://github.com/JuliaSmoothOptimizers/NLPModels.jl"><code>NLPModels</code></a> from <a href="https://juliasmoothoptimizers.github.io/">JuliaSmoothOptimizers</a>.</p>
+
+</ul>
+<h2 id=get_the_problem_archive_file ><a href="#get_the_problem_archive_file" class=header-anchor >Get the problem archive file</a></h2>
+<p>This package uses Julia Artifacts to handle the problems archives so that</p>
+<ol>
+<li><p>The models are downloaded only once;</p>
+
+<li><p>They are identified with a unique hash;</p>
+
+<li><p>They can be deleted with a single command line.</p>
+
+</ol>
+<p>The method <a href="https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.fetch_ba_name-Tuple&#123;AbstractString&#125;"><code>fetch_ba_name</code></a> will automatically download the problem &#40;if needed&#41; and return its path.</p>
+<pre><code class=language-julia >path &#61; fetch_ba_name&#40;name&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;/home/runner/.julia/artifacts/dd2da5f94014b5f9086a2b38a87f8c1bc171b9c2&quot;</code></pre>
+<p>It is also possible to directly download and get access to an entire group of problems using <a href="https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.fetch_ba_group-Tuple&#123;AbstractString&#125;"><code>fetch_ba_group</code></a>.</p>
+<pre><code class=language-julia >paths &#61; fetch_ba_group&#40;&quot;ladybug&quot;&#41;</code></pre>
+<pre><code class=language-plaintext >30-element Vector&#123;String&#125;:
+ &quot;/home/runner/.julia/artifacts/dd2da5f94014b5f9086a2b38a87f8c1bc171b9c2&quot;
+ &quot;/home/runner/.julia/artifacts/3d0853a3ca8e585814697fea9cd4d6956692e103&quot;
+ &quot;/home/runner/.julia/artifacts/5c5c938c998d6c083f549bc584cfeb07bd296d89&quot;
+ &quot;/home/runner/.julia/artifacts/e8ebdcec7cd5dc3ec4825dcb6642064e541fa625&quot;
+ &quot;/home/runner/.julia/artifacts/111ebd1dcdf5670eac8a12f4e2ce5a3b79b4f7f6&quot;
+ &quot;/home/runner/.julia/artifacts/3e8acd1ef4cb13d93a7140be1c3702b5eb165978&quot;
+ &quot;/home/runner/.julia/artifacts/69595726ce3990604ef56b80c273fe7f95506f2e&quot;
+ &quot;/home/runner/.julia/artifacts/1eab751f4850b1e22302a7f97894d4b769c7350e&quot;
+ &quot;/home/runner/.julia/artifacts/90ce1588d82c76a81c2b07d9e6abcc984e0e4586&quot;
+ &quot;/home/runner/.julia/artifacts/05e4248f24d897a97e9be1f386e18d1de7e511e5&quot;
+ ⋮
+ &quot;/home/runner/.julia/artifacts/72cdf832cd3eedb4cc4c589127e7ab5b91a60f00&quot;
+ &quot;/home/runner/.julia/artifacts/1e01d6927d4d4e0acd3086d9c75d2ee783ab1220&quot;
+ &quot;/home/runner/.julia/artifacts/b92a8dfd520e7440769c4a72685e817632f9ea43&quot;
+ &quot;/home/runner/.julia/artifacts/366a8368c091027a23a190b1ed498158eef947a5&quot;
+ &quot;/home/runner/.julia/artifacts/ee08f4f6898cc26471d3a63502fe908cfa9a5dcc&quot;
+ &quot;/home/runner/.julia/artifacts/1a0ebf23b35d784ad3d39f4987bc7d785f5976b6&quot;
+ &quot;/home/runner/.julia/artifacts/00be55410c27068ec73261e122a39258100a1a11&quot;
+ &quot;/home/runner/.julia/artifacts/0303e7ae8256c494c9da052d977277f21265899b&quot;
+ &quot;/home/runner/.julia/artifacts/389ecea5c2f2e2b637a2b4439af0bd4ca98e6d84&quot;</code></pre>
+<h2 id=generate_a_nonlinear_least_squares_model ><a href="#generate_a_nonlinear_least_squares_model" class=header-anchor >Generate a nonlinear least squares model</a></h2>
+<p>Now, it is possible to load the model using <a href="https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.BundleAdjustmentModel-Tuple&#123;AbstractString&#125;"><code>BundleAdjustmentModel</code></a></p>
+<pre><code class=language-julia >df &#61; problems_df&#40;&#41;
+filter_df &#61; df&#91; &#40; df.nequ .≥ 50000 &#41; .&amp; &#40; df.nvar .≤ 34000 &#41;, :&#93;
+name &#61; filter_df&#91;1, :name&#93;
+model &#61; BundleAdjustmentModel&#40;name&#41;;</code></pre>
+<p>or</p>
+<pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776-pre&quot;&#41;;</code></pre>
+<p>The function <code>BundleAdjustmentModel</code> will instantiate the model and automatically download it if needed. The resulting structure is an instance of <code>AbstractNLPModel</code>. So, it is possible to access its API as any other <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/"><code>NLPModel</code></a>.</p>
+<pre><code class=language-julia >using NLPModels</code></pre>
+<p>Using <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.residual"><code>residual</code></a>, it is possible to compute the residual of the model</p>
+<pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776-pre.txt.bz2&quot;&#41;
+x &#61; get_x0&#40;model&#41; # or &#96;model.meta.x0&#96;
+Fx &#61; residual&#40;model, x&#41;</code></pre>
+<pre><code class=language-plaintext >63686-element Vector&#123;Float64&#125;:
+ -9.020226301243213
+ 11.263958304987227
+ -1.8332297149469525
+  5.304698960898122
+ -4.332321480806684
+  7.117305031392988
+ -0.5632751791501462
+ -1.062178017695885
+ -3.9692059546843836
+ -2.2850712830954194
+  ⋮
+ -0.4377574792022081
+ -0.024461522651677114
+ -0.1961281328666189
+  0.008375315306523134
+  0.23044496991071384
+  0.04927878647407624
+  0.47289578243411867
+ -0.01443314653496941
+ -0.4486499211288866</code></pre>
+<p>or use the in-place method <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.residual&#33;"><code>residual&#33;</code></a></p>
+<pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776-pre.txt.bz2&quot;&#41;
+x &#61; get_x0&#40;model&#41; # or &#96;model.meta.x0&#96;
+nequ &#61; get_nequ&#40;model&#41; # or &#96;model.nls_meta.nequ&#96;
+Fx &#61; zeros&#40;nequ&#41;
+residual&#33;&#40;model, x, Fx&#41;;</code></pre>
+<p>You can also have access to the <a href="https://github.com/JuliaSmoothOptimizers/LinearOperators.jl"><code>LinearOperator</code></a> of the Jacobian matrix of the residual of the model which is calculated by hand &#40;in contradiction to automatic differentiation&#41;.</p>
+<p>You need to call <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_structure_residual&#33;"><code>jac_structure_residual&#33;</code></a> at least once before calling <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_op_residual&#33;"><code>jac_op_residual&#33;</code></a>.</p>
+<pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776&quot;&#41;
+meta_nls &#61; nls_meta&#40;model&#41;
+nnzj &#61; meta_nls.nnzj # number of nonzeros in the jacobian
+rows &#61; Vector&#123;Int&#125;&#40;undef, nnzj&#41;
+cols &#61; Vector&#123;Int&#125;&#40;undef, nnzj&#41;
+jac_structure_residual&#33;&#40;model, rows, cols&#41;;</code></pre>
+<p>You need to call <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_coord_residual&#33;"><code>jac_coord_residual&#33;</code></a> to update it to the current point.</p>
+<pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776&quot;&#41;
+x &#61; get_x0&#40;model&#41;
+vals &#61; similar&#40;x, nnzj&#41;
+jac_coord_residual&#33;&#40;model, x, vals&#41;</code></pre>
+<pre><code class=language-plaintext >764232-element Vector&#123;Float64&#125;:
+   545.1179297695714
+    -5.058282392703829
+  -478.0666614182794
+  -283.5120110272222
+ -1296.3388697208218
+  -320.60334752077165
+   551.1773498438256
+     0.00020469082949125088
+  -471.09490058346296
+  -409.36200783910084
+     ⋮
+  1246.0491342213195
+   -96.64898276178089
+   622.4628407807937
+     2.852854717671426e-7
+   305.00859581263086
+    19.561762292226746
+     6.5984133899730155
+     1.680958440896614
+     0.06413511779846102</code></pre>
+<p>Finally you can use <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_op_residual&#33;"><code>jac_op_residual&#33;</code></a>:</p>
+<pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776&quot;&#41;
+meta_nls &#61; nls_meta&#40;model&#41;
+nnzj &#61; meta_nls.nnzj
+
+rows &#61; Vector&#123;Int&#125;&#40;undef, nnzj&#41;
+cols &#61; Vector&#123;Int&#125;&#40;undef, nnzj&#41;
+jac_structure_residual&#33;&#40;model, rows, cols&#41;
+
+vals &#61; similar&#40;model.meta.x0, nnzj&#41;
+jac_coord_residual&#33;&#40;model, model.meta.x0, vals&#41;
+
+Jv &#61; similar&#40;model.meta.x0, meta_nls.nequ&#41;
+Jtv &#61; similar&#40;model.meta.x0, meta_nls.nvar&#41;
+Jx &#61; jac_op_residual&#33;&#40;model, rows, cols, vals, Jv, Jtv&#41;</code></pre>
+<pre><code class=language-plaintext >Linear operator
+  nrow: 63686
+  ncol: 23769
+  eltype: Float64
+  symmetric: false
+  hermitian: false
+  nprod:   0
+  ntprod:  0
+  nctprod: 0</code></pre>
+<p>There is no second-order information available for the problems in this package.</p>
+<h2 id=delete_the_problems ><a href="#delete_the_problems" class=header-anchor >Delete the problems</a></h2>
+<p>Once you have finished working with a specific model you can delete it the same way you downloaded it.</p>
+<pre><code class=language-julia >delete_ba_artifact&#33;&#40;&quot;problem-49-7776&quot;&#41;</code></pre>
+<p>If you want to clean your workspace, you can also delete all the problems at once.</p>
+<pre><code class=language-julia >delete_all_ba_artifacts&#33;&#40;&#41;</code></pre>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
