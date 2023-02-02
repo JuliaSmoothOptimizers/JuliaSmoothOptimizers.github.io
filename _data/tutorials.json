@@ -142,5 +142,13 @@
     "date": "2023-01-31",
     "tags": ["models", "nlpmodels", "test set", "PDE"],
     "pkgs": ["DCISolver", "JSOSolvers", "NLPModels" , "NLPModelsIpopt" , "NLPModelsModifiers", "PDENLPModels"]
+  },
+  {
+    "title": "Introduction to JSOSolvers",
+    "link": "/tutorials/introduction-to-jsosolvers/",
+    "short": "This package provides optimization solvers curated by the JuliaSmoothOptimizers organization.",
+    "date": "2023-02-01",
+    "tags": ["solvers", "nlpmodels", "least-squares", "nlsmodels", "test set"],
+    "pkgs": ["ADNLPModels", "JSOSolvers", "SolverCore"]
   }
 ]
