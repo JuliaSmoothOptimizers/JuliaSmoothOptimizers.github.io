@@ -150,5 +150,13 @@
     "date": "2023-02-01",
     "tags": ["solvers", "nlpmodels", "least-squares", "nlsmodels", "test set"],
     "pkgs": ["ADNLPModels", "JSOSolvers", "SolverCore"]
+  },
+  {
+    "title": "Creating an ADNLPModels backend that supports multiple precisions",
+    "link": "/tutorials/generic-adnlpmodels/",
+    "short": "One of the main strengths of Julia for scientific computing is its native usage of arbitrary precision arithmetic, the same can be exploited for optimization models and solvers.",
+    "date": "2023-02-04",
+    "tags": ["models", "automatic differentiation", "multi-precision", "tests"],
+    "pkgs": ["ADNLPModels", "JSOSolvers", "NLPModels", "OptimizationProblems"]
   }
 ]
