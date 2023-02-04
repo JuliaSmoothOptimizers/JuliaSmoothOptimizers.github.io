@@ -119,6 +119,13 @@
   <span>models</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('multi-precision')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>multi-precision</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('nlpmodels')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
