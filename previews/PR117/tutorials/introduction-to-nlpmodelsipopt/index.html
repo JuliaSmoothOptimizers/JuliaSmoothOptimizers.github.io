@@ -68,7 +68,7 @@ Number of inequality constraint evaluations          &#61; 0
 Number of equality constraint Jacobian evaluations   &#61; 0
 Number of inequality constraint Jacobian evaluations &#61; 0
 Number of Lagrangian Hessian evaluations             &#61; 21
-Total seconds in IPOPT                               &#61; 7.427
+Total seconds in IPOPT                               &#61; 6.751
 
 EXIT: Optimal Solution Found.
 Generic Execution stats
@@ -78,9 +78,9 @@ Generic Execution stats
   dual feasibility: 3.732500974666708e-10
   solution: &#91;0.9999999999400667  0.9999999998789006&#93;
   iterations: 21
-  elapsed time: 7.427
+  elapsed time: 6.751
   solver specific:
-    real_time: 7.428194999694824
+    real_time: 6.751232862472534
     internal_msg: :Solve_Succeeded</code></pre> <p>For comparison, we present the same problem and output using JuMP:</p> <pre><code class=language-julia >using JuMP, Ipopt
 
 model &#61; Model&#40;Ipopt.Optimizer&#41;
@@ -147,7 +147,7 @@ Number of inequality constraint evaluations          &#61; 0
 Number of equality constraint Jacobian evaluations   &#61; 0
 Number of inequality constraint Jacobian evaluations &#61; 0
 Number of Lagrangian Hessian evaluations             &#61; 21
-Total seconds in IPOPT                               &#61; 2.834
+Total seconds in IPOPT                               &#61; 2.686
 
 EXIT: Optimal Solution Found.</code></pre> <p>Here is an example with a constrained problem:</p> <pre><code class=language-julia >n &#61; 10
 x0 &#61; ones&#40;n&#41;
@@ -166,9 +166,9 @@ print&#40;stats&#41;</code></pre> <pre><code class=language-plaintext >Generic E
   solution: &#91;-0.9505563573613093  0.9139008176388945  0.9890905176644905  0.9985592422681151 ⋯ 0.999999930070643&#93;
   multipliers: &#91;4.1358568305002255  -1.876494903703342  -0.06556333356358673  -0.021931863018312882 ⋯ -7.376592164341867e-6&#93;
   iterations: 6
-  elapsed time: 7.131
+  elapsed time: 6.603
   solver specific:
-    real_time: 7.131464004516602
+    real_time: 6.603286027908325
     internal_msg: :Solve_Succeeded</code></pre> <h2 id=return_value ><a href="#return_value" class=header-anchor >Return value</a></h2> <p>The return value of <code>ipopt</code> is a <code>GenericExecutionStats</code> instance from <code>SolverCore</code>. It contains basic information on the solution returned by the solver. In addition to the built-in fields of <code>GenericExecutionStats</code>, we store the detailed Ipopt output message inside <code>solver_specific&#91;:internal_msg&#93;</code>.</p> <p>Here is an example using the constrained problem solve:</p> <pre><code class=language-julia >stats.solver_specific&#91;:internal_msg&#93;</code></pre>
 <pre><code class=language-plaintext >:Solve_Succeeded</code></pre>
 <h2 id=manual_input ><a href="#manual_input" class=header-anchor >Manual input</a></h2>

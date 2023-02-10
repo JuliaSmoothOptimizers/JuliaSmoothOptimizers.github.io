@@ -163,7 +163,7 @@ println&#40;output&#41;</code></pre>
   objective value: Inf
   primal feasibility: 0.0
   dual feasibility: Inf
-  solution: &#91;6.9109962484136e-310  6.91099625003175e-310&#93;
+  solution: &#91;0.0  6.928444664567e-310&#93;
   iterations: -1
   elapsed time: Inf</code></pre>
 <p>The <code>GenericExecutionStats</code> structure holds all relevant information. Notice, however, that it doesn&#39;t have anything useful in this case. Naturally, we have to return that information as well.</p>
@@ -268,7 +268,7 @@ print&#40;output&#41;</code></pre>
   dual feasibility: 4.018046284781729e-9
   solution: &#91;0.9999999986742657  0.9999999970013461&#93;
   iterations: 18
-  elapsed time: 5.698204040527344e-5</code></pre>
+  elapsed time: 6.508827209472656e-5</code></pre>
 <p>And to compare both solvers, we need a collection of problems. Let&#39;s just create one manually for now.</p>
 <pre><code class=language-julia >problems &#61; &#91;
   ADNLPModel&#40;x -&gt; x&#91;1&#93;^2 &#43; 4 * x&#91;2&#93;^2, ones&#40;2&#41;&#41;,
@@ -298,10 +298,10 @@ pretty_stats&#40;stats&#91;:newton&#93;&#91;&#33;, cols&#93;&#41;</code></pre>
 <pre><code class=language-plaintext >┌─────────┬─────────────┬───────────┬──────────────┬────────┐
 │    name │      status │ objective │ elapsed_time │   iter │
 ├─────────┼─────────────┼───────────┼──────────────┼────────┤
-│ Generic │ first_order │  2.47e-31 │     1.45e&#43;00 │      1 │
-│ Generic │ first_order │  3.74e-21 │     5.34e-01 │     21 │
-│ Generic │    max_iter │ -8.36e&#43;00 │     4.13e-01 │    100 │
-│ Generic │ first_order │  1.43e&#43;00 │     4.89e-01 │      5 │
+│ Generic │ first_order │  2.47e-31 │     1.64e&#43;00 │      1 │
+│ Generic │ first_order │  3.74e-21 │     6.01e-01 │     21 │
+│ Generic │    max_iter │ -8.36e&#43;00 │     4.49e-01 │    100 │
+│ Generic │ first_order │  1.43e&#43;00 │     5.66e-01 │      5 │
 └─────────┴─────────────┴───────────┴──────────────┴────────┘</code></pre>
 <p>We can also create a similar table in .tex format, using something like</p>
 <pre><code class=language-julia >open&#40;&quot;newton.tex&quot;, &quot;w&quot;&#41; do io

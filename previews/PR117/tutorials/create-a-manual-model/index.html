@@ -71,14 +71,14 @@ using Logging
     lbfgs&#40;nlp&#41;
   end
 end</code></pre>
-<pre><code class=language-plaintext >BenchmarkTools.Trial: 1154 samples with 1 evaluation.
- Range &#40;min … max&#41;:  3.649 ms … 13.463 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 57.60&#37;
- Time  &#40;median&#41;:     4.008 ms              ┊ GC &#40;median&#41;:    0.00&#37;
- Time  &#40;mean ± σ&#41;:   4.324 ms ±  1.186 ms  ┊ GC &#40;mean ± σ&#41;:  4.33&#37; ± 10.23&#37;
+<pre><code class=language-plaintext >BenchmarkTools.Trial: 1995 samples with 1 evaluation.
+ Range &#40;min … max&#41;:  2.340 ms …   5.557 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 43.12&#37;
+ Time  &#40;median&#41;:     2.375 ms               ┊ GC &#40;median&#41;:    0.00&#37;
+ Time  &#40;mean ± σ&#41;:   2.503 ms ± 450.278 μs  ┊ GC &#40;mean ± σ&#41;:  2.81&#37; ±  8.06&#37;
 
-  ▄██▇▆▅▄▂▂▁                                                  
-  ████████████▆▇█▅▇▅▁▅▅▅▄▄▁▁▄▁▄▁▁▄▁▁▁▄▁▁▁▁▁▁▁▁▁▅▆▆▅▅▄▆▅▄▁▅▁▅ █
-  3.65 ms      Histogram: log&#40;frequency&#41; by time     10.3 ms &lt;
+  █▆▂             ▁▁                                           
+  ████▆▅▅▄▃▅▁▁▅▃▃▄████▅▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃▅▄▁▅▃▆▅▃▄▄▁▆▆▄▄▆ █
+  2.34 ms      Histogram: log&#40;frequency&#41; by time      4.88 ms &lt;
 
  Memory estimate: 1.72 MiB, allocs estimate: 2594.</code></pre>
 <pre><code class=language-julia >using ADNLPModels
@@ -89,14 +89,14 @@ end</code></pre>
     lbfgs&#40;adnlp&#41;
   end
 end</code></pre>
-<pre><code class=language-plaintext >BenchmarkTools.Trial: 74 samples with 1 evaluation.
- Range &#40;min … max&#41;:  61.364 ms … 89.261 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 0.00&#37;
- Time  &#40;median&#41;:     66.750 ms              ┊ GC &#40;median&#41;:    0.00&#37;
- Time  &#40;mean ± σ&#41;:   68.287 ms ±  5.604 ms  ┊ GC &#40;mean ± σ&#41;:  2.72&#37; ± 3.88&#37;
+<pre><code class=language-plaintext >BenchmarkTools.Trial: 54 samples with 1 evaluation.
+ Range &#40;min … max&#41;:  91.259 ms … 105.249 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 0.00&#37;
+ Time  &#40;median&#41;:     91.858 ms               ┊ GC &#40;median&#41;:    0.00&#37;
+ Time  &#40;mean ± σ&#41;:   93.823 ms ±   3.564 ms  ┊ GC &#40;mean ± σ&#41;:  1.04&#37; ± 1.59&#37;
 
-     ▂ █ ▂▅  ▅     ▂   ▂     ▅                                 
-  ██▅██████▅███▅▅█▅█▅▁▅█▅▅▅███▁▁▅▁█▅▅▁▅▁▅▅▅▁▁█▁▅▁▁▅▁▁▁▅▁▁▁▅▁▅ ▁
-  61.4 ms         Histogram: frequency by time        81.7 ms &lt;
+   ██           ▃                                               
+  ▇██▆▁▁▁▃▁▁▁▁▁▁██▄▁▁▁▁▁▁▁▁▃▁▁▁▁▁▁▁▁▃▁▁▁▁▁▁▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃▁▃▃ ▁
+  91.3 ms         Histogram: frequency by time          104 ms &lt;
 
  Memory estimate: 30.79 MiB, allocs estimate: 10075.</code></pre>
 <pre><code class=language-julia >using JuMP
@@ -122,14 +122,14 @@ using NLPModelsJuMP
     lbfgs&#40;jumpnlp&#41;
   end
 end</code></pre>
-<pre><code class=language-plaintext >BenchmarkTools.Trial: 32 samples with 1 evaluation.
- Range &#40;min … max&#41;:  131.225 ms … 206.609 ms  ┊ GC &#40;min … max&#41;:  0.00&#37; … 7.65&#37;
- Time  &#40;median&#41;:     155.318 ms               ┊ GC &#40;median&#41;:    10.16&#37;
- Time  &#40;mean ± σ&#41;:   156.881 ms ±  15.426 ms  ┊ GC &#40;mean ± σ&#41;:   7.12&#37; ± 5.54&#37;
+<pre><code class=language-plaintext >BenchmarkTools.Trial: 35 samples with 1 evaluation.
+ Range &#40;min … max&#41;:  129.944 ms … 155.945 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 6.57&#37;
+ Time  &#40;median&#41;:     142.036 ms               ┊ GC &#40;median&#41;:    6.99&#37;
+ Time  &#40;mean ± σ&#41;:   143.817 ms ±   7.902 ms  ┊ GC &#40;mean ± σ&#41;:  4.82&#37; ± 3.70&#37;
 
-                ▃  ▃ █ ▃  ▃ ▃                                    
-  ▇▁▇▁▇▇▁▁▇▁▇▇▁▇█▇▇█▇█▇█▁▁█▁█▇▁▁▇▇▁▇▁▁▁▇▁▁▁▁▁▁▁▇▁▁▁▁▁▁▁▁▁▁▁▁▁▁▇ ▁
-  131 ms           Histogram: frequency by time          207 ms &lt;
+  ▁ ██         ▁  ▁▁    ▁▁█ ███▁    █ ▁    ▁▁ ▁    ▁▁  █ ▁█  ▁█  
+  █▁██▁▁▁▁▁▁▁▁▁█▁▁██▁▁▁▁███▁████▁▁▁▁█▁█▁▁▁▁██▁█▁▁▁▁██▁▁█▁██▁▁██ ▁
+  130 ms           Histogram: frequency by time          156 ms &lt;
 
  Memory estimate: 98.00 MiB, allocs estimate: 436895.</code></pre>
 <p>Or just the grad calls:</p>
@@ -137,25 +137,25 @@ end</code></pre>
 
 @benchmark grad&#40;nlp, β&#41;</code></pre>
 <pre><code class=language-plaintext >BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range &#40;min … max&#41;:  19.800 μs …  12.390 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 92.73&#37;
- Time  &#40;median&#41;:     22.651 μs               ┊ GC &#40;median&#41;:    0.00&#37;
- Time  &#40;mean ± σ&#41;:   27.824 μs ± 154.602 μs  ┊ GC &#40;mean ± σ&#41;:  4.13&#37; ±  0.93&#37;
+ Range &#40;min … max&#41;:  13.600 μs …  8.136 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 94.38&#37;
+ Time  &#40;median&#41;:     16.300 μs              ┊ GC &#40;median&#41;:    0.00&#37;
+ Time  &#40;mean ± σ&#41;:   18.854 μs ± 81.543 μs  ┊ GC &#40;mean ± σ&#41;:  4.07&#37; ±  0.94&#37;
 
-  ▁▆██▇▅▄▆▇▆▆▄▃▃▂▂▁ ▁▁▁▁▁▂▂▁▁▁▁ ▁                              ▃
-  █████████████████████████████████▇▇▆▆▅▆▆▅▃▅▄▅▅▅▅▅▅▄▁▆▃▄▁▄▄▄▃ █
-  19.8 μs       Histogram: log&#40;frequency&#41; by time      54.8 μs &lt;
+    █▆▄▄                                                       
+  ▃▆████▆▄▅▅█▆▆▆▄▃▃▃▂▂▂▂▂▂▂▁▃▄▆▇▄▃▄▃▅▅▅▆▄▄▅▄▅▃▃▃▃▃▃▂▃▂▂▂▂▂▂▂▂ ▃
+  13.6 μs         Histogram: frequency by time        27.6 μs &lt;
 
  Memory estimate: 18.19 KiB, allocs estimate: 8.</code></pre>
 <pre><code class=language-julia >adnlp &#61; ADNLPModel&#40;β -&gt; myfun&#40;β, X, y&#41;, zeros&#40;p &#43; 1&#41;&#41;
 @benchmark grad&#40;adnlp, β&#41;</code></pre>
-<pre><code class=language-plaintext >BenchmarkTools.Trial: 5260 samples with 1 evaluation.
- Range &#40;min … max&#41;:  810.511 μs …   9.407 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 0.00&#37;
- Time  &#40;median&#41;:     871.212 μs               ┊ GC &#40;median&#41;:    0.00&#37;
- Time  &#40;mean ± σ&#41;:   944.061 μs ± 432.882 μs  ┊ GC &#40;mean ± σ&#41;:  2.07&#37; ± 4.85&#37;
+<pre><code class=language-plaintext >BenchmarkTools.Trial: 3658 samples with 1 evaluation.
+ Range &#40;min … max&#41;:  1.311 ms …   4.732 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 67.88&#37;
+ Time  &#40;median&#41;:     1.343 ms               ┊ GC &#40;median&#41;:    0.00&#37;
+ Time  &#40;mean ± σ&#41;:   1.365 ms ± 185.183 μs  ┊ GC &#40;mean ± σ&#41;:  0.69&#37; ±  3.73&#37;
 
-  ▆█▇▇▆▅▄▃▃▂▂▂▂▁                                                ▂
-  █████████████████▇█▆▆▆▇▆▆▆▆▅▅▅▅▅▁▄▃▄▄▄▄▃▁▁▄▁▄▃▄▁▃▃▃▃▄▃▄▃▄▃▁▄▄ █
-  811 μs        Histogram: log&#40;frequency&#41; by time       2.23 ms &lt;
+       ▄██▇▅▃                                                  
+  ▂▃▄▆████████▇▄▃▃▂▂▂▂▂▂▂▁▁▁▂▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▁▁▂▂▂▃▃▃▃▃▃ ▃
+  1.31 ms         Histogram: frequency by time        1.54 ms &lt;
 
  Memory estimate: 471.91 KiB, allocs estimate: 42.</code></pre>
 <pre><code class=language-julia >model &#61; Model&#40;&#41;
@@ -175,13 +175,13 @@ end</code></pre>
 jumpnlp &#61; MathOptNLPModel&#40;model&#41;
 @benchmark grad&#40;jumpnlp, β&#41;</code></pre>
 <pre><code class=language-plaintext >BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range &#40;min … max&#41;:  246.607 μs …  11.027 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 0.00&#37;
- Time  &#40;median&#41;:     276.108 μs               ┊ GC &#40;median&#41;:    0.00&#37;
- Time  &#40;mean ± σ&#41;:   307.567 μs ± 226.457 μs  ┊ GC &#40;mean ± σ&#41;:  0.00&#37; ± 0.00&#37;
+ Range &#40;min … max&#41;:  203.600 μs … 452.100 μs  ┊ GC &#40;min … max&#41;: 0.00&#37; … 0.00&#37;
+ Time  &#40;median&#41;:     207.600 μs               ┊ GC &#40;median&#41;:    0.00&#37;
+ Time  &#40;mean ± σ&#41;:   208.450 μs ±   4.586 μs  ┊ GC &#40;mean ± σ&#41;:  0.00&#37; ± 0.00&#37;
 
-   ▄█▇▆▅▅▅▄▄▃▃▃▂▂▁▁▁                                            ▂
-  █████████████████████▇▇▆▇▇▆▆▆▅▆▄▅▅▅▅▅▃▅▆▅▂▄▅▅▅▂▂▂▅▅▅▂▄▄▅▃▂▄▄▄ █
-  247 μs        Histogram: log&#40;frequency&#41; by time        693 μs &lt;
+     ▂▁█▆▁   ▁ ▃▂    ▁                                           
+  ▁▂▅█████▅▆▇█████▅▆██▆█▅▄▃▄▅▆▄▅▄▃▂▃▃▂▂▂▂▂▂▂▂▂▂▂▂▂▁▁▁▂▁▂▁▁▁▁▁▁▁ ▃
+  204 μs           Histogram: frequency by time          220 μs &lt;
 
  Memory estimate: 496 bytes, allocs estimate: 1.</code></pre>
 <p>Take these benchmarks with a grain of salt. They are being run on a github actions server with global variables. If you want to make an informed option, you should consider performing your own benchmarks.</p>

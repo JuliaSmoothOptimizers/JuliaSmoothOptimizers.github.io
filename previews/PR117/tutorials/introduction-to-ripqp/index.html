@@ -50,7 +50,7 @@ println&#40;stats&#41;</code></pre> <pre><code class=language-plaintext >Generic
   multipliers_L: &#91;0.0  4.5  0.0&#93;
   multipliers_U: &#91;5.0  0.0  0.0&#93;
   iterations: 0
-  elapsed time: 0.012116193771362305
+  elapsed time: 0.012400150299072266
   solver specific:
     presolvedQM: nothing
     psoperations: &#91;QuadraticModels.RemoveIfix&#123;Float64, Vector&#123;Float64&#125;&#125;&#40;1, 0.0, -8.0&#41;  QuadraticModels.RemoveIfix&#123;Float64, Vector&#123;Float64&#125;&#125;&#40;3, 0.0, -3.0&#41;  QuadraticModels.EmptyRow&#123;Float64, Vector&#123;Floa
@@ -87,7 +87,7 @@ rhs_cc &#61;  readdlm&#40;&quot;test_rhs_iter4_cc.rhs&quot;, Float64&#41;&#91;:&
 <h2 id=timers ><a href="#timers" class=header-anchor >Timers</a></h2>
 <p>You can see the elapsed time with:</p>
 <pre><code class=language-julia >stats1.elapsed_time</code></pre>
-<pre><code class=language-plaintext >7.104873657226562e-5</code></pre>
+<pre><code class=language-plaintext >8.106231689453125e-5</code></pre>
 <p>For more advance timers you can use <a href="https://github.com/KristofferC/TimerOutputs.jl">TimerOutputs.jl</a>:</p>
 <pre><code class=language-julia >using TimerOutputs
 TimerOutputs.enable_debug_timings&#40;RipQP&#41;
@@ -98,7 +98,7 @@ show&#40;RipQP.to, sortby &#61; :firstexec&#41;</code></pre>
 <pre><code class=language-plaintext >────────────────────────────────────────────────────────────────────
                             Time                    Allocations      
                    ───────────────────────   ────────────────────────
- Tot / &#37; measured:      782ms /   0.0&#37;           29.4MiB /   0.0&#37;    
+ Tot / &#37; measured:      819ms /   0.0&#37;           29.4MiB /   0.0&#37;    
 
  Section   ncalls     time    &#37;tot     avg     alloc    &#37;tot      avg
  ────────────────────────────────────────────────────────────────────

@@ -3,29 +3,29 @@ n &#61; 10
 A0 &#61; rand&#40;n, n&#41;
 A &#61; A0 * A0&#39; &#43; I # A is symmetric positive definite
 b &#61; rand&#40;n&#41;</code></pre> <pre><code class=language-plaintext >10-element Vector&#123;Float64&#125;:
- 0.2103782170464369
- 0.5306268882450995
- 0.18165103753146739
- 0.4605405430062576
- 0.9953728509623523
- 0.4166453608379844
- 0.6813780179737262
- 0.22219161165597756
- 0.6699928044720309
- 0.4263003336108937</code></pre> <p>We solve the system \(A x = b\) using LDLFactorizations.jl:</p> <pre><code class=language-julia >using LDLFactorizations
+ 0.026548998086815212
+ 0.25112576837507083
+ 0.6304177050327375
+ 0.8905112789109503
+ 0.4824746696652369
+ 0.7545173376926941
+ 0.6760071500226399
+ 0.7487890723107624
+ 0.3149469834140861
+ 0.0114427217686629</code></pre> <p>We solve the system \(A x = b\) using LDLFactorizations.jl:</p> <pre><code class=language-julia >using LDLFactorizations
 Au &#61; Symmetric&#40;triu&#40;A&#41;, :U&#41; # get upper triangle and apply Symmetric wrapper
 LDL &#61; ldl&#40;Au&#41;
 x &#61; LDL \ b</code></pre> <pre><code class=language-plaintext >10-element Vector&#123;Float64&#125;:
- -0.35116842684573424
-  0.11277951551087438
- -0.08537375774171134
-  0.006024176464372193
-  0.4596841111835634
-  0.11214172023332046
-  0.25942989689393064
- -0.26290180920033396
-  0.2064040620439601
-  0.05020424685704634</code></pre> <h2 id=a_more_performance-focused_example ><a href="#a_more_performance-focused_example" class=header-anchor >A more performance-focused example</a></h2> <p>We build a problem with sparse arrays.</p> <pre><code class=language-julia >using SparseArrays
+ -0.1417705943753116
+ -0.26568980525908975
+  0.19435600131558342
+  0.379962444502358
+  0.0044256678602386
+  0.20074029634970883
+  0.13709913277126634
+  0.01934180063132421
+ -0.039963653489839546
+ -0.28208192510848656</code></pre> <h2 id=a_more_performance-focused_example ><a href="#a_more_performance-focused_example" class=header-anchor >A more performance-focused example</a></h2> <p>We build a problem with sparse arrays.</p> <pre><code class=language-julia >using SparseArrays
 n &#61; 100
 # create create a SQD matrix A:
 A0 &#61; sprand&#40;Float64, n, n, 0.1&#41;
@@ -33,26 +33,26 @@ A1 &#61; A0 * A0&#39; &#43; I
 A &#61; &#91;A1   A0;
      A0&#39; -A1&#93;
 b &#61; rand&#40;2 * n&#41;</code></pre> <pre><code class=language-plaintext >200-element Vector&#123;Float64&#125;:
- 0.03753723705883394
- 0.909612391628236
- 0.4786106256068273
- 0.7880267058223778
- 0.3451291673455693
- 0.9103147146561884
- 0.936085575725391
- 0.23023590231726165
- 0.09076838970464118
- 0.28260067158848723
+ 0.35790655806754945
+ 0.5113956952468642
+ 0.5382279765073729
+ 0.16686561369440855
+ 0.23355735826041368
+ 0.6322366097464782
+ 0.7392661526037093
+ 0.6338469202698921
+ 0.36630600076455233
+ 0.5391833626582219
  ⋮
- 0.4290368504659108
- 0.9010619738531175
- 0.002244925050273072
- 0.5339928209894003
- 0.4549277719922008
- 0.3812763836130746
- 0.14165720910062984
- 0.2852479173791882
- 0.3935690607937402</code></pre> <p>Now if we want to use the factorization to solve multiple systems that have the same sparsity pattern as A, we only have to use <code>ldl_analyze</code> once.</p> <pre><code class=language-julia >Au &#61; Symmetric&#40;triu&#40;A&#41;, :U&#41; # get upper triangle and apply Symmetric wrapper
+ 0.5687241446210499
+ 0.07770454083609923
+ 0.5467159713142105
+ 0.40160897365978276
+ 0.8746547732143636
+ 0.295892794711748
+ 0.1679206395477303
+ 0.8600453046977301
+ 0.8906268760867212</code></pre> <p>Now if we want to use the factorization to solve multiple systems that have the same sparsity pattern as A, we only have to use <code>ldl_analyze</code> once.</p> <pre><code class=language-julia >Au &#61; Symmetric&#40;triu&#40;A&#41;, :U&#41; # get upper triangle and apply Symmetric wrapper
 x &#61; similar&#40;b&#41;
 
 LDL &#61; ldl_analyze&#40;Au&#41; # symbolic analysis
@@ -62,40 +62,40 @@ ldiv&#33;&#40;x, LDL, b&#41; # solve in-place &#40;we could use ldiv&#33;&#40;LD
 Au.data.nzval .&#43;&#61; 1.0 # modify Au without changing the sparsity pattern
 ldl_factorize&#33;&#40;Au, LDL&#41; 
 ldiv&#33;&#40;x, LDL, b&#41;</code></pre> <pre><code class=language-plaintext >200-element Vector&#123;Float64&#125;:
-  1.2199426112289946
- -0.7647405026968034
-  0.0883307475780306
-  0.509935013477675
-  0.44231079947799773
-  0.06399281558931759
- -0.6198818057102504
-  0.2701020576862915
-  0.2047777141983036
-  0.21210317374693144
+  0.1911073071808065
+  0.5826988280084013
+ -0.04552955380277649
+ -0.13302271705849106
+ -0.2850189790887441
+  0.33931314033897014
+  0.12096170431017864
+  0.710152195915835
+ -0.3289000397751905
+ -0.25840412264834145
   ⋮
-  0.16877766168665576
-  0.6079226176733947
- -0.05006979081666381
- -0.5062314340527541
-  0.35984522715736417
- -0.10804446116624797
- -0.09601556237182436
-  0.004620297504741015
-  0.7964721178298474</code></pre> <h2 id=dynamic_regularization ><a href="#dynamic_regularization" class=header-anchor >Dynamic Regularization</a></h2> <p>When the matrix to factorize is &#40;nearly&#41; singular and the factorization encounters &#40;nearly&#41; zero pivots, if we know the signs of the pivots and if they are clustered by signs &#40;for example, the <code>n_d</code> first pivots are positive and the other pivots are negative before permuting&#41;, we can use:</p> <pre><code class=language-julia >ϵ &#61; sqrt&#40;eps&#40;&#41;&#41;
+ -0.5016760114004578
+  0.20375407536235035
+  0.3241924398602782
+  0.3235498741586357
+ -0.2611332810253514
+  0.2099408375388192
+  0.39555864361893167
+  0.8394763897994802
+  0.4543867017709372</code></pre> <h2 id=dynamic_regularization ><a href="#dynamic_regularization" class=header-anchor >Dynamic Regularization</a></h2> <p>When the matrix to factorize is &#40;nearly&#41; singular and the factorization encounters &#40;nearly&#41; zero pivots, if we know the signs of the pivots and if they are clustered by signs &#40;for example, the <code>n_d</code> first pivots are positive and the other pivots are negative before permuting&#41;, we can use:</p> <pre><code class=language-julia >ϵ &#61; sqrt&#40;eps&#40;&#41;&#41;
 Au &#61; Symmetric&#40;triu&#40;A&#41;, :U&#41;
 LDL &#61; ldl_analyze&#40;Au&#41;
 LDL.tol &#61; ϵ
 LDL.n_d &#61; 10
 LDL.r1 &#61; 2 * ϵ # if any of the n_d first pivots |D&#91;i&#93;| &lt; ϵ, then D&#91;i&#93; &#61; sign&#40;LDL.r1&#41; * max&#40;abs&#40;D&#91;i&#93; &#43; LDL.r1&#41;, abs&#40;LDL.r1&#41;&#41;
 LDL.r2 &#61; -ϵ # if any of the n - n_d last pivots |D&#91;i&#93;| &lt; ϵ, then D&#91;i&#93; &#61; sign&#40;LDL.r2&#41; * max&#40;abs&#40;D&#91;i&#93; &#43; LDL.r2&#41;, abs&#40;LDL.r2&#41;&#41;
-ldl_factorize&#33;&#40;Au, LDL&#41;</code></pre> <pre><code class=language-plaintext >LDLFactorizations.LDLFactorization&#123;Float64, Int64, Int64, Int64&#125;&#40;true, true, true, 200, &#91;4, 3, 4, 31, 16, 16, 14, 13, 12, 11  …  192, 193, 194, 195, 196, 197, 198, 199, 200, -1&#93;, &#91;47, 30, 64, 113, 15,
- 48, 45, 42, 40, 43  …  9, 8, 7, 6, 5, 4, 3, 2, 1, 0&#93;, &#91;200, 162, 191, 200, 171, 187, 195, 190, 183, 186  …  200, 200, 200, 200, 200, 200, 200, 200, 200, 200&#93;, &#91;189, 21, 24, 57, 19, 49, 92, 98, 89, 84
-  …  190, 191, 193, 194, 195, 196, 197, 199, 200, 146&#93;, &#91;31, 32, 33, 34, 35, 36, 37, 38, 39, 40  …  192, 24, 193, 194, 195, 196, 197, 21, 198, 199&#93;, &#91;1, 48, 78, 142, 255, 270, 318, 363, 405, 445  …  1
-6555, 16563, 16570, 16576, 16581, 16585, 16588, 16590, 16591, 16591&#93;, &#91;1, 11, 20, 30, 38, 48, 60, 66, 74, 85  …  868, 868, 869, 869, 869, 869, 869, 869, 869, 869&#93;, &#91;11, 20, 41, 44, 57, 79, 84, 92, 173
-, 189  …  189, 188, 188, 198, 188, 189, 188, 192, 198, 198&#93;, &#91;4, 31, 40, 44, 51, 57, 59, 64, 87, 98  …  197, 198, 199, 200, 198, 199, 200, 199, 200, 200&#93;, &#91;-0.1163603637499907, -0.1071901402489978, -0
-.2235233457480143, -0.34856941757000387, -0.4646901688823444, -0.3694839481287018, -0.01400338560920891, -0.22009629686290968, -0.3861647269251095, -0.1426088803982603  …  0.09123279526114875, 0.01572
-692581931626, 0.020476358430739198, 0.001589536084539266, 0.004647944182438356, -0.06609081341173619, 0.04004470134808228, 0.24849733382798228, 0.06746110802174447, 0.11983533468411539&#93;, &#91;-1.905180695
-2745225, 3.1460610094793715, 3.6501335221514366, 3.109659563101334, 1.7657189327251865, 2.954259751040772, 3.4992092148493534, 2.6511608508545104, 1.9051806952745225, 3.536219525365327  …  -3.15652873
-59098693, -3.098517400714707, -3.0377072245298264, -2.3895977125922454, -3.597709786695831, -3.2103498103801917, -4.1552947248441265, -2.3185422985551645, -2.8338319292294165, -3.8505180304995386&#93;, &#91;0
-.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0  …  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#93;, &#91;21, 4, 29, 30, 34, 35, 36, 37, 38, 39  …  190, 191, 192, 193, 194, 195, 196, 197, 198, 199&#93;, 2.9
-802322387695312e-8, -1.4901161193847656e-8, 1.4901161193847656e-8, 10&#41;</code></pre> </div> </div> </div> </div> </section> <script src="/previews/PR117/libs/katex/katex.min.js"></script> <script src="/previews/PR117/libs/katex/auto-render.min.js"></script> <script>renderMathInElement(document.body)</script> <script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: ' ' });</script> <script> (function () { // Get the elements. // - the 'pre' element. // - the 'div' with the 'paste-content' id. var pre = document.getElementsByTagName('pre'); // Add a copy button in the 'pre' element with className language-julia for (var i = 0; i < pre.length; i++) { var isLanguage = pre[i].children[0].className.indexOf('language-julia'); if (isLanguage === 0) { var ion_icon = document.createElement('ion-icon'); ion_icon.name = 'copy'; var icon = document.createElement('span'); icon.className = 'icon has-text-primary'; icon.appendChild(ion_icon); var button = document.createElement('button'); button.className = 'button copy-button is-light is-primary'; button.appendChild(icon); pre[i].appendChild(button); } }; // Run Clipboard var copyCode = new ClipboardJS('.copy-button', { target: function (trigger) { return trigger.previousElementSibling; } }); copyCode.on('success', function (event) { event.clearSelection(); var btn = event.trigger; var old_button_class = btn.className; var old_icon_class = btn.children[0].className; btn.className = 'button copy-button is-primary'; btn.children[0].className = 'icon has-text-white'; window.setTimeout(function () { event.trigger.className = old_button_class; event.trigger.children[0].className = old_icon_class; }, 1000); }); })(); </script> <footer class=footer > <div class="content has-text-centered is-small"> &copy; Abel Soares Siqueira. <br> <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a> </div> </footer>
+ldl_factorize&#33;&#40;Au, LDL&#41;</code></pre> <pre><code class=language-plaintext >LDLFactorizations.LDLFactorization&#123;Float64, Int64, Int64, Int64&#125;&#40;true, true, true, 200, &#91;2, 6, 4, 5, 6, 30, 8, 13, 12, 11  …  192, 193, 194, 195, 196, 197, 198, 199, 200, -1&#93;, &#91;38, 74, 34, 58, 75, 113
+, 48, 78, 40, 43  …  9, 8, 7, 6, 5, 4, 3, 2, 1, 0&#93;, &#91;152, 198, 179, 186, 200, 200, 200, 200, 173, 196  …  200, 200, 200, 200, 200, 200, 200, 200, 200, 200&#93;, &#91;95, 89, 93, 64, 70, 4, 41, 34, 74, 46  …  
+188, 189, 190, 191, 194, 196, 198, 199, 200, 85&#93;, &#91;30, 31, 32, 6, 33, 34, 35, 36, 37, 38  …  194, 18, 19, 195, 15, 196, 21, 197, 198, 199&#93;, &#91;1, 39, 113, 147, 205, 280, 393, 441, 519, 559  …  16821, 16
+829, 16836, 16842, 16847, 16851, 16854, 16856, 16857, 16857&#93;, &#91;1, 7, 15, 24, 27, 36, 44, 55, 59, 68  …  947, 947, 947, 949, 949, 949, 949, 949, 949, 949&#93;, &#91;45, 46, 89, 92, 93, 95, 4, 11, 34, 41  …  19
+5, 193, 195, 197, 192, 193, 195, 197, 195, 197&#93;, &#91;2, 6, 30, 33, 36, 38, 39, 40, 47, 49  …  197, 198, 199, 200, 198, 199, 200, 199, 200, 200&#93;, &#91;0.006976626148185567, 0.17694519922684182, 0.021911232835
+37727, 0.21904832713227193, 0.08667574140097951, 0.002134097872153648, 0.01454563751969235, 0.15570668399722493, 0.0036449162853696994, 0.1910494418065286  …  0.04086619307027618, -0.00011233143430363
+164, -0.054296258664643694, 0.009379581583559624, -0.0825676125481464, -0.022801000666004774, -0.03472390105120408, 0.06458635200585841, -0.008140624468284903, -0.01096131076859935&#93;, &#91;2.43486164610131
+26, 2.855819731658559, 1.7060914692214249, 2.5727829234464004, 3.545728552897636, 2.712269159240234, 1.9775784540644605, 2.353451360758373, 2.740741449474177, 2.642356197513533  …  -3.3298190091596784
+, -2.313661857136974, -3.1489470306439262, -2.9064080131361654, -2.696318932536435, -3.87637714348592, -2.5630508364717763, -2.4197377577752155, -3.0314965434076186, 1.7999693551733293&#93;, &#91;0.0, 0.0, 0.
+0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0  …  0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0&#93;, &#91;19, 29, 13, 14, 35, 36, 37, 38, 39, 40  …  190, 191, 192, 193, 194, 195, 196, 197, 198, 199&#93;, 2.98023223876
+95312e-8, -1.4901161193847656e-8, 1.4901161193847656e-8, 10&#41;</code></pre> </div> </div> </div> </div> </section> <script src="/previews/PR117/libs/katex/katex.min.js"></script> <script src="/previews/PR117/libs/katex/auto-render.min.js"></script> <script>renderMathInElement(document.body)</script> <script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: ' ' });</script> <script> (function () { // Get the elements. // - the 'pre' element. // - the 'div' with the 'paste-content' id. var pre = document.getElementsByTagName('pre'); // Add a copy button in the 'pre' element with className language-julia for (var i = 0; i < pre.length; i++) { var isLanguage = pre[i].children[0].className.indexOf('language-julia'); if (isLanguage === 0) { var ion_icon = document.createElement('ion-icon'); ion_icon.name = 'copy'; var icon = document.createElement('span'); icon.className = 'icon has-text-primary'; icon.appendChild(ion_icon); var button = document.createElement('button'); button.className = 'button copy-button is-light is-primary'; button.appendChild(icon); pre[i].appendChild(button); } }; // Run Clipboard var copyCode = new ClipboardJS('.copy-button', { target: function (trigger) { return trigger.previousElementSibling; } }); copyCode.on('success', function (event) { event.clearSelection(); var btn = event.trigger; var old_button_class = btn.className; var old_icon_class = btn.children[0].className; btn.className = 'button copy-button is-primary'; btn.children[0].className = 'icon has-text-white'; window.setTimeout(function () { event.trigger.className = old_button_class; event.trigger.children[0].className = old_icon_class; }, 1000); }); })(); </script> <footer class=footer > <div class="content has-text-centered is-small"> &copy; Abel Soares Siqueira. <br> <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a> </div> </footer>

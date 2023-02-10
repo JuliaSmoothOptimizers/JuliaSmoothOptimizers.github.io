@@ -32,12 +32,12 @@ nlp &#61; MathOptNLPModel&#40;model&#41;</code></pre> <pre><code class=language-
 output &#61; trunk&#40;nlp&#41;
 println&#40;output&#41;</code></pre> <pre><code class=language-plaintext >Generic Execution stats
   status: first-order stationary
-  objective value: 8.970912915228104e-17
+  objective value: 8.970912001856092e-17
   primal feasibility: 0.0
-  dual feasibility: 8.338702853795988e-9
-  solution: &#91;0.9999999917126893  0.9999999825882637  0.9999999997312824  0.9999999994551766 ⋯ 1.0000000026501261&#93;
+  dual feasibility: 8.338702542070883e-9
+  solution: &#91;0.9999999917126897  0.9999999825882647  0.9999999997312826  0.999999999455177 ⋯ 1.0000000026501263&#93;
   iterations: 18
-  elapsed time: 2.873178005218506</code></pre> <p>The callback function is any function with three input arguments: <code>nlp</code>, <code>solver</code> and <code>stats</code>. <code>nlp</code> is the exact problem we are solving, <code>solver</code> is a solver structure that keeps relevant values, and <code>stats</code> is the output structure, which keeps updated values every iteration. Look at the help of the solver for more information on which values are available.</p> <p>A few of the most important values are:</p> <ul> <li><p><code>solver.x</code>: The current iterate</p> <li><p><code>solver.gx</code>: The current gradient</p> <li><p><code>stats.objective</code>: The objective value at the current iterate</p> <li><p><code>stats.dual_feas</code>: The dual feasibility value</p> <li><p><code>stats.primal_feas</code>: The primal feasibility value</p> <li><p><code>stats.iter</code>: The number of iterations</p> </ul> <p>Using these, we can, for instance, create a trace of the method in the first two variables:</p> <pre><code class=language-julia >using NLPModels, Plots
+  elapsed time: 2.265030860900879</code></pre> <p>The callback function is any function with three input arguments: <code>nlp</code>, <code>solver</code> and <code>stats</code>. <code>nlp</code> is the exact problem we are solving, <code>solver</code> is a solver structure that keeps relevant values, and <code>stats</code> is the output structure, which keeps updated values every iteration. Look at the help of the solver for more information on which values are available.</p> <p>A few of the most important values are:</p> <ul> <li><p><code>solver.x</code>: The current iterate</p> <li><p><code>solver.gx</code>: The current gradient</p> <li><p><code>stats.objective</code>: The objective value at the current iterate</p> <li><p><code>stats.dual_feas</code>: The dual feasibility value</p> <li><p><code>stats.primal_feas</code>: The primal feasibility value</p> <li><p><code>stats.iter</code>: The number of iterations</p> </ul> <p>Using these, we can, for instance, create a trace of the method in the first two variables:</p> <pre><code class=language-julia >using NLPModels, Plots
 
 X &#61; zeros&#40;0, 2&#41;
 cb &#61; &#40;nlp, solver, stats&#41; -&gt; begin
@@ -63,12 +63,12 @@ end
 output &#61; trunk&#40;nlp, callback&#61;cb, rtol&#61;0.0, atol&#61;0.0&#41;
 println&#40;output&#41;</code></pre> <pre><code class=language-plaintext >Generic Execution stats
   status: user-requested stop
-  objective value: 1.4051126721289068e-20
+  objective value: 1.405115328770847e-20
   primal feasibility: 0.0
-  dual feasibility: 1.429712742667235e-10
-  solution: &#91;0.9999999999573873  0.9999999999104003  0.999999999934689  0.9999999998670257 ⋯ 0.9999999999385258&#93;
+  dual feasibility: 1.4364101353965366e-10
+  solution: &#91;0.9999999999573873  0.9999999999104003  0.999999999934689  0.9999999998670257 ⋯ 0.999999999938523&#93;
   iterations: 18
-  elapsed time: 0.0012421607971191406</code></pre> <p>Above, we set the <code>status</code> of the algorithm to <code>:user</code>, so that it stops with a <code>user-request stop</code> flag.</p> <hr /> <p><code>trunk</code> is not the only solver that accepts callbacks. All solvers in <code>JSOSolvers</code>, as well as <code>percival</code> and <code>dci</code> from Percival.jl and DCISolver.jl do as well. Here is an example:</p> <pre><code class=language-julia >using Percival
+  elapsed time: 0.0009849071502685547</code></pre> <p>Above, we set the <code>status</code> of the algorithm to <code>:user</code>, so that it stops with a <code>user-request stop</code> flag.</p> <hr /> <p><code>trunk</code> is not the only solver that accepts callbacks. All solvers in <code>JSOSolvers</code>, as well as <code>percival</code> and <code>dci</code> from Percival.jl and DCISolver.jl do as well. Here is an example:</p> <pre><code class=language-julia >using Percival
 
 @NLconstraint&#40;model, &#91;i&#61;1:N&#93;, x&#91;2i&#93;^2 &#43; x&#91;2i-1&#93;^2 &lt;&#61; 1.0&#41;
 nlp &#61; MathOptNLPModel&#40;model&#41;
