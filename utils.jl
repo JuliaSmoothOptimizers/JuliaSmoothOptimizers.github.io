@@ -42,53 +42,6 @@ const jso_pkgs = [
   "SuiteSparseMatrixCollection",
 ]
 
-function badge(name, version)
-  color, lbl_color = if name in jso_pkgs
-    h = div(360 * findfirst(name .== jso_pkgs), length(jso_pkgs))
-    "hsl($h,100%25,30%25)", "hsl($h,30%25,30%25)"
-  elseif version == "STDLIB"
-    "666", "444"
-  else
-    "666", "999"
-  end
-
-  badge_img = "<img class=\"badge\" src=\"https://img.shields.io/badge/$name-$version-$color?style=flat-square&labelColor=$lbl_color\">"
-  if name in jso_pkgs
-    link = "https://juliasmoothoptimizers.github.io/$name.jl/stable/"
-    "<a href=\"$link\">$badge_img</a>"
-  else
-    badge_img
-  end
-end
-
-function hfun_list_versions()
-  lt_file = locvar("fd_rpath")[1:end-2] * "jl"
-  if !isfile(lt_file)
-    lt_file = lt_file[1:end-2] * "md"
-  end
-  if !isfile(lt_file)
-    error("$lt_file does not exist")
-  end
-  lines = readlines(lt_file)
-  pkgs = String[]
-  for line in lines
-    if match(r"^using", line) !== nothing
-      sline = split(line[7:end], ", ")
-      append!(pkgs, sline)
-    end
-  end
-  pkgs = unique(sort(pkgs))
-  out = ""
-  for pkg in pkgs
-    if pkg in jso_pkgs
-      out *= badge(pkg, "JSO") * "\n"
-    elseif pkg in readdir(Base.Sys.STDLIB)
-      out *= badge(pkg, "STDLIB") * "\n"
-    end
-  end
-  out
-end
-
 function aux_latest()
   data = JSON.parsefile("_data/tutorials.json")
   data = sort(data, by=x->x["date"], rev=true)

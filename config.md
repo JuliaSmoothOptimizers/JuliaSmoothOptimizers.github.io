@@ -39,6 +39,4 @@ For instance:
   @@author
   by #1
   @@
-
-  {{ list_versions }}
 }
