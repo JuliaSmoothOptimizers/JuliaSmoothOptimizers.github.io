@@ -5,6 +5,12 @@
 \preamble{Geoffroy Leconte and Dominique Orban}
 
 
+![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=fff")
+[![LinearOperators 2.5.1](https://img.shields.io/badge/LinearOperators-2.5.1-4b0082?style=flat-square&labelColor=9558b2")](https://juliasmoothoptimizers.github.io/LinearOperators.jl/stable/)
+[![Krylov 0.7.13](https://img.shields.io/badge/Krylov-0.7.13-4b0082?style=flat-square&labelColor=9558b2")](https://juliasmoothoptimizers.github.io/Krylov.jl/stable/)
+![FFTW 1.5.0](https://img.shields.io/badge/FFTW-1.5.0-000?style=flat-square&labelColor=fff")
+
+
 
 [LinearOperators.jl](https://juliasmoothoptimizers.github.io/LinearOperators.jl/stable) is a package for matrix-like operators. Linear operators are defined by how they act on a vector, which is useful in a variety of situations where you don't want to materialize the matrix.
 
@@ -32,8 +38,8 @@ y = op * x
 ```plaintext
 5-element Vector{Float64}:
  0.24766385713448147
- 0.3447142706690718
- 0.6399025892338568
+ 0.34471427066907173
+ 0.6399025892338569
  0.246664873173519
  0.5258420478788777
 ```
@@ -56,7 +62,7 @@ norm(A \ v - op * v) / norm(v)
 ```
 
 ```plaintext
-1.4400980625379857e-13
+1.148733996146629e-13
 ```
 
 
@@ -274,8 +280,7 @@ end
 ```
 
 ```plaintext
-ex = InexactError(:Float64, Float64, 0.47507530806279163 - 0.38323018800681
-87im)
+ex = InexactError(:Float64, Float64, 0.47507530806279163 - 0.3832301880068187im)
 ```
 
 
@@ -291,8 +296,7 @@ end
 ```
 
 ```plaintext
-ex = InexactError(:Float64, Float64, 0.8090169943749475 - 0.587785252292473
-1im)
+ex = InexactError(:Float64, Float64, 0.8090169943749475 - 0.5877852522924731im)
 ```
 
 
@@ -313,7 +317,7 @@ norm(b - opAAT * x)
 ```
 
 ```plaintext
-6.11609294397912e-13
+2.3624810325472306e-13
 ```
 
 
@@ -340,7 +344,7 @@ r
 ```
 
 ```plaintext
-3.41480525177513e-13
+3.919077465054229e-13
 ```
 
 
@@ -476,5 +480,4 @@ opA[1,1] * ones(1)
 1-element Vector{Float64}:
  0.02203447865143171
 ```
-
 
