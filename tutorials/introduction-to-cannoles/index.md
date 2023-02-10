@@ -5,6 +5,10 @@
 \preamble{Abel S. Siqueira}
 
 
+[![CaNNOLeS 0.7.2](https://img.shields.io/badge/CaNNOLeS-0.7.2-006400?style=flat-square&labelColor=389826")](https://juliasmoothoptimizers.github.io/CaNNOLeS.jl/stable/)
+[![ADNLPModels 0.5.1](https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style=flat-square&labelColor=cb3c33")](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+
+
 
 CaNNOLeS is a solver for equality-constrained nonlinear least-squares problems, i.e.,
 optimization problems of the form
@@ -77,7 +81,13 @@ stats = cannoles(nls, max_time = 10., merit = :auglag)
 ```
 
 ```plaintext
-"Execution stats: first-order stationary"
+Error: MethodError: no method matching solve!(::CaNNOLeS.CaNNOLeSSolver{Float64, Vector{Float64}}, ::ADNLPModels.ADNLSModel{Float64, Vector{Float64}, Vector{Int64}}, ::SolverCore.GenericExecutionStats
+{Float64, Vector{Float64}, Vector{Float64}, Any}; max_time=10.0, merit=:auglag)
+Closest candidates are:
+  solve!(::CaNNOLeS.CaNNOLeSSolver, ::NLPModels.AbstractNLSModel, ::SolverCore.GenericExecutionStats; x, λ, method, linsolve, max_f, max_time, max_inner, ϵtol, verbose, check_small_residual, always_ac
+cept_extrapolation, δdec) at ~/.julia/packages/CaNNOLeS/EgvjT/src/CaNNOLeS.jl:114 got unsupported keyword argument "merit"
+  solve!(::SolverCore.AbstractOptimizationSolver, ::NLPModels.AbstractNLPModel, ::SolverCore.GenericExecutionStats; kwargs...) at ~/.julia/packages/SolverCore/jOu5t/src/solver.jl:43
+  solve!(::SolverCore.AbstractOptimizationSolver, ::NLPModels.AbstractNLPModel; kwargs...) at ~/.julia/packages/SolverCore/jOu5t/src/solver.jl:38
+  ...
 ```
-
 

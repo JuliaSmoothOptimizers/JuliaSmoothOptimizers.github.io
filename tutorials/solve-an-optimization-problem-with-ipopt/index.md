@@ -5,6 +5,11 @@
 \preamble{Abel S. Siqueira}
 
 
+![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=fff")
+[![NLPModelsIpopt 0.10.0](https://img.shields.io/badge/NLPModelsIpopt-0.10.0-006400?style=flat-square&labelColor=389826")](https://juliasmoothoptimizers.github.io/NLPModelsIpopt.jl/stable/)
+[![ADNLPModels 0.5.1](https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style=flat-square&labelColor=cb3c33")](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+
+
 
 To solve an optimization problem with Ipopt, the first thing to do is define your problem.
 In this example, let's assume we want to solve the following problem:
@@ -35,55 +40,35 @@ nlp = ADNLPModel(
 ```
 
 ```plaintext
-ADNLPModel - Model with automatic differentiation backend ADNLPModels.Forwa
-rdDiffAD{ForwardDiff.GradientConfig{ForwardDiff.Tag{Main.##WeaveSandBox#291
-.var"#1#3", Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{M
-ain.##WeaveSandBox#291.var"#1#3", Float64}, Float64, 2}}}}(3, 2, ForwardDif
-f.GradientConfig{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3", Float64
-}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#
-291.var"#1#3", Float64}, Float64, 2}}}((Partials(1.0, 0.0), Partials(0.0, 1
-.0)), ForwardDiff.Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3", F
-loat64}, Float64, 2}[Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3"
-, Float64}}(4.766885689800094e180,5.9214442028471925e169,2.1502062465793975
-e-80), Dual{ForwardDiff.Tag{Main.##WeaveSandBox#291.var"#1#3", Float64}}(1.
-0921273113031389e69,9.92715016811644e247,0.0)]))
+ADNLPModel - Model with automatic differentiation backend ADModelBackend{
+  ForwardDiffADGradient,
+  ForwardDiffADHvprod,
+  ForwardDiffADJprod,
+  ForwardDiffADJtprod,
+  SparseADJacobian,
+  ForwardDiffADHessian,
+  ForwardDiffADGHjvprod,
+}
   Problem name: Generic
-   All variables: ████████████████████ 2      All constraints: ████████████
-████████ 1     
-            free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-           upper: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1                upper: ████████████
-████████ 1     
-         low/upp: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: (  0.00% sparsity)   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-                                                    nonlinear: ████████████
-████████ 1     
-                                                         nnzj: (  0.00% spa
-rsity)   2     
+   All variables: ████████████████████ 2      All constraints: ████████████████████ 1     
+            free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1                upper: ████████████████████ 1     
+         low/upp: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: (  0.00% sparsity)   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ████████████████████ 1     
+                                                         nnzj: (  0.00% sparsity)   2     
 
   Counters:
-             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0
 ```
 
 
@@ -99,19 +84,13 @@ output = ipopt(nlp)
 ```
 
 ```plaintext
-***************************************************************************
-***
-This program contains Ipopt, a library for large-scale nonlinear optimizati
-on.
- Ipopt is released as open source code under the Eclipse Public License (EP
-L).
+******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License (EPL).
          For more information visit https://github.com/coin-or/Ipopt
-***************************************************************************
-***
+******************************************************************************
 
-This is Ipopt version 3.13.4, running with linear solver mumps.
-NOTE: Other linear solvers might be more efficient (see Ipopt documentation
-).
+This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
 
 Number of nonzeros in equality constraint Jacobian...:        0
 Number of nonzeros in inequality constraint Jacobian.:        2
@@ -127,38 +106,25 @@ Total number of inequality constraints...............:        1
    inequality constraints with lower and upper bounds:        0
         inequality constraints with only upper bounds:        1
 
-iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_p
-r  ls
-   0  1.2997000e+00 0.00e+00 4.29e+00  -1.0 0.00e+00    -  0.00e+00 0.00e+0
-0   0
-   1  4.5361290e-01 0.00e+00 2.41e+00  -1.0 4.35e-01    -  4.59e-01 6.35e-0
-1f  1
-   2  5.5431421e-01 0.00e+00 5.91e-02  -1.0 1.22e-01    -  1.00e+00 1.00e+0
-0f  1
-   3  3.0224698e-01 0.00e+00 1.58e-02  -1.7 5.64e-02    -  1.00e+00 1.00e+0
-0f  1
-   4  2.5558473e-01 0.00e+00 2.94e-04  -2.5 7.49e-03    -  1.00e+00 1.00e+0
-0h  1
-   5  2.5030180e-01 0.00e+00 5.43e-06  -3.8 6.84e-04    -  1.00e+00 1.00e+0
-0h  1
-   6  2.5000360e-01 0.00e+00 1.67e-08  -5.7 3.83e-05    -  1.00e+00 1.00e+0
-0h  1
-   7  2.4999992e-01 0.00e+00 2.49e-12  -8.6 4.64e-07    -  1.00e+00 1.00e+0
-0h  1
+iter    objective    inf_pr   inf_du lg(mu)  ||d||  lg(rg) alpha_du alpha_pr  ls
+   0  1.2997000e+00 0.00e+00 4.29e+00  -1.0 0.00e+00    -  0.00e+00 0.00e+00   0
+   1  4.5361290e-01 0.00e+00 2.41e+00  -1.0 4.35e-01    -  4.59e-01 6.35e-01f  1
+   2  5.5431421e-01 0.00e+00 5.91e-02  -1.0 1.22e-01    -  1.00e+00 1.00e+00f  1
+   3  3.0224698e-01 0.00e+00 1.58e-02  -1.7 5.64e-02    -  1.00e+00 1.00e+00f  1
+   4  2.5558473e-01 0.00e+00 2.94e-04  -2.5 7.49e-03    -  1.00e+00 1.00e+00h  1
+   5  2.5030180e-01 0.00e+00 5.43e-06  -3.8 6.84e-04    -  1.00e+00 1.00e+00h  1
+   6  2.5000360e-01 0.00e+00 1.67e-08  -5.7 3.83e-05    -  1.00e+00 1.00e+00h  1
+   7  2.4999992e-01 0.00e+00 2.49e-12  -8.6 4.64e-07    -  1.00e+00 1.00e+00h  1
 
 Number of Iterations....: 7
 
                                    (scaled)                 (unscaled)
-Objective...............:   2.4999991501233096e-01    2.4999991501233096e-0
-1
-Dual infeasibility......:   2.4923148672798348e-12    2.4923148672798348e-1
-2
-Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+0
-0
-Complementarity.........:   2.5082196362733705e-09    2.5082196362733705e-0
-9
-Overall NLP error.......:   2.5082196362733705e-09    2.5082196362733705e-0
-9
+Objective...............:   2.4999991501233096e-01    2.4999991501233096e-01
+Dual infeasibility......:   2.4923148672798348e-12    2.4923148672798348e-12
+Constraint violation....:   0.0000000000000000e+00    0.0000000000000000e+00
+Variable bound violation:   9.4991776666830674e-09    9.4991776666830674e-09
+Complementarity.........:   2.5082196362733705e-09    2.5082196362733705e-09
+Overall NLP error.......:   2.5082196362733705e-09    2.5082196362733705e-09
 
 
 Number of objective function evaluations             = 8
@@ -168,8 +134,7 @@ Number of inequality constraint evaluations          = 8
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 8
 Number of Lagrangian Hessian evaluations             = 7
-Total CPU secs in IPOPT (w/o function evaluations)   =      2.872
-Total CPU secs in NLP function evaluations           =      1.107
+Total seconds in IPOPT                               = 8.679
 
 EXIT: Optimal Solution Found.
 "Execution stats: first-order stationary"
@@ -206,14 +171,14 @@ Generic Execution stats
   objective value: 0.24999991501233096
   primal feasibility: 0.0
   dual feasibility: 2.4923148672798348e-12
-  solution: [0.5  0.25]
+  solution: [0.5000000094991777  0.2499999906270549]
   multipliers: [3.6454575515314157e-9]
   multipliers_L: [0.0  4.000000006828642]
   multipliers_U: [5.000000053347668  5.0084053323090786e-9]
   iterations: 7
-  elapsed time: 0.003
+  elapsed time: 0.005
   solver specific:
-    real_time: 0.00407719612121582
+    real_time: 0.005316972732543945
     internal_msg: :Solve_Succeeded
 ```
 
@@ -225,7 +190,7 @@ println("Solution: $x")
 ```
 
 ```plaintext
-Solution: [0.5, 0.25]
+Solution: [0.5000000094991777, 0.2499999906270549]
 ```
 
 
@@ -234,5 +199,4 @@ Solution: [0.5, 0.25]
 
 That's it. If your model is more complex, you should look into NLPModelsJuMP.jl.
 On the other hand, if you need more control and want to input your model manually, look for the specific how-to.
-
 

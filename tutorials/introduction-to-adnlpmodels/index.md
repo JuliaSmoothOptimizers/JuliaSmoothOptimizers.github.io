@@ -5,6 +5,10 @@
 \preamble{Abel Soares Siqueira and Dominique Orban}
 
 
+[![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33")](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
+[![ADNLPModels 0.5.1](https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style=flat-square&labelColor=cb3c33")](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+
+
 
 ADNLPModel is simple to use and is useful for classrooms.
 It only needs the objective function $f$ and a starting point $x^0$ to be
@@ -326,5 +330,4 @@ jac_residual(nls, x0)
   1.0   0.0
  24.0  10.0
 ```
-
 
