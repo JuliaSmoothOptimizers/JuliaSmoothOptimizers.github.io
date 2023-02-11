@@ -5,6 +5,16 @@
 \preamble{Abel S. Siqueira}
 
 
+![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=fff)
+[![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
+[![ManualNLPModels 0.1.3](https://img.shields.io/badge/ManualNLPModels-0.1.3-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ManualNLPModels.jl/stable/)
+[![NLPModelsJuMP 0.12.0](https://img.shields.io/badge/NLPModelsJuMP-0.12.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModelsJuMP.jl/stable/)
+![BenchmarkTools 1.3.2](https://img.shields.io/badge/BenchmarkTools-1.3.2-000?style=flat-square&labelColor=fff)
+[![ADNLPModels 0.5.1](https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+![JuMP 1.7.0](https://img.shields.io/badge/JuMP-1.7.0-000?style=flat-square&labelColor=fff)
+[![JSOSolvers 0.9.4](https://img.shields.io/badge/JSOSolvers-0.9.4-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/)
+
+
 
 When you know the derivatives of your optimization problem, it is frequently more efficient to use them directly instead of relying on automatic differentiation.
 For that purpose, we have created `ManualNLPModels`. The package is very crude, due to demand being low, but let us know if you need more functionalities.
@@ -63,42 +73,25 @@ nlp = NLPModel(
 ```plaintext
 ManualNLPModels.NLPModel{Float64, Vector{Float64}}
   Problem name: Generic
-   All variables: ████████████████████ 51     All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            free: ████████████████████ 51                free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: (100.00% sparsity)   0               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-                                                         nnzj: (------% spa
-rsity)         
+   All variables: ████████████████████ 51     All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 51                free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: (100.00% sparsity)   0               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: (------% sparsity)         
 
   Counters:
-             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅
-⋅⋅⋅⋅⋅⋅⋅⋅ 0
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0
 ```
 
 
@@ -146,18 +139,16 @@ end
 ```
 
 ```plaintext
-BenchmarkTools.Trial: 1525 samples with 1 evaluation.
- Range (min … max):  2.652 ms …   8.818 ms  ┊ GC (min … max): 0.00% … 55.60
-%
- Time  (median):     3.086 ms               ┊ GC (median):    0.00%
- Time  (mean ± σ):   3.272 ms ± 817.140 μs  ┊ GC (mean ± σ):  4.17% ±  9.81
-%
+BenchmarkTools.Trial: 2049 samples with 1 evaluation.
+ Range (min … max):  2.245 ms …   6.394 ms  ┊ GC (min … max): 0.00% … 60.57%
+ Time  (median):     2.292 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   2.435 ms ± 681.107 μs  ┊ GC (mean ± σ):  4.91% ± 10.58%
 
-   █▆▆▃▂▄▂▂▁                                                   
-  ▅█████████▆▄▃▂▃▂▃▃▂▃▂▂▂▂▂▁▂▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▂▂▂▂▂▂▂▂▃▂▂▂▂▂▁▂ ▃
-  2.65 ms         Histogram: frequency by time        7.36 ms <
+  █▅▄▁                                                         
+  ████▆▃▁▃▁▁▁▁▁▁▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▆▅▆▅▇▇ █
+  2.25 ms      Histogram: log(frequency) by time       6.2 ms <
 
- Memory estimate: 1.69 MiB, allocs estimate: 1698.
+ Memory estimate: 1.72 MiB, allocs estimate: 2594.
 ```
 
 
@@ -174,16 +165,16 @@ end
 ```
 
 ```plaintext
-BenchmarkTools.Trial: 58 samples with 1 evaluation.
- Range (min … max):  81.476 ms … 91.982 ms  ┊ GC (min … max): 0.00% … 2.55%
- Time  (median):     86.416 ms              ┊ GC (median):    2.64%
- Time  (mean ± σ):   86.565 ms ±  2.145 ms  ┊ GC (mean ± σ):  1.88% ± 1.26%
+BenchmarkTools.Trial: 56 samples with 1 evaluation.
+ Range (min … max):  87.619 ms … 95.802 ms  ┊ GC (min … max): 0.00% … 4.29%
+ Time  (median):     88.462 ms              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   89.773 ms ±  2.338 ms  ┊ GC (mean ± σ):  1.41% ± 2.08%
 
-                     ▂▂ ▅     ▅    █   ▂                       
-  ▅▁▁▁▁▅▅▁▁▅▅▁▁▁▁▁▅▁███▅████▅███▅▁███▁▅█▅▅▁▁▁▅█▅▁▁▁▅▁▁▁▁▁▅▁▁▅ ▁
-  81.5 ms         Histogram: frequency by time        91.8 ms <
+    █▂█▄█                             ▂                        
+  ▆▁█████▄▆▁█▁▁▁▁▁▁▁▁▄▁▁▁▁▁▁▁▁▁▁▁▁▁▄▁▁██▆▄▄▁▁▄▁▁▁▁▁▁▁▁▁▁▆▁▁▁▄ ▁
+  87.6 ms         Histogram: frequency by time        95.2 ms <
 
- Memory estimate: 30.55 MiB, allocs estimate: 3873.
+ Memory estimate: 30.79 MiB, allocs estimate: 10075.
 ```
 
 
@@ -215,18 +206,16 @@ end
 ```
 
 ```plaintext
-BenchmarkTools.Trial: 34 samples with 1 evaluation.
- Range (min … max):  139.169 ms … 167.364 ms  ┊ GC (min … max): 12.30% … 10
-.29%
- Time  (median):     145.889 ms               ┊ GC (median):    12.87%
- Time  (mean ± σ):   147.385 ms ±   6.147 ms  ┊ GC (mean ± σ):  12.77% ±  2
-.08%
+BenchmarkTools.Trial: 35 samples with 1 evaluation.
+ Range (min … max):  131.681 ms … 164.079 ms  ┊ GC (min … max): 0.00% … 11.04%
+ Time  (median):     146.985 ms               ┊ GC (median):    8.69%
+ Time  (mean ± σ):   146.562 ms ±   9.949 ms  ┊ GC (mean ± σ):  6.06% ±  4.59%
 
-             █  █                                                
-  █▅▁▅▁▁▁▅█▅▁█▁▅█▅██▅▁▅▁▁▁▅▅▁▁▁▁▁▅▁▁▅▁▁▁▅▁▅▁▁▁▁▅▁▁▁▁▁▁▁▁▁▁▁▁▁▁▅ ▁
-  139 ms           Histogram: frequency by time          167 ms <
+  █ ▃                    ▃                         ▃▃            
+  █▇█▁▁▇▁▁▇▇▁▁▇▁▁▇▁▁▇▁▁▁▁█▇▁▇▇▇▇▁▇▇▇▁▇▁▁▇▇▇▁▁▇▁▁▁▁▇██▁▁▁▁▁▇▇▁▁▇ ▁
+  132 ms           Histogram: frequency by time          164 ms <
 
- Memory estimate: 147.57 MiB, allocs estimate: 2149738.
+ Memory estimate: 98.00 MiB, allocs estimate: 436895.
 ```
 
 
@@ -243,15 +232,13 @@ using NLPModels
 
 ```plaintext
 BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range (min … max):  12.401 μs …  5.692 ms  ┊ GC (min … max): 0.00% … 85.16
-%
- Time  (median):     16.400 μs              ┊ GC (median):    0.00%
- Time  (mean ± σ):   18.916 μs ± 89.857 μs  ┊ GC (mean ± σ):  7.24% ±  1.56
-%
+ Range (min … max):  12.400 μs …  8.414 ms  ┊ GC (min … max): 0.00% … 99.60%
+ Time  (median):     13.800 μs              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   15.429 μs ± 85.936 μs  ┊ GC (mean ± σ):  5.43% ±  1.00%
 
-      ▁▇▄█▄▇▃▆▁▄▁▃ ▁                                           
-  ▁▃▄█████████████▇█▅▇▆▄▅▃▄▂▃▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ ▃
-  12.4 μs         Histogram: frequency by time        33.2 μs <
+    ▁▂▅▇▆▇▇▅▅▃▂▁▃           ▁ ▁█                               
+  ▃▅█████████████▅▄▃▃▃▃▃▅▆▇█████▇▆▅▅▅▄▃▃▃▂▃▂▂▁▂▁▂▁▁▁▁▁▁▁▁▁▁▁▁ ▄
+  12.4 μs         Histogram: frequency by time        18.7 μs <
 
  Memory estimate: 18.19 KiB, allocs estimate: 8.
 ```
@@ -264,18 +251,16 @@ adnlp = ADNLPModel(β -> myfun(β, X, y), zeros(p + 1))
 ```
 
 ```plaintext
-BenchmarkTools.Trial: 3902 samples with 1 evaluation.
- Range (min … max):  1.121 ms …   4.791 ms  ┊ GC (min … max): 0.00% … 67.08
-%
- Time  (median):     1.243 ms               ┊ GC (median):    0.00%
- Time  (mean ± σ):   1.278 ms ± 276.957 μs  ┊ GC (mean ± σ):  1.79% ±  5.93
-%
+BenchmarkTools.Trial: 3623 samples with 1 evaluation.
+ Range (min … max):  1.290 ms …   8.586 ms  ┊ GC (min … max): 0.00% … 82.44%
+ Time  (median):     1.317 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   1.377 ms ± 327.855 μs  ┊ GC (mean ± σ):  1.20% ±  4.25%
 
-                        ▆█▇▅▃                                  
-  ▁▂▂▂▂▂▁▁▁▁▁▁▂▁▂▂▂▂▂▂▄███████▆▄▃▃▂▃▃▂▂▂▃▂▂▂▂▃▂▂▂▂▂▃▂▂▂▂▁▁▁▁▁ ▂
-  1.12 ms         Histogram: frequency by time        1.41 ms <
+   ▄█▆▄                                                        
+  ▃████▇▄▃▂▃▂▂▂▂▂▂▂▂▂▂▁▁▂▂▁▂▂▁▁▁▁▁▁▁▁▁▂▃▃▃▃▂▂▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁ ▂
+  1.29 ms         Histogram: frequency by time        1.64 ms <
 
- Memory estimate: 472.88 KiB, allocs estimate: 42.
+ Memory estimate: 471.91 KiB, allocs estimate: 42.
 ```
 
 
@@ -301,15 +286,13 @@ jumpnlp = MathOptNLPModel(model)
 
 ```plaintext
 BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range (min … max):  194.703 μs … 871.915 μs  ┊ GC (min … max): 0.00% … 0.0
-0%
- Time  (median):     205.904 μs               ┊ GC (median):    0.00%
- Time  (mean ± σ):   207.619 μs ±  11.843 μs  ┊ GC (mean ± σ):  0.00% ± 0.0
-0%
+ Range (min … max):  242.803 μs … 677.008 μs  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     245.703 μs               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   247.615 μs ±   6.944 μs  ┊ GC (mean ± σ):  0.00% ± 0.00%
 
-             ▁    ▅█▆▁                                           
-  ▁▁▂▂▁▁▂▂▃▆▇██▅▆█████▆█▇██▇▆▅▃▃▃▃▃▃▂▂▂▂▂▂▂▂▂▂▂▂▂▁▁▂▁▁▁▁▁▁▁▁▁▁▁ ▃
-  195 μs           Histogram: frequency by time          231 μs <
+       ▇▅█▂▂                                                     
+  ▁▂▃▆██████▅▅▃▂▂▂▂▂▂▂▂▂▃▃▃▃▂▂▂▂▂▂▁▁▁▁▁▁▁▁▂▁▂▂▂▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁ ▂
+  243 μs           Histogram: frequency by time          264 μs <
 
  Memory estimate: 496 bytes, allocs estimate: 1.
 ```
@@ -320,5 +303,4 @@ BenchmarkTools.Trial: 10000 samples with 1 evaluation.
 
 Take these benchmarks with a grain of salt. They are being run on a github actions server with global variables.
 If you want to make an informed option, you should consider performing your own benchmarks.
-
 
