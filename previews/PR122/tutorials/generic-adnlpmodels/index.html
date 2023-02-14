@@ -1,0 +1,284 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR122//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR122/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR122//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR122//assets/favicon.png"> <title>Creating an ADNLPModels backend that supports multiple precisions</title> <script src="/previews/PR122/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR122/"> <img src="https://jso-preview.netlify.app/previews/PR122//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR122//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR122//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR122//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR122//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR122//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR122//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR122//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR122//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR122//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Creating an ADNLPModels backend that supports multiple precisions</a></h1></p> <p><div class=author >by Tangi Migot</div> <p><a href="https://juliasmoothoptimizers.github.io/OptimizationProblems.jl/stable/"><img src="https://img.shields.io/badge/OptimizationProblems-0.6.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="OptimizationProblems 0.6.0" /></a> <img src="https://img.shields.io/badge/ForwardDiff-0.10.34-000?style&#61;flat-square&amp;labelColor&#61;999" alt="ForwardDiff 0.10.34" /> <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.19.2" /></a> <img src="https://img.shields.io/badge/DataFrames-1.5.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="DataFrames 1.5.0" /> <a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.5.1" /></a> <a href="https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/"><img src="https://img.shields.io/badge/JSOSolvers-0.9.4-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="JSOSolvers 0.9.4" /></a></p> <pre><code class=language-julia >using ADNLPModels, ForwardDiff, NLPModels, OptimizationProblems</code></pre>
+<p>One of the main strengths of Julia for scientific computing is its native usage of <a href="https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/#Arbitrary-Precision-Arithmetic">arbitrary precision arithmetic</a>. The same can be exploited for optimization models and solvers. In the organization <a href="https://juliasmoothoptimizers.github.io">JuliaSmoothOptimizers</a>, the package <a href="https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl">ADNLPModels.jl</a> provides automatic differentiation &#40;AD&#41;-based model implementations that conform to the NLPModels API. This package is modular in the sense that it implements a backend system allowing the user to use essentially any AD system available, see <a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/dev/backend/">ADNLPModels.jl/dev/backend/</a> for a tutorial.</p>
+<p>Note that most of the solvers available in <a href="https://juliasmoothoptimizers.github.io">JuliaSmoothOptimizers</a> will accept generic types. For instance, it is possible to use the classical L-BFGS method implemented in <a href="https://github.com/JuliaSmoothOptimizers/JSOSolvers.jl/">JSOSolvers.jl</a> in single precision.</p>
+<pre><code class=language-julia >using JSOSolvers
+f&#40;x&#41; &#61; &#40;x&#91;1&#93; - 1&#41;^2 &#43; 100*&#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2
+x32 &#61; Float32&#91;-1.2; 1.0&#93;
+nlp &#61; ADNLPModel&#40;f, x32&#41;
+stats &#61; lbfgs&#40;nlp&#41;
+print&#40;stats&#41;</code></pre>
+<pre><code class=language-plaintext >Generic Execution stats
+  status: first-order stationary
+  objective value: 0.00035444953
+  primal feasibility: 0.0
+  dual feasibility: 0.029705668
+  solution: &#91;0.98121893f0  0.9626594f0&#93;
+  iterations: 33
+  elapsed time: 1.1626229286193848</code></pre>
+<p>To design a multi-precision algorithm, we would also need to evaluate the model at a different precision, but this fails.</p>
+<pre><code class=language-julia >x16 &#61; Float16&#91;-1.2; 1.0&#93;
+grad&#40;nlp, x16&#41;</code></pre>
+<pre><code class=language-plaintext >Error: Invalid Tag object:
+  Expected ForwardDiff.Tag&#123;typeof&#40;Main.var&quot;##WeaveSandBox#312&quot;.f&#41;, Float16&#125;,
+  Observed ForwardDiff.Tag&#123;typeof&#40;Main.var&quot;##WeaveSandBox#312&quot;.f&#41;, Float32&#125;.</code></pre>
+<p>In this tutorial, we will show how to modify the AD-backend in <code>ADNLPModel</code> to overcome this issue.</p>
+<h2 id=multiprecision_adnlpmodels ><a href="#multiprecision_adnlpmodels" class=header-anchor >Multiprecision ADNLPModels</a></h2>
+<p>Let&#39;s define the famous Rosenbrock function</p>
+\[
+f(x) = (x_1 - 1)^2 + 100(x_2 - x_1^2)^2
+\]
+<p>with starting point \(x^0 = (-1.2,1.0)\), and its associated <code>ADNLPModel</code>.</p>
+<pre><code class=language-julia >f&#40;x&#41; &#61; &#40;x&#91;1&#93; - 1&#41;^2 &#43; 100*&#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2
+T &#61; Float64
+x0 &#61; T&#91;-1.2; 1.0&#93;
+nlp &#61; ADNLPModel&#40;f, x0&#41;</code></pre>
+<pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADModelBackend&#123;
+  ForwardDiffADGradient,
+  ForwardDiffADHvprod,
+  ForwardDiffADJprod,
+  ForwardDiffADJtprod,
+  SparseADJacobian,
+  ForwardDiffADHessian,
+  ForwardDiffADGHjvprod,
+&#125;
+  Problem name: Generic
+   All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 2                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; sparsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<p>The <a href="https://github.com/JuliaSmoothOptimizers/NLPModels.jl">NLPModels</a> are usually parametrically typed by the vector and element type of <code>x0</code> and use this type for some pre-computations. We now see how <code>ADNLPModel</code> can still be used for other types.</p>
+<h3 id=objective_evaluation ><a href="#objective_evaluation" class=header-anchor >Objective Evaluation</a></h3>
+<p>Note that in the input of the <code>ADNLPModel</code> constructor only the function <code>x0</code> is typed, while the objective function <code>f</code> can be generic. Therefore, the function <code>obj&#40;nlp, x&#41;</code> will return an element of type <code>eltype&#40;x&#41;</code>.</p>
+<pre><code class=language-julia >x32 &#61; Float32&#91;-1.2; 1.0&#93;
+obj&#40;nlp, x32&#41; # type Float32</code></pre>
+<pre><code class=language-plaintext >24.200005f0</code></pre>
+<h3 id=gradient_evaluation ><a href="#gradient_evaluation" class=header-anchor >Gradient Evaluation</a></h3>
+<p>An <code>ADNLPModel</code> is parametrically typed by the vector and element type of <code>x0</code> and use this type for some pre-computations. For instance, <code>ADNLPModel</code> may compute some default backend based on the expected element type to speed up the AD process.</p>
+<pre><code class=language-julia >adbackend &#61; get_adbackend&#40;nlp&#41;
+adbackend.gradient_backend # returns information about the default backend for the gradient computation.</code></pre>
+<pre><code class=language-plaintext >ADNLPModels.ForwardDiffADGradient&#40;ForwardDiff.GradientConfig&#123;ForwardDiff.Tag&#123;typeof&#40;Main.var&quot;##WeaveSandBox#312&quot;.f&#41;, Float64&#125;, Float64, 2, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;typeof&#40;Main.var&quot;##Wea
+veSandBox#312&quot;.f&#41;, Float64&#125;, Float64, 2&#125;&#125;&#125;&#40;&#40;Partials&#40;1.0, 0.0&#41;, Partials&#40;0.0, 1.0&#41;&#41;, ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;typeof&#40;Main.var&quot;##WeaveSandBox#312&quot;.f&#41;, Float64&#125;, Float64, 2&#125;&#91;Dual&#123;ForwardDiff.Tag
+&#123;typeof&#40;Main.var&quot;##WeaveSandBox#312&quot;.f&#41;, Float64&#125;&#125;&#40;0.0,6.9391141764566e-310,6.93911487284964e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;typeof&#40;Main.var&quot;##WeaveSandBox#312&quot;.f&#41;, Float64&#125;&#125;&#40;0.0,6.9391141764566e-310,6.93
+911417503844e-310&#41;&#93;&#41;&#41;</code></pre>
+<p>We now show how to define your gradient-backend to keep the genericity in two steps:</p>
+<ul>
+<li><p>Define a new structure <code>GenericGradientBackend &lt;: ADNLPModels.ADBackend</code>;</p>
+
+<li><p>Implements the function <code>ADNLPModels.gradient&#33;</code> for this new backend.</p>
+
+</ul>
+<p>We will use <a href="https://github.com/JuliaDiff/ForwardDiff.jl">ForwardDiff.jl</a> to compute the gradient. Note that the same can be done using alternatives such as <a href="https://github.com/JuliaDiff/ReverseDiff.jl">ReverseDiff.jl</a> or <a href="https://github.com/FluxML/Zygote.jl">Zygote.jl</a>.</p>
+<pre><code class=language-julia >struct GenericGradientBackend &lt;: ADNLPModels.ADBackend end
+GenericGradientBackend&#40;args...; kwargs...&#41; &#61; GenericGradientBackend&#40;&#41;
+
+function ADNLPModels.gradient&#33;&#40;::GenericGradientBackend, g, f, x&#41;
+  return ForwardDiff.gradient&#33;&#40;g, f, x&#41;
+end</code></pre>
+<p>Once the new backend is defined it is possible to use it in the <code>ADNLPModel</code> constructor:</p>
+<pre><code class=language-julia >nlp &#61; ADNLPModel&#40;f, x0, gradient_backend &#61; GenericGradientBackend&#41;</code></pre>
+<pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADModelBackend&#123;
+  Main.var&quot;##WeaveSandBox#312&quot;.GenericGradientBackend,
+  ForwardDiffADHvprod,
+  ForwardDiffADJprod,
+  ForwardDiffADJtprod,
+  SparseADJacobian,
+  ForwardDiffADHessian,
+  ForwardDiffADGHjvprod,
+&#125;
+  Problem name: Generic
+   All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 2                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; sparsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<p>It is then possible to use the NLPModel API with any precision and compute the gradient</p>
+<pre><code class=language-julia >grad&#40;nlp, x32&#41; # returns a vector of Float32</code></pre>
+<pre><code class=language-plaintext >2-element Vector&#123;Float32&#125;:
+ -215.60004
+  -88.000015</code></pre>
+<p>or the gradient in-place</p>
+<pre><code class=language-julia >x16 &#61; Float16&#91;-1.2; 1.0&#93;
+g &#61; similar&#40;x16&#41;
+grad&#33;&#40;nlp, x16, g&#41; # returns a vector of Float16</code></pre>
+<pre><code class=language-plaintext >2-element Vector&#123;Float16&#125;:
+ -215.9
+  -88.06</code></pre>
+<p>The same can be done for the other backends jacobian, hessian, etc.</p>
+<h2 id=multiprecision_test_problems ><a href="#multiprecision_test_problems" class=header-anchor >Multiprecision test problems</a></h2>
+<p>Designing a multi-precision algorithm is very often connected with benchmarking and test problems. The package <a href="https://github.com/JuliaSmoothOptimizers/OptimizationProblems.jl">OptimizationProblems.jl</a> provides a collection of optimization problems in JuMP and ADNLPModels syntax, see <a href="https://juliasmoothoptimizers.github.io/tutorials/introduction-to-optimizationproblems/">introduction to OptimizationProblems.jl tutorial</a>.</p>
+<p>This package provides a <code>DataFrame</code> with all the information on the implemented problems.</p>
+<pre><code class=language-julia >OptimizationProblems.meta&#91;&#33;, :name&#93; # access the names of the available  problems</code></pre>
+<pre><code class=language-plaintext >277-element Vector&#123;String&#125;:
+ &quot;AMPGO02&quot;
+ &quot;AMPGO03&quot;
+ &quot;AMPGO04&quot;
+ &quot;AMPGO05&quot;
+ &quot;AMPGO06&quot;
+ &quot;AMPGO07&quot;
+ &quot;AMPGO08&quot;
+ &quot;AMPGO09&quot;
+ &quot;AMPGO10&quot;
+ &quot;AMPGO11&quot;
+ ⋮
+ &quot;tquartic&quot;
+ &quot;triangle&quot;
+ &quot;triangle_deer&quot;
+ &quot;triangle_pacman&quot;
+ &quot;triangle_turtle&quot;
+ &quot;tridia&quot;
+ &quot;vardim&quot;
+ &quot;woods&quot;
+ &quot;zangwil3&quot;</code></pre>
+<p>In the following example, we use the problem <code>HS68</code>.</p>
+<pre><code class=language-julia >using OptimizationProblems.ADNLPProblems
+name &#61; :hs68
+T &#61; Float64
+# Returns an &#96;ADNLPModel&#96; of element type &#96;T&#96; with GenericGradientBackend
+nlp &#61; eval&#40;name&#41;&#40;type &#61; Val&#40;T&#41;, gradient_backend &#61; GenericGradientBackend&#41;</code></pre>
+<pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADModelBackend&#123;
+  Main.var&quot;##WeaveSandBox#312&quot;.GenericGradientBackend,
+  ForwardDiffADHvprod,
+  ForwardDiffADJprod,
+  ForwardDiffADJtprod,
+  SparseADJacobian,
+  ForwardDiffADHessian,
+  ForwardDiffADGHjvprod,
+&#125;
+  Problem name: hs68
+   All variables: ████████████████████ 4      All constraints: ████████████████████ 2     
+            free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ████████████████████ 4              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ████████████████████ 2     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   10              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ████████████████████ 2     
+                                                         nnzj: &#40; 50.00&#37; sparsity&#41;   4     
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<p>The keyword arguments other than specific to a problem &#40;<code>n</code>, <code>type</code>&#41; are all passed to the constructor of the <code>ADNLPModel</code>. In the example above <code>GenericGradientBackend</code> is used for the gradient backend.</p>
+<pre><code class=language-julia >x16 &#61; Float16.&#40;get_x0&#40;nlp&#41;&#41;
+g &#61; similar&#40;x16&#41;
+grad&#33;&#40;nlp, x16, g&#41; # returns a vector of Float16</code></pre>
+<pre><code class=language-plaintext >4-element Vector&#123;Float16&#125;:
+ -0.3704
+ -0.0
+  0.368
+ -0.0</code></pre>
+<p>We should pay additional attention when using multiple precisions as casting, for instance <code>x0</code>, from <code>Float64</code> into <code>Float16</code> implies that rounding errors occur. Therefore, <code>x0</code> is different than <code>x16</code>, and the gradients evaluated for these values too.</p>
+<p>Feel free to look at <a href="https://juliasmoothoptimizers.github.io/OptimizationProblems.jl/dev/">OptimizationProblems.jl documentation</a> to learn more or the tutorials at <a href="https://juliasmoothoptimizers.github.io">juliasmoothoptimizers.github.io</a>.</p>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR122/libs/katex/katex.min.js"></script>
+<script src="/previews/PR122/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
