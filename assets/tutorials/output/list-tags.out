@@ -56,6 +56,13 @@
   <span>comparison</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('factorization')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>factorization</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('introduction')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
@@ -77,11 +84,25 @@
   <span>jump</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('ldlt')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>ldlt</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('least-squares')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
   </span>
   <span>least-squares</span>
+</button>
+~~~
+~~~<button onclick="tags_click('linear')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>linear</span>
 </button>
 ~~~
 ~~~<button onclick="tags_click('linear-operators')" class="button is-small is-link is-outlined mt-2">
@@ -310,6 +331,14 @@
   <ion-icon name="cube"></ion-icon>
 </span>
 <span>Krylov.jl</span>
+</button>
+~~~
+~~~
+<button onclick="pkgs_click('LDLFactorizations')" class="button is-small is-danger is-outlined mt-2">
+<span class="icon is-small">
+  <ion-icon name="cube"></ion-icon>
+</span>
+<span>LDLFactorizations.jl</span>
 </button>
 ~~~
 ~~~
