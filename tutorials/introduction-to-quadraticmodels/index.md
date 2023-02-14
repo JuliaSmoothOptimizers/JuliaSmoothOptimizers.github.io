@@ -5,7 +5,7 @@
 \preamble{Geoffroy Leconte}
 
 
-![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=fff)
+![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=999)
 [![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
 [![RipQP 0.6.1](https://img.shields.io/badge/RipQP-0.6.1-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/RipQP.jl/stable/)
 [![QuadraticModels 0.9.3](https://img.shields.io/badge/QuadraticModels-0.9.3-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/QuadraticModels.jl/stable/)
@@ -375,7 +375,7 @@ Generic Execution stats
   multipliers_L: [2.815054264364191e-10  0.39130435399011315  3.43538410033642e-9]
   multipliers_U: [0.0  0.0  0.0]
   iterations: 5
-  elapsed time: 10.962720155715942
+  elapsed time: 12.874351024627686
   solver specific:
     iters_sp: 0
     pdd: 2.646321545885072e-10

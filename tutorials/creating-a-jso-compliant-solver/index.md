@@ -6,10 +6,10 @@
 
 
 [![SolverBenchmark 0.5.4](https://img.shields.io/badge/SolverBenchmark-0.5.4-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/SolverBenchmark.jl/stable/)
-![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=fff)
+![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=999)
 [![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
-[![SolverCore 0.3.3](https://img.shields.io/badge/SolverCore-0.3.3-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/SolverCore.jl/stable/)
-![Plots 1.38.5](https://img.shields.io/badge/Plots-1.38.5-000?style=flat-square&labelColor=fff)
+[![SolverCore 0.3.4](https://img.shields.io/badge/SolverCore-0.3.4-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/SolverCore.jl/stable/)
+![Plots 1.38.5](https://img.shields.io/badge/Plots-1.38.5-000?style=flat-square&labelColor=999)
 [![ADNLPModels 0.5.1](https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
 [![JSOSolvers 0.9.4](https://img.shields.io/badge/JSOSolvers-0.9.4-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/)
 
@@ -379,7 +379,7 @@ Generic Execution stats
   objective value: Inf
   primal feasibility: 0.0
   dual feasibility: Inf
-  solution: [6.9171989415823e-310  6.91719894158545e-310]
+  solution: [0.0  6.91161384519567e-310]
   iterations: -1
   elapsed time: Inf
 ```
@@ -614,7 +614,7 @@ Generic Execution stats
   dual feasibility: 4.018046284781729e-9
   solution: [0.9999999986742657  0.9999999970013461]
   iterations: 18
-  elapsed time: 5.91278076171875e-5
+  elapsed time: 7.605552673339844e-5
 ```
 
 
@@ -685,10 +685,10 @@ pretty_stats(stats[:newton][!, cols])
 ┌─────────┬─────────────┬───────────┬──────────────┬────────┐
 │    name │      status │ objective │ elapsed_time │   iter │
 ├─────────┼─────────────┼───────────┼──────────────┼────────┤
-│ Generic │ first_order │  2.47e-31 │     1.60e+00 │      1 │
-│ Generic │ first_order │  3.74e-21 │     5.53e-01 │     21 │
-│ Generic │    max_iter │ -8.36e+00 │     4.30e-01 │    100 │
-│ Generic │ first_order │  1.43e+00 │     5.01e-01 │      5 │
+│ Generic │ first_order │  2.47e-31 │     1.48e+00 │      1 │
+│ Generic │ first_order │  3.74e-21 │     4.76e-01 │     21 │
+│ Generic │    max_iter │ -8.36e+00 │     4.44e-01 │    100 │
+│ Generic │ first_order │  1.43e+00 │     4.73e-01 │      5 │
 └─────────┴─────────────┴───────────┴──────────────┴────────┘
 ```
 

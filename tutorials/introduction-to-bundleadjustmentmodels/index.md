@@ -7,7 +7,7 @@
 
 [![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
 [![BundleAdjustmentModels 0.3.1](https://img.shields.io/badge/BundleAdjustmentModels-0.3.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/stable/)
-![DataFrames 1.4.4](https://img.shields.io/badge/DataFrames-1.4.4-000?style=flat-square&labelColor=fff)
+![DataFrames 1.5.0](https://img.shields.io/badge/DataFrames-1.5.0-000?style=flat-square&labelColor=999)
 
 
 

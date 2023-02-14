@@ -5,10 +5,10 @@
 \preamble{Geoffroy Leconte and Dominique Orban}
 
 
-![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=fff)
+![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=999)
 [![LinearOperators 2.5.1](https://img.shields.io/badge/LinearOperators-2.5.1-4b0082?style=flat-square&labelColor=9558b2)](https://juliasmoothoptimizers.github.io/LinearOperators.jl/stable/)
 [![Krylov 0.9.0](https://img.shields.io/badge/Krylov-0.9.0-4b0082?style=flat-square&labelColor=9558b2)](https://juliasmoothoptimizers.github.io/Krylov.jl/stable/)
-![FFTW 1.5.0](https://img.shields.io/badge/FFTW-1.5.0-000?style=flat-square&labelColor=fff)
+![FFTW 1.5.0](https://img.shields.io/badge/FFTW-1.5.0-000?style=flat-square&labelColor=999)
 
 
 
