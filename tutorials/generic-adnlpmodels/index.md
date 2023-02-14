@@ -6,9 +6,9 @@
 
 
 [![OptimizationProblems 0.6.0](https://img.shields.io/badge/OptimizationProblems-0.6.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/OptimizationProblems.jl/stable/)
-![ForwardDiff 0.10.34](https://img.shields.io/badge/ForwardDiff-0.10.34-000?style=flat-square&labelColor=fff)
+![ForwardDiff 0.10.34](https://img.shields.io/badge/ForwardDiff-0.10.34-000?style=flat-square&labelColor=999)
 [![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
-![DataFrames 1.4.4](https://img.shields.io/badge/DataFrames-1.4.4-000?style=flat-square&labelColor=fff)
+![DataFrames 1.5.0](https://img.shields.io/badge/DataFrames-1.5.0-000?style=flat-square&labelColor=999)
 [![ADNLPModels 0.5.1](https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
 [![JSOSolvers 0.9.4](https://img.shields.io/badge/JSOSolvers-0.9.4-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/)
 
@@ -39,12 +39,12 @@ print(stats)
 ```plaintext
 Generic Execution stats
   status: first-order stationary
-  objective value: 0.00036198387
+  objective value: 0.00035444953
   primal feasibility: 0.0
-  dual feasibility: 0.031313986
-  solution: [0.9810229f0  0.9622698f0]
+  dual feasibility: 0.029705668
+  solution: [0.98121893f0  0.9626594f0]
   iterations: 33
-  elapsed time: 0.8069000244140625
+  elapsed time: 1.1626229286193848
 ```
 
 
@@ -157,8 +157,8 @@ adbackend.gradient_backend # returns information about the default backend for t
 ```plaintext
 ADNLPModels.ForwardDiffADGradient(ForwardDiff.GradientConfig{ForwardDiff.Tag{typeof(Main.var"##WeaveSandBox#312".f), Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{typeof(Main.var"##Wea
 veSandBox#312".f), Float64}, Float64, 2}}}((Partials(1.0, 0.0), Partials(0.0, 1.0)), ForwardDiff.Dual{ForwardDiff.Tag{typeof(Main.var"##WeaveSandBox#312".f), Float64}, Float64, 2}[Dual{ForwardDiff.Tag
-{typeof(Main.var"##WeaveSandBox#312".f), Float64}}(0.0,6.90969785398e-310,6.90969785256183e-310), Dual{ForwardDiff.Tag{typeof(Main.var"##WeaveSandBox#312".f), Float64}}(0.0,6.90969785398e-310,6.909697
-85256183e-310)]))
+{typeof(Main.var"##WeaveSandBox#312".f), Float64}}(0.0,6.9391141764566e-310,6.93911487284964e-310), Dual{ForwardDiff.Tag{typeof(Main.var"##WeaveSandBox#312".f), Float64}}(0.0,6.9391141764566e-310,6.93
+911417503844e-310)]))
 ```
 
 

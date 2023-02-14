@@ -5,9 +5,9 @@
 \preamble{Abel Soares Siqueira and Dominique Orban}
 
 
-![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=fff)
+![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=999)
 [![BenchmarkProfiles 0.4.3](https://img.shields.io/badge/BenchmarkProfiles-0.4.3-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/BenchmarkProfiles.jl/stable/)
-![Plots 1.38.5](https://img.shields.io/badge/Plots-1.38.5-000?style=flat-square&labelColor=fff)
+![Plots 1.38.5](https://img.shields.io/badge/Plots-1.38.5-000?style=flat-square&labelColor=999)
 
 
 

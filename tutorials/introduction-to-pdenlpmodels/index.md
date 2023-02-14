@@ -7,7 +7,7 @@
 
 [![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
 [![NLPModelsIpopt 0.10.0](https://img.shields.io/badge/NLPModelsIpopt-0.10.0-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/NLPModelsIpopt.jl/stable/)
-![Gridap 0.15.5](https://img.shields.io/badge/Gridap-0.15.5-000?style=flat-square&labelColor=fff)
+![Gridap 0.15.5](https://img.shields.io/badge/Gridap-0.15.5-000?style=flat-square&labelColor=999)
 [![PDENLPModels 0.3.3](https://img.shields.io/badge/PDENLPModels-0.3.3-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/PDENLPModels.jl/stable/)
 [![NLPModelsModifiers 0.6.3](https://img.shields.io/badge/NLPModelsModifiers-0.6.3-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModelsModifiers.jl/stable/)
 [![DCISolver 0.4.2](https://img.shields.io/badge/DCISolver-0.4.2-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/DCISolver.jl/stable/)
@@ -245,7 +245,7 @@ stats_ipopt.elapsed_time, stats_dci.elapsed_time
 ```
 
 ```plaintext
-(62.912, 19.62130904197693)
+(63.794, 18.95955204963684)
 ```
 
 

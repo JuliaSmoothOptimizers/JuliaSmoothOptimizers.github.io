@@ -5,15 +5,15 @@
 \preamble{Geoffroy Leconte}
 
 
-![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=fff)
-![MatrixMarket 0.3.1](https://img.shields.io/badge/MatrixMarket-0.3.1-000?style=flat-square&labelColor=fff)
+![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=999)
+![MatrixMarket 0.3.1](https://img.shields.io/badge/MatrixMarket-0.3.1-000?style=flat-square&labelColor=999)
 [![RipQP 0.6.1](https://img.shields.io/badge/RipQP-0.6.1-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/RipQP.jl/stable/)
 [![SparseMatricesCOO 0.2.1](https://img.shields.io/badge/SparseMatricesCOO-0.2.1-4b0082?style=flat-square&labelColor=9558b2)](https://juliasmoothoptimizers.github.io/SparseMatricesCOO.jl/stable/)
 [![QuadraticModels 0.9.3](https://img.shields.io/badge/QuadraticModels-0.9.3-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/QuadraticModels.jl/stable/)
-![Plots 1.38.5](https://img.shields.io/badge/Plots-1.38.5-000?style=flat-square&labelColor=fff)
+![Plots 1.38.5](https://img.shields.io/badge/Plots-1.38.5-000?style=flat-square&labelColor=999)
 [![QPSReader 0.2.1](https://img.shields.io/badge/QPSReader-0.2.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/QPSReader.jl/stable/)
 [![LDLFactorizations 0.10.0](https://img.shields.io/badge/LDLFactorizations-0.10.0-4b0082?style=flat-square&labelColor=9558b2)](https://juliasmoothoptimizers.github.io/LDLFactorizations.jl/stable/)
-![TimerOutputs 0.5.22](https://img.shields.io/badge/TimerOutputs-0.5.22-000?style=flat-square&labelColor=fff)
+![TimerOutputs 0.5.22](https://img.shields.io/badge/TimerOutputs-0.5.22-000?style=flat-square&labelColor=999)
 
 
 
@@ -95,7 +95,7 @@ Generic Execution stats
   multipliers_L: [0.0  4.5  0.0]
   multipliers_U: [5.0  0.0  0.0]
   iterations: 0
-  elapsed time: 0.011748075485229492
+  elapsed time: 0.011788129806518555
   solver specific:
     presolvedQM: nothing
     psoperations: [QuadraticModels.RemoveIfix{Float64, Vector{Float64}}(1, 0.0, -8.0)  QuadraticModels.RemoveIfix{Float64, Vector{Float64}}(3, 0.0, -3.0)  QuadraticModels.EmptyRow{Float64, Vector{Floa
@@ -235,7 +235,7 @@ stats1.elapsed_time
 ```
 
 ```plaintext
-7.605552673339844e-5
+6.389617919921875e-5
 ```
 
 
@@ -257,7 +257,7 @@ show(RipQP.to, sortby = :firstexec)
 ────────────────────────────────────────────────────────────────────
                             Time                    Allocations      
                    ───────────────────────   ────────────────────────
- Tot / % measured:      764ms /   0.0%           29.4MiB /   0.0%    
+ Tot / % measured:      731ms /   0.0%           29.4MiB /   0.0%    
 
  Section   ncalls     time    %tot     avg     alloc    %tot      avg
  ────────────────────────────────────────────────────────────────────
