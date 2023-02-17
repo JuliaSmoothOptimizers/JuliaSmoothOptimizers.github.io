@@ -166,5 +166,13 @@
     "date": "2022-11-04",
     "tags": ["linear", "factorization", "ldlt"],
     "pkgs": ["LDLFactorizations", "QPSReader", "QuadraticModels", "RipQP", "SparseMatricesCOO"]
+  },
+  {
+    "title": "Introduction to SolverBenchmark",
+    "link": "/tutorials/introduction-to-solverbenchmark/",
+    "short": "In this tutorial we illustrate the main uses of SolverBenchmark.",
+    "date": "2023-17-02",
+    "tags": ["solver", "benchmark", "profile", "latex"],
+    "pkgs": ["SolverBenchmark"]
   }
 ]

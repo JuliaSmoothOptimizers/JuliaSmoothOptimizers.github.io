@@ -84,6 +84,13 @@
   <span>jump</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('latex')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>latex</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('ldlt')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
@@ -180,6 +187,13 @@
     <ion-icon name="pricetag"></ion-icon>
   </span>
   <span>problem</span>
+</button>
+~~~
+~~~<button onclick="tags_click('profile')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>profile</span>
 </button>
 ~~~
 ~~~<button onclick="tags_click('quadratic')" class="button is-small is-link is-outlined mt-2">
