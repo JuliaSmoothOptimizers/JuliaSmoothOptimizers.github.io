@@ -3,7 +3,7 @@
 
 # GERAD Workshop: Exploring Parallel Computing and GPU Programming with Julia
 
-The Julia programming language is being increasingly adopted in High Performance Computing (HPC) due to its unique way to combine performance with simplicity and interactivity, enabling unprecedented productivity in HPC development, see, e.g., (Bridging HPC Communities through the Julia Programming Language (2022))[https://arxiv.org/abs/2211.02740].
+The Julia programming language is being increasingly adopted in High Performance Computing (HPC) due to its unique way to combine performance with simplicity and interactivity, enabling unprecedented productivity in HPC development, see, e.g., [Bridging HPC Communities through the Julia Programming Language (2022)](https://arxiv.org/abs/2211.02740).
 
 Alexis Montoison, PhD student at Polytechnique Montréal, and main developper of [JuliaSmoothOptimizers/Krylov.jl](https://github.com/JuliaSmoothOptimizers/Krylov.jl), animated a 3hrs workshop on parallel computing and GPU programming with Julia, aimed at users of the Julia language who want to learn more about high-performance computing techniques.
 
