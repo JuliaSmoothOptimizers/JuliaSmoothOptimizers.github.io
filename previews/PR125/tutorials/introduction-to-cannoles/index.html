@@ -1,0 +1,102 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR125//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR125/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR125//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR125//assets/favicon.png"> <title>CaNNOLeS.jl tutorial</title> <script src="/previews/PR125/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR125/"> <img src="https://jso-preview.netlify.app/previews/PR125//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR125//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR125//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR125//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR125//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR125//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR125//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR125//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR125//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR125//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >CaNNOLeS.jl tutorial</a></h1></p> <p><div class=author >by Abel S. Siqueira</div> <p><a href="https://juliasmoothoptimizers.github.io/CaNNOLeS.jl/stable/"><img src="https://img.shields.io/badge/CaNNOLeS-0.7.2-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="CaNNOLeS 0.7.2" /></a> <a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.5.1" /></a></p> <p>CaNNOLeS is a solver for equality-constrained nonlinear least-squares problems, i.e., optimization problems of the form</p> \[ \min \frac{1}{2}\|F(x)\|^2_2 \quad \text{s.to} \quad c(x) = 0. \] <p>It uses other JuliaSmoothOptimizers packages for development. In particular, <a href="https://github.com/JuliaSmoothOptimizers/NLPModels.jl">NLPModels.jl</a> is used for defining the problem, and <a href="https://github.com/JuliaSmoothOptimizers/SolverCore.jl">SolverCore</a> for the output. It also uses <a href="https://github.com/JuliaSmoothOptimizers/HSL.jl">HSL.jl</a>&#39;s <code>MA57</code> as main solver, but you can pass <code>linsolve&#61;:ldlfactorizations</code> to use <a href="https://github.com/JuliaSmoothOptimizers/LDLFactorizations.jl">LDLFactorizations.jl</a>.</p> <h2 id=fine-tune_cannoles ><a href="#fine-tune_cannoles" class=header-anchor >Fine-tune CaNNOLeS</a></h2> <p>CaNNOLeS.jl exports the function <code>cannoles</code>:</p> <pre><code class=language-plaintext >cannoles&#40;nlp :: AbstractNLPModel; kwargs...&#41;</code></pre>
+<p>Find below a list of the main options of <code>cannoles</code>.</p>
+<h3 id=tolerances_on_the_problem ><a href="#tolerances_on_the_problem" class=header-anchor >Tolerances on the problem</a></h3>
+<table><tr><th align=right >Parameters<th align=right >Type<th align=right >Default<th align=right >Description<tr><td align=right >ϵtol<td align=right >AbstractFloat<td align=right ><code>√eps&#40;eltype&#40;x&#41;&#41;</code><td align=right >tolerance<tr><td align=right >unbounded_threshold<td align=right >AbstractFloat<td align=right ><code>-1e5</code><td align=right >below this threshold the problem is unbounded<tr><td align=right >max_f<td align=right >Integer<td align=right ><code>100000</code><td align=right >evaluation limit, e.g. <code>sum_counters&#40;nls&#41; &gt; max_f</code><tr><td align=right >max_time<td align=right >AbstractFloat<td align=right ><code>30.0</code><td align=right >maximum number of seconds<tr><td align=right >max_inner<td align=right >Integer<td align=right ><code>10000</code><td align=right >maximum number of iterations</table>
+<h3 id=algorithmic_parameters ><a href="#algorithmic_parameters" class=header-anchor >Algorithmic parameters</a></h3>
+<table><tr><th align=right >Parameters<th align=right >Type<th align=right >Default<th align=right >Description<tr><td align=right >x<td align=right >AbstractVector<td align=right ><code>nls.meta.x0</code><td align=right >initial guess<tr><td align=right >λ<td align=right >AbstractVector<td align=right ><code>eltype&#40;x&#41;&#91;&#93;</code><td align=right >initial guess for the Lagrange mutlipliers<tr><td align=right >method<td align=right >Symbol<td align=right ><code>:Newton</code><td align=right >method to compute direction, <code>:Newton</code>, <code>:LM</code>, <code>:Newton_noFHess</code>, or <code>:Newton_vanishing</code><tr><td align=right >linsolve<td align=right >Symbol<td align=right ><code>:ma57</code><td align=right >solver use to compute the factorization: <code>:ma57</code>, <code>:ma97</code>, <code>:ldlfactorizations</code><tr><td align=right >verbose<td align=right >Int<td align=right ><code>0</code><td align=right >if &gt; 0, display iteration details every <code>verbose</code> iteration<tr><td align=right >check<em>small</em>residual<td align=right >Bool<td align=right ><code>true</code><td align=right >if <code>true</code>, stop whenever \( \|F(x)\|^2_2 \leq \) <code>ϵtol</code> and \( \|c(x)\|_\infty \leq \) <code>√ϵtol</code><tr><td align=right >always<em>accept</em>extrapolation<td align=right >Bool<td align=right ><code>false</code><td align=right >if <code>true</code>, run even if the extrapolation step fails<tr><td align=right >δdec<td align=right >Real<td align=right ><code>eltype&#40;x&#41;&#40;0.1&#41;</code><td align=right >reducing factor on the parameter <code>δ</code></table>
+<h2 id=examples ><a href="#examples" class=header-anchor >Examples</a></h2>
+<pre><code class=language-julia >using CaNNOLeS, ADNLPModels
+
+# Rosenbrock
+nls &#61; ADNLSModel&#40;x -&gt; &#91;x&#91;1&#93; - 1; 10 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;&#93;, &#91;-1.2; 1.0&#93;, 2&#41;
+stats &#61; cannoles&#40;nls, ϵtol &#61; 1e-5, x &#61; ones&#40;2&#41;&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<pre><code class=language-julia ># Constrained
+nls &#61; ADNLSModel&#40;
+  x -&gt; &#91;x&#91;1&#93; - 1; 10 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;&#93;,
+  &#91;-1.2; 1.0&#93;,
+  2,
+  x -&gt; &#91;x&#91;1&#93; * x&#91;2&#93; - 1&#93;,
+  &#91;0.0&#93;,
+  &#91;0.0&#93;,
+&#41;
+stats &#61; cannoles&#40;nls, max_time &#61; 10., linsolve &#61; :ldlfactorizations&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR125/libs/katex/katex.min.js"></script>
+<script src="/previews/PR125/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
