@@ -5,8 +5,8 @@
 \preamble{Tangi Migot}
 
 
-[![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
-[![NLPModelsTest 0.8.3](https://img.shields.io/badge/NLPModelsTest-0.8.3-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModelsTest.jl/stable/)
+[![NLPModels 0.20.0](https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
+[![NLPModelsTest 0.8.4](https://img.shields.io/badge/NLPModelsTest-0.8.4-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModelsTest.jl/stable/)
 
 
 
@@ -372,16 +372,16 @@ Test 0-allocations of NLPModel API for LINSV_manual |   23     23  0.0s
 Test Summary:                                           | Pass  Total  Time
 Test 0-allocations of NLPModel API for MGH01Feas_manual |   30     30  0.0s
 10-element Vector{Test.DefaultTestSet}:
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for BROWNDEN_manual", Any[], 6, false, false, true, 1.676395981542906e9, 1.676395981602579e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS5_manual", Any[], 6, false, false, true, 1.67639598251377e9, 1.676395982513804e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS6_manual", Any[], 23, false, false, true, 1.676395983644847e9, 1.676395983644892e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS10_manual", Any[], 23, false, false, true, 1.676395984786401e9, 1.676395984786434e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS11_manual", Any[], 23, false, false, true, 1.676395985950405e9, 1.676395985950438e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS13_manual", Any[], 23, false, false, true, 1.676395987078775e9, 1.676395987078811e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS14_manual", Any[], 30, false, false, true, 1.676395987086485e9, 1.676395987086518e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for LINCON_manual", Any[], 23, false, false, true, 1.676395988421904e9, 1.676395988421939e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for LINSV_manual", Any[], 23, false, false, true, 1.676395989532357e9, 1.676395989532391e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for MGH01Feas_manual", Any[], 30, false, false, true, 1.676395990833075e9, 1.676395990833123e9)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for BROWNDEN_manual", Any[], 6, false, false, true, 1.680115544588814e9, 1.680115544654694e9)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS5_manual", Any[], 6, false, false, true, 1.68011554570736e9, 1.680115545707392e9)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS6_manual", Any[], 23, false, false, true, 1.680115547092875e9, 1.680115547092988e9)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS10_manual", Any[], 23, false, false, true, 1.680115548489736e9, 1.680115548489768e9)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS11_manual", Any[], 23, false, false, true, 1.680115549917003e9, 1.680115549917032e9)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS13_manual", Any[], 23, false, false, true, 1.680115551360075e9, 1.680115551360105e9)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS14_manual", Any[], 30, false, false, true, 1.68011555136883e9, 1.680115551368857e9)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for LINCON_manual", Any[], 23, false, false, true, 1.680115553081619e9, 1.680115553081652e9)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for LINSV_manual", Any[], 23, false, false, true, 1.680115554463489e9, 1.680115554463522e9)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for MGH01Feas_manual", Any[], 30, false, false, true, 1.680115556110085e9, 1.680115556110125e9)
 ```
 
 
