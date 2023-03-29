@@ -5,14 +5,14 @@
 \preamble{Abel S. Siqueira}
 
 
-![GR 0.71.7](https://img.shields.io/badge/GR-0.71.7-000?style=flat-square&labelColor=999)
-[![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
-[![NLPModelsIpopt 0.10.0](https://img.shields.io/badge/NLPModelsIpopt-0.10.0-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/NLPModelsIpopt.jl/stable/)
+![GR 0.71.8](https://img.shields.io/badge/GR-0.71.8-000?style=flat-square&labelColor=999)
+[![NLPModels 0.20.0](https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
+[![NLPModelsIpopt 0.10.1](https://img.shields.io/badge/NLPModelsIpopt-0.10.1-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/NLPModelsIpopt.jl/stable/)
 ![DataFrames 1.5.0](https://img.shields.io/badge/DataFrames-1.5.0-000?style=flat-square&labelColor=999)
-![Plots 1.38.5](https://img.shields.io/badge/Plots-1.38.5-000?style=flat-square&labelColor=999)
-![Ipopt 1.1.0](https://img.shields.io/badge/Ipopt-1.1.0-000?style=flat-square&labelColor=999)
-[![ADNLPModels 0.5.1](https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
-![JuMP 1.7.0](https://img.shields.io/badge/JuMP-1.7.0-000?style=flat-square&labelColor=999)
+![Plots 1.38.8](https://img.shields.io/badge/Plots-1.38.8-000?style=flat-square&labelColor=999)
+![Ipopt 1.2.0](https://img.shields.io/badge/Ipopt-1.2.0-000?style=flat-square&labelColor=999)
+[![ADNLPModels 0.6.0](https://img.shields.io/badge/ADNLPModels-0.6.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+![JuMP 1.9.0](https://img.shields.io/badge/JuMP-1.9.0-000?style=flat-square&labelColor=999)
 
 
 
@@ -40,7 +40,7 @@ This program contains Ipopt, a library for large-scale nonlinear optimization.
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+This is Ipopt version 3.14.4, running with linear solver MUMPS 5.5.1.
 
 Number of nonzeros in equality constraint Jacobian...:        0
 Number of nonzeros in inequality constraint Jacobian.:        0
@@ -100,7 +100,7 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 21
-Total seconds in IPOPT                               = 7.163
+Total seconds in IPOPT                               = 5.446
 
 EXIT: Optimal Solution Found.
 Generic Execution stats
@@ -110,9 +110,9 @@ Generic Execution stats
   dual feasibility: 3.732500974666708e-10
   solution: [0.9999999999400667  0.9999999998789006]
   iterations: 21
-  elapsed time: 7.163
+  elapsed time: 5.446
   solver specific:
-    real_time: 7.164793014526367
+    real_time: 5.446867942810059
     internal_msg: :Solve_Succeeded
 ```
 
@@ -132,7 +132,7 @@ optimize!(model)
 ```
 
 ```plaintext
-This is Ipopt version 3.14.4, running with linear solver MUMPS 5.4.1.
+This is Ipopt version 3.14.4, running with linear solver MUMPS 5.5.1.
 
 Number of nonzeros in equality constraint Jacobian...:        0
 Number of nonzeros in inequality constraint Jacobian.:        0
@@ -192,7 +192,7 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 21
-Total seconds in IPOPT                               = 2.738
+Total seconds in IPOPT                               = 2.667
 
 EXIT: Optimal Solution Found.
 ```
@@ -219,14 +219,14 @@ print(stats)
 Generic Execution stats
   status: first-order stationary
   objective value: 6.232458632437464
-  primal feasibility: 8.354650304909228e-12
-  dual feasibility: 6.315958864770851e-9
+  primal feasibility: 8.354206215699378e-12
+  dual feasibility: 6.315985062164715e-9
   solution: [-0.9505563573613093  0.9139008176388945  0.9890905176644905  0.9985592422681151 ⋯ 0.999999930070643]
-  multipliers: [4.1358568305002255  -1.876494903703342  -0.06556333356358673  -0.021931863018312882 ⋯ -7.376592164341867e-6]
+  multipliers: [4.1358568305002255  -1.8764949037033418  -0.06556333356358675  -0.021931863018312864 ⋯ -7.3765921628237065e-6]
   iterations: 6
-  elapsed time: 6.981
+  elapsed time: 9.11
   solver specific:
-    real_time: 6.98108696937561
+    real_time: 9.110083103179932
     internal_msg: :Solve_Succeeded
 ```
 
