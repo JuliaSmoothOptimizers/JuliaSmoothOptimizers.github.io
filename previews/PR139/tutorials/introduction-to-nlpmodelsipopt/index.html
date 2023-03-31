@@ -1,0 +1,362 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR139//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR139/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR139//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR139//assets/favicon.png"> <title>NLPModelsIpopt.jl tutorial</title> <script src="/previews/PR139/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139/"> <img src="https://jso-preview.netlify.app/previews/PR139//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR139//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >NLPModelsIpopt.jl tutorial</a></h1></p> <p><div class=author >by Abel S. Siqueira</div> <p><img src="https://img.shields.io/badge/GR-0.71.8-000?style&#61;flat-square&amp;labelColor&#61;999" alt="GR 0.71.8" /> <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.20.0" /></a> <a href="https://juliasmoothoptimizers.github.io/NLPModelsIpopt.jl/stable/"><img src="https://img.shields.io/badge/NLPModelsIpopt-0.10.1-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="NLPModelsIpopt 0.10.1" /></a> <img src="https://img.shields.io/badge/DataFrames-1.5.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="DataFrames 1.5.0" /> <img src="https://img.shields.io/badge/Plots-1.38.8-000?style&#61;flat-square&amp;labelColor&#61;999" alt="Plots 1.38.8" /> <img src="https://img.shields.io/badge/Ipopt-1.2.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="Ipopt 1.2.0" /> <a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.6.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.6.0" /></a> <img src="https://img.shields.io/badge/JuMP-1.9.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="JuMP 1.9.0" /></p> <p>NLPModelsIpopt is a thin IPOPT wrapper for NLPModels. In this tutorial we show examples of problems created with NLPModels and solved with Ipopt.</p> <h2 id=simple_problems ><a href="#simple_problems" class=header-anchor >Simple problems</a></h2> <p>Let&#39;s create an NLPModel for the Rosenbrock function</p> \[ f(x) = (x_1 - 1)^2 + 100 (x_2 - x_1^2)^2 \] <p>and solve it with Ipopt:</p> <pre><code class=language-julia >using ADNLPModels, NLPModels, NLPModelsIpopt
+
+nlp &#61; ADNLPModel&#40;x -&gt; &#40;x&#91;1&#93; - 1&#41;^2 &#43; 100 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2, &#91;-1.2; 1.0&#93;&#41;
+stats &#61; ipopt&#40;nlp&#41;
+print&#40;stats&#41;</code></pre> <pre><code class=language-plaintext >******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License &#40;EPL&#41;.
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+This is Ipopt version 3.14.4, running with linear solver MUMPS 5.5.1.
+
+Number of nonzeros in equality constraint Jacobian...:        0
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        3
+
+Total number of variables............................:        2
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        0
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg&#40;mu&#41;  ||d||  lg&#40;rg&#41; alpha_du alpha_pr  ls
+   0  2.4200000e&#43;01 0.00e&#43;00 1.00e&#43;02  -1.0 0.00e&#43;00    -  0.00e&#43;00 0.00e&#43;00   0
+   1  4.7318843e&#43;00 0.00e&#43;00 2.15e&#43;00  -1.0 3.81e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+   2  4.0873987e&#43;00 0.00e&#43;00 1.20e&#43;01  -1.0 4.56e&#43;00    -  1.00e&#43;00 1.25e-01f  4
+   3  3.2286726e&#43;00 0.00e&#43;00 4.94e&#43;00  -1.0 2.21e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+   4  3.2138981e&#43;00 0.00e&#43;00 1.02e&#43;01  -1.0 4.82e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+   5  1.9425854e&#43;00 0.00e&#43;00 1.62e&#43;00  -1.0 6.70e-02    -  1.00e&#43;00 1.00e&#43;00f  1
+   6  1.6001937e&#43;00 0.00e&#43;00 3.44e&#43;00  -1.0 7.35e-01    -  1.00e&#43;00 2.50e-01f  3
+   7  1.1783896e&#43;00 0.00e&#43;00 1.92e&#43;00  -1.0 1.44e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+   8  9.2241158e-01 0.00e&#43;00 4.00e&#43;00  -1.0 2.08e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+   9  5.9748862e-01 0.00e&#43;00 7.36e-01  -1.0 8.91e-02    -  1.00e&#43;00 1.00e&#43;00f  1
+iter    objective    inf_pr   inf_du lg&#40;mu&#41;  ||d||  lg&#40;rg&#41; alpha_du alpha_pr  ls
+  10  4.5262510e-01 0.00e&#43;00 2.42e&#43;00  -1.7 2.97e-01    -  1.00e&#43;00 5.00e-01f  2
+  11  2.8076244e-01 0.00e&#43;00 9.25e-01  -1.7 1.02e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+  12  2.1139340e-01 0.00e&#43;00 3.34e&#43;00  -1.7 1.77e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+  13  8.9019501e-02 0.00e&#43;00 2.25e-01  -1.7 9.45e-02    -  1.00e&#43;00 1.00e&#43;00f  1
+  14  5.1535405e-02 0.00e&#43;00 1.49e&#43;00  -1.7 2.84e-01    -  1.00e&#43;00 5.00e-01f  2
+  15  1.9992778e-02 0.00e&#43;00 4.64e-01  -1.7 1.09e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+  16  7.1692436e-03 0.00e&#43;00 1.03e&#43;00  -1.7 1.39e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+  17  1.0696137e-03 0.00e&#43;00 9.09e-02  -1.7 5.50e-02    -  1.00e&#43;00 1.00e&#43;00f  1
+  18  7.7768464e-05 0.00e&#43;00 1.44e-01  -2.5 5.53e-02    -  1.00e&#43;00 1.00e&#43;00f  1
+  19  2.8246695e-07 0.00e&#43;00 1.50e-03  -2.5 7.31e-03    -  1.00e&#43;00 1.00e&#43;00f  1
+iter    objective    inf_pr   inf_du lg&#40;mu&#41;  ||d||  lg&#40;rg&#41; alpha_du alpha_pr  ls
+  20  8.5170750e-12 0.00e&#43;00 4.90e-05  -5.7 1.05e-03    -  1.00e&#43;00 1.00e&#43;00f  1
+  21  3.7439756e-21 0.00e&#43;00 1.73e-10  -5.7 2.49e-06    -  1.00e&#43;00 1.00e&#43;00f  1
+
+Number of Iterations....: 21
+
+                                   &#40;scaled&#41;                 &#40;unscaled&#41;
+Objective...............:   1.7365378678754519e-21    3.7439756431394737e-21
+Dual infeasibility......:   1.7312156654298279e-10    3.7325009746667082e-10
+Constraint violation....:   0.0000000000000000e&#43;00    0.0000000000000000e&#43;00
+Variable bound violation:   0.0000000000000000e&#43;00    0.0000000000000000e&#43;00
+Complementarity.........:   0.0000000000000000e&#43;00    0.0000000000000000e&#43;00
+Overall NLP error.......:   1.7312156654298279e-10    3.7325009746667082e-10
+
+
+Number of objective function evaluations             &#61; 45
+Number of objective gradient evaluations             &#61; 22
+Number of equality constraint evaluations            &#61; 0
+Number of inequality constraint evaluations          &#61; 0
+Number of equality constraint Jacobian evaluations   &#61; 0
+Number of inequality constraint Jacobian evaluations &#61; 0
+Number of Lagrangian Hessian evaluations             &#61; 21
+Total seconds in IPOPT                               &#61; 5.446
+
+EXIT: Optimal Solution Found.
+Generic Execution stats
+  status: first-order stationary
+  objective value: 3.743975643139474e-21
+  primal feasibility: 0.0
+  dual feasibility: 3.732500974666708e-10
+  solution: &#91;0.9999999999400667  0.9999999998789006&#93;
+  iterations: 21
+  elapsed time: 5.446
+  solver specific:
+    real_time: 5.446867942810059
+    internal_msg: :Solve_Succeeded</code></pre> <p>For comparison, we present the same problem and output using JuMP:</p> <pre><code class=language-julia >using JuMP, Ipopt
+
+model &#61; Model&#40;Ipopt.Optimizer&#41;
+x0 &#61; &#91;-1.2; 1.0&#93;
+@variable&#40;model, x&#91;i&#61;1:2&#93;, start&#61;x0&#91;i&#93;&#41;
+@NLobjective&#40;model, Min, &#40;x&#91;1&#93; - 1&#41;^2 &#43; 100 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2&#41;
+optimize&#33;&#40;model&#41;</code></pre> <pre><code class=language-plaintext >This is Ipopt version 3.14.4, running with linear solver MUMPS 5.5.1.
+
+Number of nonzeros in equality constraint Jacobian...:        0
+Number of nonzeros in inequality constraint Jacobian.:        0
+Number of nonzeros in Lagrangian Hessian.............:        3
+
+Total number of variables............................:        2
+                     variables with only lower bounds:        0
+                variables with lower and upper bounds:        0
+                     variables with only upper bounds:        0
+Total number of equality constraints.................:        0
+Total number of inequality constraints...............:        0
+        inequality constraints with only lower bounds:        0
+   inequality constraints with lower and upper bounds:        0
+        inequality constraints with only upper bounds:        0
+
+iter    objective    inf_pr   inf_du lg&#40;mu&#41;  ||d||  lg&#40;rg&#41; alpha_du alpha_pr  ls
+   0  2.4200000e&#43;01 0.00e&#43;00 1.00e&#43;02  -1.0 0.00e&#43;00    -  0.00e&#43;00 0.00e&#43;00   0
+   1  4.7318843e&#43;00 0.00e&#43;00 2.15e&#43;00  -1.0 3.81e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+   2  4.0873987e&#43;00 0.00e&#43;00 1.20e&#43;01  -1.0 4.56e&#43;00    -  1.00e&#43;00 1.25e-01f  4
+   3  3.2286726e&#43;00 0.00e&#43;00 4.94e&#43;00  -1.0 2.21e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+   4  3.2138981e&#43;00 0.00e&#43;00 1.02e&#43;01  -1.0 4.82e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+   5  1.9425854e&#43;00 0.00e&#43;00 1.62e&#43;00  -1.0 6.70e-02    -  1.00e&#43;00 1.00e&#43;00f  1
+   6  1.6001937e&#43;00 0.00e&#43;00 3.44e&#43;00  -1.0 7.35e-01    -  1.00e&#43;00 2.50e-01f  3
+   7  1.1783896e&#43;00 0.00e&#43;00 1.92e&#43;00  -1.0 1.44e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+   8  9.2241158e-01 0.00e&#43;00 4.00e&#43;00  -1.0 2.08e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+   9  5.9748862e-01 0.00e&#43;00 7.36e-01  -1.0 8.91e-02    -  1.00e&#43;00 1.00e&#43;00f  1
+iter    objective    inf_pr   inf_du lg&#40;mu&#41;  ||d||  lg&#40;rg&#41; alpha_du alpha_pr  ls
+  10  4.5262510e-01 0.00e&#43;00 2.42e&#43;00  -1.7 2.97e-01    -  1.00e&#43;00 5.00e-01f  2
+  11  2.8076244e-01 0.00e&#43;00 9.25e-01  -1.7 1.02e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+  12  2.1139340e-01 0.00e&#43;00 3.34e&#43;00  -1.7 1.77e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+  13  8.9019501e-02 0.00e&#43;00 2.25e-01  -1.7 9.45e-02    -  1.00e&#43;00 1.00e&#43;00f  1
+  14  5.1535405e-02 0.00e&#43;00 1.49e&#43;00  -1.7 2.84e-01    -  1.00e&#43;00 5.00e-01f  2
+  15  1.9992778e-02 0.00e&#43;00 4.64e-01  -1.7 1.09e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+  16  7.1692436e-03 0.00e&#43;00 1.03e&#43;00  -1.7 1.39e-01    -  1.00e&#43;00 1.00e&#43;00f  1
+  17  1.0696137e-03 0.00e&#43;00 9.09e-02  -1.7 5.50e-02    -  1.00e&#43;00 1.00e&#43;00f  1
+  18  7.7768464e-05 0.00e&#43;00 1.44e-01  -2.5 5.53e-02    -  1.00e&#43;00 1.00e&#43;00f  1
+  19  2.8246695e-07 0.00e&#43;00 1.50e-03  -2.5 7.31e-03    -  1.00e&#43;00 1.00e&#43;00f  1
+iter    objective    inf_pr   inf_du lg&#40;mu&#41;  ||d||  lg&#40;rg&#41; alpha_du alpha_pr  ls
+  20  8.5170750e-12 0.00e&#43;00 4.90e-05  -5.7 1.05e-03    -  1.00e&#43;00 1.00e&#43;00f  1
+  21  3.7439756e-21 0.00e&#43;00 1.73e-10  -5.7 2.49e-06    -  1.00e&#43;00 1.00e&#43;00f  1
+
+Number of Iterations....: 21
+
+                                   &#40;scaled&#41;                 &#40;unscaled&#41;
+Objective...............:   1.7365378678754519e-21    3.7439756431394737e-21
+Dual infeasibility......:   1.7312156654298279e-10    3.7325009746667082e-10
+Constraint violation....:   0.0000000000000000e&#43;00    0.0000000000000000e&#43;00
+Variable bound violation:   0.0000000000000000e&#43;00    0.0000000000000000e&#43;00
+Complementarity.........:   0.0000000000000000e&#43;00    0.0000000000000000e&#43;00
+Overall NLP error.......:   1.7312156654298279e-10    3.7325009746667082e-10
+
+
+Number of objective function evaluations             &#61; 45
+Number of objective gradient evaluations             &#61; 22
+Number of equality constraint evaluations            &#61; 0
+Number of inequality constraint evaluations          &#61; 0
+Number of equality constraint Jacobian evaluations   &#61; 0
+Number of inequality constraint Jacobian evaluations &#61; 0
+Number of Lagrangian Hessian evaluations             &#61; 21
+Total seconds in IPOPT                               &#61; 2.667
+
+EXIT: Optimal Solution Found.</code></pre> <p>Here is an example with a constrained problem:</p> <pre><code class=language-julia >n &#61; 10
+x0 &#61; ones&#40;n&#41;
+x0&#91;1:2:end&#93; .&#61; -1.2
+lcon &#61; ucon &#61; zeros&#40;n-2&#41;
+nlp &#61; ADNLPModel&#40;x -&gt; sum&#40;&#40;x&#91;i&#93; - 1&#41;^2 &#43; 100 * &#40;x&#91;i&#43;1&#93; - x&#91;i&#93;^2&#41;^2 for i &#61; 1:n-1&#41;, x0,
+                 x -&gt; &#91;3 * x&#91;k&#43;1&#93;^3 &#43; 2 * x&#91;k&#43;2&#93; - 5 &#43; sin&#40;x&#91;k&#43;1&#93; - x&#91;k&#43;2&#93;&#41; * sin&#40;x&#91;k&#43;1&#93; &#43; x&#91;k&#43;2&#93;&#41; &#43;
+                       4 * x&#91;k&#43;1&#93; - x&#91;k&#93; * exp&#40;x&#91;k&#93; - x&#91;k&#43;1&#93;&#41; - 3 for k &#61; 1:n-2&#93;,
+                 lcon, ucon&#41;
+stats &#61; ipopt&#40;nlp, print_level&#61;0&#41;
+print&#40;stats&#41;</code></pre> <pre><code class=language-plaintext >Generic Execution stats
+  status: first-order stationary
+  objective value: 6.232458632437464
+  primal feasibility: 8.354206215699378e-12
+  dual feasibility: 6.315985062164715e-9
+  solution: &#91;-0.9505563573613093  0.9139008176388945  0.9890905176644905  0.9985592422681151 ⋯ 0.999999930070643&#93;
+  multipliers: &#91;4.1358568305002255  -1.8764949037033418  -0.06556333356358675  -0.021931863018312864 ⋯ -7.3765921628237065e-6&#93;
+  iterations: 6
+  elapsed time: 9.11
+  solver specific:
+    real_time: 9.110083103179932
+    internal_msg: :Solve_Succeeded</code></pre> <h2 id=return_value ><a href="#return_value" class=header-anchor >Return value</a></h2> <p>The return value of <code>ipopt</code> is a <code>GenericExecutionStats</code> instance from <code>SolverCore</code>. It contains basic information on the solution returned by the solver. In addition to the built-in fields of <code>GenericExecutionStats</code>, we store the detailed Ipopt output message inside <code>solver_specific&#91;:internal_msg&#93;</code>.</p> <p>Here is an example using the constrained problem solve:</p> <pre><code class=language-julia >stats.solver_specific&#91;:internal_msg&#93;</code></pre>
+<pre><code class=language-plaintext >:Solve_Succeeded</code></pre>
+<h2 id=manual_input ><a href="#manual_input" class=header-anchor >Manual input</a></h2>
+<p>In this section, we work through an example where we specify the problem and its derivatives manually. For this, we need to implement the following <code>NLPModel</code> API methods:</p>
+<ul>
+<li><p><code>obj&#40;nlp, x&#41;</code>: evaluate the objective value at <code>x</code>;</p>
+
+<li><p><code>grad&#33;&#40;nlp, x, g&#41;</code>: evaluate the objective gradient at <code>x</code>;</p>
+
+<li><p><code>cons&#33;&#40;nlp, x, c&#41;</code>: evaluate the vector of constraints, if any;</p>
+
+<li><p><code>jac_structure&#33;&#40;nlp, rows, cols&#41;</code>: fill <code>rows</code> and <code>cols</code> with the spartity structure of the Jacobian, if the problem is constrained;</p>
+
+<li><p><code>jac_coord&#33;&#40;nlp, x, vals&#41;</code>: fill <code>vals</code> with the Jacobian values corresponding to the sparsity structure returned by <code>jac_structure&#33;&#40;&#41;</code>;</p>
+
+<li><p><code>hess_structure&#33;&#40;nlp, rows, cols&#41;</code>: fill <code>rows</code> and <code>cols</code> with the spartity structure of the lower triangle of the Hessian of the Lagrangian;</p>
+
+<li><p><code>hess_coord&#33;&#40;nlp, x, y, vals; obj_weight&#61;1.0&#41;</code>: fill <code>vals</code> with the values of the Hessian of the Lagrangian corresponding to the sparsity structure returned by <code>hess_structure&#33;&#40;&#41;</code>, where <code>obj_weight</code> is the weight assigned to the objective, and <code>y</code> is the vector of multipliers.</p>
+
+</ul>
+<p>The model that we implement is a logistic regression model. We consider the model \(h(\beta; x) = (1 + e^{-\beta^Tx})^{-1}\), and the loss function</p>
+\[
+\ell(\beta) = -\sum_{i = 1}^m y_i \ln h(\beta; x_i) + (1 - y_i) \ln(1 - h(\beta; x_i))
+\]
+<p>with regularization \(\lambda \|\beta\|^2 / 2\).</p>
+<pre><code class=language-julia >using DataFrames, LinearAlgebra, NLPModels, NLPModelsIpopt, Random
+
+mutable struct LogisticRegression &lt;: AbstractNLPModel&#123;Float64, Vector&#123;Float64&#125;&#125;
+  X :: Matrix&#123;Float64&#125;
+  y :: Vector&#123;Float64&#125;
+  λ :: Float64
+  meta :: NLPModelMeta&#123;Float64, Vector&#123;Float64&#125;&#125; # required by AbstractNLPModel
+  counters :: Counters # required by AbstractNLPModel
+end
+
+function LogisticRegression&#40;X, y, λ &#61; 0.0&#41;
+  m, n &#61; size&#40;X&#41;
+  meta &#61; NLPModelMeta&#40;n, name&#61;&quot;LogisticRegression&quot;, nnzh&#61;div&#40;n * &#40;n&#43;1&#41;, 2&#41; &#43; n&#41; # nnzh is the length of the coordinates vectors
+  return LogisticRegression&#40;X, y, λ, meta, Counters&#40;&#41;&#41;
+end
+
+function NLPModels.obj&#40;nlp :: LogisticRegression, β::AbstractVector&#41;
+  hβ &#61; 1 ./ &#40;1 .&#43; exp.&#40;-nlp.X * β&#41;&#41;
+  return -sum&#40;nlp.y .* log.&#40;hβ .&#43; 1e-8&#41; .&#43; &#40;1 .- nlp.y&#41; .* log.&#40;1 .- hβ .&#43; 1e-8&#41;&#41; &#43; nlp.λ * dot&#40;β, β&#41; / 2
+end
+
+function NLPModels.grad&#33;&#40;nlp :: LogisticRegression, β::AbstractVector, g::AbstractVector&#41;
+  hβ &#61; 1 ./ &#40;1 .&#43; exp.&#40;-nlp.X * β&#41;&#41;
+  g .&#61; nlp.X&#39; * &#40;hβ .- nlp.y&#41; &#43; nlp.λ * β
+end
+
+function NLPModels.hess_structure&#33;&#40;nlp :: LogisticRegression, rows :: AbstractVector&#123;&lt;:Integer&#125;, cols :: AbstractVector&#123;&lt;:Integer&#125;&#41;
+  n &#61; nlp.meta.nvar
+  I &#61; &#40;&#40;i,j&#41; for i &#61; 1:n, j &#61; 1:n if i ≥ j&#41;
+  rows&#91;1 : nlp.meta.nnzh&#93; .&#61; &#91;getindex.&#40;I, 1&#41;; 1:n&#93;
+  cols&#91;1 : nlp.meta.nnzh&#93; .&#61; &#91;getindex.&#40;I, 2&#41;; 1:n&#93;
+  return rows, cols
+end
+
+function NLPModels.hess_coord&#33;&#40;nlp :: LogisticRegression, β::AbstractVector, vals::AbstractVector; obj_weight&#61;1.0, y&#61;Float64&#91;&#93;&#41;
+  n, m &#61; nlp.meta.nvar, length&#40;nlp.y&#41;
+  hβ &#61; 1 ./ &#40;1 .&#43; exp.&#40;-nlp.X * β&#41;&#41;
+  fill&#33;&#40;vals, 0.0&#41;
+  for k &#61; 1:m
+    hk &#61; hβ&#91;k&#93;
+    p &#61; 1
+    for j &#61; 1:n, i &#61; j:n
+      vals&#91;p&#93; &#43;&#61; obj_weight * hk * &#40;1 - hk&#41; * nlp.X&#91;k,i&#93; * nlp.X&#91;k,j&#93;
+      p &#43;&#61; 1
+    end
+  end
+  vals&#91;nlp.meta.nnzh&#43;1:end&#93; .&#61; nlp.λ * obj_weight
+  return vals
+end
+
+Random.seed&#33;&#40;0&#41;
+
+# Training set
+m &#61; 1000
+df &#61; DataFrame&#40;:age &#61;&gt; rand&#40;18:60, m&#41;, :salary &#61;&gt; rand&#40;40:180, m&#41; * 1000&#41;
+df.buy &#61; &#40;df.age .&gt; 40 .&#43; randn&#40;m&#41; * 5&#41; .| &#40;df.salary .&gt; 120_000 .&#43; randn&#40;m&#41; * 10_000&#41;
+
+X &#61; &#91;ones&#40;m&#41; df.age df.age.^2 df.salary df.salary.^2 df.age .* df.salary&#93;
+y &#61; df.buy
+
+λ &#61; 1.0e-2
+nlp &#61; LogisticRegression&#40;X, y, λ&#41;
+stats &#61; ipopt&#40;nlp, print_level&#61;0&#41;
+β &#61; stats.solution
+
+# Test set - same generation method
+m &#61; 100
+df &#61; DataFrame&#40;:age &#61;&gt; rand&#40;18:60, m&#41;, :salary &#61;&gt; rand&#40;40:180, m&#41; * 1000&#41;
+df.buy &#61; &#40;df.age .&gt; 40 .&#43; randn&#40;m&#41; * 5&#41; .| &#40;df.salary .&gt; 120_000 .&#43; randn&#40;m&#41; * 10_000&#41;
+
+X &#61; &#91;ones&#40;m&#41; df.age df.age.^2 df.salary df.salary.^2 df.age .* df.salary&#93;
+hβ &#61; 1 ./ &#40;1 .&#43; exp.&#40;-X * β&#41;&#41;
+ypred &#61; hβ .&gt; 0.5
+
+acc &#61; count&#40;df.buy .&#61;&#61; ypred&#41; / m
+println&#40;&quot;acc &#61; &#36;acc&quot;&#41;</code></pre>
+<pre><code class=language-plaintext >acc &#61; 0.91</code></pre>
+<pre><code class=language-julia >using Plots
+gr&#40;&#41;
+
+
+f&#40;a, b&#41; &#61; dot&#40;β, &#91;1.0; a; a^2; b; b^2; a * b&#93;&#41;
+P &#61; findall&#40;df.buy .&#61;&#61; true&#41;
+scatter&#40;df.age&#91;P&#93;, df.salary&#91;P&#93;, c&#61;:blue, m&#61;:square&#41;
+P &#61; findall&#40;df.buy .&#61;&#61; false&#41;
+scatter&#33;&#40;df.age&#91;P&#93;, df.salary&#91;P&#93;, c&#61;:red, m&#61;:xcross, ms&#61;7&#41;
+contour&#33;&#40;range&#40;18, 60, step&#61;0.1&#41;, range&#40;40_000, 180_000, step&#61;1.0&#41;, f, levels&#61;&#91;0.5&#93;&#41;</code></pre>
+<p><img src="figures/index_6_1.png" alt="" /></p>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR139/libs/katex/katex.min.js"></script>
+<script src="/previews/PR139/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>

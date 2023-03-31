@@ -1,0 +1,265 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR139//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR139/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR139//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR139//assets/favicon.png"> <title>How to create a model from the function and its derivatives</title> <script src="/previews/PR139/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139/"> <img src="https://jso-preview.netlify.app/previews/PR139//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR139//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR139//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >How to create a model from the function and its derivatives</a></h1></p> <p><div class=author >by Abel S. Siqueira</div> <p><img src="https://img.shields.io/badge/JSON-0.21.3-000?style&#61;flat-square&amp;labelColor&#61;999" alt="JSON 0.21.3" /> <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.20.0" /></a> <a href="https://juliasmoothoptimizers.github.io/ManualNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ManualNLPModels-0.1.4-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ManualNLPModels 0.1.4" /></a> <a href="https://juliasmoothoptimizers.github.io/NLPModelsJuMP.jl/stable/"><img src="https://img.shields.io/badge/NLPModelsJuMP-0.12.1-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModelsJuMP 0.12.1" /></a> <img src="https://img.shields.io/badge/BenchmarkTools-1.3.2-000?style&#61;flat-square&amp;labelColor&#61;999" alt="BenchmarkTools 1.3.2" /> <a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.6.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.6.0" /></a> <img src="https://img.shields.io/badge/JuMP-1.9.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="JuMP 1.9.0" /> <a href="https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/"><img src="https://img.shields.io/badge/JSOSolvers-0.10.0-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="JSOSolvers 0.10.0" /></a></p> <p>When you know the derivatives of your optimization problem, it is frequently more efficient to use them directly instead of relying on automatic differentiation. For that purpose, we have created <code>ManualNLPModels</code>. The package is very crude, due to demand being low, but let us know if you need more functionalities.</p> <p>For instance, in the logistic regression problem, we have a model \(h_{\beta}(x) = \sigma(\hat{x}^T \beta) = \sigma(\beta_0 + x^T\beta_{1:p})\), where \(\hat{x} = \begin{bmatrix} 1 \\ x \end{bmatrix}\). The value of \(\beta\) is found by finding the minimum of the negavitve of the log-likelihood function.</p> \[\ell(\beta) = -\frac{1}{n} \sum_{i=1}^n y_i \ln \big(h_{\beta}(x_i)\big) + (1 - y_i) \ln\big(1 - h_{\beta}(x_i)\big).\] <p>We&#39;ll input the gradient of this function manually. It is given by</p> \[\nabla \ell(\beta) = \frac{-1}{n} \sum_{i=1}^n \big(y_i - h_{\beta}(x_i)\big) \hat{x}_i = \frac{1}{n} \begin{bmatrix} e^T \\ X^T \end{bmatrix} (h_{\beta}(X) - y),\] <p>where \(e\) is the vector with all components equal to 1.</p> <pre><code class=language-julia >using ManualNLPModels
+using LinearAlgebra, Random
+Random.seed&#33;&#40;0&#41;
+
+sigmoid&#40;t&#41; &#61; 1 / &#40;1 &#43; exp&#40;-t&#41;&#41;
+h&#40;β, X&#41; &#61; sigmoid.&#40;β&#91;1&#93; .&#43; X * β&#91;2:end&#93;&#41;
+
+n, p &#61; 500, 50
+X &#61; randn&#40;n, p&#41;
+β &#61; randn&#40;p &#43; 1&#41;
+y &#61; round.&#40;h&#40;β, X&#41; .&#43; randn&#40;n&#41; * 0.1&#41;
+
+function myfun&#40;β, X, y&#41;
+  @views hβ &#61; sigmoid.&#40;β&#91;1&#93; .&#43; X * β&#91;2:end&#93;&#41;
+  out &#61; sum&#40;
+    yᵢ * log&#40;ŷᵢ &#43; 1e-8&#41; &#43; &#40;1 - yᵢ&#41; * log&#40;1 - ŷᵢ &#43; 1e-8&#41;
+    for &#40;yᵢ, ŷᵢ&#41; in zip&#40;y, hβ&#41;
+  &#41;
+  return -out / n &#43; 0.5e-4 * norm&#40;β&#41;^2
+end
+
+function mygrad&#40;out, β, X, y&#41;
+  n &#61; length&#40;y&#41;
+  @views δ &#61; &#40;sigmoid.&#40;β&#91;1&#93; .&#43; X * β&#91;2:end&#93;&#41; - y&#41; / n
+  out&#91;1&#93; &#61; sum&#40;δ&#41; &#43; 1e-4β&#91;1&#93;
+  @views out&#91;2:end&#93; .&#61; X&#39; * δ &#43; 1e-4 * β&#91;2:end&#93;
+  return out
+end
+
+nlp &#61; NLPModel&#40;
+  zeros&#40;p &#43; 1&#41;,
+  β -&gt; myfun&#40;β, X, y&#41;,
+  grad&#61;&#40;out, β&#41; -&gt; mygrad&#40;out, β, X, y&#41;,
+&#41;</code></pre> <pre><code class=language-plaintext >ManualNLPModels.NLPModel&#123;Float64, Vector&#123;Float64&#125;&#125;
+  Problem name: Generic
+   All variables: ████████████████████ 51     All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 51                free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;100.00&#37; sparsity&#41;   0               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; sparsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre> <p>Notice that the <code>grad</code> function must modify the first argument so you don&#39;t waste memory creating arrays.</p> <p>Only the <code>obj</code>, <code>grad</code> and <code>grad&#33;</code> functions will be defined for this model, so you need to choose your solver carefully. We&#39;ll use <code>lbfgs</code> from <code>JSOSolvers.jl</code>.</p> <pre><code class=language-julia >using JSOSolvers
+
+output &#61; lbfgs&#40;nlp&#41;
+βsol &#61; output.solution
+ŷ &#61; round.&#40;h&#40;βsol, X&#41;&#41;
+sum&#40;ŷ .&#61;&#61; y&#41; / n</code></pre> <pre><code class=language-plaintext >1.0</code></pre>
+<p>We can compare against other approaches.</p>
+<pre><code class=language-julia >using BenchmarkTools
+using Logging
+
+@benchmark begin
+  nlp &#61; NLPModel&#40;
+    zeros&#40;p &#43; 1&#41;,
+    β -&gt; myfun&#40;β, X, y&#41;,
+    grad&#61;&#40;out, β&#41; -&gt; mygrad&#40;out, β, X, y&#41;,
+  &#41;
+  output &#61; with_logger&#40;NullLogger&#40;&#41;&#41; do
+    lbfgs&#40;nlp&#41;
+  end
+end</code></pre>
+<pre><code class=language-plaintext >BenchmarkTools.Trial: 1923 samples with 1 evaluation.
+ Range &#40;min … max&#41;:  2.361 ms …   7.641 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 63.82&#37;
+ Time  &#40;median&#41;:     2.416 ms               ┊ GC &#40;median&#41;:    0.00&#37;
+ Time  &#40;mean ± σ&#41;:   2.595 ms ± 862.919 μs  ┊ GC &#40;mean ± σ&#41;:  5.71&#37; ± 11.11&#37;
+
+  █▅▃                                                          
+  ████▇▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃▃▅██ █
+  2.36 ms      Histogram: log&#40;frequency&#41; by time      7.35 ms &lt;
+
+ Memory estimate: 1.73 MiB, allocs estimate: 2655.</code></pre>
+<pre><code class=language-julia >using ADNLPModels
+
+@benchmark begin
+  adnlp &#61; ADNLPModel&#40;β -&gt; myfun&#40;β, X, y&#41;, zeros&#40;p &#43; 1&#41;&#41;
+  output &#61; with_logger&#40;NullLogger&#40;&#41;&#41; do
+    lbfgs&#40;adnlp&#41;
+  end
+end</code></pre>
+<pre><code class=language-plaintext >BenchmarkTools.Trial: 55 samples with 1 evaluation.
+ Range &#40;min … max&#41;:  88.694 ms … 104.053 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 0.00&#37;
+ Time  &#40;median&#41;:     89.674 ms               ┊ GC &#40;median&#41;:    0.00&#37;
+ Time  &#40;mean ± σ&#41;:   91.174 ms ±   3.073 ms  ┊ GC &#40;mean ± σ&#41;:  1.53&#37; ± 2.33&#37;
+
+  ▁▆█ ▁▄                       ▁                                
+  ███▆██▇▇▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█▇▆▇▇▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄ ▁
+  88.7 ms         Histogram: frequency by time         99.2 ms &lt;
+
+ Memory estimate: 30.58 MiB, allocs estimate: 5234.</code></pre>
+<pre><code class=language-julia >using JuMP
+using NLPModelsJuMP
+
+@benchmark begin
+  model &#61; Model&#40;&#41;
+  @variable&#40;model, modelβ&#91;1:p&#43;1&#93;&#41;
+  @NLexpression&#40;model,
+    xᵀβ&#91;i&#61;1:n&#93;,
+    modelβ&#91;1&#93; &#43; sum&#40;modelβ&#91;j &#43; 1&#93; * X&#91;i,j&#93; for j &#61; 1:p&#41;
+  &#41;
+  @NLexpression&#40;
+    model,
+    hβ&#91;i&#61;1:n&#93;,
+    1 / &#40;1 &#43; exp&#40;-xᵀβ&#91;i&#93;&#41;&#41;
+  &#41;
+  @NLobjective&#40;model, Min,
+    -sum&#40;y&#91;i&#93; * log&#40;hβ&#91;i&#93; &#43; 1e-8&#41; &#43; &#40;1 - y&#91;i&#93; * log&#40;hβ&#91;i&#93; &#43; 1e-8&#41;&#41; for i &#61; 1:n&#41; / n &#43; 0.5e-4 * sum&#40;modelβ&#91;i&#93;^2 for i &#61; 1:p&#43;1&#41;
+  &#41;
+  jumpnlp &#61; MathOptNLPModel&#40;model&#41;
+  output &#61; with_logger&#40;NullLogger&#40;&#41;&#41; do
+    lbfgs&#40;jumpnlp&#41;
+  end
+end</code></pre>
+<pre><code class=language-plaintext >BenchmarkTools.Trial: 34 samples with 1 evaluation.
+ Range &#40;min … max&#41;:  135.009 ms … 170.624 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 12.15&#37;
+ Time  &#40;median&#41;:     152.762 ms               ┊ GC &#40;median&#41;:    9.88&#37;
+ Time  &#40;mean ± σ&#41;:   151.186 ms ±  11.178 ms  ┊ GC &#40;mean ± σ&#41;:  6.97&#37; ±  5.35&#37;
+
+  █  ▁   ▁▁                ▄  ▁   ▄               ▁▁             
+  █▁▁█▁▁▆██▁▁▁▁▁▆▁▁▁▁▁▁▁▁▁▁█▁▁█▁▁▁█▁▆▆▁▆▁▁▆▁▆▁▆▁▆▁██▁▁▆▁▁▁▁▁▆▁▆ ▁
+  135 ms           Histogram: frequency by time          171 ms &lt;
+
+ Memory estimate: 98.00 MiB, allocs estimate: 436895.</code></pre>
+<p>Or just the grad calls:</p>
+<pre><code class=language-julia >using NLPModels
+
+@benchmark grad&#40;nlp, β&#41;</code></pre>
+<pre><code class=language-plaintext >BenchmarkTools.Trial: 10000 samples with 1 evaluation.
+ Range &#40;min … max&#41;:  12.400 μs …  11.568 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 90.25&#37;
+ Time  &#40;median&#41;:     14.900 μs               ┊ GC &#40;median&#41;:    0.00&#37;
+ Time  &#40;mean ± σ&#41;:   16.331 μs ± 115.712 μs  ┊ GC &#40;mean ± σ&#41;:  6.39&#37; ±  0.90&#37;
+
+     ▁   █▁▁█▁ ▁▇  ▅   ▆  ▇   ▅  ▂                              
+  ▂▃▄█▆▆▇████████▇▇███▇█▇▇█▇▇▇█▆▆█▅▅▅▇▄▃▆▃▃▂▄▂▂▃▂▂▁▂▂▁▂▁▁▁▁▁▁▁ ▄
+  12.4 μs         Histogram: frequency by time         20.1 μs &lt;
+
+ Memory estimate: 18.19 KiB, allocs estimate: 8.</code></pre>
+<pre><code class=language-julia >adnlp &#61; ADNLPModel&#40;β -&gt; myfun&#40;β, X, y&#41;, zeros&#40;p &#43; 1&#41;&#41;
+@benchmark grad&#40;adnlp, β&#41;</code></pre>
+<pre><code class=language-plaintext >BenchmarkTools.Trial: 3647 samples with 1 evaluation.
+ Range &#40;min … max&#41;:  1.311 ms …   7.143 ms  ┊ GC &#40;min … max&#41;: 0.00&#37; … 76.14&#37;
+ Time  &#40;median&#41;:     1.337 ms               ┊ GC &#40;median&#41;:    0.00&#37;
+ Time  &#40;mean ± σ&#41;:   1.368 ms ± 311.027 μs  ┊ GC &#40;mean ± σ&#41;:  1.19&#37; ±  4.24&#37;
+
+   ▄▆▇███▇▆▆▅▃▃▃▂▁▁ ▁                                         ▂
+  ████████████████████████▇▇█▆▆▇▆▅▇▇▇▆▆▆▆▆▅▃▅▄▄▄▄▄▆▇██▇▆█▅▄▆▆ █
+  1.31 ms      Histogram: log&#40;frequency&#41; by time      1.55 ms &lt;
+
+ Memory estimate: 471.91 KiB, allocs estimate: 42.</code></pre>
+<pre><code class=language-julia >model &#61; Model&#40;&#41;
+@variable&#40;model, modelβ&#91;1:p&#43;1&#93;&#41;
+@NLexpression&#40;model,
+  xᵀβ&#91;i&#61;1:n&#93;,
+  modelβ&#91;1&#93; &#43; sum&#40;modelβ&#91;j &#43; 1&#93; * X&#91;i,j&#93; for j &#61; 1:p&#41;
+&#41;
+@NLexpression&#40;
+  model,
+  hβ&#91;i&#61;1:n&#93;,
+  1 / &#40;1 &#43; exp&#40;-xᵀβ&#91;i&#93;&#41;&#41;
+&#41;
+@NLobjective&#40;model, Min,
+  -sum&#40;y&#91;i&#93; * log&#40;hβ&#91;i&#93; &#43; 1e-8&#41; &#43; &#40;1 - y&#91;i&#93; * log&#40;hβ&#91;i&#93; &#43; 1e-8&#41;&#41; for i &#61; 1:n&#41; / n &#43; 0.5e-4 * sum&#40;modelβ&#91;i&#93;^2 for i &#61; 1:p&#43;1&#41;
+&#41;
+jumpnlp &#61; MathOptNLPModel&#40;model&#41;
+@benchmark grad&#40;jumpnlp, β&#41;</code></pre>
+<pre><code class=language-plaintext >BenchmarkTools.Trial: 10000 samples with 1 evaluation.
+ Range &#40;min … max&#41;:  224.202 μs … 908.511 μs  ┊ GC &#40;min … max&#41;: 0.00&#37; … 0.00&#37;
+ Time  &#40;median&#41;:     227.502 μs               ┊ GC &#40;median&#41;:    0.00&#37;
+ Time  &#40;mean ± σ&#41;:   229.686 μs ±   9.667 μs  ┊ GC &#40;mean ± σ&#41;:  0.00&#37; ± 0.00&#37;
+
+   ▁▃▅▇▇█▇▇▆▅▅▄▃▂▂▂▂▂▂▃▂▃▂▃▃▂▂▁▁▁▁ ▁▁ ▁▁ ▁▁▁▁                   ▂
+  ▇████████████████████████████████████████████▇▇▇▇▇▆▇▇▆▇▆▅▆▆▅▆ █
+  224 μs        Histogram: log&#40;frequency&#41; by time        250 μs &lt;
+
+ Memory estimate: 496 bytes, allocs estimate: 1.</code></pre>
+<p>Take these benchmarks with a grain of salt. They are being run on a github actions server with global variables. If you want to make an informed option, you should consider performing your own benchmarks.</p>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR139/libs/katex/katex.min.js"></script>
+<script src="/previews/PR139/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
