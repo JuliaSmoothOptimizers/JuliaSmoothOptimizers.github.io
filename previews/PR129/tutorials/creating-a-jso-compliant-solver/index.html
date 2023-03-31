@@ -1,0 +1,499 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR129//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR129/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR129//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR129//assets/favicon.png"> <title>Creating a JSO-compliant solver</title> <script src="/previews/PR129/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR129/"> <img src="https://jso-preview.netlify.app/previews/PR129//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR129//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR129//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR129//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR129//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR129//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR129//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR129//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR129//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR129//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Creating a JSO-compliant solver</a></h1></p> <p><div class=author >by Abel S. Siqueira and João Okimoto</div> <p><a href="https://juliasmoothoptimizers.github.io/SolverBenchmark.jl/stable/"><img src="https://img.shields.io/badge/SolverBenchmark-0.5.4-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="SolverBenchmark 0.5.4" /></a> <img src="https://img.shields.io/badge/JSON-0.21.3-000?style&#61;flat-square&amp;labelColor&#61;999" alt="JSON 0.21.3" /> <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.19.2" /></a> <a href="https://juliasmoothoptimizers.github.io/SolverCore.jl/stable/"><img src="https://img.shields.io/badge/SolverCore-0.3.4-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="SolverCore 0.3.4" /></a> <img src="https://img.shields.io/badge/Plots-1.38.5-000?style&#61;flat-square&amp;labelColor&#61;999" alt="Plots 1.38.5" /> <a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.5.1" /></a> <a href="https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/"><img src="https://img.shields.io/badge/JSOSolvers-0.9.4-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="JSOSolvers 0.9.4" /></a></p> <p>In this tutorial you will learn what is a JSO-compliant solver, how to create one, and how to benchmark it against some other solver.</p> <div class=franklin-toc ><ol><li><a href="#what_is_a_jso-compliant_solver">What is a JSO-compliant solver</a><li><a href="#method_description">Method description</a><li><a href="#defining_a_test_problem_with_adnlpmodels_and_accessing_its_functions_with_the_nlpmodels_api">Defining a test problem with ADNLPModels and accessing its functions with the NLPModels API</a><li><a href="#improving_the_solver">Improving the solver</a><li><a href="#benchmarking">Benchmarking</a><li><a href="#performance_profiles">Performance profiles</a><li><a href="#improving_the_solver_more">Improving the solver more</a></ol></div> <h2 id=what_is_a_jso-compliant_solver ><a href="#what_is_a_jso-compliant_solver" class=header-anchor >What is a JSO-compliant solver</a></h2> <p>A JSO-compliant solver is a solver whose</p> <ul> <li><p>input is a model implementing the NLPModels API; and</p> <li><p>output is a specific struct from the package SolverCore.</p> </ul> <p>That means that you can devise your solver based on a single API that will work with many different problems. Furthermore, since the output type is known, we can provide tools to compare different solvers.</p> <p>To illustrate the procedure for creating a solver with the JSO API, we&#39;ll implement a Line-Search Modified Newton solver for the problem</p> \[ \min_x \ f(x) \] <h2 id=method_description ><a href="#method_description" class=header-anchor >Method description</a></h2> <p>The method consists of following the direction \(d_k\) that solves</p> \[ \nabla^2 f(x_k) d_k = -\nabla f(x_k) \] <p>This is only reasonable if the system can be solved and \(d_k\) is a descent direction. A sufficient condition for that is that \(\nabla^2 f(x_k)\) is positive definite, which is equivalent to saying that it has a Cholesky decomposition.</p> <p>Since this will not be true in general, the modified Newton method consists of computing \(\rho_k \geq 0\) such that \(\nabla^2 f(x_k) + \rho_k I\) is positive definite. One way to find such a \(\rho_k\) is given below</p> <pre><code class=language-plaintext >1. Start with ρ from the last iteration
+2. Try to compute the Cholesky factor of ∇²f&#40;x&#41; &#43; ρI
+3. If not successful, increase ρ to either 1e-8 or 10ρ, whichever is largest, and return to step 2
+4. Otherwise, continue the algorithm</code></pre> <p>Next, for the line-search part, we use backtracking and ask that the Armijo condition be satisfied, that is find the smallest \(p \in \mathbb{N}\) such that \(t = σ^p\) satisfies</p> \[ f(x_k + td_k) < f(x_k) + \alpha t g_k^T d_k, \] <p>for \(\alpha \in (0,1)\), called the Armijo parameter.</p> <h2 id=defining_a_test_problem_with_adnlpmodels_and_accessing_its_functions_with_the_nlpmodels_api ><a href="#defining_a_test_problem_with_adnlpmodels_and_accessing_its_functions_with_the_nlpmodels_api" class=header-anchor >Defining a test problem with ADNLPModels and accessing its functions with the NLPModels API</a></h2> <p>Let&#39;s define a test problem to verify that our method is working, and let&#39;s use a classic one: Rosenbrock&#39;s function<sup id="fnref:1"><a href="#fndef:1" class=fnref >[1]</a></sup></p> \[ \min_x \ (x_1 - 1)^2 + 4 (x_2 - x_1^2)^2, \] <p>starting from point &#91;-1.2; 1.0&#93;.</p> <pre><code class=language-julia >using Plots
+gr&#40;size&#61;&#40;600,300&#41;&#41;
+contour&#40;-2:0.02:2, -0.5:0.02:1.5, &#40;x,y&#41; -&gt; &#40;x - 1&#41;^2 &#43; 4 * &#40;y - x^2&#41;^2, levels&#61;&#40;0:0.2:10&#41;.^2&#41;
+title&#33;&#40;&quot;Contour plot of objective&quot;&#41;</code></pre> <p><img src="figures/index_1_1.png" alt="" /></p> <p>Notice that the solution of the problem, i.e., the point at which the function is minimum, is \(x = (1,1)^T\). This can be estimated by the plot and verified by noticing that \(f(1,1) = 0\) and \(f(x) > 0\) for any other point.</p> <p>To write this problem as a NLPModel, we have a few options, but for now let&#39;s consider the simplest one: ADNLPModels. ADNLPModels has a simple interface and it computes the derivatives using automatic differentiation from other packages.</p> <pre><code class=language-julia >using ADNLPModels
+
+nlp &#61; ADNLPModel&#40;
+  x -&gt; &#40;x&#91;1&#93; - 1&#41;^2 &#43; 4 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2, # function
+  &#91;-1.2; 1.0&#93; # starting point
+&#41;</code></pre> <pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADModelBackend&#123;
+  ForwardDiffADGradient,
+  ForwardDiffADHvprod,
+  ForwardDiffADJprod,
+  ForwardDiffADJtprod,
+  SparseADJacobian,
+  ForwardDiffADHessian,
+  ForwardDiffADGHjvprod,
+&#125;
+  Problem name: Generic
+   All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 2                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; sparsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre> <p>Now we access the information of the model, and its functions. The information is all stored on <code>nlp.meta</code>, while the functions are defined by NLPModels.</p> <p>The main information you may want is summarised below</p> <pre><code class=language-julia >&#40;
+  nlp.meta.nvar, # number of variable
+  nlp.meta.ncon, # number of constraints
+  nlp.meta.lvar, nlp.meta.uvar, # bounds on variables
+  nlp.meta.lcon, nlp.meta.ucon, # bounds on constraints
+  nlp.meta.x0 # starting point
+&#41;</code></pre> <pre><code class=language-plaintext >&#40;2, 0, &#91;-Inf, -Inf&#93;, &#91;Inf, Inf&#93;, Float64&#91;&#93;, Float64&#91;&#93;, &#91;-1.2, 1.0&#93;&#41;</code></pre>
+<p>Furthermore, you can use some functions from NLPModels to query whether the problem has bounds, equalities, inequalities, etc.</p>
+<pre><code class=language-julia >using NLPModels
+
+unconstrained&#40;nlp&#41;</code></pre>
+<pre><code class=language-plaintext >true</code></pre>
+<p>Finally, we can access the objective function, its gradients and Hessian with</p>
+<pre><code class=language-julia >x &#61; nlp.meta.x0
+obj&#40;nlp, x&#41;</code></pre>
+<pre><code class=language-plaintext >5.614400000000001</code></pre>
+<pre><code class=language-julia >grad&#40;nlp, x&#41;</code></pre>
+<pre><code class=language-plaintext >2-element Vector&#123;Float64&#125;:
+ -12.847999999999999
+  -3.5199999999999996</code></pre>
+<pre><code class=language-julia >hess&#40;nlp, x&#41;</code></pre>
+<pre><code class=language-plaintext >2×2 LinearAlgebra.Symmetric&#123;Float64, Matrix&#123;Float64&#125;&#125;:
+ 55.12  19.2
+ 19.2    8.0</code></pre>
+<p>For our basic unconstrained solver that&#39;s enough. If you want more functions, check the <a href="/previews/PR129/pages/references/NLPModels/">NLPModels reference guide</a>.</p>
+<p>Notice that the Hessian returned from <code>hess</code> has only the lower triangle. That&#39;s done, in general, to avoid storing repeated elements. In this dense case, this isn&#39;t much helpful, so we can simply use <code>Symmetric</code> to fill the rest.</p>
+<pre><code class=language-julia >using LinearAlgebra
+
+Symmetric&#40;hess&#40;nlp, x&#41;, :L&#41;</code></pre>
+<pre><code class=language-plaintext >2×2 LinearAlgebra.Symmetric&#123;Float64, Matrix&#123;Float64&#125;&#125;:
+ 55.12  19.2
+ 19.2    8.0</code></pre>
+<p>To compute Cholesky and verify that it succeeds, we use <code>cholesky</code> and <code>issuccess</code>.</p>
+<pre><code class=language-julia >B &#61; Symmetric&#40;hess&#40;nlp, x&#41;, :L&#41;
+factor &#61; cholesky&#40;B, check&#61;false&#41; # check is false to prevent an error from being thrown.
+issuccess&#40;factor&#41;</code></pre>
+<pre><code class=language-plaintext >true</code></pre>
+<pre><code class=language-julia >B &#61; -Symmetric&#40;hess&#40;nlp, x&#41;, :L&#41; # Since the last one is positive definite, this one shouldn&#39;t be
+factor &#61; cholesky&#40;B, check&#61;false&#41;
+issuccess&#40;factor&#41;</code></pre>
+<pre><code class=language-plaintext >false</code></pre>
+<p>Therefore the direction computation can be done as</p>
+<pre><code class=language-julia >ρ &#61; 0.0 # First iteration
+
+B &#61; Symmetric&#40;hess&#40;nlp, x&#41;, :L&#41;
+factor &#61; cholesky&#40;B &#43; ρ * I, check&#61;false&#41;
+while &#33;issuccess&#40;factor&#41;
+  ρ &#61; max&#40;1e-8, 10ρ&#41;
+  factor &#61; cholesky&#40;B &#43; ρ * I, check&#61;false&#41;
+end
+d &#61; factor \ -grad&#40;nlp, x&#41;</code></pre>
+<pre><code class=language-plaintext >2-element Vector&#123;Float64&#125;:
+  0.4867256637168144
+ -0.7281415929203545</code></pre>
+<p>The second part of our method is the step length computation. Let&#39;s use <code>α &#61; 1e-2</code> for our Armijo parameter.</p>
+<pre><code class=language-julia >α &#61; 1e-2
+t &#61; 1.0
+fx &#61; obj&#40;nlp, x&#41;
+ft &#61; obj&#40;nlp, x &#43; t * d&#41;
+slope &#61; dot&#40;grad&#40;nlp, x&#41;, d&#41;
+while &#33;&#40;ft ≤ fx &#43; t * slope&#41;
+  global t *&#61; 0.5 # global is used because we are outside a function
+  ft &#61; obj&#40;nlp, x &#43; t * d&#41;
+end</code></pre>
+<p>The two snippets above are what define our method. We&#39;ll use the first order criteria for stopping the algorithm, that is</p>
+\[ \| \nabla f(x_k) \| < \epsilon \]
+<pre><code class=language-julia >using SolverCore
+
+function newton&#40;nlp :: AbstractNLPModel&#41;
+
+  x &#61; copy&#40;nlp.meta.x0&#41; # starting point
+  α &#61; 1e-2 # Armijo parameter
+  ρ &#61; 0.0
+
+  while norm&#40;grad&#40;nlp, x&#41;&#41; &gt; 1e-6
+
+    # Computing the direction
+    B &#61; Symmetric&#40;hess&#40;nlp, x&#41;, :L&#41;
+    factor &#61; cholesky&#40;B &#43; ρ * I, check&#61;false&#41;
+    while &#33;issuccess&#40;factor&#41;
+      ρ &#61; max&#40;1e-8, 10ρ&#41;
+      factor &#61; cholesky&#40;B &#43; ρ * I, check&#61;false&#41;
+    end
+    d &#61; factor \ -grad&#40;nlp, x&#41;
+
+    # Computing the step length
+    t &#61; 1.0
+    fx &#61; obj&#40;nlp, x&#41;
+    ft &#61; obj&#40;nlp, x &#43; t * d&#41;
+    slope &#61; dot&#40;grad&#40;nlp, x&#41;, d&#41;
+    while &#33;&#40;ft ≤ fx &#43; α * t * slope&#41;
+      t *&#61; 0.5
+      ft &#61; obj&#40;nlp, x &#43; t * d&#41;
+    end
+
+    x &#43;&#61; t * d
+  end
+
+  status &#61; :first_order
+
+  return GenericExecutionStats&#40;nlp, status&#61;status&#41;
+
+end</code></pre>
+<pre><code class=language-plaintext >newton &#40;generic function with 1 method&#41;</code></pre>
+<p>Notice the two conditions for the method to be JSO-compliant:</p>
+<ul>
+<li><p>Input is a NLPModel - Namely, an <code>AbstractNLPModel</code>:</p>
+
+</ul>
+<pre><code class=language-plaintext >function newton&#40;nlp :: AbstractNLPModel&#41;</code></pre>
+<ul>
+<li><p>output is a specific struct from the package SolverCore - Namely, a <code>GenericExecutionStats</code>:</p>
+
+</ul>
+<pre><code class=language-plaintext >return GenericExecutionStats&#40;status, nlp&#41;</code></pre>
+<p>For this structure to be used, a <code>status</code> argument needs to be passed, indicating what&#39;s the situation of the solver run. We passed a <code>:first_order</code> value, indicating that a first order solution was found. More about this later.</p>
+<p>The NLPModels API provides you with the derivatives, and anything else can reside inside the function, and there is where the magic happens.</p>
+<p>Let&#39;s run our implementation on the problem we defined before.</p>
+<pre><code class=language-julia >output &#61; newton&#40;nlp&#41;
+
+println&#40;output&#41;</code></pre>
+<pre><code class=language-plaintext >Generic Execution stats
+  status: first-order stationary
+  objective value: Inf
+  primal feasibility: 0.0
+  dual feasibility: Inf
+  solution: &#91;0.0  6.91161384519567e-310&#93;
+  iterations: -1
+  elapsed time: Inf</code></pre>
+<p>The <code>GenericExecutionStats</code> structure holds all relevant information. Notice, however, that it doesn&#39;t have anything useful in this case. Naturally, we have to return that information as well.</p>
+<p>Update your <code>newton</code> function so that the end is something like the following.</p>
+<pre><code class=language-julia >function newton&#40;nlp :: AbstractNLPModel&#41;
+  # …
+
+  return GenericExecutionStats&#40;nlp, status&#61;status, solution&#61;x, objective&#61;obj&#40;nlp, x&#41;&#41;
+end</code></pre>
+<pre><code class=language-plaintext >newton &#40;generic function with 1 method&#41;</code></pre>
+<p>Now run again</p>
+<pre><code class=language-julia >output &#61; newton&#40;nlp&#41;
+
+println&#40;output&#41;</code></pre>
+<pre><code class=language-plaintext >Generic Execution stats
+  status: first-order stationary
+  objective value: 7.141610295610004e-18
+  primal feasibility: 0.0
+  dual feasibility: Inf
+  solution: &#91;0.9999999973418803  0.9999999945459112&#93;
+  iterations: -1
+  elapsed time: Inf</code></pre>
+<p>That&#39;s already better. Now we can access the solution with</p>
+<pre><code class=language-julia >output.solution</code></pre>
+<pre><code class=language-plaintext >2-element Vector&#123;Float64&#125;:
+ 0.9999999973418803
+ 0.9999999945459112</code></pre>
+<h2 id=improving_the_solver ><a href="#improving_the_solver" class=header-anchor >Improving the solver</a></h2>
+<p>Although we have an implementation of our method, it has a few shortcomings, which we must address before continuing. Mainly, our solver needs a better handling of the stopping conditions. Currently, we only stop when the first order condition \(\|\nabla f(x_k)\| < \epsilon\) is satisfied. Although our method is good, this could fail to happen in a reasonable time, and therefore we have to define some stopping conditions to prevent an infinite loop.</p>
+<p>The two main conditions we&#39;ll add are the number of iterations and elapsed time to be limited. In this case, the result of the solver run may no be a <code>:first_order</code> situation anymore, which means that we need to use other <code>status</code> value. Here&#39;s the list:</p>
+<pre><code class=language-julia >SolverCore.show_statuses&#40;&#41;</code></pre>
+<pre><code class=language-plaintext >STATUSES:
+  :acceptable     &#61;&gt; solved to within acceptable tolerances
+  :exception      &#61;&gt; unhandled exception
+  :first_order    &#61;&gt; first-order stationary
+  :infeasible     &#61;&gt; problem may be infeasible
+  :max_eval       &#61;&gt; maximum number of function evaluations
+  :max_iter       &#61;&gt; maximum iteration
+  :max_time       &#61;&gt; maximum elapsed time
+  :neg_pred       &#61;&gt; negative predicted reduction
+  :not_desc       &#61;&gt; not a descent direction
+  :small_residual &#61;&gt; small residual
+  :small_step     &#61;&gt; step too small
+  :stalled        &#61;&gt; stalled
+  :unbounded      &#61;&gt; objective function may be unbounded from below
+  :unknown        &#61;&gt; unknown
+  :user           &#61;&gt; user-requested stop</code></pre>
+<p>We can see that <code>max_iter</code> and <code>max_time</code> are the most adequates for our case.</p>
+<p>In addition, the maximum amount of time and iterations that the solver can execute are usually arguments passed to the solver. Since the only mandatory argument must be the model, we can use optional arguments. We prefer to use keywords.</p>
+<p>Change your code considering the changes below:</p>
+<pre><code class=language-julia >function newton&#40;
+  nlp :: AbstractNLPModel; # Only mandatory argument, notice the ;
+  max_time :: Float64 &#61; 30.0, # maximum allowed time
+  max_iter :: Int &#61; 100 # maximum allowed iterations
+&#41;
+  # …
+  iter &#61; 0
+  t₀ &#61; time&#40;&#41;
+  Δt &#61; time&#40;&#41; - t₀
+  status &#61; :unknown
+  tired &#61; Δt ≥ max_time &gt; 0 || iter ≥ max_iter &gt; 0
+  solved &#61; norm&#40;grad&#40;nlp, x&#41;&#41; ≤ 1e-6
+  while &#33;&#40;solved || tired&#41;
+    # …
+    iter &#43;&#61; 1
+    Δt &#61; time&#40;&#41; - t₀
+    tired &#61; Δt ≥ max_time &gt; 0 || iter ≥ max_iter &gt; 0
+    solved &#61; norm&#40;grad&#40;nlp, x&#41;&#41; ≤ 1e-6
+  end
+  if solved
+    status &#61; :first_order
+  elseif tired
+    if Δt ≥ max_time &gt; 0
+      status &#61; :max_time
+    elseif iter ≥ max_iter &gt; 0
+      status &#61; :max_iter
+    end
+  end
+
+  return GenericExecutionStats&#40;nlp, status&#61;status, solution&#61;x, objective&#61;obj&#40;nlp, x&#41;, iter&#61;iter, elapsed_time&#61;Δt&#41;
+end</code></pre>
+<pre><code class=language-plaintext >newton &#40;generic function with 1 method&#41;</code></pre>
+<p>Many of the lines are self-explanatory, so let&#39;s focus on the complex ones.</p>
+<pre><code class=language-plaintext >tired &#61; Δt ≥ max_time &gt; 0 || iter ≥ max_iter &gt; 0
+solved &#61; norm&#40;grad&#40;nlp, x&#41;&#41; ≤ 1e-6
+while &#33;&#40;solved || tired&#41;</code></pre>
+<p>Both <code>tired</code> and <code>solved</code> are Boolean indicators, that is, they are true to indicate that a certain situation has happened.</p>
+<p>The variable <code>tired</code> is true if the elapsed time surpass the maximum time or if the number of iterations surpass the maximum of iterations. We also allow for the case of &quot;turning off&quot; the check by setting the corresponding maximum to 0 or a negative number.</p>
+<p>The variable <code>solved</code> is true if the the point satisfies the first order condition.</p>
+<p>The conditional at the end verifies these conditions and set the appropriate <code>status</code>.   Notice that we set the <code>status</code> to <code>:unknown</code> at the beginning, both for the good practice of having a default value, but also because if the code returns the <code>:unknown</code> status, we <strong>really</strong> don&#39;t know what happened.</p>
+<h2 id=benchmarking ><a href="#benchmarking" class=header-anchor >Benchmarking</a></h2>
+<p>With a solver in hands, we can start to do more advanced things, such as benchmarking and comparing our <code>newton</code> method to other solvers.</p>
+<p>Since we only implemented one solved, we&#39;ll use <code>lbfgs</code> from the package JSOSolvers to compare against.</p>
+<pre><code class=language-julia >using JSOSolvers
+
+output &#61; lbfgs&#40;nlp&#41;
+print&#40;output&#41;</code></pre>
+<pre><code class=language-plaintext >Generic Execution stats
+  status: first-order stationary
+  objective value: 2.239721910559509e-18
+  primal feasibility: 0.0
+  dual feasibility: 4.018046284781729e-9
+  solution: &#91;0.9999999986742657  0.9999999970013461&#93;
+  iterations: 18
+  elapsed time: 7.605552673339844e-5</code></pre>
+<p>And to compare both solvers, we need a collection of problems. Let&#39;s just create one manually for now.</p>
+<pre><code class=language-julia >problems &#61; &#91;
+  ADNLPModel&#40;x -&gt; x&#91;1&#93;^2 &#43; 4 * x&#91;2&#93;^2, ones&#40;2&#41;&#41;,
+  ADNLPModel&#40;x -&gt; &#40;1 - x&#91;1&#93;&#41;^2 &#43; 100 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2, &#91;-1.2; 1.0&#93;&#41;,
+  ADNLPModel&#40;x -&gt; x&#91;1&#93;^2 &#43; x&#91;2&#93; - 11 &#43; &#40;x&#91;1&#93; &#43; x&#91;2&#93;^2 - 7&#41;^2, &#91;-1.0; 1.0&#93;&#41;,
+  ADNLPModel&#40;x -&gt; log&#40;exp&#40;-x&#91;1&#93; - 2x&#91;2&#93;&#41; &#43; exp&#40;x&#91;1&#93; &#43; 2&#41; &#43; exp&#40;2x&#91;2&#93; - 1&#41;&#41;, zeros&#40;2&#41;&#41;
+&#93;;</code></pre>
+<p>And now, we use <code>bmark_solvers</code> from the package SolverBenchmark to automatically run both solvers on all these problems.</p>
+<pre><code class=language-julia >using SolverBenchmark
+
+solvers &#61; Dict&#40;:newton &#61;&gt; newton, :lbfgs &#61;&gt; lbfgs&#41;
+stats &#61; bmark_solvers&#40;solvers, problems&#41;</code></pre>
+<pre><code class=language-plaintext >Dict&#123;Symbol, DataFrames.DataFrame&#125; with 2 entries:
+  :newton &#61;&gt; 4×39 DataFrame…
+  :lbfgs  &#61;&gt; 4×39 DataFrame…</code></pre>
+<p>The results is a Dictionary of Symbols to DataFrame tables.</p>
+<pre><code class=language-julia >@show typeof&#40;stats&#41;
+@show keys&#40;stats&#41;</code></pre>
+<pre><code class=language-plaintext >typeof&#40;stats&#41; &#61; Dict&#123;Symbol, DataFrames.DataFrame&#125;
+keys&#40;stats&#41; &#61; &#91;:newton, :lbfgs&#93;
+KeySet for a Dict&#123;Symbol, DataFrames.DataFrame&#125; with 2 entries. Keys:
+  :newton
+  :lbfgs</code></pre>
+<p>Using SolverBenchmark, it&#39;s easy to create a markdown table from the results.</p>
+<pre><code class=language-julia >cols &#61; &#91;:name, :status, :objective, :elapsed_time, :iter&#93;
+pretty_stats&#40;stats&#91;:newton&#93;&#91;&#33;, cols&#93;&#41;</code></pre>
+<pre><code class=language-plaintext >┌─────────┬─────────────┬───────────┬──────────────┬────────┐
+│    name │      status │ objective │ elapsed_time │   iter │
+├─────────┼─────────────┼───────────┼──────────────┼────────┤
+│ Generic │ first_order │  2.47e-31 │     1.48e&#43;00 │      1 │
+│ Generic │ first_order │  3.74e-21 │     4.76e-01 │     21 │
+│ Generic │    max_iter │ -8.36e&#43;00 │     4.44e-01 │    100 │
+│ Generic │ first_order │  1.43e&#43;00 │     4.73e-01 │      5 │
+└─────────┴─────────────┴───────────┴──────────────┴────────┘</code></pre>
+<p>We can also create a similar table in .tex format, using something like</p>
+<pre><code class=language-julia >open&#40;&quot;newton.tex&quot;, &quot;w&quot;&#41; do io
+  pretty_latex_stats&#40;io, stats&#91;:newton&#93;&#91;&#33;, cols&#93;&#41;
+end</code></pre>
+<p>That will give us a nicely formatted table that we can just plug into our latex code.</p>
+<h2 id=performance_profiles ><a href="#performance_profiles" class=header-anchor >Performance profiles</a></h2>
+<p>Lastly, for comparison of the methods, it is costumary to show a Performance Profile.<sup id="fnref:2"><a href="#fndef:2" class=fnref >[2]</a></sup> Internally we use the package BenchmarkProfiles, though using <code>performance_profile</code> from SolverBenchmark will actually work directly with the output of <code>bmark_solvers</code>.</p>
+<pre><code class=language-julia >using Plots
+performance_profile&#40;stats, df -&gt; df.elapsed_time&#41;</code></pre>
+<p><img src="figures/index_26_1.png" alt="" /></p>
+<p>Notice how the profile indicate that all problems were solved by <code>newton</code>, although it is clearly not the case. That happens because our cost function for the performance profile was only the elapsed time. A better approach would be something like.</p>
+<pre><code class=language-julia >cost&#40;df&#41; &#61; &#40;df.status .&#33;&#61; :first_order&#41; * Inf &#43; df.elapsed_time
+performance_profile&#40;stats, cost&#41;</code></pre>
+<p><img src="figures/index_27_1.png" alt="" /></p>
+<h2 id=improving_the_solver_more ><a href="#improving_the_solver_more" class=header-anchor >Improving the solver more</a></h2>
+<p>Although we did implement the proposed method, we could improve the code a little bit. The following function is an improvement of the code in a few points:</p>
+<ul>
+<li><p>Reuse <code>obj&#40;nlp, x&#41;</code> and <code>grad&#40;nlp, x&#41;</code> when possible.</p>
+
+<li><p>Stopping tolerances <code>atol</code> and <code>rtol</code> are used for a stopping criteria </p>
+
+</ul>
+\[ \|\nabla f(x_k)\| \leq \epsilon_{\text{absolute}} + \epsilon_{\text{relative}}\| \nabla f(x_0)\| \]
+<ul>
+<li><p>After computing the direction, we reduce <code>ρ</code> to try to speed up the method.</p>
+
+</ul>
+<pre><code class=language-julia >function newton2&#40;
+  nlp :: AbstractNLPModel; # Only mandatory argument
+  x :: AbstractVector &#61; copy&#40;nlp.meta.x0&#41;, # optimal starting point
+  atol :: Real &#61; 1e-6, # absolute tolerance
+  rtol :: Real &#61; 1e-6, # relative tolerance
+  max_time :: Float64 &#61; 30.0, # maximum allowed time
+  max_iter :: Int &#61; 100 # maximum allowed iterations
+&#41;
+
+  # Initialization
+  fx &#61; obj&#40;nlp, x&#41;
+  ∇fx &#61; grad&#40;nlp, x&#41;
+
+  iter &#61; 0
+  Δt &#61; 0.0
+  t₀ &#61; time&#40;&#41;
+  α &#61; 1e-2
+  ρ &#61; 0.0
+  status &#61; :unknown
+  ϵ &#61; atol &#43; rtol * norm&#40;∇fx&#41;
+
+  tired &#61; Δt ≥ max_time &gt; 0 || iter ≥ max_iter &gt; 0
+  optimal &#61; norm&#40;∇fx&#41; &lt; ϵ
+
+  while &#33;&#40;optimal || tired&#41; # while not optimal or tired
+
+    B &#61; Symmetric&#40;hess&#40;nlp, x&#41;, :L&#41;
+    factor &#61; cholesky&#40;B &#43; ρ * I, check&#61;false&#41;
+    while &#33;issuccess&#40;factor&#41;
+      ρ &#61; max&#40;1e-8, 10ρ&#41;
+      factor &#61; cholesky&#40;B &#43; ρ * I, check&#61;false&#41;
+    end
+    d &#61; factor \ -grad&#40;nlp, x&#41;
+    ρ &#61; ρ / 10
+
+    t &#61; 1.0
+    ft &#61; obj&#40;nlp, x &#43; t * d&#41;
+    slope &#61; dot&#40;grad&#40;nlp, x&#41;, d&#41;
+    while &#33;&#40;ft ≤ fx &#43; α * t * slope&#41;
+      t *&#61; 0.5
+      ft &#61; obj&#40;nlp, x &#43; t * d&#41;
+    end
+    t
+
+    x &#43;&#61; t * d
+
+    fx &#61; obj&#40;nlp, x&#41;
+    ∇fx &#61; grad&#40;nlp, x&#41;
+
+    iter &#43;&#61; 1
+    Δt &#61; time&#40;&#41; - t₀
+    tired &#61; Δt ≥ max_time &gt; 0 || iter ≥ max_iter &gt; 0
+    ϵ &#61; atol &#43; rtol * norm&#40;∇fx&#41;
+    optimal &#61; norm&#40;∇fx&#41; &lt; ϵ
+  end
+
+  if optimal
+    status &#61; :first_order
+  elseif tired
+    if iter ≥ max_iter &gt; 0
+      status &#61; :max_iter
+    elseif Δt ≥ max_time &gt; 0
+      status &#61; :max_time
+    end
+  end
+
+  return GenericExecutionStats&#40;nlp, status&#61;status, solution&#61;x, objective&#61;fx, dual_feas&#61;norm&#40;∇fx&#41;, iter&#61;iter, elapsed_time&#61;Δt&#41;
+
+end</code></pre>
+<pre><code class=language-plaintext >newton2 &#40;generic function with 1 method&#41;</code></pre>
+<p>And now testing again.</p>
+<pre><code class=language-julia >solvers &#61; Dict&#40;:newton &#61;&gt; newton2, :lbfgs &#61;&gt; lbfgs&#41;
+stats &#61; bmark_solvers&#40;solvers, problems&#41;
+cost&#40;df&#41; &#61; &#40;df.status .&#33;&#61; :first_order&#41; * Inf &#43; df.elapsed_time
+performance_profile&#40;stats, cost&#41;</code></pre>
+<p><img src="figures/index_29_1.png" alt="" /></p>
+<p><table class=fndef  id="fndef:1">
+    <tr>
+        <td class=fndef-backref ><a href="#fnref:1">[1]</a>
+        <td class=fndef-content >Technically, it can be defined more generally, but the choice we made has better behaved values. <a href="https://en.wikipedia.org/wiki/Rosenbrock_function#:~:text&#61;In&#37;20mathematical&#37;20optimization&#37;2C&#37;20the&#37;20Rosenbrock,valley&#37;20or&#37;20Rosenbrock&#37;27s&#37;20banana&#37;20function">Wikipedia page: Rosenbrock page, access on 2021/Mar/17.</a>
+    
+</table>
+ <table class=fndef  id="fndef:2">
+    <tr>
+        <td class=fndef-backref ><a href="#fnref:2">[2]</a>
+        <td class=fndef-content >Dolan, E., Moré, J. Benchmarking optimization software with performance profiles. Math. Program. 91, 201–213 &#40;2002&#41;. <a href="https://doi.org/10.1007/s101070100263">doi.org/10.1007/s101070100263</a>
+    
+</table>
+</p>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR129/libs/katex/katex.min.js"></script>
+<script src="/previews/PR129/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
