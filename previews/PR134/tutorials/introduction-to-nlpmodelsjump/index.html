@@ -1,0 +1,245 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR134//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR134/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR134//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR134//assets/favicon.png"> <title>NLPModelsJuMP.jl tutorial</title> <script src="/previews/PR134/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR134/"> <img src="https://jso-preview.netlify.app/previews/PR134//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR134//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR134//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR134//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR134//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR134//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR134//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR134//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR134//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR134//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >NLPModelsJuMP.jl tutorial</a></h1></p> <p><div class=author >by Abel Soares Siqueira and Alexis Montoison</div> <p><a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.19.2" /></a> <a href="https://juliasmoothoptimizers.github.io/NLPModelsJuMP.jl/stable/"><img src="https://img.shields.io/badge/NLPModelsJuMP-0.12.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModelsJuMP 0.12.0" /></a> <img src="https://img.shields.io/badge/JuMP-1.7.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="JuMP 1.7.0" /> <a href="https://juliasmoothoptimizers.github.io/OptimizationProblems.jl/stable/"><img src="https://img.shields.io/badge/OptimizationProblems-0.6.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="OptimizationProblems 0.6.0" /></a></p> <p>NLPModelsJuMP is a combination of NLPModels and JuMP, as the name implies. Sometimes it may be required to refer to the specific documentation, as we&#39;ll present here only the documention specific to NLPModelsJuMP.</p> <h2 id=mathoptnlpmodel ><a href="#mathoptnlpmodel" class=header-anchor >MathOptNLPModel</a></h2> <p><code>MathOptNLPModel</code> is a simple yet efficient model. It uses JuMP to define the problem, and can be accessed through the NLPModels API. An advantage of <code>MathOptNLPModel</code> over models such as <a href="https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl"><code>ADNLPModels</code></a> is that they provide sparse derivates.</p> <p>Let&#39;s define the famous Rosenbrock function</p> \[ f(x) = (x_1 - 1)^2 + 100(x_2 - x_1^2)^2, \] <p>with starting point \(x^0 = (-1.2,1.0)\).</p> <pre><code class=language-julia >using NLPModels, NLPModelsJuMP, JuMP
+
+x0 &#61; &#91;-1.2; 1.0&#93;
+model &#61; Model&#40;&#41; # No solver is required
+@variable&#40;model, x&#91;i&#61;1:2&#93;, start&#61;x0&#91;i&#93;&#41;
+@NLobjective&#40;model, Min, &#40;x&#91;1&#93; - 1&#41;^2 &#43; 100 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2&#41;
+
+nlp &#61; MathOptNLPModel&#40;model&#41;</code></pre> <pre><code class=language-plaintext >NLPModelsJuMP.MathOptNLPModel
+  Problem name: Generic
+   All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 2                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; sparsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre> <p>Let&#39;s get the objective function value at \(x^0\), using only <code>nlp</code>.</p> <pre><code class=language-julia >fx &#61; obj&#40;nlp, nlp.meta.x0&#41;
+println&#40;&quot;fx &#61; &#36;fx&quot;&#41;</code></pre> <pre><code class=language-plaintext >fx &#61; 24.199999999999996</code></pre>
+<p>Let&#39;s try the gradient and Hessian.</p>
+<pre><code class=language-julia >gx &#61; grad&#40;nlp, nlp.meta.x0&#41;
+Hx &#61; hess&#40;nlp, nlp.meta.x0&#41;
+println&#40;&quot;gx &#61; &#36;gx&quot;&#41;
+println&#40;&quot;Hx &#61; &#36;Hx&quot;&#41;</code></pre>
+<pre><code class=language-plaintext >gx &#61; &#91;-215.59999999999997, -87.99999999999999&#93;
+Hx &#61; &#91;1330.0 480.0; 480.0 200.0&#93;</code></pre>
+<p>Let&#39;s do something a little more complex here, defining a function to try to solve this problem through steepest descent method with Armijo search. Namely, the method</p>
+<ol>
+<li><p>Given \(x^0\), \(\varepsilon > 0\), and \(\eta \in (0,1)\). Set \(k = 0\);</p>
+
+<li><p>If \(\Vert \nabla f(x^k) \Vert < \varepsilon\) STOP with \(x^* = x^k\);</p>
+
+<li><p>Compute \(d^k = -\nabla f(x^k)\);</p>
+
+<li><p>Compute \(\alpha_k \in (0,1]\) such that \(f(x^k + \alpha_kd^k) < f(x^k) + \alpha_k\eta \nabla f(x^k)^Td^k\)</p>
+
+<li><p>Define \(x^{k+1} = x^k + \alpha_kx^k\)</p>
+
+<li><p>Update \(k = k + 1\) and go to step 2.</p>
+
+</ol>
+<pre><code class=language-julia >using LinearAlgebra
+
+function steepest&#40;nlp; itmax&#61;100000, eta&#61;1e-4, eps&#61;1e-6, sigma&#61;0.66&#41;
+  x &#61; nlp.meta.x0
+  fx &#61; obj&#40;nlp, x&#41;
+  ∇fx &#61; grad&#40;nlp, x&#41;
+  slope &#61; dot&#40;∇fx, ∇fx&#41;
+  ∇f_norm &#61; sqrt&#40;slope&#41;
+  iter &#61; 0
+  while ∇f_norm &gt; eps &amp;&amp; iter &lt; itmax
+    t &#61; 1.0
+    x_trial &#61; x - t * ∇fx
+    f_trial &#61; obj&#40;nlp, x_trial&#41;
+    while f_trial &gt; fx - eta * t * slope
+      t *&#61; sigma
+      x_trial &#61; x - t * ∇fx
+      f_trial &#61; obj&#40;nlp, x_trial&#41;
+    end
+    x &#61; x_trial
+    fx &#61; f_trial
+    ∇fx &#61; grad&#40;nlp, x&#41;
+    slope &#61; dot&#40;∇fx, ∇fx&#41;
+    ∇f_norm &#61; sqrt&#40;slope&#41;
+    iter &#43;&#61; 1
+  end
+  optimal &#61; ∇f_norm &lt;&#61; eps
+  return x, fx, ∇f_norm, optimal, iter
+end
+
+x, fx, ngx, optimal, iter &#61; steepest&#40;nlp&#41;
+println&#40;&quot;x &#61; &#36;x&quot;&#41;
+println&#40;&quot;fx &#61; &#36;fx&quot;&#41;
+println&#40;&quot;ngx &#61; &#36;ngx&quot;&#41;
+println&#40;&quot;optimal &#61; &#36;optimal&quot;&#41;
+println&#40;&quot;iter &#61; &#36;iter&quot;&#41;</code></pre>
+<pre><code class=language-plaintext >x &#61; &#91;1.0000006499501406, 1.0000013043156974&#93;
+fx &#61; 4.2438440239813445e-13
+ngx &#61; 9.984661274466946e-7
+optimal &#61; true
+iter &#61; 17962</code></pre>
+<p>Maybe this code is too complicated? If you&#39;re in a class you just want to show a Newton step.</p>
+<pre><code class=language-julia >f&#40;x&#41; &#61; obj&#40;nlp, x&#41;
+g&#40;x&#41; &#61; grad&#40;nlp, x&#41;
+H&#40;x&#41; &#61; hess&#40;nlp, x&#41;
+x &#61; nlp.meta.x0
+d &#61; -H&#40;x&#41; \ g&#40;x&#41;</code></pre>
+<pre><code class=language-plaintext >2-element Vector&#123;Float64&#125;:
+ 0.02471910112359557
+ 0.3806741573033706</code></pre>
+<p>or a few</p>
+<pre><code class=language-julia >for i &#61; 1:5
+  global x
+  x &#61; x - H&#40;x&#41; \ g&#40;x&#41;
+  println&#40;&quot;x &#61; &#36;x&quot;&#41;
+end</code></pre>
+<pre><code class=language-plaintext >x &#61; &#91;-1.1752808988764043, 1.3806741573033703&#93;
+x &#61; &#91;0.7631148711766087, -3.1750338547485217&#93;
+x &#61; &#91;0.7634296788842126, 0.5828247754973592&#93;
+x &#61; &#91;0.9999953110849883, 0.9440273238534098&#93;
+x &#61; &#91;0.9999956956536664, 0.9999913913257125&#93;</code></pre>
+<h3 id=optimizationproblems ><a href="#optimizationproblems" class=header-anchor >OptimizationProblems</a></h3>
+<p>The package <a href="https://github.com/JuliaSmoothOptimizers/OptimizationProblems.jl">OptimizationProblems</a> provides a collection of problems defined in JuMP format, which can be converted to <code>MathOptNLPModel</code>.</p>
+<pre><code class=language-julia >using OptimizationProblems.PureJuMP  # Defines a lot of JuMP models
+
+nlp &#61; MathOptNLPModel&#40;woods&#40;&#41;&#41;
+x, fx, ngx, optimal, iter &#61; steepest&#40;nlp&#41;
+println&#40;&quot;fx &#61; &#36;fx&quot;&#41;
+println&#40;&quot;ngx &#61; &#36;ngx&quot;&#41;
+println&#40;&quot;optimal &#61; &#36;optimal&quot;&#41;
+println&#40;&quot;iter &#61; &#36;iter&quot;&#41;</code></pre>
+<pre><code class=language-plaintext >fx &#61; 2.200338951411302e-13
+ngx &#61; 9.97252246367067e-7
+optimal &#61; true
+iter &#61; 12688</code></pre>
+<p>Constrained problems can also be converted.</p>
+<pre><code class=language-julia >using NLPModels, NLPModelsJuMP, JuMP
+
+model &#61; Model&#40;&#41;
+x0 &#61; &#91;-1.2; 1.0&#93;
+@variable&#40;model, x&#91;i&#61;1:2&#93; &gt;&#61; 0.0, start&#61;x0&#91;i&#93;&#41;
+@NLobjective&#40;model, Min, &#40;x&#91;1&#93; - 1&#41;^2 &#43; 100 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2&#41;
+@constraint&#40;model, x&#91;1&#93; &#43; x&#91;2&#93; &#61;&#61; 3.0&#41;
+@NLconstraint&#40;model, x&#91;1&#93; * x&#91;2&#93; &gt;&#61; 1.0&#41;
+
+nlp &#61; MathOptNLPModel&#40;model&#41;
+
+println&#40;&quot;cx &#61; &#36;&#40;cons&#40;nlp, nlp.meta.x0&#41;&#41;&quot;&#41;
+println&#40;&quot;Jx &#61; &#36;&#40;jac&#40;nlp, nlp.meta.x0&#41;&#41;&quot;&#41;</code></pre>
+<pre><code class=language-plaintext >cx &#61; &#91;-0.19999999999999996, -2.2&#93;
+Jx &#61; sparse&#40;&#91;1, 2, 1, 2&#93;, &#91;1, 1, 2, 2&#93;, &#91;1.0, 1.0, 1.0, -1.2&#93;, 2, 2&#41;</code></pre>
+<h2 id=mathoptnlsmodel ><a href="#mathoptnlsmodel" class=header-anchor >MathOptNLSModel</a></h2>
+<p><code>MathOptNLSModel</code> is a model for nonlinear least squares using JuMP, The objective function of NLS problems has the form \(f(x) = \tfrac{1}{2}\|F(x)\|^2\), but specialized methods handle \(F\) directly, instead of \(f\). To use <code>MathOptNLSModel</code>, we define a JuMP model without the objective, and use <code>NLexpression</code>s to define the residual function \(F\). For instance, the Rosenbrock function can be expressed in nonlinear least squares format by defining</p>
+\[
+F(x) = \begin{bmatrix} x_1 - 1\\ 10(x_2 - x_1^2) \end{bmatrix},
+\]
+<p>and noting that \(f(x) = \|F(x)\|^2\) &#40;the constant \(\frac{1}{2}\) is ignored as it doesn&#39;t change the solution&#41;. We implement this function as</p>
+<pre><code class=language-julia >using NLPModels, NLPModelsJuMP, JuMP
+
+model &#61; Model&#40;&#41;
+x0 &#61; &#91;-1.2; 1.0&#93;
+@variable&#40;model, x&#91;i&#61;1:2&#93;, start&#61;x0&#91;i&#93;&#41;
+@NLexpression&#40;model, F1, x&#91;1&#93; - 1&#41;
+@NLexpression&#40;model, F2, 10 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;&#41;
+
+nls &#61; MathOptNLSModel&#40;model, &#91;F1, F2&#93;, name&#61;&quot;rosen-nls&quot;&#41;
+
+residual&#40;nls, nls.meta.x0&#41;</code></pre>
+<pre><code class=language-plaintext >2-element Vector&#123;Float64&#125;:
+ -2.2
+ -4.3999999999999995</code></pre>
+<pre><code class=language-julia >jac_residual&#40;nls, nls.meta.x0&#41;</code></pre>
+<pre><code class=language-plaintext >2×2 SparseArrays.SparseMatrixCSC&#123;Float64, Int64&#125; with 3 stored entries:
+  1.0    ⋅ 
+ 24.0  10.0</code></pre>
+<h3 id=nlsproblems ><a href="#nlsproblems" class=header-anchor >NLSProblems</a></h3>
+<p>The package <a href="https://github.com/JuliaSmoothOptimizers/NLSProblems.jl">NLSProblems</a> provides a collection of problems already defined as <code>MathOptNLSModel</code>.</p>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR134/libs/katex/katex.min.js"></script>
+<script src="/previews/PR134/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
