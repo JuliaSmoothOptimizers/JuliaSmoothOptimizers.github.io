@@ -5,8 +5,8 @@
 \preamble{Abel S. Siqueira}
 
 
-[![CaNNOLeS 0.7.2](https://img.shields.io/badge/CaNNOLeS-0.7.2-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/CaNNOLeS.jl/stable/)
-[![ADNLPModels 0.5.1](https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+[![CaNNOLeS 0.7.4](https://img.shields.io/badge/CaNNOLeS-0.7.4-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/CaNNOLeS.jl/stable/)
+[![ADNLPModels 0.6.1](https://img.shields.io/badge/ADNLPModels-0.6.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
 
 
 
@@ -34,7 +34,7 @@ Find below a list of the main options of `cannoles`.
 
 | Parameters           | Type          | Default           | Description                                        |
 | -------------------- | ------------- | ----------------- | -------------------------------------------------- |
-| ϵtol                 | AbstractFloat | `√eps(eltype(x))` | tolerance                                          |
+| rtol                 | AbstractFloat | `√eps(eltype(x))` | tolerance                                          |
 | unbounded_threshold  | AbstractFloat | `-1e5`            | below this threshold the problem is unbounded      |
 | max_f                | Integer       | `100000`          | evaluation limit, e.g. `sum_counters(nls) > max_f` |
 | max_time             | AbstractFloat | `30.0`            | maximum number of seconds                          |
@@ -60,7 +60,7 @@ using CaNNOLeS, ADNLPModels
 
 # Rosenbrock
 nls = ADNLSModel(x -> [x[1] - 1; 10 * (x[2] - x[1]^2)], [-1.2; 1.0], 2)
-stats = cannoles(nls, ϵtol = 1e-5, x = ones(2))
+stats = cannoles(nls, rtol = 1e-5, x = ones(2))
 ```
 
 ```plaintext
