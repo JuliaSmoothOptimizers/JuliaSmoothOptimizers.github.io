@@ -5,11 +5,11 @@
 \preamble{Tangi Migot}
 
 
-[![OptimizationProblems 0.6.0](https://img.shields.io/badge/OptimizationProblems-0.6.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/OptimizationProblems.jl/stable/)
+[![OptimizationProblems 0.7.0](https://img.shields.io/badge/OptimizationProblems-0.7.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/OptimizationProblems.jl/stable/)
 ![ForwardDiff 0.10.35](https://img.shields.io/badge/ForwardDiff-0.10.35-000?style=flat-square&labelColor=999)
 [![NLPModels 0.20.0](https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
 ![DataFrames 1.5.0](https://img.shields.io/badge/DataFrames-1.5.0-000?style=flat-square&labelColor=999)
-[![ADNLPModels 0.6.0](https://img.shields.io/badge/ADNLPModels-0.6.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+[![ADNLPModels 0.6.1](https://img.shields.io/badge/ADNLPModels-0.6.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
 [![JSOSolvers 0.10.0](https://img.shields.io/badge/JSOSolvers-0.10.0-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/)
 
 ```julia
@@ -39,12 +39,12 @@ print(stats)
 ```plaintext
 Generic Execution stats
   status: first-order stationary
-  objective value: 0.00035444953
+  objective value: 0.00036198387
   primal feasibility: 0.0
-  dual feasibility: 0.029705668
-  solution: [0.98121893f0  0.9626594f0]
+  dual feasibility: 0.031313986
+  solution: [0.9810229f0  0.9622698f0]
   iterations: 33
-  elapsed time: 3.2107579708099365
+  elapsed time: 2.231545925140381
 ```
 
 
@@ -157,8 +157,8 @@ adbackend.gradient_backend # returns information about the default backend for t
 ```plaintext
 ADNLPModels.ForwardDiffADGradient(ForwardDiff.GradientConfig{ForwardDiff.Tag{typeof(Main.var"##WeaveSandBox#312".f), Float64}, Float64, 2, Vector{ForwardDiff.Dual{ForwardDiff.Tag{typeof(Main.var"##Wea
 veSandBox#312".f), Float64}, Float64, 2}}}((Partials(1.0, 0.0), Partials(0.0, 1.0)), ForwardDiff.Dual{ForwardDiff.Tag{typeof(Main.var"##WeaveSandBox#312".f), Float64}, Float64, 2}[Dual{ForwardDiff.Tag
-{typeof(Main.var"##WeaveSandBox#312".f), Float64}}(0.0,6.91639242452167e-310,6.9163560841239e-310), Dual{ForwardDiff.Tag{typeof(Main.var"##WeaveSandBox#312".f), Float64}}(0.0,6.91639242452167e-310,6.9
-163560839658e-310)]))
+{typeof(Main.var"##WeaveSandBox#312".f), Float64}}(0.0,6.94307628826127e-310,6.9430286989476e-310), Dual{ForwardDiff.Tag{typeof(Main.var"##WeaveSandBox#312".f), Float64}}(0.0,6.94307628826127e-310,6.9
+4302869876974e-310)]))
 ```
 
 
@@ -274,7 +274,7 @@ OptimizationProblems.meta[!, :name] # access the names of the available  problem
 ```
 
 ```plaintext
-277-element Vector{String}:
+286-element Vector{String}:
  "AMPGO02"
  "AMPGO03"
  "AMPGO04"
@@ -286,13 +286,13 @@ OptimizationProblems.meta[!, :name] # access the names of the available  problem
  "AMPGO10"
  "AMPGO11"
  ⋮
- "tquartic"
  "triangle"
  "triangle_deer"
  "triangle_pacman"
  "triangle_turtle"
  "tridia"
  "vardim"
+ "watson"
  "woods"
  "zangwil3"
 ```
