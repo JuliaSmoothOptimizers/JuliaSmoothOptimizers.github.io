@@ -5,13 +5,13 @@
 \preamble{Abel S. Siqueira and João Okimoto}
 
 
-[![SolverBenchmark 0.5.4](https://img.shields.io/badge/SolverBenchmark-0.5.4-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/SolverBenchmark.jl/stable/)
-![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=999)
-[![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
-[![SolverCore 0.3.4](https://img.shields.io/badge/SolverCore-0.3.4-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/SolverCore.jl/stable/)
-![Plots 1.38.5](https://img.shields.io/badge/Plots-1.38.5-000?style=flat-square&labelColor=999)
-[![ADNLPModels 0.5.1](https://img.shields.io/badge/ADNLPModels-0.5.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
-[![JSOSolvers 0.9.4](https://img.shields.io/badge/JSOSolvers-0.9.4-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/)
+[![SolverBenchmark 0.5.5](https://img.shields.io/badge/SolverBenchmark-0.5.5-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/SolverBenchmark.jl/stable/)
+![JSON 0.21.4](https://img.shields.io/badge/JSON-0.21.4-000?style=flat-square&labelColor=999)
+[![NLPModels 0.20.0](https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
+[![SolverCore 0.3.7](https://img.shields.io/badge/SolverCore-0.3.7-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/SolverCore.jl/stable/)
+![Plots 1.38.10](https://img.shields.io/badge/Plots-1.38.10-000?style=flat-square&labelColor=999)
+[![ADNLPModels 0.6.1](https://img.shields.io/badge/ADNLPModels-0.6.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+[![JSOSolvers 0.10.0](https://img.shields.io/badge/JSOSolvers-0.10.0-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/)
 
 
 
@@ -97,7 +97,7 @@ ADNLPModel - Model with automatic differentiation backend ADModelBackend{
   ForwardDiffADHvprod,
   ForwardDiffADJprod,
   ForwardDiffADJtprod,
-  SparseADJacobian,
+  SparseForwardADJacobian,
   ForwardDiffADHessian,
   ForwardDiffADGHjvprod,
 }
@@ -196,7 +196,7 @@ hess(nlp, x)
 ```
 
 ```plaintext
-2×2 LinearAlgebra.Symmetric{Float64, Matrix{Float64}}:
+2×2 LinearAlgebra.Symmetric{Float64, SparseArrays.SparseMatrixCSC{Float64, Int64}}:
  55.12  19.2
  19.2    8.0
 ```
@@ -217,7 +217,7 @@ Symmetric(hess(nlp, x), :L)
 ```
 
 ```plaintext
-2×2 LinearAlgebra.Symmetric{Float64, Matrix{Float64}}:
+2×2 LinearAlgebra.Symmetric{Float64, SparseArrays.SparseMatrixCSC{Float64, Int64}}:
  55.12  19.2
  19.2    8.0
 ```
@@ -271,7 +271,7 @@ d = factor \ -grad(nlp, x)
 ```plaintext
 2-element Vector{Float64}:
   0.4867256637168144
- -0.7281415929203545
+ -0.7281415929203547
 ```
 
 
@@ -379,7 +379,7 @@ Generic Execution stats
   objective value: Inf
   primal feasibility: 0.0
   dual feasibility: Inf
-  solution: [0.0  6.91161384519567e-310]
+  solution: [0.0  6.9144949511379e-310]
   iterations: -1
   elapsed time: Inf
 ```
@@ -614,7 +614,7 @@ Generic Execution stats
   dual feasibility: 4.018046284781729e-9
   solution: [0.9999999986742657  0.9999999970013461]
   iterations: 18
-  elapsed time: 7.605552673339844e-5
+  elapsed time: 8.296966552734375e-5
 ```
 
 
@@ -685,10 +685,10 @@ pretty_stats(stats[:newton][!, cols])
 ┌─────────┬─────────────┬───────────┬──────────────┬────────┐
 │    name │      status │ objective │ elapsed_time │   iter │
 ├─────────┼─────────────┼───────────┼──────────────┼────────┤
-│ Generic │ first_order │  2.47e-31 │     1.48e+00 │      1 │
-│ Generic │ first_order │  3.74e-21 │     4.76e-01 │     21 │
-│ Generic │    max_iter │ -8.36e+00 │     4.44e-01 │    100 │
-│ Generic │ first_order │  1.43e+00 │     4.73e-01 │      5 │
+│ Generic │ first_order │  6.16e-32 │     1.48e+00 │      1 │
+│ Generic │ first_order │  3.74e-21 │     5.70e-01 │     21 │
+│ Generic │    max_iter │ -8.36e+00 │     4.33e-01 │    100 │
+│ Generic │ first_order │  1.43e+00 │     5.19e-01 │      5 │
 └─────────┴─────────────┴───────────┴──────────────┴────────┘
 ```
 
