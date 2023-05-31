@@ -31,7 +31,7 @@
     <![CDATA[  We are very happy to announce the publication in the Journal of Open Source Software of the paper DCISolver.jl: A Julia Solver for Nonlinear Optimization using Dynamic Control of Infeasibility.  ]]>
   </description>  
     
-  <pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate>  
+  <pubDate>Wed, 31 May 2023 00:00:00 +0000</pubDate>  
   
   
   <atom:author>
@@ -50,7 +50,26 @@
     <![CDATA[  We are very happy to announce the publication in the Journal of Open Source Software of the paper PDENLPModels.jl: A NLPModel API for optimization problems with PDE-constraints.  ]]>
   </description>  
     
-  <pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate>  
+  <pubDate>Wed, 31 May 2023 00:00:00 +0000</pubDate>  
+  
+  
+  <atom:author>
+    <atom:name>Abel Soares Siqueira</atom:name>
+  </atom:author>
+        
+</item>
+
+<item>
+  <title>
+    <![CDATA[  Exploring Parallel Computing and GPU Programming with Julia  ]]>
+  </title>
+  <link> https://juliasmoothoptimizers.github.io/news-and-blogposts/2023/2023-03-09workshop-parallel/index.html </link>
+  <guid> https://juliasmoothoptimizers.github.io/news-and-blogposts/2023/2023-03-09workshop-parallel/index.html </guid>
+  <description>
+    <![CDATA[  GERAD Workshop: Exploring Parallel Computing and GPU Programming with Julia.  ]]>
+  </description>  
+    
+  <pubDate>Wed, 31 May 2023 00:00:00 +0000</pubDate>  
   
   
   <atom:author>
@@ -69,7 +88,7 @@
     <![CDATA[  This year&#39;s JuliaCon 2022/JuMP-dev 2022 featured three talks on JuliaSmoothOptimizers.  ]]>
   </description>  
     
-  <pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate>  
+  <pubDate>Wed, 31 May 2023 00:00:00 +0000</pubDate>  
   
   
   <atom:author>
@@ -88,7 +107,7 @@
     <![CDATA[  The Julia Smooth Optimizers organization has moved to this new website, where we will aggregate all our tutorials and news.  ]]>
   </description>  
     
-  <pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate>  
+  <pubDate>Wed, 31 May 2023 00:00:00 +0000</pubDate>  
   
   
   <atom:author>
@@ -107,7 +126,7 @@
     <![CDATA[  We organized a steam of sessions on ’’Numerical optimization and linear algebra with Julia’’ at Optimization Days 2022, held at HEC Montréal, May 16-18, 2022.  ]]>
   </description>  
     
-  <pubDate>Sun, 28 May 2023 00:00:00 +0000</pubDate>  
+  <pubDate>Wed, 31 May 2023 00:00:00 +0000</pubDate>  
   
   
   <atom:author>
