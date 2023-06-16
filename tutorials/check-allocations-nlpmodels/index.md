@@ -6,7 +6,7 @@
 
 
 [![NLPModels 0.20.0](https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
-[![NLPModelsTest 0.8.4](https://img.shields.io/badge/NLPModelsTest-0.8.4-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModelsTest.jl/stable/)
+[![NLPModelsTest 0.9.0](https://img.shields.io/badge/NLPModelsTest-0.9.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModelsTest.jl/stable/)
 
 
 
@@ -110,12 +110,12 @@ print_nlp_allocations(nlp)
 
 ```plaintext
 Problem name: BROWNDEN_manual
-                            obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                    hess_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                          grad!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                hess_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                         hprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                  hess_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     hess_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+           grad!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hess_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+          hprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+   hess_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
 
 Dict{Symbol, Float64} with 6 entries:
   :obj             => 0.0
@@ -164,36 +164,36 @@ print_nlp_allocations(nlp, linear_api = true)
 
 ```plaintext
 Problem name: HS14_manual
-                     jprod_nln!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-         jac_op_transpose_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                    hess_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                      cons_lin!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-     jac_nln_op_transpose_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                 jac_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-             jac_lin_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                      cons_nln!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                    jtprod_nln!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-             jac_nln_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                    jtprod_lin!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                   jac_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-     jac_lin_op_transpose_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-              hess_lag_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-               jac_lin_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                         hprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                         jprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-               jac_nln_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                          cons!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                          grad!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                  hess_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                     hprod_lag!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                        jtprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                            obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                     jprod_lin!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                hess_lag_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                     jac_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                 jac_nln_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                hess_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                 jac_lin_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      jprod_nln!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_op_transpose_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     hess_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+       cons_lin!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_op_transpose_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+  jac_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_lin_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+       cons_nln!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     jtprod_nln!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     jtprod_lin!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+    jac_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_lin_op_transpose_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+hess_lag_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_lin_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+          hprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+          jprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+           cons!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+           grad!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+   hess_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      hprod_lag!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+         jtprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      jprod_lin!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hess_lag_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      jac_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+  jac_nln_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hess_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+  jac_lin_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
 
 Dict{Symbol, Float64} with 30 entries:
   :jprod_nln!                 => 0.0
@@ -229,9 +229,10 @@ list_of_problems = NLPModelsTest.nls_problems
 ```
 
 ```plaintext
-4-element Vector{String}:
+5-element Vector{String}:
  "LLS"
  "MGH01"
+ "BNDROSENBROCK"
  "NLSHS20"
  "NLSLC"
 ```
@@ -243,18 +244,18 @@ nls = eval(Symbol(list_of_problems[4]))()
 ```
 
 ```plaintext
-NLPModelsTest.NLSLC{Float64, Vector{Float64}}
-  Problem name: NLSLINCON
-                  All variables: ████████████████████ 15                    All constraints: ████████████████████ 11                      All residuals: ████████████████████ 15    
-                           free: ████████████████████ 15                               free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-                          lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               lower: ██████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 3                           nonlinear: ████████████████████ 15    
-                          upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               upper: ████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 4                 nnzj: ( 93.33% sparsity)   15    
-                        low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                             low/upp: ██⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1                 nnzh: ( 87.50% sparsity)   15    
-                          fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               fixed: ██████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 3     
+NLPModelsTest.NLSHS20{Float64, Vector{Float64}}
+  Problem name: NLSHS20_manual
+                  All variables: ████████████████████ 2                     All constraints: ████████████████████ 3                       All residuals: ████████████████████ 2     
+                           free: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1                                free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               lower: ████████████████████ 3                           nonlinear: ████████████████████ 2     
+                          upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzj: ( 25.00% sparsity)   3     
+                        low/upp: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1                             low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzh: ( 66.67% sparsity)   1     
+                          fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: ( 87.50% sparsity)   15                             linear: ████████████████████ 11    
-                                                                                  nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-                                                                        nnzj: ( 89.70% sparsity)   17    
+            nnzh: (  0.00% sparsity)   3                              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                                                  nonlinear: ████████████████████ 3     
+                                                                        nnzj: (  0.00% sparsity)   6     
 
   Counters:
                             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -275,62 +276,62 @@ print_nlp_allocations(nls, linear_api = true)
 ```
 
 ```plaintext
-Problem name: NLSLINCON
-         hess_op_residual_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-         jac_op_transpose_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                    hess_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                      cons_lin!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-             jac_lin_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                 jac_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+Problem name: NLSHS20_manual
+hess_op_residual_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+          jprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      jprod_nln!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_op_transpose_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+           cons!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     hess_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_structure_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+           grad!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ jprod_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_op_residual_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_op_transpose_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+  jac_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+   hess_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
 jac_op_residual_transpose_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-       hess_structure_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-           hess_coord_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                    jtprod_lin!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                   jac_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-     jac_lin_op_transpose_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-              hess_lag_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-            jac_coord_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-               jac_lin_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                         hprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-               jtprod_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                         jprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                          cons!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-        jac_structure_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                jprod_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                          grad!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-          jac_op_residual_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                  hess_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                     hprod_lag!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                        jtprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                            obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                     jprod_lin!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                hess_lag_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                hprod_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                     jac_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                hess_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                 jac_lin_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
-                      residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+hess_structure_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      hprod_lag!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+       cons_nln!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     jtprod_nln!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+         jtprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+hess_coord_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+    jac_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hess_lag_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+hess_lag_op_prod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_coord_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hprod_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      jac_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+  jac_nln_coord!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hess_structure!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+          hprod!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jtprod_residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+       residual!: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
 
 Dict{Symbol, Float64} with 34 entries:
   :hess_op_residual_prod!          => 0.0
+  :jprod!                          => 0.0
+  :jprod_nln!                      => 0.0
   :jac_op_transpose_prod!          => 0.0
+  :jac_nln_op_prod!                => 0.0
+  :cons!                           => 0.0
   :hess_coord!                     => 0.0
-  :cons_lin!                       => 0.0
-  :jac_lin_structure!              => 0.0
+  :jac_structure_residual!         => 0.0
+  :grad!                           => 0.0
+  :jprod_residual!                 => 0.0
+  :jac_op_residual_prod!           => 0.0
+  :jac_nln_op_transpose_prod!      => 0.0
   :jac_structure!                  => 0.0
+  :hess_op_prod!                   => 0.0
   :jac_op_residual_transpose_prod! => 0.0
   :hess_structure_residual!        => 0.0
-  :hess_coord_residual!            => 0.0
-  :jtprod_lin!                     => 0.0
-  :jac_op_prod!                    => 0.0
-  :jac_lin_op_transpose_prod!      => 0.0
-  :hess_lag_op_prod!               => 0.0
-  :jac_coord_residual!             => 0.0
-  :jac_lin_op_prod!                => 0.0
-  :hprod!                          => 0.0
-  :jtprod_residual!                => 0.0
-  :jprod!                          => 0.0
-  :cons!                           => 0.0
+  :hprod_lag!                      => 0.0
+  :cons_nln!                       => 0.0
+  :jtprod_nln!                     => 0.0
   ⋮                                => ⋮
 ```
 
@@ -372,16 +373,16 @@ Test 0-allocations of NLPModel API for LINSV_manual |   23     23  0.0s
 Test Summary:                                           | Pass  Total  Time
 Test 0-allocations of NLPModel API for MGH01Feas_manual |   30     30  0.0s
 10-element Vector{Test.DefaultTestSet}:
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for BROWNDEN_manual", Any[], 6, false, false, true, 1.680115544588814e9, 1.680115544654694e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS5_manual", Any[], 6, false, false, true, 1.68011554570736e9, 1.680115545707392e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS6_manual", Any[], 23, false, false, true, 1.680115547092875e9, 1.680115547092988e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS10_manual", Any[], 23, false, false, true, 1.680115548489736e9, 1.680115548489768e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS11_manual", Any[], 23, false, false, true, 1.680115549917003e9, 1.680115549917032e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS13_manual", Any[], 23, false, false, true, 1.680115551360075e9, 1.680115551360105e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS14_manual", Any[], 30, false, false, true, 1.68011555136883e9, 1.680115551368857e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for LINCON_manual", Any[], 23, false, false, true, 1.680115553081619e9, 1.680115553081652e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for LINSV_manual", Any[], 23, false, false, true, 1.680115554463489e9, 1.680115554463522e9)
- Test.DefaultTestSet("Test 0-allocations of NLPModel API for MGH01Feas_manual", Any[], 30, false, false, true, 1.680115556110085e9, 1.680115556110125e9)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for BROWNDEN_manual", Any[], 6, false, false, true, 1.686903963985416e9, 1.686903964082244e9, false)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS5_manual", Any[], 6, false, false, true, 1.686903965125515e9, 1.68690396512554e9, false)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS6_manual", Any[], 23, false, false, true, 1.686903966371382e9, 1.686903966371411e9, false)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS10_manual", Any[], 23, false, false, true, 1.686903967648405e9, 1.686903967648434e9, false)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS11_manual", Any[], 23, false, false, true, 1.686903968934762e9, 1.68690396893479e9, false)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS13_manual", Any[], 23, false, false, true, 1.686903970235455e9, 1.686903970235487e9, false)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for HS14_manual", Any[], 30, false, false, true, 1.686903970243648e9, 1.686903970243682e9, false)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for LINCON_manual", Any[], 23, false, false, true, 1.686903971725178e9, 1.686903971725207e9, false)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for LINSV_manual", Any[], 23, false, false, true, 1.686903972953522e9, 1.686903972953548e9, false)
+ Test.DefaultTestSet("Test 0-allocations of NLPModel API for MGH01Feas_manual", Any[], 30, false, false, true, 1.686903974329496e9, 1.686903974329532e9, false)
 ```
 
 
