@@ -1,0 +1,327 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR153/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR153//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR153//assets/favicon.png"> <title>Test allocations of NLPModels</title> <script src="/previews/PR153/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR153/"> <img src="https://jso-preview.netlify.app/previews/PR153//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR153//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR153//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR153//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR153//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR153//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR153//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR153//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR153//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR153//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Test allocations of NLPModels</a></h1></p> <p><div class=author >by Tangi Migot</div> <p><a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.20.0" /></a> <a href="https://juliasmoothoptimizers.github.io/NLPModelsTest.jl/stable/"><img src="https://img.shields.io/badge/NLPModelsTest-0.9.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModelsTest 0.9.0" /></a></p> <h1 id=test_allocations_of_nlpmodels ><a href="#test_allocations_of_nlpmodels" class=header-anchor >Test allocations of NLPModels</a></h1> <p><a href="https://github.com/JuliaSmoothOptimizers/NLPModels.jl">NLPModels.jl</a> provides features to test allocations of any model following the NLPModel API.</p> <p>Given a model <code>nlp</code> whose type is a subtype of <code>AbstractNLPModel</code> or <code>AbstractNLSModel</code>, the function <a href="@ref"><code>test_allocs_nlpmodels</code></a> returns a <code>Dict</code> containing the allocations of each of the following:</p> <ul> <li><p><code>obj&#40;nlp, x&#41;</code> &#40;or <code>obj&#40;nlp, x, Fx&#41;</code> for <code>AbstractNLSModel</code>&#41;;</p> <li><p><code>grad&#33;&#40;nlp, x, gx&#41;</code> &#40;or <code>grad&#33;&#40;nlp, x, gx, Fx&#41;</code> for <code>AbstractNLSModel</code>&#41;;</p> <li><p><code>hess_structure&#33;&#40;nlp, rows, cols&#41;</code>;</p> <li><p><code>hess_coord&#33;&#40;nlp, x, vals&#41;</code>;</p> <li><p><code>hprod&#33;&#40;nlp, x, v, Hv&#41;</code>;</p> <li><p><code>mul&#33;&#40;Hv, H, v&#41;</code> for a <code>H</code> a LinearOperator, see <a href="https://github.com/JuliaSmoothOptimizers/LinearOperators.jl">LinearOperators.jl</a>, obtained by <code>hess_op&#33;&#40;nlp, x, Hv&#41;</code>.</p> </ul> <p>If the problem has constraints, we also check:</p> <ul> <li><p><code>cons&#33;&#40;nlp, x, c&#41;</code>;</p> <li><p><code>jac_structure&#33;&#40;nlp, rows, cols&#41;</code>;</p> <li><p><code>jac_coord&#33;&#40;nlp, x, vals&#41;</code>;</p> <li><p><code>jprod&#33;&#40;nlp, x, v, Jv&#41;</code>;</p> <li><p><code>jtprod&#33;&#40;nlp, x, v, Jtv&#41;</code>;</p> <li><p><code>mul&#33;&#40;Jv, J, v&#41;</code> for a <code>J</code> a LinearOperator obtained by <code>jac_op&#33;&#40;nlp, x, Jv, Jtv&#41;</code>;</p> <li><p><code>hess_coord&#33;&#40;nlp, x, y, vals&#41;</code>;</p> <li><p><code>hprod&#33;&#40;nlp, x, y, v, Hv&#41;</code>;</p> <li><p><code>mul&#33;&#40;Hv, H, v&#41;</code> for a <code>H</code> a LinearOperator obtained by <code>hess_op&#33;&#40;nlp, x, y, Hv&#41;</code>.</p> </ul> <p>It is also possible to test the functions for the linear and nonlinear constraints by setting the keyword <code>linear_api &#61; true</code> in the call to <a href="@ref"><code>test_allocs_nlpmodels</code></a>.</p> <p>For nonlinear least-squares, i.e., <code>AbstractNLSModel</code>, we can also test allocations of the functions related to the residual evaluation with the function <a href="@ref"><code>test_allocs_nlsmodels</code></a>:</p> <ul> <li><p><code>residual&#33;&#40;nlp, x, Fx&#41;</code></p> <li><p><code>jac_structure_residual&#33;&#40;nlp, rows, cols&#41;</code></p> <li><p><code>jac_coord_residual&#33;&#40;nlp, x, vals&#41;</code></p> <li><p><code>jprod_residual&#33;&#40;nlp, x, v, Jv&#41;</code></p> <li><p><code>jtprod_residual&#33;&#40;nlp, x, w, Jtv&#41;</code></p> <li><p><code>mul&#33;&#40;Jv, J, v&#41;</code> for a <code>J</code> a LinearOperator obtained by <code>jac_op_residual&#33;&#40;nlp, x, Jv, Jtv&#41;</code>;</p> <li><p><code>hess_structure_residual&#33;&#40;nlp, rows, cols&#41;</code></p> <li><p><code>hess_coord_residual&#33;&#40;nlp, x, v, vals&#41;</code></p> <li><p><code>hprod_residual&#33;&#40;nlp, x, i, v, Hv&#41;</code></p> <li><p><code>mul&#33;&#40;Hv, H, v&#41;</code> for a <code>H</code> a LinearOperator obtained by <code>hess_op_residual&#33;&#40;nlp, x, i, Hv&#41;</code>.</p> </ul> <p>The function <a href="@ref"><code>print_nlp_allocations</code></a> allows a better rending of the results.</p> <h2 id=examples ><a href="#examples" class=header-anchor >Examples</a></h2> <h3 id=examples_with_an_nlpmodel ><a href="#examples_with_an_nlpmodel" class=header-anchor >Examples with an NLPModel</a></h3> <pre><code class=language-julia >using NLPModelsTest
+list_of_problems &#61; NLPModelsTest.nlp_problems</code></pre> <pre><code class=language-plaintext >10-element Vector&#123;String&#125;:
+ &quot;BROWNDEN&quot;
+ &quot;HS5&quot;
+ &quot;HS6&quot;
+ &quot;HS10&quot;
+ &quot;HS11&quot;
+ &quot;HS13&quot;
+ &quot;HS14&quot;
+ &quot;LINCON&quot;
+ &quot;LINSV&quot;
+ &quot;MGH01Feas&quot;</code></pre> <pre><code class=language-julia >nlp &#61; eval&#40;Symbol&#40;list_of_problems&#91;1&#93;&#41;&#41;&#40;&#41;</code></pre>
+<pre><code class=language-plaintext >NLPModelsTest.BROWNDEN&#123;Float64, Vector&#123;Float64&#125;&#125;
+  Problem name: BROWNDEN_manual
+                  All variables: ████████████████████ 4                     All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                           free: ████████████████████ 4                                free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                        low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                             low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                         infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   10                             linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                                                  nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                                        nnzj: &#40;------&#37; sparsity&#41;         
+
+  Counters:
+                            obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                       cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                            cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                 jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                             jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                        jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                           jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                      jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                          jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                     jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<pre><code class=language-julia >print_nlp_allocations&#40;nlp&#41;</code></pre>
+<pre><code class=language-plaintext >Problem name: BROWNDEN_manual
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     hess_coord&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+           grad&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hess_structure&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+          hprod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+   hess_op_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+
+Dict&#123;Symbol, Float64&#125; with 6 entries:
+  :obj             &#61;&gt; 0.0
+  :hess_coord&#33;     &#61;&gt; 0.0
+  :grad&#33;           &#61;&gt; 0.0
+  :hess_structure&#33; &#61;&gt; 0.0
+  :hprod&#33;          &#61;&gt; 0.0
+  :hess_op_prod&#33;   &#61;&gt; 0.0</code></pre>
+<pre><code class=language-julia >nlp &#61; eval&#40;Symbol&#40;list_of_problems&#91;7&#93;&#41;&#41;&#40;&#41;</code></pre>
+<pre><code class=language-plaintext >NLPModelsTest.HS14&#123;Float64, Vector&#123;Float64&#125;&#125;
+  Problem name: HS14_manual
+                  All variables: ████████████████████ 2                     All constraints: ████████████████████ 2     
+                           free: ████████████████████ 2                                free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               lower: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1     
+                          upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                        low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                             low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               fixed: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1     
+                         infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40; 33.33&#37; sparsity&#41;   2                              linear: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1     
+                                                                                  nonlinear: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1     
+                                                                        nnzj: &#40;  0.00&#37; sparsity&#41;   4     
+
+  Counters:
+                            obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                       cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                            cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                 jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                             jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                        jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                           jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                      jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                          jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                     jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<pre><code class=language-julia >print_nlp_allocations&#40;nlp, linear_api &#61; true&#41;</code></pre>
+<pre><code class=language-plaintext >Problem name: HS14_manual
+      jprod_nln&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_op_transpose_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     hess_coord&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+       cons_lin&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_op_transpose_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+  jac_structure&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_lin_structure&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+       cons_nln&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     jtprod_nln&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_structure&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     jtprod_lin&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+    jac_op_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_lin_op_transpose_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+hess_lag_op_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_lin_op_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+          hprod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+          jprod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_op_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+           cons&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+           grad&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+   hess_op_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      hprod_lag&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+         jtprod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      jprod_lin&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hess_lag_coord&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      jac_coord&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+  jac_nln_coord&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hess_structure&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+  jac_lin_coord&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+
+Dict&#123;Symbol, Float64&#125; with 30 entries:
+  :jprod_nln&#33;                 &#61;&gt; 0.0
+  :jac_op_transpose_prod&#33;     &#61;&gt; 0.0
+  :hess_coord&#33;                &#61;&gt; 0.0
+  :cons_lin&#33;                  &#61;&gt; 0.0
+  :jac_nln_op_transpose_prod&#33; &#61;&gt; 0.0
+  :jac_structure&#33;             &#61;&gt; 0.0
+  :jac_lin_structure&#33;         &#61;&gt; 0.0
+  :cons_nln&#33;                  &#61;&gt; 0.0
+  :jtprod_nln&#33;                &#61;&gt; 0.0
+  :jac_nln_structure&#33;         &#61;&gt; 0.0
+  :jtprod_lin&#33;                &#61;&gt; 0.0
+  :jac_op_prod&#33;               &#61;&gt; 0.0
+  :jac_lin_op_transpose_prod&#33; &#61;&gt; 0.0
+  :hess_lag_op_prod&#33;          &#61;&gt; 0.0
+  :jac_lin_op_prod&#33;           &#61;&gt; 0.0
+  :hprod&#33;                     &#61;&gt; 0.0
+  :jprod&#33;                     &#61;&gt; 0.0
+  :jac_nln_op_prod&#33;           &#61;&gt; 0.0
+  :cons&#33;                      &#61;&gt; 0.0
+  ⋮                           &#61;&gt; ⋮</code></pre>
+<h3 id=examples_with_an_nlsmodels ><a href="#examples_with_an_nlsmodels" class=header-anchor >Examples with an NLSModels</a></h3>
+<pre><code class=language-julia >list_of_problems &#61; NLPModelsTest.nls_problems</code></pre>
+<pre><code class=language-plaintext >5-element Vector&#123;String&#125;:
+ &quot;LLS&quot;
+ &quot;MGH01&quot;
+ &quot;BNDROSENBROCK&quot;
+ &quot;NLSHS20&quot;
+ &quot;NLSLC&quot;</code></pre>
+<pre><code class=language-julia >nls &#61; eval&#40;Symbol&#40;list_of_problems&#91;4&#93;&#41;&#41;&#40;&#41;</code></pre>
+<pre><code class=language-plaintext >NLPModelsTest.NLSHS20&#123;Float64, Vector&#123;Float64&#125;&#125;
+  Problem name: NLSHS20_manual
+                  All variables: ████████████████████ 2                     All constraints: ████████████████████ 3                       All residuals: ████████████████████ 2     
+                           free: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1                                free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               lower: ████████████████████ 3                           nonlinear: ████████████████████ 2     
+                          upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzj: &#40; 25.00&#37; sparsity&#41;   3     
+                        low/upp: ██████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 1                             low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzh: &#40; 66.67&#37; sparsity&#41;   1     
+                          fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                         infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   3                              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                                                  nonlinear: ████████████████████ 3     
+                                                                        nnzj: &#40;  0.00&#37; sparsity&#41;   6     
+
+  Counters:
+                            obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                       cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                            cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                 jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                             jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                        jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                           jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                      jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                          jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                     jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                                hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                               hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                          jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                              jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                            residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                   jac_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                      jprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                     jtprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                  hess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                      jhess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                      hprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<pre><code class=language-julia >print_nlp_allocations&#40;nls, linear_api &#61; true&#41;</code></pre>
+<pre><code class=language-plaintext >Problem name: NLSHS20_manual
+hess_op_residual_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+          jprod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      jprod_nln&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_op_transpose_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_op_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+           cons&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     hess_coord&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_structure_residual&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+           grad&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ jprod_residual&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_op_residual_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_op_transpose_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+  jac_structure&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+   hess_op_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_op_residual_transpose_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+hess_structure_residual&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      hprod_lag&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+       cons_nln&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+     jtprod_nln&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+         jtprod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_nln_structure&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+hess_coord_residual&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+    jac_op_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hess_lag_coord&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+hess_lag_op_prod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jac_coord_residual&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hprod_residual&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+      jac_coord&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+  jac_nln_coord&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+ hess_structure&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+          hprod&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+jtprod_residual&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+       residual&#33;: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0.0   
+
+Dict&#123;Symbol, Float64&#125; with 34 entries:
+  :hess_op_residual_prod&#33;          &#61;&gt; 0.0
+  :jprod&#33;                          &#61;&gt; 0.0
+  :jprod_nln&#33;                      &#61;&gt; 0.0
+  :jac_op_transpose_prod&#33;          &#61;&gt; 0.0
+  :jac_nln_op_prod&#33;                &#61;&gt; 0.0
+  :cons&#33;                           &#61;&gt; 0.0
+  :hess_coord&#33;                     &#61;&gt; 0.0
+  :jac_structure_residual&#33;         &#61;&gt; 0.0
+  :grad&#33;                           &#61;&gt; 0.0
+  :jprod_residual&#33;                 &#61;&gt; 0.0
+  :jac_op_residual_prod&#33;           &#61;&gt; 0.0
+  :jac_nln_op_transpose_prod&#33;      &#61;&gt; 0.0
+  :jac_structure&#33;                  &#61;&gt; 0.0
+  :hess_op_prod&#33;                   &#61;&gt; 0.0
+  :jac_op_residual_transpose_prod&#33; &#61;&gt; 0.0
+  :hess_structure_residual&#33;        &#61;&gt; 0.0
+  :hprod_lag&#33;                      &#61;&gt; 0.0
+  :cons_nln&#33;                       &#61;&gt; 0.0
+  :jtprod_nln&#33;                     &#61;&gt; 0.0
+  ⋮                                &#61;&gt; ⋮</code></pre>
+<h3 id=examples_with_a_testing_environment ><a href="#examples_with_a_testing_environment" class=header-anchor >Examples with a testing environment</a></h3>
+<p>The function <a href="@ref"><code>test_zero_allocations</code></a> combines <a href="@ref"><code>test_allocs_nlpmodels</code></a> and <a href="@ref"><code>test_allocs_nlsmodels</code></a> in a testing environment.</p>
+<pre><code class=language-julia >list_of_nlps &#61; map&#40;x -&gt; eval&#40;Symbol&#40;x&#41;&#41;&#40;&#41;, NLPModelsTest.nlp_problems&#41; # load a list of nlpmodels
+map&#40;
+    nlp -&gt; test_zero_allocations&#40;nlp, linear_api &#61; true&#41;,
+    list_of_nlps,
+&#41;</code></pre>
+<pre><code class=language-plaintext >Test Summary:                                          | Pass  Total  Time
+Test 0-allocations of NLPModel API for BROWNDEN_manual |    6      6  0.1s
+Test Summary:                                     | Pass  Total  Time
+Test 0-allocations of NLPModel API for HS5_manual |    6      6  0.0s
+Test Summary:                                     | Pass  Total  Time
+Test 0-allocations of NLPModel API for HS6_manual |   23     23  0.0s
+Test Summary:                                      | Pass  Total  Time
+Test 0-allocations of NLPModel API for HS10_manual |   23     23  0.0s
+Test Summary:                                      | Pass  Total  Time
+Test 0-allocations of NLPModel API for HS11_manual |   23     23  0.0s
+Test Summary:                                      | Pass  Total  Time
+Test 0-allocations of NLPModel API for HS13_manual |   23     23  0.0s
+Test Summary:                                      | Pass  Total  Time
+Test 0-allocations of NLPModel API for HS14_manual |   30     30  0.0s
+Test Summary:                                        | Pass  Total  Time
+Test 0-allocations of NLPModel API for LINCON_manual |   23     23  0.0s
+Test Summary:                                       | Pass  Total  Time
+Test 0-allocations of NLPModel API for LINSV_manual |   23     23  0.0s
+Test Summary:                                           | Pass  Total  Time
+Test 0-allocations of NLPModel API for MGH01Feas_manual |   30     30  0.0s
+10-element Vector&#123;Test.DefaultTestSet&#125;:
+ Test.DefaultTestSet&#40;&quot;Test 0-allocations of NLPModel API for BROWNDEN_manual&quot;, Any&#91;&#93;, 6, false, false, true, 1.686903963985416e9, 1.686903964082244e9, false&#41;
+ Test.DefaultTestSet&#40;&quot;Test 0-allocations of NLPModel API for HS5_manual&quot;, Any&#91;&#93;, 6, false, false, true, 1.686903965125515e9, 1.68690396512554e9, false&#41;
+ Test.DefaultTestSet&#40;&quot;Test 0-allocations of NLPModel API for HS6_manual&quot;, Any&#91;&#93;, 23, false, false, true, 1.686903966371382e9, 1.686903966371411e9, false&#41;
+ Test.DefaultTestSet&#40;&quot;Test 0-allocations of NLPModel API for HS10_manual&quot;, Any&#91;&#93;, 23, false, false, true, 1.686903967648405e9, 1.686903967648434e9, false&#41;
+ Test.DefaultTestSet&#40;&quot;Test 0-allocations of NLPModel API for HS11_manual&quot;, Any&#91;&#93;, 23, false, false, true, 1.686903968934762e9, 1.68690396893479e9, false&#41;
+ Test.DefaultTestSet&#40;&quot;Test 0-allocations of NLPModel API for HS13_manual&quot;, Any&#91;&#93;, 23, false, false, true, 1.686903970235455e9, 1.686903970235487e9, false&#41;
+ Test.DefaultTestSet&#40;&quot;Test 0-allocations of NLPModel API for HS14_manual&quot;, Any&#91;&#93;, 30, false, false, true, 1.686903970243648e9, 1.686903970243682e9, false&#41;
+ Test.DefaultTestSet&#40;&quot;Test 0-allocations of NLPModel API for LINCON_manual&quot;, Any&#91;&#93;, 23, false, false, true, 1.686903971725178e9, 1.686903971725207e9, false&#41;
+ Test.DefaultTestSet&#40;&quot;Test 0-allocations of NLPModel API for LINSV_manual&quot;, Any&#91;&#93;, 23, false, false, true, 1.686903972953522e9, 1.686903972953548e9, false&#41;
+ Test.DefaultTestSet&#40;&quot;Test 0-allocations of NLPModel API for MGH01Feas_manual&quot;, Any&#91;&#93;, 30, false, false, true, 1.686903974329496e9, 1.686903974329532e9, false&#41;</code></pre>
+<p>Note that all the problems manually implemented in this package are allocations free using Julia ≥ 1.7.</p>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
