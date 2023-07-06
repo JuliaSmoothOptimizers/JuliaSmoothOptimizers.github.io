@@ -5,14 +5,14 @@
 \preamble{Abel S. Siqueira}
 
 
-![JSON 0.21.3](https://img.shields.io/badge/JSON-0.21.3-000?style=flat-square&labelColor=999)
+![JSON 0.21.4](https://img.shields.io/badge/JSON-0.21.4-000?style=flat-square&labelColor=999)
 [![NLPModels 0.20.0](https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
-[![ManualNLPModels 0.1.4](https://img.shields.io/badge/ManualNLPModels-0.1.4-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ManualNLPModels.jl/stable/)
+[![ManualNLPModels 0.1.5](https://img.shields.io/badge/ManualNLPModels-0.1.5-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ManualNLPModels.jl/stable/)
 [![NLPModelsJuMP 0.12.1](https://img.shields.io/badge/NLPModelsJuMP-0.12.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModelsJuMP.jl/stable/)
 ![BenchmarkTools 1.3.2](https://img.shields.io/badge/BenchmarkTools-1.3.2-000?style=flat-square&labelColor=999)
-[![ADNLPModels 0.6.0](https://img.shields.io/badge/ADNLPModels-0.6.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
-![JuMP 1.9.0](https://img.shields.io/badge/JuMP-1.9.0-000?style=flat-square&labelColor=999)
-[![JSOSolvers 0.10.0](https://img.shields.io/badge/JSOSolvers-0.10.0-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/)
+[![ADNLPModels 0.6.2](https://img.shields.io/badge/ADNLPModels-0.6.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+![JuMP 1.12.0](https://img.shields.io/badge/JuMP-1.12.0-000?style=flat-square&labelColor=999)
+[![JSOSolvers 0.11.0](https://img.shields.io/badge/JSOSolvers-0.11.0-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/)
 
 
 
@@ -139,14 +139,14 @@ end
 ```
 
 ```plaintext
-BenchmarkTools.Trial: 1923 samples with 1 evaluation.
- Range (min … max):  2.361 ms …   7.641 ms  ┊ GC (min … max): 0.00% … 63.82%
- Time  (median):     2.416 ms               ┊ GC (median):    0.00%
- Time  (mean ± σ):   2.595 ms ± 862.919 μs  ┊ GC (mean ± σ):  5.71% ± 11.11%
+BenchmarkTools.Trial: 1844 samples with 1 evaluation.
+ Range (min … max):  2.374 ms …   7.601 ms  ┊ GC (min … max): 0.00% … 58.28%
+ Time  (median):     2.519 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   2.706 ms ± 876.791 μs  ┊ GC (mean ± σ):  5.78% ± 11.17%
 
-  █▅▃                                                          
-  ████▇▃▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▃▃▅██ █
-  2.36 ms      Histogram: log(frequency) by time      7.35 ms <
+  █▇▇▆▄▂                                                       
+  ██████▇▆▅▄▄▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄▇▇▇██ █
+  2.37 ms      Histogram: log(frequency) by time      7.21 ms <
 
  Memory estimate: 1.73 MiB, allocs estimate: 2655.
 ```
@@ -165,16 +165,16 @@ end
 ```
 
 ```plaintext
-BenchmarkTools.Trial: 55 samples with 1 evaluation.
- Range (min … max):  88.694 ms … 104.053 ms  ┊ GC (min … max): 0.00% … 0.00%
- Time  (median):     89.674 ms               ┊ GC (median):    0.00%
- Time  (mean ± σ):   91.174 ms ±   3.073 ms  ┊ GC (mean ± σ):  1.53% ± 2.33%
+BenchmarkTools.Trial: 3 samples with 1 evaluation.
+ Range (min … max):  1.647 s …   1.730 s  ┊ GC (min … max): 12.81% … 14.83%
+ Time  (median):     1.707 s              ┊ GC (median):    15.03%
+ Time  (mean ± σ):   1.695 s ± 42.971 ms  ┊ GC (mean ± σ):  14.34% ±  1.32%
 
-  ▁▆█ ▁▄                       ▁                                
-  ███▆██▇▇▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█▇▆▇▇▄▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▄ ▁
-  88.7 ms         Histogram: frequency by time         99.2 ms <
+  █                                        █              █  
+  █▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁█▁▁▁▁▁▁▁▁▁▁▁▁▁▁█ ▁
+  1.65 s         Histogram: frequency by time        1.73 s <
 
- Memory estimate: 30.58 MiB, allocs estimate: 5234.
+ Memory estimate: 448.57 MiB, allocs estimate: 6426996.
 ```
 
 
@@ -206,16 +206,16 @@ end
 ```
 
 ```plaintext
-BenchmarkTools.Trial: 34 samples with 1 evaluation.
- Range (min … max):  135.009 ms … 170.624 ms  ┊ GC (min … max): 0.00% … 12.15%
- Time  (median):     152.762 ms               ┊ GC (median):    9.88%
- Time  (mean ± σ):   151.186 ms ±  11.178 ms  ┊ GC (mean ± σ):  6.97% ±  5.35%
+BenchmarkTools.Trial: 32 samples with 1 evaluation.
+ Range (min … max):  151.953 ms … 172.083 ms  ┊ GC (min … max): 7.88% … 11.86%
+ Time  (median):     157.138 ms               ┊ GC (median):    7.65%
+ Time  (mean ± σ):   160.681 ms ±   6.355 ms  ┊ GC (mean ± σ):  8.22% ±  1.69%
 
-  █  ▁   ▁▁                ▄  ▁   ▄               ▁▁             
-  █▁▁█▁▁▆██▁▁▁▁▁▆▁▁▁▁▁▁▁▁▁▁█▁▁█▁▁▁█▁▆▆▁▆▁▁▆▁▆▁▆▁▆▁██▁▁▆▁▁▁▁▁▆▁▆ ▁
-  135 ms           Histogram: frequency by time          171 ms <
+              ▁█▁               ▁                                
+  ▆▁▆▁▆▆▆▆▁▁▁▆███▆▆▁▁▁▁▁▁▁▁▆▁▁▁▁█▁▁▆▁▁▁▁▆▁▆▁▆▁▆▆▁▁▆▁▁▆▁▁▁▁▆▁▆▆▆ ▁
+  152 ms           Histogram: frequency by time          172 ms <
 
- Memory estimate: 98.00 MiB, allocs estimate: 436895.
+ Memory estimate: 98.01 MiB, allocs estimate: 436900.
 ```
 
 
@@ -232,13 +232,13 @@ using NLPModels
 
 ```plaintext
 BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range (min … max):  12.400 μs …  11.568 ms  ┊ GC (min … max): 0.00% … 90.25%
- Time  (median):     14.900 μs               ┊ GC (median):    0.00%
- Time  (mean ± σ):   16.331 μs ± 115.712 μs  ┊ GC (mean ± σ):  6.39% ±  0.90%
+ Range (min … max):  12.300 μs …  7.114 ms  ┊ GC (min … max): 0.00% … 88.44%
+ Time  (median):     14.501 μs              ┊ GC (median):    0.00%
+ Time  (mean ± σ):   16.550 μs ± 95.792 μs  ┊ GC (mean ± σ):  7.58% ±  1.33%
 
-     ▁   █▁▁█▁ ▁▇  ▅   ▆  ▇   ▅  ▂                              
-  ▂▃▄█▆▆▇████████▇▇███▇█▇▇█▇▇▇█▆▆█▅▅▅▇▄▃▆▃▃▂▄▂▂▃▂▂▁▂▂▁▂▁▁▁▁▁▁▁ ▄
-  12.4 μs         Histogram: frequency by time         20.1 μs <
+      ▆▄▄▆▄█▂▁▁▄                                               
+  ▃▅▇███████████▇▇▆▆▇▅▅▅▅▄▃▃▃▃▃▃▃▃▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▂▁▂▂ ▄
+  12.3 μs         Histogram: frequency by time        25.4 μs <
 
  Memory estimate: 18.19 KiB, allocs estimate: 8.
 ```
@@ -251,14 +251,14 @@ adnlp = ADNLPModel(β -> myfun(β, X, y), zeros(p + 1))
 ```
 
 ```plaintext
-BenchmarkTools.Trial: 3647 samples with 1 evaluation.
- Range (min … max):  1.311 ms …   7.143 ms  ┊ GC (min … max): 0.00% … 76.14%
- Time  (median):     1.337 ms               ┊ GC (median):    0.00%
- Time  (mean ± σ):   1.368 ms ± 311.027 μs  ┊ GC (mean ± σ):  1.19% ±  4.24%
+BenchmarkTools.Trial: 1156 samples with 1 evaluation.
+ Range (min … max):  4.262 ms …   9.244 ms  ┊ GC (min … max): 0.00% … 50.32%
+ Time  (median):     4.284 ms               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   4.323 ms ± 357.070 μs  ┊ GC (mean ± σ):  0.60% ±  3.75%
 
-   ▄▆▇███▇▆▆▅▃▃▃▂▁▁ ▁                                         ▂
-  ████████████████████████▇▇█▆▆▇▆▅▇▇▇▆▆▆▆▆▅▃▅▄▄▄▄▄▆▇██▇▆█▅▄▆▆ █
-  1.31 ms      Histogram: log(frequency) by time      1.55 ms <
+     ▅██▅▂                                                     
+  ▃▄██████▇▅▄▃▃▂▂▁▂▂▂▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▂▂▂▂▃▃▂▂ ▃
+  4.26 ms         Histogram: frequency by time        4.49 ms <
 
  Memory estimate: 471.91 KiB, allocs estimate: 42.
 ```
@@ -286,13 +286,13 @@ jumpnlp = MathOptNLPModel(model)
 
 ```plaintext
 BenchmarkTools.Trial: 10000 samples with 1 evaluation.
- Range (min … max):  224.202 μs … 908.511 μs  ┊ GC (min … max): 0.00% … 0.00%
- Time  (median):     227.502 μs               ┊ GC (median):    0.00%
- Time  (mean ± σ):   229.686 μs ±   9.667 μs  ┊ GC (mean ± σ):  0.00% ± 0.00%
+ Range (min … max):  225.605 μs … 821.420 μs  ┊ GC (min … max): 0.00% … 0.00%
+ Time  (median):     232.406 μs               ┊ GC (median):    0.00%
+ Time  (mean ± σ):   233.738 μs ±   9.509 μs  ┊ GC (mean ± σ):  0.00% ± 0.00%
 
-   ▁▃▅▇▇█▇▇▆▅▅▄▃▂▂▂▂▂▂▃▂▃▂▃▃▂▂▁▁▁▁ ▁▁ ▁▁ ▁▁▁▁                   ▂
-  ▇████████████████████████████████████████████▇▇▇▇▇▆▇▇▆▇▆▅▆▆▅▆ █
-  224 μs        Histogram: log(frequency) by time        250 μs <
+              ▁██▃                                               
+  ▁▂▄▇▆▆▄▃▁▂▂▆████▆▄▃▃▂▂▂▂▂▂▂▃▂▃▂▂▂▂▁▁▁▂▂▁▁▁▁▁▁▁▂▁▁▁▁▁▁▁▁▁▁▁▁▁▁ ▂
+  226 μs           Histogram: frequency by time          255 μs <
 
  Memory estimate: 496 bytes, allocs estimate: 1.
 ```
