@@ -177,5 +177,13 @@
     "date": "2022-12-08",
     "link": "https://github.com/amontoison/STFC-Krylov",
     "type": "talk"
+  },
+  {
+    "title": "JuliaHSL: the ultimate collection for large scale scientific computation",
+    "author": "Alexis Montoison",
+    "where": "GERAD seminar, Montreal, Canada",
+    "date": "2023-07-04",
+    "link": "https://www.gerad.ca/fr/events/2128",
+    "type": "talk"
   }
 ]
