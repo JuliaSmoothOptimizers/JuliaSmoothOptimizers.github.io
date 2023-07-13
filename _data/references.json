@@ -179,6 +179,13 @@
     "type": "talk"
   },
   {
+    "title": "How to maintain a large Julia package ecosystem",
+    "author": "Abel Soares Siqueira",
+    "where": "Julia Eindhoven meetup",
+    "date": "2023-01-19",
+    "type": "talk"
+  },
+  {
     "title": "JuliaHSL: the ultimate collection for large-scale scientific computation",
     "author": "Alexis Montoison",
     "where": "GERAD seminar, Montreal, Canada",
