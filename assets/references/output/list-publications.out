@@ -287,8 +287,9 @@
 </span>
 </button>
 ~~~A Unified Efficient Implementation of Trust-region Type Algorithms for Unconstrained Optimization, **J.-P. Dussault**, INFOR: Information Systems and Operational Research, 58(2), 290--309, 2019., [10.1080/03155986.2019.1624490](https://doi.org/10.1080/03155986.2019.1624490)
-### Talks (19)
+### Talks (20)
 - [JuliaHSL: the ultimate collection for large-scale scientific computation](https://www.gerad.ca/fr/events/2128), **Alexis Montoison**, GERAD seminar, Montreal, Canada, 2023-Jul-4
+- How to maintain a large Julia package ecosystem, **Abel Soares Siqueira**, Julia Eindhoven meetup, 2023-Jan-19
 - [Introduction to Julia -- Krylov.jl](https://github.com/amontoison/STFC-Krylov), **Alexis Montoison and Dominique Orban**, STFC-Rutherford Appleton Laboratory, England, 2022-Dec-8
 - [The JuliaSmoothOptimizers (JSO) Organization](https://www.youtube.com/watch?v=p5Z5QGOUZhE), **Dominique Orban**, JuliaCon / JuMP-dev 2022, 2022-Jul-28
 - [PDE-constrained optimization using JuliaSmoothOptimizers](https://www.youtube.com/watch?v=BvReBcMyujQ), **Tangi Migot**, JuliaCon / JuMP-dev 2022, 2022-Jul-28
