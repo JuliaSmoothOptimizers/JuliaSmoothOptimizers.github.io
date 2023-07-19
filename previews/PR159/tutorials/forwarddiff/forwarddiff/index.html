@@ -1,0 +1,86 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR159/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR159//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR159//assets/favicon.png"> <title>ForwardDiff example</title> <script src="/previews/PR159/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR159/"> <img src="https://jso-preview.netlify.app/previews/PR159//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR159//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR159//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR159//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR159//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR159//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR159//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR159//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR159//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR159//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >ForwardDiff example</a></h1></p> <p><div class=author >by Abel Soares Siqueira</div> <p>Consider the function below:</p> <pre><code class=language-julia >f&#40;x&#41; &#61; &#40;x&#91;1&#93; - 1&#41;^2 &#43; 100 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2</code></pre>
+<pre><code class=language-julia >f &#40;generic function with 1 method&#41;</code></pre>
+<p>We use ForwardDiff for the derivatives.</p>
+<pre><code class=language-julia >using ForwardDiff
+∇f&#40;x&#41; &#61; ForwardDiff.gradient&#40;f, x&#41;
+H&#40;x&#41; &#61; ForwardDiff.hessian&#40;f, x&#41;</code></pre>
+<pre><code class=language-julia >H &#40;generic function with 1 method&#41;</code></pre>
+<p>Newton&#39;s method:</p>
+<pre><code class=language-julia >x &#61; &#91;-1.2; 1.0&#93;
+for k &#61; 1:10
+  println&#40;&quot;Iter &#36;k - x &#61; &quot;, x&#41;
+  x -&#61; H&#40;x&#41; \ ∇f&#40;x&#41;
+end</code></pre>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
