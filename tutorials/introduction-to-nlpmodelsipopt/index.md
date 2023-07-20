@@ -8,11 +8,11 @@
 ![GR 0.71.8](https://img.shields.io/badge/GR-0.71.8-000?style=flat-square&labelColor=999)
 [![NLPModels 0.20.0](https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
 [![NLPModelsIpopt 0.10.1](https://img.shields.io/badge/NLPModelsIpopt-0.10.1-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/NLPModelsIpopt.jl/stable/)
-![DataFrames 1.5.0](https://img.shields.io/badge/DataFrames-1.5.0-000?style=flat-square&labelColor=999)
-![Plots 1.38.8](https://img.shields.io/badge/Plots-1.38.8-000?style=flat-square&labelColor=999)
-![Ipopt 1.2.0](https://img.shields.io/badge/Ipopt-1.2.0-000?style=flat-square&labelColor=999)
-[![ADNLPModels 0.6.0](https://img.shields.io/badge/ADNLPModels-0.6.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
-![JuMP 1.9.0](https://img.shields.io/badge/JuMP-1.9.0-000?style=flat-square&labelColor=999)
+![DataFrames 1.6.0](https://img.shields.io/badge/DataFrames-1.6.0-000?style=flat-square&labelColor=999)
+![Plots 1.38.16](https://img.shields.io/badge/Plots-1.38.16-000?style=flat-square&labelColor=999)
+![Ipopt 1.4.1](https://img.shields.io/badge/Ipopt-1.4.1-000?style=flat-square&labelColor=999)
+[![ADNLPModels 0.7.0](https://img.shields.io/badge/ADNLPModels-0.7.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+![JuMP 1.12.0](https://img.shields.io/badge/JuMP-1.12.0-000?style=flat-square&labelColor=999)
 
 
 
@@ -40,7 +40,7 @@ This program contains Ipopt, a library for large-scale nonlinear optimization.
          For more information visit https://github.com/coin-or/Ipopt
 ******************************************************************************
 
-This is Ipopt version 3.14.4, running with linear solver MUMPS 5.5.1.
+This is Ipopt version 3.14.13, running with linear solver MUMPS 5.6.0.
 
 Number of nonzeros in equality constraint Jacobian...:        0
 Number of nonzeros in inequality constraint Jacobian.:        0
@@ -100,7 +100,7 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 21
-Total seconds in IPOPT                               = 5.446
+Total seconds in IPOPT                               = 11.987
 
 EXIT: Optimal Solution Found.
 Generic Execution stats
@@ -110,9 +110,9 @@ Generic Execution stats
   dual feasibility: 3.732500974666708e-10
   solution: [0.9999999999400667  0.9999999998789006]
   iterations: 21
-  elapsed time: 5.446
+  elapsed time: 11.987
   solver specific:
-    real_time: 5.446867942810059
+    real_time: 11.987930059432983
     internal_msg: :Solve_Succeeded
 ```
 
@@ -132,7 +132,7 @@ optimize!(model)
 ```
 
 ```plaintext
-This is Ipopt version 3.14.4, running with linear solver MUMPS 5.5.1.
+This is Ipopt version 3.14.13, running with linear solver MUMPS 5.6.0.
 
 Number of nonzeros in equality constraint Jacobian...:        0
 Number of nonzeros in inequality constraint Jacobian.:        0
@@ -192,7 +192,7 @@ Number of inequality constraint evaluations          = 0
 Number of equality constraint Jacobian evaluations   = 0
 Number of inequality constraint Jacobian evaluations = 0
 Number of Lagrangian Hessian evaluations             = 21
-Total seconds in IPOPT                               = 2.667
+Total seconds in IPOPT                               = 0.010
 
 EXIT: Optimal Solution Found.
 ```
@@ -222,11 +222,11 @@ Generic Execution stats
   primal feasibility: 8.354206215699378e-12
   dual feasibility: 6.315985062164715e-9
   solution: [-0.9505563573613093  0.9139008176388945  0.9890905176644905  0.9985592422681151 ⋯ 0.999999930070643]
-  multipliers: [4.1358568305002255  -1.8764949037033418  -0.06556333356358675  -0.021931863018312864 ⋯ -7.3765921628237065e-6]
+  multipliers: [4.1358568305002255  -1.8764949037033418  -0.06556333356358672  -0.021931863018312868 ⋯ -7.3765921628237065e-6]
   iterations: 6
-  elapsed time: 9.11
+  elapsed time: 19.209
   solver specific:
-    real_time: 9.110083103179932
+    real_time: 19.209251880645752
     internal_msg: :Solve_Succeeded
 ```
 
