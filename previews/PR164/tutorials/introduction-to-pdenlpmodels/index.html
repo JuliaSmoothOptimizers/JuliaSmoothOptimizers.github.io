@@ -1,0 +1,195 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR164//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR164/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR164//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR164//assets/favicon.png"> <title>Solve a PDE-constrained optimization problem</title> <script src="/previews/PR164/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR164/"> <img src="https://jso-preview.netlify.app/previews/PR164//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR164//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR164//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR164//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR164//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR164//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR164//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR164//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR164//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR164//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Solve a PDE-constrained optimization problem</a></h1></p> <p><div class=author >by Tangi Migot</div> <p><a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.20.0" /></a> <a href="https://juliasmoothoptimizers.github.io/NLPModelsIpopt.jl/stable/"><img src="https://img.shields.io/badge/NLPModelsIpopt-0.10.1-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="NLPModelsIpopt 0.10.1" /></a> <img src="https://img.shields.io/badge/Gridap-0.15.5-000?style&#61;flat-square&amp;labelColor&#61;999" alt="Gridap 0.15.5" /> <a href="https://juliasmoothoptimizers.github.io/PDENLPModels.jl/stable/"><img src="https://img.shields.io/badge/PDENLPModels-0.3.4-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="PDENLPModels 0.3.4" /></a> <a href="https://juliasmoothoptimizers.github.io/NLPModelsModifiers.jl/stable/"><img src="https://img.shields.io/badge/NLPModelsModifiers-0.6.6-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModelsModifiers 0.6.6" /></a> <a href="https://juliasmoothoptimizers.github.io/DCISolver.jl/stable/"><img src="https://img.shields.io/badge/DCISolver-0.4.3-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="DCISolver 0.4.3" /></a> <a href="https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/"><img src="https://img.shields.io/badge/JSOSolvers-0.11.0-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="JSOSolvers 0.11.0" /></a></p> <p>In this tutorial, you will learn how to use JSO-compliant solvers to solve a PDE-constrained optimization problem discretized with <a href="https://github.com/JuliaSmoothOptimizers/PDENLPModels.jl">PDENLPModels.jl</a>.</p> <div class=franklin-toc ><ol><li><a href="#problem_statement">Problem Statement</a><li><a href="#find_a_feasible_point">Find a Feasible Point</a><li><a href="#solve_the_problem">Solve the Problem</a></ol></div> <h2 id=problem_statement ><a href="#problem_statement" class=header-anchor >Problem Statement</a></h2> <p>In this first part, we define a distributed Poisson control problem with Dirichlet boundary conditions which is then automatically discretized. We refer to <a href="https://github.com/gridap/Gridap.jl">Gridap.jl</a> for more details on modeling PDEs and <a href="https://github.com/JuliaSmoothOptimizers/PDENLPModels.jl">PDENLPModels.jl</a> for PDE-constrained optimization problems.</p> <p>Let \(\Omega = (-1,1)^2\), we solve the following problem:</p> \[ \begin{aligned} \min_{y \in H^1_0, u \in H^1} \quad & \frac{1}{2 \alpha} \int_\Omega |y(x) - y_d(x)|^2dx + \frac{\alpha}{2} \int_\Omega |u|^2dx \\ \text{s.t.} & -\Delta y = h + u, \quad x \in \Omega, \\ & y = 0, \quad x \in \partial \Omega, \end{aligned} \] <p>where \(y_d(x) = -x_1^2\) and \(\alpha = 10^{-2}\). The force term is \(h(x_1, x_2) = - sin(\omega x_1)sin(\omega x_2)\) with \(\omega = \pi - \frac{1}{8}\).</p> <pre><code class=language-julia >using Gridap, PDENLPModels
+
+# First, we define the domain and its discretization.
+n &#61; 100
+domain &#61; &#40;-1, 1, -1, 1&#41;
+partition &#61; &#40;n, n&#41;
+model &#61; CartesianDiscreteModel&#40;domain, partition&#41;
+
+# Then, we introduce the definition of the finite element spaces.
+reffe &#61; ReferenceFE&#40;lagrangian, Float64, 1&#41;
+Xpde &#61; TestFESpace&#40;model, reffe; conformity &#61; :H1, dirichlet_tags &#61; &quot;boundary&quot;&#41;
+y0&#40;x&#41; &#61; 0.0
+Ypde &#61; TrialFESpace&#40;Xpde, y0&#41;
+
+reffe_con &#61; ReferenceFE&#40;lagrangian, Float64, 1&#41;
+Xcon &#61; TestFESpace&#40;model, reffe_con; conformity &#61; :H1&#41;
+Ycon &#61; TrialFESpace&#40;Xcon&#41;
+Y &#61; MultiFieldFESpace&#40;&#91;Ypde, Ycon&#93;&#41;
+
+# Gridap also requires setting the integration machinery use to define next the objective function and the constraint operator.
+trian &#61; Triangulation&#40;model&#41;
+degree &#61; 1
+dΩ &#61; Measure&#40;trian, degree&#41;
+
+yd&#40;x&#41; &#61; -x&#91;1&#93;^2
+α &#61; 1e-2
+function f&#40;y, u&#41;
+  ∫&#40;0.5 / α * &#40;yd - y&#41; * &#40;yd - y&#41; &#43; 0.5 * α * u * u&#41; * dΩ
+end
+
+ω &#61; π - 1 / 8
+h&#40;x&#41; &#61; -sin&#40;ω * x&#91;1&#93;&#41; * sin&#40;ω * x&#91;2&#93;&#41;
+function res&#40;y, u, v&#41;
+  ∫&#40;∇&#40;v&#41; ⊙ ∇&#40;y&#41; - v * u - v * h&#41; * dΩ
+end
+op &#61; FEOperator&#40;res, Y, Xpde&#41;
+
+npde &#61; Gridap.FESpaces.num_free_dofs&#40;Ypde&#41;
+ncon &#61; Gridap.FESpaces.num_free_dofs&#40;Ycon&#41;
+x0 &#61; zeros&#40;npde &#43; ncon&#41;;</code></pre> <p>Overall, we built a GridapPDENLPModel, which implements the <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/">NLPModel</a> API.</p> <pre><code class=language-julia >nlp &#61; GridapPDENLPModel&#40;x0, f, trian, Ypde, Ycon, Xpde, Xcon, op, name &#61; &quot;Control elastic membrane&quot;&#41;
+
+using NLPModels
+
+&#40;get_nvar&#40;nlp&#41;, get_ncon&#40;nlp&#41;&#41;</code></pre> <pre><code class=language-plaintext >&#40;20002, 9801&#41;</code></pre>
+<h2 id=find_a_feasible_point ><a href="#find_a_feasible_point" class=header-anchor >Find a Feasible Point</a></h2>
+<p>Before solving the previously defined model, we will first improve our initial guess. The first step is to create a nonlinear least-squares whose residual is the equality-constraint of the optimization problem. We use <code>FeasibilityResidual</code> from <a href="https://github.com/JuliaSmoothOptimizers/NLPModelsModifiers.jl">NLPModelsModifiers.jl</a> to convert the NLPModel as an NLSModel. Then, using <code>trunk</code>, a matrix-free solver for least-squares problems implemented in <a href="https://github.com/JuliaSmoothOptimizers/JSOSolvers.jl">JSOSolvers.jl</a>, we find an improved guess which is close to being feasible for our large-scale problem. By default, JSO-compliant solvers use <code>get_x0&#40;nlp&#41;</code> as an initial guess.</p>
+<pre><code class=language-julia >using JSOSolvers, NLPModelsModifiers
+
+nls &#61; FeasibilityResidual&#40;nlp&#41;
+stats_trunk &#61; trunk&#40;nls, max_time &#61; 300.0&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<p>We check the solution from the stats returned by <code>trunk</code>:</p>
+<pre><code class=language-julia >norm&#40;cons&#40;nlp, stats_trunk.solution&#41;&#41;</code></pre>
+<pre><code class=language-plaintext >4.465311648679671e-7</code></pre>
+<p>We will use the solution found to initialize our solvers.</p>
+<h2 id=solve_the_problem ><a href="#solve_the_problem" class=header-anchor >Solve the Problem</a></h2>
+<p>Finally, we are ready to solve the PDE-constrained optimization problem with a targeted tolerance of <code>10⁻⁵</code>. In the following, we will use both Ipopt and DCI on our problem. We refer to the tutorial <a href="https://jso-docs.github.io/solve-an-optimization-problem-with-ipopt/">How to solve a small optimization problem with Ipopt &#43; NLPModels</a> for more information on <code>NLPModelsIpopt</code>.</p>
+<pre><code class=language-julia >using NLPModelsIpopt
+
+# Set &#96;print_level &#61; 0&#96; to avoid printing detailed iteration information.
+stats_ipopt &#61; ipopt&#40;nlp, x0 &#61; stats_trunk.solution, tol &#61; 1e-5, print_level &#61; 0&#41;</code></pre>
+<pre><code class=language-plaintext >******************************************************************************
+This program contains Ipopt, a library for large-scale nonlinear optimization.
+ Ipopt is released as open source code under the Eclipse Public License &#40;EPL&#41;.
+         For more information visit https://github.com/coin-or/Ipopt
+******************************************************************************
+
+&quot;Execution stats: first-order stationary&quot;</code></pre>
+<p>The problem was successfully solved, and we can extract the function evaluations from the stats.</p>
+<pre><code class=language-julia >nlp.counters</code></pre>
+<pre><code class=language-plaintext >Counters:
+             obj: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 6                 grad: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 7                 cons: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 13    
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 13                jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 7              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 7                jprod: ████████████████████ 1127         jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ████████████████████ 1127            jtprod: ████████████████████ 1133        jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ████████████████████ 1133              hess: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 5                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<p>Reinitialize the counters before re-solving.</p>
+<pre><code class=language-julia >reset&#33;&#40;nlp&#41;;</code></pre>
+<p>Most JSO-compliant solvers are using logger for printing iteration information. <code>NullLogger</code> avoids printing iteration information.</p>
+<pre><code class=language-julia >using DCISolver, Logging
+
+stats_dci &#61; with_logger&#40;NullLogger&#40;&#41;&#41; do
+  dci&#40;nlp, stats_trunk.solution, atol &#61; 1e-5, rtol &#61; 0.0&#41;
+end</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<p>The problem was successfully solved, and we can extract the function evaluations from the stats.</p>
+<pre><code class=language-julia >nlp.counters</code></pre>
+<pre><code class=language-plaintext >Counters:
+             obj: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 7                 grad: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 7                 cons: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 7     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 7                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 13             jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 13               jprod: ████████████████████ 10895        jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ████████████████████ 10895       jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: █⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 5                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<p>We now compare the two solvers with respect to the time spent,</p>
+<pre><code class=language-julia >stats_ipopt.elapsed_time, stats_dci.elapsed_time</code></pre>
+<pre><code class=language-plaintext >&#40;61.23, 18.304601907730103&#41;</code></pre>
+<p>and also check objective value, feasibility, and dual feasibility of <code>ipopt</code> and <code>dci</code>.</p>
+<pre><code class=language-julia >&#40;stats_ipopt.objective, stats_ipopt.primal_feas, stats_ipopt.dual_feas&#41;,
+&#40;stats_dci.objective, stats_dci.primal_feas, stats_dci.dual_feas&#41;</code></pre>
+<pre><code class=language-plaintext >&#40;&#40;16.044043741825803, 2.740863092043355e-16, 6.754773183374242e-6&#41;, &#40;16.040271504407357, 5.628478048695899e-10, 7.394013205487982e-8&#41;&#41;</code></pre>
+<p>Overall <code>DCISolver</code> is doing great for solving large-scale optimization problems&#33; You can try increase the problem size by changing the discretization parameter <code>n</code>.</p>
+<p>Finally, switching the discrete solution as a <code>FEFunction</code> the result can written as a VTK-file using Gridap&#39;s facilities.</p>
+<pre><code class=language-julia >yfv &#61; stats_dci.solution&#91;1:Gridap.FESpaces.num_free_dofs&#40;nlp.pdemeta.Ypde&#41;&#93;
+yh  &#61; FEFunction&#40;nlp.pdemeta.Ypde, yfv&#41;
+
+ufv &#61; stats_dci.solution&#91;1&#43;Gridap.FESpaces.num_free_dofs&#40;nlp.pdemeta.Ypde&#41;:end&#93;
+uh  &#61; FEFunction&#40;nlp.pdemeta.Ycon, ufv&#41;
+
+writevtk&#40;nlp.pdemeta.tnrj.trian, &quot;results&quot;, cellfields &#61; &#91;&quot;uh&quot; &#61;&gt; uh, &quot;yh&quot; &#61;&gt; yh&#93;&#41;</code></pre>
+<pre><code class=language-plaintext >&#40;&#91;&quot;results.vtu&quot;&#93;,&#41;</code></pre>
+<p>The following plots can obtained using any software reading VTK, e.g. Paraview.</p>
+<p><img src="figures/uh.png" alt="" /></p>
+<p><img src="figures/yh.png" alt="" /></p>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR164/libs/katex/katex.min.js"></script>
+<script src="/previews/PR164/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
