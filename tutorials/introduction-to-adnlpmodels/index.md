@@ -6,7 +6,7 @@
 
 
 [![NLPModels 0.20.0](https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
-[![ADNLPModels 0.6.0](https://img.shields.io/badge/ADNLPModels-0.6.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+[![ADNLPModels 0.7.0](https://img.shields.io/badge/ADNLPModels-0.7.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
 
 
 
@@ -34,11 +34,11 @@ nlp = ADNLPModel(x->(x[1] - 1.0)^2 + 100*(x[2] - x[1]^2)^2 , [-1.2; 1.0])
 ADNLPModel - Model with automatic differentiation backend ADModelBackend{
   ForwardDiffADGradient,
   ForwardDiffADHvprod,
-  ForwardDiffADJprod,
-  ForwardDiffADJtprod,
-  SparseForwardADJacobian,
+  EmptyADbackend,
+  EmptyADbackend,
+  EmptyADbackend,
   ForwardDiffADHessian,
-  ForwardDiffADGHjvprod,
+  EmptyADbackend,
 }
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -179,8 +179,8 @@ d = -H(x)\g(x)
 
 ```plaintext
 2-element Vector{Float64}:
- 0.0247191011235955
- 0.38067415730337073
+ 0.024719101123595457
+ 0.38067415730337084
 ```
 
 
@@ -198,11 +198,11 @@ end
 ```
 
 ```plaintext
-x = [-1.1752808988764045, 1.3806741573033707]
-x = [0.763114871176314, -3.1750338547478294]
-x = [0.7634296788839187, 0.5828247754969103]
-x = [0.9999953110849887, 0.9440273238532714]
-x = [0.9999956956536669, 0.9999913913257132]
+x = [-1.1752808988764043, 1.3806741573033703]
+x = [0.7631148711766087, -3.1750338547485217]
+x = [0.7634296788842125, 0.5828247754973592]
+x = [0.9999953110849884, 0.9440273238534099]
+x = [0.9999956956536664, 0.9999913913257122]
 ```
 
 
@@ -277,17 +277,17 @@ nls = ADNLSModel(F, x0, 2) # 2 nonlinear equations
 ADNLSModel - Nonlinear least-squares model with automatic differentiation backend ADModelBackend{
   ForwardDiffADGradient,
   ForwardDiffADHvprod,
-  ForwardDiffADJprod,
-  ForwardDiffADJtprod,
-  SparseForwardADJacobian,
+  EmptyADbackend,
+  EmptyADbackend,
+  EmptyADbackend,
   ForwardDiffADHessian,
-  ForwardDiffADGHjvprod,
+  EmptyADbackend,
 }
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0        All residuals: ████████████████████ 2     
             free: ████████████████████ 2                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            nonlinear: ████████████████████ 2     
-           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzj: ( 25.00% sparsity)   3     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzj: (  0.00% sparsity)   4     
          low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzh: (  0.00% sparsity)   3     
            fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
           infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -326,8 +326,8 @@ jac_residual(nls, x0)
 ```
 
 ```plaintext
-2×2 SparseArrays.SparseMatrixCSC{Float64, Int64} with 3 stored entries:
-  1.0    ⋅ 
+2×2 SparseArrays.SparseMatrixCSC{Float64, Int64} with 4 stored entries:
+  1.0   0.0
  24.0  10.0
 ```
 
