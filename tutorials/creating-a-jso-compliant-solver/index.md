@@ -10,7 +10,7 @@
 [![NLPModels 0.20.0](https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
 [![SolverCore 0.3.7](https://img.shields.io/badge/SolverCore-0.3.7-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/SolverCore.jl/stable/)
 ![Plots 1.38.16](https://img.shields.io/badge/Plots-1.38.16-000?style=flat-square&labelColor=999)
-[![ADNLPModels 0.6.2](https://img.shields.io/badge/ADNLPModels-0.6.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
+[![ADNLPModels 0.7.0](https://img.shields.io/badge/ADNLPModels-0.7.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
 [![JSOSolvers 0.11.0](https://img.shields.io/badge/JSOSolvers-0.11.0-006400?style=flat-square&labelColor=389826)](https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/)
 
 
@@ -95,11 +95,11 @@ nlp = ADNLPModel(
 ADNLPModel - Model with automatic differentiation backend ADModelBackend{
   ForwardDiffADGradient,
   ForwardDiffADHvprod,
-  ForwardDiffADJprod,
-  ForwardDiffADJtprod,
-  SparseADJacobian,
-  SparseADHessian,
-  ForwardDiffADGHjvprod,
+  EmptyADbackend,
+  EmptyADbackend,
+  EmptyADbackend,
+  ForwardDiffADHessian,
+  EmptyADbackend,
 }
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -614,7 +614,7 @@ Generic Execution stats
   dual feasibility: 4.018046284781729e-9
   solution: [0.9999999986742657  0.9999999970013461]
   iterations: 18
-  elapsed time: 5.2928924560546875e-5
+  elapsed time: 7.200241088867188e-5
 ```
 
 
@@ -685,10 +685,10 @@ pretty_stats(stats[:newton][!, cols])
 ┌─────────┬─────────────┬───────────┬──────────────┬────────┐
 │    name │      status │ objective │ elapsed_time │   iter │
 ├─────────┼─────────────┼───────────┼──────────────┼────────┤
-│ Generic │ first_order │  6.16e-32 │     3.85e-01 │      1 │
-│ Generic │ first_order │  3.74e-21 │     4.02e-01 │     21 │
-│ Generic │    max_iter │ -8.36e+00 │     3.55e-01 │    100 │
-│ Generic │ first_order │  1.43e+00 │     3.65e-01 │      5 │
+│ Generic │ first_order │  6.16e-32 │     3.83e-01 │      1 │
+│ Generic │ first_order │  3.74e-21 │     4.22e-01 │     21 │
+│ Generic │    max_iter │ -8.36e+00 │     4.04e-01 │    100 │
+│ Generic │ first_order │  1.43e+00 │     4.21e-01 │      5 │
 └─────────┴─────────────┴───────────┴──────────────┴────────┘
 ```
 
