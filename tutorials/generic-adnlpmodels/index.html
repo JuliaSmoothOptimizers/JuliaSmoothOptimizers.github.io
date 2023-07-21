@@ -1,4 +1,4 @@
-<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/katex/katex.min.css"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="/assets/favicon.png"> <title>Creating an ADNLPModels backend that supports multiple precisions</title> <script src="/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href=""> <img src="/assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="/"> Home </a> <a class=navbar-item  href="/news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="/tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="/ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="/ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="/ecosystems/models/"> Models </a> <a class=navbar-item  href="/ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="/references/"> References </a> <a class=navbar-item  href="/contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Creating an ADNLPModels backend that supports multiple precisions</a></h1></p> <p><div class=author >by Tangi Migot</div> <p><a href="https://juliasmoothoptimizers.github.io/OptimizationProblems.jl/stable/"><img src="https://img.shields.io/badge/OptimizationProblems-0.7.1-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="OptimizationProblems 0.7.1" /></a> <img src="https://img.shields.io/badge/ForwardDiff-0.10.35-000?style&#61;flat-square&amp;labelColor&#61;999" alt="ForwardDiff 0.10.35" /> <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.20.0" /></a> <img src="https://img.shields.io/badge/DataFrames-1.5.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="DataFrames 1.5.0" /> <a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.6.2-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.6.2" /></a> <a href="https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/"><img src="https://img.shields.io/badge/JSOSolvers-0.11.0-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="JSOSolvers 0.11.0" /></a></p> <pre><code class=language-julia >using ADNLPModels, ForwardDiff, NLPModels, OptimizationProblems</code></pre>
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/katex/katex.min.css"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="/assets/favicon.png"> <title>Creating an ADNLPModels backend that supports multiple precisions</title> <script src="/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href=""> <img src="/assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="/"> Home </a> <a class=navbar-item  href="/news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="/tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="/ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="/ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="/ecosystems/models/"> Models </a> <a class=navbar-item  href="/ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="/references/"> References </a> <a class=navbar-item  href="/contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Creating an ADNLPModels backend that supports multiple precisions</a></h1></p> <p><div class=author >by Tangi Migot</div> <p><a href="https://juliasmoothoptimizers.github.io/OptimizationProblems.jl/stable/"><img src="https://img.shields.io/badge/OptimizationProblems-0.7.1-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="OptimizationProblems 0.7.1" /></a> <img src="https://img.shields.io/badge/ForwardDiff-0.10.35-000?style&#61;flat-square&amp;labelColor&#61;999" alt="ForwardDiff 0.10.35" /> <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.20.0" /></a> <img src="https://img.shields.io/badge/DataFrames-1.6.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="DataFrames 1.6.0" /> <a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.7.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.7.0" /></a> <a href="https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/"><img src="https://img.shields.io/badge/JSOSolvers-0.11.0-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="JSOSolvers 0.11.0" /></a></p> <pre><code class=language-julia >using ADNLPModels, ForwardDiff, NLPModels, OptimizationProblems</code></pre>
 <p>One of the main strengths of Julia for scientific computing is its native usage of <a href="https://docs.julialang.org/en/v1/manual/integers-and-floating-point-numbers/#Arbitrary-Precision-Arithmetic">arbitrary precision arithmetic</a>. The same can be exploited for optimization models and solvers. In the organization <a href="https://juliasmoothoptimizers.github.io">JuliaSmoothOptimizers</a>, the package <a href="https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl">ADNLPModels.jl</a> provides automatic differentiation &#40;AD&#41;-based model implementations that conform to the NLPModels API. This package is modular in the sense that it implements a backend system allowing the user to use essentially any AD system available, see <a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/dev/backend/">ADNLPModels.jl/dev/backend/</a> for a tutorial.</p>
 <p>Note that most of the solvers available in <a href="https://juliasmoothoptimizers.github.io">JuliaSmoothOptimizers</a> will accept generic types. For instance, it is possible to use the classical L-BFGS method implemented in <a href="https://github.com/JuliaSmoothOptimizers/JSOSolvers.jl/">JSOSolvers.jl</a> in single precision.</p>
 <pre><code class=language-julia >using JSOSolvers
@@ -14,7 +14,7 @@ print&#40;stats&#41;</code></pre>
   dual feasibility: 0.031313986
   solution: &#91;0.9810229f0  0.9622698f0&#93;
   iterations: 33
-  elapsed time: 3.938241958618164</code></pre>
+  elapsed time: 4.153392791748047</code></pre>
 <p>To design a multi-precision algorithm, we would also need to evaluate the model at a different precision, but this fails.</p>
 <pre><code class=language-julia >x16 &#61; Float16&#91;-1.2; 1.0&#93;
 grad&#40;nlp, x16&#41;</code></pre>
@@ -35,11 +35,11 @@ nlp &#61; ADNLPModel&#40;f, x0&#41;</code></pre>
 <pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADModelBackend&#123;
   ForwardDiffADGradient,
   ForwardDiffADHvprod,
-  ForwardDiffADJprod,
-  ForwardDiffADJtprod,
-  SparseADJacobian,
-  SparseADHessian,
-  ForwardDiffADGHjvprod,
+  EmptyADbackend,
+  EmptyADbackend,
+  EmptyADbackend,
+  ForwardDiffADHessian,
+  EmptyADbackend,
 &#125;
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -73,8 +73,8 @@ obj&#40;nlp, x32&#41; # type Float32</code></pre>
 adbackend.gradient_backend # returns information about the default backend for the gradient computation.</code></pre>
 <pre><code class=language-plaintext >ADNLPModels.ForwardDiffADGradient&#40;ForwardDiff.GradientConfig&#123;ForwardDiff.Tag&#123;typeof&#40;Main.var&quot;##WeaveSandBox#292&quot;.f&#41;, Float64&#125;, Float64, 2, Vector&#123;ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;typeof&#40;Main.var&quot;##Wea
 veSandBox#292&quot;.f&#41;, Float64&#125;, Float64, 2&#125;&#125;&#125;&#40;&#40;Partials&#40;1.0, 0.0&#41;, Partials&#40;0.0, 1.0&#41;&#41;, ForwardDiff.Dual&#123;ForwardDiff.Tag&#123;typeof&#40;Main.var&quot;##WeaveSandBox#292&quot;.f&#41;, Float64&#125;, Float64, 2&#125;&#91;Dual&#123;ForwardDiff.Tag
-&#123;typeof&#40;Main.var&quot;##WeaveSandBox#292&quot;.f&#41;, Float64&#125;&#125;&#40;6.925150736589e-310,6.9251507365906e-310,6.9251507365922e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;typeof&#40;Main.var&quot;##WeaveSandBox#292&quot;.f&#41;, Float64&#125;&#125;&#40;6.925150736593
-77e-310,6.92515073659535e-310,6.92515073659693e-310&#41;&#93;&#41;&#41;</code></pre>
+&#123;typeof&#40;Main.var&quot;##WeaveSandBox#292&quot;.f&#41;, Float64&#125;&#125;&#40;0.0,6.9296057534485e-310,6.92960575385245e-310&#41;, Dual&#123;ForwardDiff.Tag&#123;typeof&#40;Main.var&quot;##WeaveSandBox#292&quot;.f&#41;, Float64&#125;&#125;&#40;0.0,6.9296057534485e-310,6.92
+960575385245e-310&#41;&#93;&#41;&#41;</code></pre>
 <p>We now show how to define your gradient-backend to keep the genericity in two steps:</p>
 <ul>
 <li><p>Define a new structure <code>GenericGradientBackend &lt;: ADNLPModels.ADBackend</code>;</p>
@@ -94,11 +94,11 @@ end</code></pre>
 <pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADModelBackend&#123;
   Main.var&quot;##WeaveSandBox#292&quot;.GenericGradientBackend,
   ForwardDiffADHvprod,
-  ForwardDiffADJprod,
-  ForwardDiffADJtprod,
-  SparseADJacobian,
-  SparseADHessian,
-  ForwardDiffADGHjvprod,
+  EmptyADbackend,
+  EmptyADbackend,
+  EmptyADbackend,
+  ForwardDiffADHessian,
+  EmptyADbackend,
 &#125;
   Problem name: Generic
    All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
@@ -169,8 +169,8 @@ nlp &#61; eval&#40;name&#41;&#40;type &#61; Val&#40;T&#41;, gradient_backend &#6
   ForwardDiffADHvprod,
   ForwardDiffADJprod,
   ForwardDiffADJtprod,
-  SparseADJacobian,
-  SparseADHessian,
+  ForwardDiffADJacobian,
+  ForwardDiffADHessian,
   ForwardDiffADGHjvprod,
 &#125;
   Problem name: hs68
@@ -181,9 +181,9 @@ nlp &#61; eval&#40;name&#41;&#40;type &#61; Val&#40;T&#41;, gradient_backend &#6
          low/upp: ████████████████████ 4              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ████████████████████ 2     
           infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: &#40; 40.00&#37; sparsity&#41;   6               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   10              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                     nonlinear: ████████████████████ 2     
-                                                         nnzj: &#40; 50.00&#37; sparsity&#41;   4     
+                                                         nnzj: &#40;  0.00&#37; sparsity&#41;   8     
 
   Counters:
              obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
