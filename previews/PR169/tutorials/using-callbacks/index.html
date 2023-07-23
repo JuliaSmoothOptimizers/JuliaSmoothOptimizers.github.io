@@ -1,0 +1,86 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR169//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR169/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR169//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR169//assets/favicon.png"> <title>Using callbacks</title> <script src="/previews/PR169/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169/"> <img src="https://jso-preview.netlify.app/previews/PR169//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR169//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Using callbacks</a></h1></p> <p><div class=author >by Abel S. Siqueira</div> <p><a href="https://juliasmoothoptimizers.github.io/Percival.jl/stable/"><img src="https://img.shields.io/badge/Percival-0.7.0-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="Percival 0.7.0" /></a> <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.20.0" /></a> <a href="https://juliasmoothoptimizers.github.io/NLPModelsJuMP.jl/stable/"><img src="https://img.shields.io/badge/NLPModelsJuMP-0.12.1-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModelsJuMP 0.12.1" /></a> <img src="https://img.shields.io/badge/Plots-1.38.16-000?style&#61;flat-square&amp;labelColor&#61;999" alt="Plots 1.38.16" /> <img src="https://img.shields.io/badge/JuMP-1.12.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="JuMP 1.12.0" /> <a href="https://juliasmoothoptimizers.github.io/JSOSolvers.jl/stable/"><img src="https://img.shields.io/badge/JSOSolvers-0.11.0-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="JSOSolvers 0.11.0" /></a></p> <p>One useful feature of our optimization solvers is the option to add a <strong>callback</strong>, i.e., a function that is called during the execution of the method, between iterations. It can be used for adding more logging information, for instance to plot the trace of the algorithm, or for having more control over the progress of the method, for instance by adding additional stopping criteria.</p> <hr /> <p>For these examples, let&#39;s consider a simple extension of the Rosenbrock function:</p> \[\min\ \sum_{i=1}^N (x_{2i-1} - 1)^2 + (2i)^2 (x_{2i} - x_{2i-1}^2)^2\] <p>We will implement this in <code>JuMP</code> and use <code>NLPModelsJuMP</code> to bridge the model to our NLPModels format.</p> <pre><code class=language-julia >using JuMP, NLPModelsJuMP
+
+model &#61; Model&#40;&#41;
+N &#61; 10
+@variable&#40;model, x&#91;1:2N&#93;&#41;
+@NLobjective&#40;model, Min,
+  sum&#40;&#40;x&#91;2i - 1&#93; - 1&#41;^2 &#43; &#40;2i&#41;^2 * &#40;x&#91;2i&#93; - x&#91;2i-1&#93;^2&#41;^2 for i &#61; 1:N&#41;
+&#41;
+
+nlp &#61; MathOptNLPModel&#40;model&#41;</code></pre> <pre><code class=language-plaintext >NLPModelsJuMP.MathOptNLPModel
+  Problem name: Generic
+   All variables: ████████████████████ 20     All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 20                free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40; 85.71&#37; sparsity&#41;   30              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; sparsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre> <p>To solve this problem, we can use <code>trunk</code> from <code>JSOSolvers.jl</code>.</p> <pre><code class=language-julia >using JSOSolvers
+
+output &#61; trunk&#40;nlp&#41;
+println&#40;output&#41;</code></pre> <pre><code class=language-plaintext >Generic Execution stats
+  status: first-order stationary
+  objective value: 8.970912001856092e-17
+  primal feasibility: 0.0
+  dual feasibility: 8.338702542070883e-9
+  solution: &#91;0.9999999917126897  0.9999999825882647  0.9999999997312826  0.999999999455177 ⋯ 1.0000000026501263&#93;
+  iterations: 18
+  elapsed time: 1.0835239887237549</code></pre> <p>The callback function is any function with three input arguments: <code>nlp</code>, <code>solver</code> and <code>stats</code>. <code>nlp</code> is the exact problem we are solving, <code>solver</code> is a solver structure that keeps relevant values, and <code>stats</code> is the output structure, which keeps updated values every iteration. Look at the help of the solver for more information on which values are available.</p> <p>A few of the most important values are:</p> <ul> <li><p><code>solver.x</code>: The current iterate</p> <li><p><code>solver.gx</code>: The current gradient</p> <li><p><code>stats.objective</code>: The objective value at the current iterate</p> <li><p><code>stats.dual_feas</code>: The dual feasibility value</p> <li><p><code>stats.primal_feas</code>: The primal feasibility value</p> <li><p><code>stats.iter</code>: The number of iterations</p> </ul> <p>Using these, we can, for instance, create a trace of the method in the first two variables:</p> <pre><code class=language-julia >using NLPModels, Plots
+
+X &#61; zeros&#40;0, 2&#41;
+cb &#61; &#40;nlp, solver, stats&#41; -&gt; begin
+  global X &#61; &#91;X; solver.x&#91;1:2&#93;&#39;&#93;
+end
+
+output &#61; trunk&#40;nlp, callback&#61;cb&#41;
+
+contour&#40;-2:0.05:2, -2:0.05:2,
+  &#40;x1, x2&#41; -&gt; obj&#40;nlp, &#91;x1; x2; output.solution&#91;3:end&#93;&#93;&#41;,
+  levels &#61; 100,
+&#41;
+plot&#33;&#40;X&#91;:,1&#93;, X&#91;:,2&#93;, l&#61;:arrow, m&#61;&#40;3&#41;&#41;</code></pre> <p><img src="figures/index_3_1.png" alt="" /></p> <p>Here, <code>NLPModels</code> is used to access the function <code>obj</code>.</p> <p>We can also use callbacks to exert more control over the algorithm. For instance, to implement a check on whether the objective value is stalling, we can define the following callback:</p> <pre><code class=language-julia >fold &#61; -Inf
+cb &#61; &#40;nlp, solver, stats&#41; -&gt; begin
+  global fold
+  f &#61; stats.objective
+  if abs&#40;f - fold&#41; / &#40;abs&#40;f&#41; &#43; abs&#40;fold&#41; &#43; 1e-8&#41; &lt; 1e-3
+    stats.status &#61; :user
+  end
+  fold &#61; f
+end
+
+output &#61; trunk&#40;nlp, callback&#61;cb, rtol&#61;0.0, atol&#61;0.0&#41;
+println&#40;output&#41;</code></pre> <pre><code class=language-plaintext >Generic Execution stats
+  status: user-requested stop
+  objective value: 1.405115328770847e-20
+  primal feasibility: 0.0
+  dual feasibility: 1.4364101353965366e-10
+  solution: &#91;0.9999999999573873  0.9999999999104003  0.999999999934689  0.9999999998670257 ⋯ 0.999999999938523&#93;
+  iterations: 18
+  elapsed time: 0.005786895751953125</code></pre> <p>Above, we set the <code>status</code> of the algorithm to <code>:user</code>, so that it stops with a <code>user-request stop</code> flag.</p> <hr /> <p><code>trunk</code> is not the only solver that accepts callbacks. All solvers in <code>JSOSolvers</code>, as well as <code>percival</code> and <code>dci</code> from Percival.jl and DCISolver.jl do as well. Here is an example:</p> <pre><code class=language-julia >using Percival
+
+@NLconstraint&#40;model, &#91;i&#61;1:N&#93;, x&#91;2i&#93;^2 &#43; x&#91;2i-1&#93;^2 &lt;&#61; 1.0&#41;
+nlp &#61; MathOptNLPModel&#40;model&#41;
+
+primal_history &#61; Float64&#91;&#93;
+dual_history &#61; Float64&#91;&#93;
+cb &#61; &#40;nlp, solver, output&#41; -&gt; begin
+  push&#33;&#40;primal_history, output.primal_feas&#41;
+  push&#33;&#40;dual_history, output.dual_feas&#41;
+end
+output &#61; percival&#40;nlp, callback&#61;cb&#41;
+
+plt &#61; plot&#40;&#41;
+plot&#33;&#40;plt, primal_history, lab&#61;&quot;primal&quot;, yaxis&#61;:log&#41;
+plot&#33;&#40;plt, dual_history, lab&#61;&quot;dual&quot;&#41;</code></pre> <p><img src="figures/index_5_1.png" alt="" /></p> </div> </div> </div> </div> </section> <script src="/previews/PR169/libs/katex/katex.min.js"></script> <script src="/previews/PR169/libs/katex/auto-render.min.js"></script> <script>renderMathInElement(document.body)</script> <script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: ' ' });</script> <script> (function () { // Get the elements. // - the 'pre' element. // - the 'div' with the 'paste-content' id. var pre = document.getElementsByTagName('pre'); // Add a copy button in the 'pre' element with className language-julia for (var i = 0; i < pre.length; i++) { var isLanguage = pre[i].children[0].className.indexOf('language-julia'); if (isLanguage === 0) { var ion_icon = document.createElement('ion-icon'); ion_icon.name = 'copy'; var icon = document.createElement('span'); icon.className = 'icon has-text-primary'; icon.appendChild(ion_icon); var button = document.createElement('button'); button.className = 'button copy-button is-light is-primary'; button.appendChild(icon); pre[i].appendChild(button); } }; // Run Clipboard var copyCode = new ClipboardJS('.copy-button', { target: function (trigger) { return trigger.previousElementSibling; } }); copyCode.on('success', function (event) { event.clearSelection(); var btn = event.trigger; var old_button_class = btn.className; var old_icon_class = btn.children[0].className; btn.className = 'button copy-button is-primary'; btn.children[0].className = 'icon has-text-white'; window.setTimeout(function () { event.trigger.className = old_button_class; event.trigger.children[0].className = old_icon_class; }, 1000); }); })(); </script> <footer class=footer > <div class="content has-text-centered is-small"> &copy; Abel Soares Siqueira. <br> <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a> </div> </footer>

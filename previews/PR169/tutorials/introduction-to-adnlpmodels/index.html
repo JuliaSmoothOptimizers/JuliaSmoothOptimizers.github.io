@@ -1,0 +1,261 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR169//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR169/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR169//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR169//assets/favicon.png"> <title>ADNLPModels.jl tutorial</title> <script src="/previews/PR169/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169/"> <img src="https://jso-preview.netlify.app/previews/PR169//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR169//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR169//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >ADNLPModels.jl tutorial</a></h1></p> <p><div class=author >by Abel Soares Siqueira and Dominique Orban</div> <p><a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.20.0" /></a> <a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.7.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.7.0" /></a></p> <p>ADNLPModel is simple to use and is useful for classrooms. It only needs the objective function \(f\) and a starting point \(x^0\) to be well-defined. For constrained problems, you&#39;ll also need the constraints function \(c\), and the constraints vectors \(c_L\) and \(c_U\), such that \(c_L \leq c(x) \leq c_U\). Equality constraints will be automatically identified as those indices \(i\) for which \(c_{L_i} = c_{U_i}\).</p> <p>Let&#39;s define the famous Rosenbrock function</p> \[ f(x) = (x_1 - 1)^2 + 100(x_2 - x_1^2)^2, \] <p>with starting point \(x^0 = (-1.2,1.0)\).</p> <pre><code class=language-julia >using ADNLPModels
+
+nlp &#61; ADNLPModel&#40;x-&gt;&#40;x&#91;1&#93; - 1.0&#41;^2 &#43; 100*&#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2 , &#91;-1.2; 1.0&#93;&#41;</code></pre> <pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADModelBackend&#123;
+  ForwardDiffADGradient,
+  ForwardDiffADHvprod,
+  EmptyADbackend,
+  EmptyADbackend,
+  EmptyADbackend,
+  ForwardDiffADHessian,
+  EmptyADbackend,
+&#125;
+  Problem name: Generic
+   All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            free: ████████████████████ 2                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; sparsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre> <p>This is enough to define the model. Let&#39;s get the objective function value at \(x^0\), using only <code>nlp</code>.</p> <pre><code class=language-julia >using NLPModels # To access the API
+
+fx &#61; obj&#40;nlp, nlp.meta.x0&#41;
+println&#40;&quot;fx &#61; &#36;fx&quot;&#41;</code></pre> <pre><code class=language-plaintext >fx &#61; 24.199999999999996</code></pre>
+<p>Done. Let&#39;s try the gradient and Hessian.</p>
+<pre><code class=language-julia >gx &#61; grad&#40;nlp, nlp.meta.x0&#41;
+Hx &#61; hess&#40;nlp, nlp.meta.x0&#41;
+println&#40;&quot;gx &#61; &#36;gx&quot;&#41;
+println&#40;&quot;Hx &#61; &#36;Hx&quot;&#41;</code></pre>
+<pre><code class=language-plaintext >gx &#61; &#91;-215.59999999999997, -87.99999999999999&#93;
+Hx &#61; &#91;1330.0 480.0; 480.0 200.0&#93;</code></pre>
+<p>Notice that the Hessian is <em>dense</em>. This is a current limitation of this model. It doesn&#39;t return sparse matrices, so use it with care.</p>
+<p>Let&#39;s do something a little more complex here, defining a function to try to solve this problem through steepest descent method with Armijo search. Namely, the method</p>
+<ol>
+<li><p>Given \(x^0\), \(\varepsilon > 0\), and \(\eta \in (0,1)\). Set \(k = 0\);</p>
+
+<li><p>If \(\Vert \nabla f(x^k) \Vert < \varepsilon\) STOP with \(x^* = x^k\);</p>
+
+<li><p>Compute \(d^k = -\nabla f(x^k)\);</p>
+
+<li><p>Compute \(\alpha_k \in (0,1]\) such that \(f(x^k + \alpha_kd^k) < f(x^k) + \alpha_k\eta \nabla f(x^k)^Td^k\)</p>
+
+<li><p>Define \(x^{k+1} = x^k + \alpha_kx^k\)</p>
+
+<li><p>Update \(k = k + 1\) and go to step 2.</p>
+
+</ol>
+<pre><code class=language-julia >using LinearAlgebra
+
+function steepest&#40;nlp; itmax&#61;100000, eta&#61;1e-4, eps&#61;1e-6, sigma&#61;0.66&#41;
+  x &#61; nlp.meta.x0
+  fx &#61; obj&#40;nlp, x&#41;
+  ∇fx &#61; grad&#40;nlp, x&#41;
+  slope &#61; dot&#40;∇fx, ∇fx&#41;
+  ∇f_norm &#61; sqrt&#40;slope&#41;
+  iter &#61; 0
+  while ∇f_norm &gt; eps &amp;&amp; iter &lt; itmax
+    t &#61; 1.0
+    x_trial &#61; x - t * ∇fx
+    f_trial &#61; obj&#40;nlp, x_trial&#41;
+    while f_trial &gt; fx - eta * t * slope
+      t *&#61; sigma
+      x_trial &#61; x - t * ∇fx
+      f_trial &#61; obj&#40;nlp, x_trial&#41;
+    end
+    x &#61; x_trial
+    fx &#61; f_trial
+    ∇fx &#61; grad&#40;nlp, x&#41;
+    slope &#61; dot&#40;∇fx, ∇fx&#41;
+    ∇f_norm &#61; sqrt&#40;slope&#41;
+    iter &#43;&#61; 1
+  end
+  optimal &#61; ∇f_norm &lt;&#61; eps
+  return x, fx, ∇f_norm, optimal, iter
+end
+
+x, fx, ngx, optimal, iter &#61; steepest&#40;nlp&#41;
+println&#40;&quot;x &#61; &#36;x&quot;&#41;
+println&#40;&quot;fx &#61; &#36;fx&quot;&#41;
+println&#40;&quot;ngx &#61; &#36;ngx&quot;&#41;
+println&#40;&quot;optimal &#61; &#36;optimal&quot;&#41;
+println&#40;&quot;iter &#61; &#36;iter&quot;&#41;</code></pre>
+<pre><code class=language-plaintext >x &#61; &#91;1.0000006499501406, 1.0000013043156974&#93;
+fx &#61; 4.2438440239813445e-13
+ngx &#61; 9.984661274466946e-7
+optimal &#61; true
+iter &#61; 17962</code></pre>
+<p>Maybe this code is too complicated? If you&#39;re in a class you just want to show a Newton step.</p>
+<pre><code class=language-julia >g&#40;x&#41; &#61; grad&#40;nlp, x&#41;
+H&#40;x&#41; &#61; hess&#40;nlp, x&#41;
+x &#61; nlp.meta.x0
+d &#61; -H&#40;x&#41;\g&#40;x&#41;</code></pre>
+<pre><code class=language-plaintext >2-element Vector&#123;Float64&#125;:
+ 0.024719101123595457
+ 0.38067415730337084</code></pre>
+<p>or a few</p>
+<pre><code class=language-julia >for i &#61; 1:5
+  global x
+  x &#61; x - H&#40;x&#41;\g&#40;x&#41;
+  println&#40;&quot;x &#61; &#36;x&quot;&#41;
+end</code></pre>
+<pre><code class=language-plaintext >x &#61; &#91;-1.1752808988764043, 1.3806741573033703&#93;
+x &#61; &#91;0.7631148711766087, -3.1750338547485217&#93;
+x &#61; &#91;0.7634296788842125, 0.5828247754973592&#93;
+x &#61; &#91;0.9999953110849884, 0.9440273238534099&#93;
+x &#61; &#91;0.9999956956536664, 0.9999913913257122&#93;</code></pre>
+<p>Also, notice how we can reuse the method.</p>
+<pre><code class=language-julia >f&#40;x&#41; &#61; &#40;x&#91;1&#93;^2 &#43; x&#91;2&#93;^2 - 5&#41;^2 &#43; &#40;x&#91;1&#93;*x&#91;2&#93; - 2&#41;^2
+x0 &#61; &#91;3.0; 2.0&#93;
+nlp &#61; ADNLPModel&#40;f, x0&#41;
+
+x, fx, ngx, optimal, iter &#61; steepest&#40;nlp&#41;</code></pre>
+<pre><code class=language-plaintext >&#40;&#91;1.9999999068493834, 1.000000113517522&#93;, 3.911490500207018e-14, 8.979870927068038e-7, true, 153&#41;</code></pre>
+<p>External models can be tested with <code>steepest</code> as well, as long as they implement <code>obj</code> and <code>grad</code>.</p>
+<p>For constrained minimization, you need the constraints vector and bounds too. Bounds on the variables can be passed through a new vector.</p>
+<pre><code class=language-julia >f&#40;x&#41; &#61; &#40;x&#91;1&#93; - 1.0&#41;^2 &#43; 100*&#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2
+x0 &#61; &#91;-1.2; 1.0&#93;
+lvar &#61; &#91;-Inf; 0.1&#93;
+uvar &#61; &#91;0.5; 0.5&#93;
+c&#40;x&#41; &#61; &#91;x&#91;1&#93; &#43; x&#91;2&#93; - 2; x&#91;1&#93;^2 &#43; x&#91;2&#93;^2&#93;
+lcon &#61; &#91;0.0; -Inf&#93;
+ucon &#61; &#91;Inf; 1.0&#93;
+nlp &#61; ADNLPModel&#40;f, x0, lvar, uvar, c, lcon, ucon&#41;
+
+println&#40;&quot;cx &#61; &#36;&#40;cons&#40;nlp, nlp.meta.x0&#41;&#41;&quot;&#41;
+println&#40;&quot;Jx &#61; &#36;&#40;jac&#40;nlp, nlp.meta.x0&#41;&#41;&quot;&#41;</code></pre>
+<pre><code class=language-plaintext >cx &#61; &#91;-2.2, 2.44&#93;
+Jx &#61; sparse&#40;&#91;1, 2, 1, 2&#93;, &#91;1, 1, 2, 2&#93;, &#91;1.0, -2.4, 1.0, 2.0&#93;, 2, 2&#41;</code></pre>
+<h2 id=adnlsmodel_tutorial ><a href="#adnlsmodel_tutorial" class=header-anchor >ADNLSModel tutorial</a></h2>
+<p>In addition to the general nonlinear model, we can define the residual function for a nonlinear least-squares problem. In other words, the objective function of the problem is of the form \(f(x) = \tfrac{1}{2}\|F(x)\|^2\), and we can define the function \(F\) and its derivatives.</p>
+<p>A simple way to define an NLS problem is with <code>ADNLSModel</code>, which uses automatic differentiation.</p>
+<pre><code class=language-julia >F&#40;x&#41; &#61; &#91;x&#91;1&#93; - 1.0; 10 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;&#93;
+x0 &#61; &#91;-1.2; 1.0&#93;
+nls &#61; ADNLSModel&#40;F, x0, 2&#41; # 2 nonlinear equations</code></pre>
+<pre><code class=language-plaintext >ADNLSModel - Nonlinear least-squares model with automatic differentiation backend ADModelBackend&#123;
+  ForwardDiffADGradient,
+  ForwardDiffADHvprod,
+  EmptyADbackend,
+  EmptyADbackend,
+  EmptyADbackend,
+  ForwardDiffADHessian,
+  EmptyADbackend,
+&#125;
+  Problem name: Generic
+   All variables: ████████████████████ 2      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0        All residuals: ████████████████████ 2     
+            free: ████████████████████ 2                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            nonlinear: ████████████████████ 2     
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzj: &#40;  0.00&#37; sparsity&#41;   4     
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzh: &#40;  0.00&#37; sparsity&#41;   3     
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   3               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; sparsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+    jac_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       jprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0      jtprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+   hess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       jhess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       hprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<pre><code class=language-julia >residual&#40;nls, x0&#41;</code></pre>
+<pre><code class=language-plaintext >2-element Vector&#123;Float64&#125;:
+ -2.2
+ -4.3999999999999995</code></pre>
+<pre><code class=language-julia >jac_residual&#40;nls, x0&#41;</code></pre>
+<pre><code class=language-plaintext >2×2 SparseArrays.SparseMatrixCSC&#123;Float64, Int64&#125; with 4 stored entries:
+  1.0   0.0
+ 24.0  10.0</code></pre>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR169/libs/katex/katex.min.js"></script>
+<script src="/previews/PR169/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
