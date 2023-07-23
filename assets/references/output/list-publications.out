@@ -15,7 +15,24 @@
 </span>
 </button>
 ~~~Iterative Solution of Symmetric Quasi-Definite Linear Systems, **D. Orban, M. Arioli**, SIAM, 2017., [10.1137/1.9781611974737](https://doi.org/10.1137/1.9781611974737)
-### Articles (15)
+### Articles (16)
+- ~~~
+<button data-clipboard-text="@article{Montoison2023,
+ number        = {44},
+ pages         = {293--311},
+ doi           = {10.1137/21M1459265},
+ author        = {Montoison, A. and Orban, D.},
+ year          = {2023},
+ url           = {https://epubs.siam.org/doi/abs/10.1137/21M1459265},
+ volume        = {1},
+ journal       = {SIAM Journal on Matrix Analysis and Applications},
+ title         = {GPMR: An Iterative Method for Unsymmetric Partitioned Linear Systems}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~GPMR: An Iterative Method for Unsymmetric Partitioned Linear Systems, **A. Montoison, D. Orban**, SIAM Journal on Matrix Analysis and Applications, 1(44), 293--311, 2023., [10.1137/21M1459265](https://doi.org/10.1137/21M1459265)
 - ~~~
 <button data-clipboard-text="@article{Migot2022,
  pages         = {3991},
