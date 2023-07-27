@@ -37,6 +37,7 @@
 <button data-clipboard-text="@article{Irwin2023,
  pages         = {651--702},
  doi           = {10.1007/s10589-022-00448-x},
+ author        = {Irwin, B. and Haber, E.},
  year          = {2023},
  url           = {https://doi.org/10.1007/s10589-022-00448-x},
  volume        = {84},
@@ -47,7 +48,7 @@
 <ion-icon size="small" name="copy"></ion-icon>
 </span>
 </button>
-~~~Secant penalized BFGS: a noise robust quasi-Newton method via penalizing the secant condition, ****, Computational Optimimization and Applications, 84, 651--702, 2023., [10.1007/s10589-022-00448-x](https://doi.org/10.1007/s10589-022-00448-x)
+~~~Secant penalized BFGS: a noise robust quasi-Newton method via penalizing the secant condition, **B. Irwin, E. Haber**, Computational Optimimization and Applications, 84, 651--702, 2023., [10.1007/s10589-022-00448-x](https://doi.org/10.1007/s10589-022-00448-x)
 - ~~~
 <button data-clipboard-text="@article{Migot2022,
  pages         = {3991},
@@ -105,6 +106,7 @@
 <button data-clipboard-text="@article{Na2022,
  pages         = {721--791},
  doi           = {10.1007/s10107-022-01846-z},
+ author        = { and Kolar, M.},
  year          = {2022},
  url           = {https://doi.org/10.1007/s10107-022-01846-z},
  volume        = {199},
@@ -115,7 +117,7 @@
 <ion-icon size="small" name="copy"></ion-icon>
 </span>
 </button>
-~~~An adaptive stochastic sequential quadratic programming with differentiable exact augmented lagrangians, ****, Mathematical Programming, 199, 721--791, 2022., [10.1007/s10107-022-01846-z](https://doi.org/10.1007/s10107-022-01846-z)
+~~~An adaptive stochastic sequential quadratic programming with differentiable exact augmented lagrangians, **, M. Kolar**, Mathematical Programming, 199, 721--791, 2022., [10.1007/s10107-022-01846-z](https://doi.org/10.1007/s10107-022-01846-z)
 - ~~~
 <button data-clipboard-text="@article{Andreani2022,
  pages         = {114525},
