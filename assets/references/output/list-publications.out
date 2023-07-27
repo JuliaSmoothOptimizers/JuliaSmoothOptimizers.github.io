@@ -15,7 +15,7 @@
 </span>
 </button>
 ~~~Iterative Solution of Symmetric Quasi-Definite Linear Systems, **D. Orban, M. Arioli**, SIAM, 2017., [10.1137/1.9781611974737](https://doi.org/10.1137/1.9781611974737)
-### Articles (16)
+### Articles (21)
 - ~~~
 <button data-clipboard-text="@article{Montoison2023,
  number        = {44},
@@ -33,6 +33,22 @@
 </span>
 </button>
 ~~~GPMR: An Iterative Method for Unsymmetric Partitioned Linear Systems, **A. Montoison, D. Orban**, SIAM Journal on Matrix Analysis and Applications, 1(44), 293--311, 2023., [10.1137/21M1459265](https://doi.org/10.1137/21M1459265)
+- ~~~
+<button data-clipboard-text="@article{Irwin2023,
+ pages         = {651--702},
+ doi           = {10.1007/s10589-022-00448-x},
+ author        = {Irwin, B. and Haber, E.},
+ year          = {2023},
+ url           = {https://doi.org/10.1007/s10589-022-00448-x},
+ volume        = {84},
+ journal       = {Computational Optimimization and Applications},
+ title         = {Secant penalized BFGS: a noise robust quasi-Newton method via penalizing the secant condition}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~Secant penalized BFGS: a noise robust quasi-Newton method via penalizing the secant condition, **B. Irwin, E. Haber**, Computational Optimimization and Applications, 84, 651--702, 2023., [10.1007/s10589-022-00448-x](https://doi.org/10.1007/s10589-022-00448-x)
 - ~~~
 <button data-clipboard-text="@article{Migot2022,
  pages         = {3991},
@@ -86,6 +102,54 @@
 </span>
 </button>
 ~~~A Proximal Quasi-Newton Trust-Region Method for Nonsmooth Regularized Optimization, **A. Y. Aravkin, R. Baraldi, D. Orban**, SIAM Journal on Optimization, 32(2), 900--929, 2022., [10.1137/21M1409536](https://doi.org/10.1137/21M1409536)
+- ~~~
+<button data-clipboard-text="@article{Na2022,
+ pages         = {721--791},
+ doi           = {10.1007/s10107-022-01846-z},
+ author        = {Na, S. and Anitescu, M. and Kolar, M.},
+ year          = {2022},
+ url           = {https://doi.org/10.1007/s10107-022-01846-z},
+ volume        = {199},
+ journal       = {Mathematical Programming},
+ title         = {An adaptive stochastic sequential quadratic programming with differentiable exact augmented lagrangians}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~An adaptive stochastic sequential quadratic programming with differentiable exact augmented lagrangians, **S. Na, M. Anitescu, M. Kolar**, Mathematical Programming, 199, 721--791, 2022., [10.1007/s10107-022-01846-z](https://doi.org/10.1007/s10107-022-01846-z)
+- ~~~
+<button data-clipboard-text="@article{Andreani2022,
+ pages         = {114525},
+ doi           = {10.1016/j.cam.2022.114525},
+ author        = {Andreani, R. and Oviedo, H. and Raydan, M. and Secchin, L.D.},
+ year          = {2022},
+ url           = {https://doi.org/10.1016/j.cam.2022.114525},
+ volume        = {416},
+ journal       = {Journal of Computational and Applied Mathematics},
+ title         = {An extended delayed weighted gradient algorithm for solving strongly convex optimization problems}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~An extended delayed weighted gradient algorithm for solving strongly convex optimization problems, **R. Andreani, H. Oviedo, M. Raydan, L.D. Secchin**, Journal of Computational and Applied Mathematics, 416, 114525, 2022., [10.1016/j.cam.2022.114525](https://doi.org/10.1016/j.cam.2022.114525)
+- ~~~
+<button data-clipboard-text="@article{Planden2022,
+ pages         = {105637},
+ doi           = {10.1016/j.est.2022.105637},
+ author        = {Planden, Brady and Lukow, Katie and Henshall, Paul and Collier, Gordana and Morrey, Denise},
+ year          = {2022},
+ url           = {https://doi.org/10.1016/j.est.2022.105637},
+ volume        = {55},
+ journal       = {Journal of Energy Storage},
+ title         = {A computationally informed realisation algorithm for lithium-ion batteries implemented with {LiiBRA}.jl}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~A computationally informed realisation algorithm for lithium-ion batteries implemented with LiiBRA.jl, **Brady Planden, Katie Lukow, Paul Henshall, Gordana Collier, Denise Morrey**, Journal of Energy Storage, 55, 105637, 2022., [10.1016/j.est.2022.105637](https://doi.org/10.1016/j.est.2022.105637)
 - ~~~
 <button data-clipboard-text="@article{Ma2021,
  publisher     = {Springer International Publishing},
@@ -174,6 +238,24 @@
 </span>
 </button>
 ~~~Design and implementation of a modular interior-point solver for linear optimization, **M. Tanneau, M. F. Anjos, A. Lodi**, Mathematical Programming Computation, 13(3), 509--551, 2021., [10.1007/s12532-020-00200-8](https://doi.org/10.1007/s12532-020-00200-8)
+- ~~~
+<button data-clipboard-text="@article{Omer2021,
+ pages         = {1--29},
+ author        = {Omer, J{\'{e}}r{\'{e}}my and Mucherino, Antonio},
+ month         = {August},
+ journal       = {Open Journal of Mathematical Optimization},
+ title         = {The Referenced Vertex Ordering Problem: Theory,  Applications,  and Solution Methods},
+ publisher     = {Cellule {MathDoc}/{CEDRAM}},
+ doi           = {10.5802/ojmo.8},
+ year          = {2021},
+ url           = {https://doi.org/10.5802/ojmo.8},
+ volume        = {2}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~The Referenced Vertex Ordering Problem: Theory,  Applications,  and Solution Methods, **J\'er\'emy Omer, Antonio Mucherino**, Open Journal of Mathematical Optimization, 2, 1--29, 2021., [10.5802/ojmo.8](https://doi.org/10.5802/ojmo.8)
 - ~~~
 <button data-clipboard-text="@article{orban-siqueira-2020,
  preprint      = {https://www.gerad.ca/en/papers/G-2019-17/view},
