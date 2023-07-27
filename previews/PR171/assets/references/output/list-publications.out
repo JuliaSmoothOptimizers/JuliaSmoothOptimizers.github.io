@@ -106,7 +106,7 @@
 <button data-clipboard-text="@article{Na2022,
  pages         = {721--791},
  doi           = {10.1007/s10107-022-01846-z},
- author        = { and Kolar, M.},
+ author        = {Na, S. and Anitescu, M. and Kolar, M.},
  year          = {2022},
  url           = {https://doi.org/10.1007/s10107-022-01846-z},
  volume        = {199},
@@ -117,7 +117,7 @@
 <ion-icon size="small" name="copy"></ion-icon>
 </span>
 </button>
-~~~An adaptive stochastic sequential quadratic programming with differentiable exact augmented lagrangians, **, M. Kolar**, Mathematical Programming, 199, 721--791, 2022., [10.1007/s10107-022-01846-z](https://doi.org/10.1007/s10107-022-01846-z)
+~~~An adaptive stochastic sequential quadratic programming with differentiable exact augmented lagrangians, **S. Na, M. Anitescu, M. Kolar**, Mathematical Programming, 199, 721--791, 2022., [10.1007/s10107-022-01846-z](https://doi.org/10.1007/s10107-022-01846-z)
 - ~~~
 <button data-clipboard-text="@article{Andreani2022,
  pages         = {114525},
