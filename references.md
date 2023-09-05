@@ -11,12 +11,13 @@ new ClipboardJS('.copy-ref');
 If you use JSO, we ask that you cite us. In addition to any specific reference that may suggested by the packages you are using, we also ask you to cite:
 
 **JuliaSmoothOptimizers**. Dominique Orban and Abel Soares Siqueira. Zenodo. Apr, 2019. [10.5281/zenodo.2655082](https://doi.org/10.5281/zenodo.2655082)
+
 ```plaintext
 @Misc{jso-2019,
   author = {D. Orban and A. S. Siqueira},
   title = {{JuliaSmoothOptimizers}: Infrastructure and Solvers for Continuous Optimization in {J}ulia},
   doi = {10.5281/zenodo.2655082},
-  URL = {https://juliasmoothoptimizers.github.io},
+  URL = {https://jso.dev},
   year = {2019},
 }
 ```
@@ -41,7 +42,7 @@ function bib_string(
     push!(V, date)
   end
   if isdoi
-    short_link = replace(link, "https://doi.org/" => "") 
+    short_link = replace(link, "https://doi.org/" => "")
     push!(V, "[$(short_link)]($link)")
   end
   str = join(V, ", ")
@@ -108,7 +109,9 @@ end
 ~~~
 <div class="references">
 ~~~
+
 \textoutput{./list-publications.jl}
+
 ~~~
 </div>
 ~~~

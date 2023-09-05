@@ -10,12 +10,12 @@ The website_* must be defined for the RSS to work
 
 @def mintoclevel = 2
 @def prepath     = get(ENV, "PREVIEW_FRANKLIN_PREPATH", "") # In the third argument put the prepath you normally use
-@def website_url = get(ENV, "PREVIEW_FRANKLIN_WEBSITE_URL", "https://juliasmoothoptimizers.github.io/") # Just put the website name
+@def website_url = get(ENV, "PREVIEW_FRANKLIN_WEBSITE_URL", "https://jso.dev/") # Just put the website name
 
 generate_rss = true
 rss_website_title = "Julia Smooth Optimizers"
 rss_website_descr = "Julia Smooth Optimizers"
-rss_website_url   = "https://juliasmoothoptimizers.github.io"
+rss_website_url   = "https://jso.dev"
 rss_full_content = true
 
 <!--
