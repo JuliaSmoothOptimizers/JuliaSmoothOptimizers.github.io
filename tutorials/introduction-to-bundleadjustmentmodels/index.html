@@ -1,4 +1,4 @@
-<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="/assets/favicon.png"> <title>Introduction to BundleAdjustmentModels</title> <script src="/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href=""> <img src="/assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="/"> Home </a> <a class=navbar-item  href="/news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="/tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="/ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="/ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="/ecosystems/models/"> Models </a> <a class=navbar-item  href="/ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="/references/"> References </a> <a class=navbar-item  href="/contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Introduction to BundleAdjustmentModels</a></h1></p> <p><div class=author >by Antonin Kenens and Tangi Migot</div> <p><a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.19.2" /></a> <a href="https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/stable/"><img src="https://img.shields.io/badge/BundleAdjustmentModels-0.3.1-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="BundleAdjustmentModels 0.3.1" /></a> <img src="https://img.shields.io/badge/DataFrames-1.3.6-000?style&#61;flat-square&amp;labelColor&#61;999" alt="DataFrames 1.3.6" /></p> <p>A Julia repository of <a href="https://en.wikipedia.org/wiki/Bundle_adjustment">bundle adjustment</a> problems from the <a href="http://grail.cs.washington.edu/projects/bal/">Bundle Adjustment in the Large</a> repository.</p> <pre><code class=language-julia >using BundleAdjustmentModels, DataFrames</code></pre>
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="/assets/favicon.png"> <title>Introduction to BundleAdjustmentModels</title> <script src="/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href=""> <img src="/assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="/"> Home </a> <a class=navbar-item  href="/news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="/tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="/ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="/ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="/ecosystems/models/"> Models </a> <a class=navbar-item  href="/ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="/references/"> References </a> <a class=navbar-item  href="/contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Introduction to BundleAdjustmentModels</a></h1></p> <p><div class=author >by Antonin Kenens and Tangi Migot</div> <p><a href="https://jso.dev/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.19.2" /></a> <a href="https://jso.dev/BundleAdjustmentModels.jl/stable/"><img src="https://img.shields.io/badge/BundleAdjustmentModels-0.3.2-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="BundleAdjustmentModels 0.3.2" /></a> <img src="https://img.shields.io/badge/DataFrames-1.3.6-000?style&#61;flat-square&amp;labelColor&#61;999" alt="DataFrames 1.3.6" /></p> <p>A Julia repository of <a href="https://en.wikipedia.org/wiki/Bundle_adjustment">bundle adjustment</a> problems from the <a href="http://grail.cs.washington.edu/projects/bal/">Bundle Adjustment in the Large</a> repository.</p> <pre><code class=language-julia >using BundleAdjustmentModels, DataFrames</code></pre>
 <h2 id=get_the_list_of_problems ><a href="#get_the_list_of_problems" class=header-anchor >Get the list of problems</a></h2>
 <p>The function <code>problems_df&#40;&#41;</code> returns a <code>Dataframe</code> of all the bundle adjustment problems.</p>
 <p>There are 74 different models organized in the <code>Dataframe</code> with the following elements:</p>
@@ -43,14 +43,14 @@
    1 │ problem-49-7776-pre   ladybug  63686  23769   764232
    2 │ problem-73-11032-pre  ladybug  92244  33753  1106928</code></pre>
 <p>The <code>Dataframe</code> is listing the matrices that you can have access to, but they still need to be downloaded.</p>
-<p>Following the example above, we filtered two problems.  What we want to do now is to select the first one in the listing.</p>
+<p>Following the example above, we filtered two problems. What we want to do now is to select the first one in the listing.</p>
 <pre><code class=language-julia >name &#61; filter_df&#91;1, :name&#93; # select the name of the first problem</code></pre>
 <pre><code class=language-plaintext >&quot;problem-49-7776-pre&quot;</code></pre>
 <p>Now that the name is selected, we need to access the problem itself, and there are 2 solutions:</p>
 <ul>
 <li><p>You can download the problem&#39;s archive file;</p>
 
-<li><p>You can automatically create a nonlinear least squares problem using <a href="https://github.com/JuliaSmoothOptimizers/NLPModels.jl"><code>NLPModels</code></a> from <a href="https://juliasmoothoptimizers.github.io/">JuliaSmoothOptimizers</a>.</p>
+<li><p>You can automatically create a nonlinear least squares problem using <a href="https://github.com/JuliaSmoothOptimizers/NLPModels.jl"><code>NLPModels</code></a> from <a href="https://jso.dev/">JuliaSmoothOptimizers</a>.</p>
 
 </ul>
 <h2 id=get_the_problem_archive_file ><a href="#get_the_problem_archive_file" class=header-anchor >Get the problem archive file</a></h2>
@@ -63,10 +63,10 @@
 <li><p>They can be deleted with a single command line.</p>
 
 </ol>
-<p>The method <a href="https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.fetch_ba_name-Tuple&#123;AbstractString&#125;"><code>fetch_ba_name</code></a> will automatically download the problem &#40;if needed&#41; and return its path.</p>
+<p>The method <a href="https://jso.dev/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.fetch_ba_name-Tuple&#123;AbstractString&#125;"><code>fetch_ba_name</code></a> will automatically download the problem &#40;if needed&#41; and return its path.</p>
 <pre><code class=language-julia >path &#61; fetch_ba_name&#40;name&#41;</code></pre>
 <pre><code class=language-plaintext >&quot;/home/runner/.julia/artifacts/dd2da5f94014b5f9086a2b38a87f8c1bc171b9c2&quot;</code></pre>
-<p>It is also possible to directly download and get access to an entire group of problems using <a href="https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.fetch_ba_group-Tuple&#123;AbstractString&#125;"><code>fetch_ba_group</code></a>.</p>
+<p>It is also possible to directly download and get access to an entire group of problems using <a href="https://jso.dev/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.fetch_ba_group-Tuple&#123;AbstractString&#125;"><code>fetch_ba_group</code></a>.</p>
 <pre><code class=language-julia >paths &#61; fetch_ba_group&#40;&quot;ladybug&quot;&#41;</code></pre>
 <pre><code class=language-plaintext >30-element Vector&#123;String&#125;:
  &quot;/home/runner/.julia/artifacts/dd2da5f94014b5f9086a2b38a87f8c1bc171b9c2&quot;
@@ -90,16 +90,16 @@
  &quot;/home/runner/.julia/artifacts/0303e7ae8256c494c9da052d977277f21265899b&quot;
  &quot;/home/runner/.julia/artifacts/389ecea5c2f2e2b637a2b4439af0bd4ca98e6d84&quot;</code></pre>
 <h2 id=generate_a_nonlinear_least_squares_model ><a href="#generate_a_nonlinear_least_squares_model" class=header-anchor >Generate a nonlinear least squares model</a></h2>
-<p>Now, it is possible to load the model using <a href="https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.BundleAdjustmentModel-Tuple&#123;AbstractString&#125;"><code>BundleAdjustmentModel</code></a></p>
+<p>Now, it is possible to load the model using <a href="https://jso.dev/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.BundleAdjustmentModel-Tuple&#123;AbstractString&#125;"><code>BundleAdjustmentModel</code></a></p>
 <pre><code class=language-julia >df &#61; problems_df&#40;&#41;
 filter_df &#61; df&#91; &#40; df.nequ .≥ 50000 &#41; .&amp; &#40; df.nvar .≤ 34000 &#41;, :&#93;
 name &#61; filter_df&#91;1, :name&#93;
 model &#61; BundleAdjustmentModel&#40;name&#41;;</code></pre>
 <p>or</p>
 <pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776-pre&quot;&#41;;</code></pre>
-<p>The function <code>BundleAdjustmentModel</code> will instantiate the model and automatically download it if needed. The resulting structure is an instance of <code>AbstractNLPModel</code>. So, it is possible to access its API as any other <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/"><code>NLPModel</code></a>.</p>
+<p>The function <code>BundleAdjustmentModel</code> will instantiate the model and automatically download it if needed. The resulting structure is an instance of <code>AbstractNLPModel</code>. So, it is possible to access its API as any other <a href="https://jso.dev/NLPModels.jl/dev/"><code>NLPModel</code></a>.</p>
 <pre><code class=language-julia >using NLPModels</code></pre>
-<p>Using <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.residual"><code>residual</code></a>, it is possible to compute the residual of the model</p>
+<p>Using <a href="https://jso.dev/NLPModels.jl/dev/api/#NLPModels.residual"><code>residual</code></a>, it is possible to compute the residual of the model</p>
 <pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776-pre.txt.bz2&quot;&#41;
 x &#61; get_x0&#40;model&#41; # or &#96;model.meta.x0&#96;
 Fx &#61; residual&#40;model, x&#41;</code></pre>
@@ -124,21 +124,21 @@ Fx &#61; residual&#40;model, x&#41;</code></pre>
   0.47289578243411867
  -0.01443314653496941
  -0.4486499211288866</code></pre>
-<p>or use the in-place method <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.residual&#33;"><code>residual&#33;</code></a></p>
+<p>or use the in-place method <a href="https://jso.dev/NLPModels.jl/dev/api/#NLPModels.residual&#33;"><code>residual&#33;</code></a></p>
 <pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776-pre.txt.bz2&quot;&#41;
 x &#61; get_x0&#40;model&#41; # or &#96;model.meta.x0&#96;
 nequ &#61; get_nequ&#40;model&#41; # or &#96;model.nls_meta.nequ&#96;
 Fx &#61; zeros&#40;nequ&#41;
 residual&#33;&#40;model, x, Fx&#41;;</code></pre>
 <p>You can also have access to the <a href="https://github.com/JuliaSmoothOptimizers/LinearOperators.jl"><code>LinearOperator</code></a> of the Jacobian matrix of the residual of the model which is calculated by hand &#40;in contradiction to automatic differentiation&#41;.</p>
-<p>You need to call <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_structure_residual&#33;"><code>jac_structure_residual&#33;</code></a> at least once before calling <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_op_residual&#33;"><code>jac_op_residual&#33;</code></a>.</p>
+<p>You need to call <a href="https://jso.dev/NLPModels.jl/dev/api/#NLPModels.jac_structure_residual&#33;"><code>jac_structure_residual&#33;</code></a> at least once before calling <a href="https://jso.dev/NLPModels.jl/dev/api/#NLPModels.jac_op_residual&#33;"><code>jac_op_residual&#33;</code></a>.</p>
 <pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776&quot;&#41;
 meta_nls &#61; nls_meta&#40;model&#41;
 nnzj &#61; meta_nls.nnzj # number of nonzeros in the jacobian
 rows &#61; Vector&#123;Int&#125;&#40;undef, nnzj&#41;
 cols &#61; Vector&#123;Int&#125;&#40;undef, nnzj&#41;
 jac_structure_residual&#33;&#40;model, rows, cols&#41;;</code></pre>
-<p>You need to call <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_coord_residual&#33;"><code>jac_coord_residual&#33;</code></a> to update it to the current point.</p>
+<p>You need to call <a href="https://jso.dev/NLPModels.jl/dev/api/#NLPModels.jac_coord_residual&#33;"><code>jac_coord_residual&#33;</code></a> to update it to the current point.</p>
 <pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776&quot;&#41;
 x &#61; get_x0&#40;model&#41;
 vals &#61; similar&#40;x, nnzj&#41;
@@ -164,7 +164,7 @@ jac_coord_residual&#33;&#40;model, x, vals&#41;</code></pre>
      6.5984133899730155
      1.680958440896614
      0.06413511779846102</code></pre>
-<p>Finally you can use <a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_op_residual&#33;"><code>jac_op_residual&#33;</code></a>:</p>
+<p>Finally you can use <a href="https://jso.dev/NLPModels.jl/dev/api/#NLPModels.jac_op_residual&#33;"><code>jac_op_residual&#33;</code></a>:</p>
 <pre><code class=language-julia >model &#61; BundleAdjustmentModel&#40;&quot;problem-49-7776&quot;&#41;
 meta_nls &#61; nls_meta&#40;model&#41;
 nnzj &#61; meta_nls.nnzj
