@@ -17,7 +17,7 @@ Our initial motivation for developing [`DCISolver.jl`](https://github.com/JuliaS
 
 [`DCISolver.jl`](https://github.com/JuliaSmoothOptimizers/DCISolver.jl) is built upon the JuliaSmoothOptimizers (JSO) tools, and takes as input an [`AbstractNLPModel`](https://github.com/JuliaSmoothOptimizers/NLPModels.jl), JSO's general model API defined in [`NLPModels.jl`](https://github.com/JuliaSmoothOptimizers/NLPModels.jl), a flexible data type to evaluate objective and constraints, their derivatives, and to provide any information that a solver might request from a model. The user can hand-code derivatives, use automatic differentiation, or use JSO-interfaces to classical mathematical optimization modeling languages such as [AMPL](https://github.com/JuliaSmoothOptimizers/AmplNLReader.jl), [CUTEst](https://github.com/JuliaSmoothOptimizers/CUTEst.jl), or [JuMP](https://github.com/JuliaSmoothOptimizers/NLPModelsJuMP.jl).
 
-We refer to the [documentation](https://juliasmoothoptimizers.github.io/DCISolver.jl/v0.2/) and [tutorials](https://JuliaSmoothOptimizers.github.io/) for examples and benchmarks.
+We refer to the [documentation](https://jso.dev/DCISolver.jl/v0.2/) and [tutorials](https://jso.dev/) for examples and benchmarks.
 
 ## Example
 

@@ -19,6 +19,6 @@ This forum is for general discussion, so questions about any of our packages are
 
 Go to <https://github.com/JuliaSmoothOptimizers/JSOTutorials.jl>.
 
-## Style, colors, UI, frontend, etc.
+## Style, colors, UI, frontend, etc
 
-[Check the issues for JuliaSmoothOptimizers.github.io](https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc), and open a new one if necessary.
+[Check the issues for jso.dev](https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc), and open a new one if necessary.
