@@ -5,8 +5,8 @@
 \preamble{Antonin Kenens and Tangi Migot}
 
 
-[![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
-[![BundleAdjustmentModels 0.3.1](https://img.shields.io/badge/BundleAdjustmentModels-0.3.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/stable/)
+[![NLPModels 0.19.2](https://img.shields.io/badge/NLPModels-0.19.2-8b0000?style=flat-square&labelColor=cb3c33)](https://jso.dev/NLPModels.jl/stable/)
+[![BundleAdjustmentModels 0.3.2](https://img.shields.io/badge/BundleAdjustmentModels-0.3.2-8b0000?style=flat-square&labelColor=cb3c33)](https://jso.dev/BundleAdjustmentModels.jl/stable/)
 ![DataFrames 1.3.6](https://img.shields.io/badge/DataFrames-1.3.6-000?style=flat-square&labelColor=999)
 
 
@@ -84,7 +84,7 @@ filter_df = df[ ( df.nequ .≥ 50000 ) .& ( df.nvar .≤ 34000 ), :]
 
 The `Dataframe` is listing the matrices that you can have access to, but they still need to be downloaded.
 
-Following the example above, we filtered two problems. 
+Following the example above, we filtered two problems.
 What we want to do now is to select the first one in the listing.
 
 ```julia
@@ -102,7 +102,7 @@ name = filter_df[1, :name] # select the name of the first problem
 Now that the name is selected, we need to access the problem itself, and there are 2 solutions:
 
 - You can download the problem's archive file;
-- You can automatically create a nonlinear least squares problem using [`NLPModels`](https://github.com/JuliaSmoothOptimizers/NLPModels.jl) from [JuliaSmoothOptimizers](https://juliasmoothoptimizers.github.io/).
+- You can automatically create a nonlinear least squares problem using [`NLPModels`](https://github.com/JuliaSmoothOptimizers/NLPModels.jl) from [JuliaSmoothOptimizers](https://jso.dev/).
 
 ## Get the problem archive file
 
@@ -112,7 +112,7 @@ This package uses Julia Artifacts to handle the problems archives so that
 2. They are identified with a unique hash;
 3. They can be deleted with a single command line.
 
-The method [`fetch_ba_name`](https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.fetch_ba_name-Tuple{AbstractString}) will automatically download the problem (if needed) and return its path.
+The method [`fetch_ba_name`](https://jso.dev/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.fetch_ba_name-Tuple{AbstractString}) will automatically download the problem (if needed) and return its path.
 
 ```julia
 path = fetch_ba_name(name)
@@ -126,7 +126,7 @@ path = fetch_ba_name(name)
 
 
 
-It is also possible to directly download and get access to an entire group of problems using [`fetch_ba_group`](https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.fetch_ba_group-Tuple{AbstractString}).
+It is also possible to directly download and get access to an entire group of problems using [`fetch_ba_group`](https://jso.dev/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.fetch_ba_group-Tuple{AbstractString}).
 
 ```julia
 paths = fetch_ba_group("ladybug")
@@ -162,7 +162,7 @@ paths = fetch_ba_group("ladybug")
 
 ## Generate a nonlinear least squares model
 
-Now, it is possible to load the model using [`BundleAdjustmentModel`](https://juliasmoothoptimizers.github.io/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.BundleAdjustmentModel-Tuple{AbstractString})
+Now, it is possible to load the model using [`BundleAdjustmentModel`](https://jso.dev/BundleAdjustmentModels.jl/dev/reference/#BundleAdjustmentModels.BundleAdjustmentModel-Tuple{AbstractString})
 
 ```julia
 df = problems_df()
@@ -185,7 +185,7 @@ model = BundleAdjustmentModel("problem-49-7776-pre");
 
 The function `BundleAdjustmentModel` will instantiate the model and automatically download it if needed.
 The resulting structure is an instance of `AbstractNLPModel`.
-So, it is possible to access its API as any other [`NLPModel`](https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/).
+So, it is possible to access its API as any other [`NLPModel`](https://jso.dev/NLPModels.jl/dev/).
 
 ```julia
 using NLPModels
@@ -194,7 +194,7 @@ using NLPModels
 
 
 
-Using [`residual`](https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.residual), it is possible to compute the residual of the model
+Using [`residual`](https://jso.dev/NLPModels.jl/dev/api/#NLPModels.residual), it is possible to compute the residual of the model
 
 ```julia
 model = BundleAdjustmentModel("problem-49-7776-pre.txt.bz2")
@@ -230,7 +230,7 @@ Fx = residual(model, x)
 
 
 
-or use the in-place method [`residual!`](https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.residual!)
+or use the in-place method [`residual!`](https://jso.dev/NLPModels.jl/dev/api/#NLPModels.residual!)
 
 ```julia
 model = BundleAdjustmentModel("problem-49-7776-pre.txt.bz2")
@@ -245,7 +245,7 @@ residual!(model, x, Fx);
 
 You can also have access to the [`LinearOperator`](https://github.com/JuliaSmoothOptimizers/LinearOperators.jl) of the Jacobian matrix of the residual of the model which is calculated by hand (in contradiction to automatic differentiation).
 
-You need to call [`jac_structure_residual!`](https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_structure_residual!) at least once before calling [`jac_op_residual!`](https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_op_residual!).
+You need to call [`jac_structure_residual!`](https://jso.dev/NLPModels.jl/dev/api/#NLPModels.jac_structure_residual!) at least once before calling [`jac_op_residual!`](https://jso.dev/NLPModels.jl/dev/api/#NLPModels.jac_op_residual!).
 
 ```julia
 model = BundleAdjustmentModel("problem-49-7776")
@@ -259,7 +259,7 @@ jac_structure_residual!(model, rows, cols);
 
 
 
-You need to call [`jac_coord_residual!`](https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_coord_residual!) to update it to the current point.
+You need to call [`jac_coord_residual!`](https://jso.dev/NLPModels.jl/dev/api/#NLPModels.jac_coord_residual!) to update it to the current point.
 
 ```julia
 model = BundleAdjustmentModel("problem-49-7776")
@@ -296,7 +296,7 @@ jac_coord_residual!(model, x, vals)
 
 
 
-Finally you can use [`jac_op_residual!`](https://juliasmoothoptimizers.github.io/NLPModels.jl/dev/api/#NLPModels.jac_op_residual!):
+Finally you can use [`jac_op_residual!`](https://jso.dev/NLPModels.jl/dev/api/#NLPModels.jac_op_residual!):
 
 ```julia
 model = BundleAdjustmentModel("problem-49-7776")
