@@ -18,7 +18,7 @@ function bib_string(
     push!(V, date)
   end
   if isdoi
-    short_link = replace(link, "https://doi.org/" => "") 
+    short_link = replace(link, "https://doi.org/" => "")
     push!(V, "[$(short_link)]($link)")
   end
   str = join(V, ", ")

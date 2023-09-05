@@ -1,4 +1,4 @@
-Sitemap: https://juliasmoothoptimizers.github.io/sitemap.xml
+Sitemap: https://jso.dev/sitemap.xml
 
 User-agent: *
 Disallow:
