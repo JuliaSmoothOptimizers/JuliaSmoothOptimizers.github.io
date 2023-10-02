@@ -192,5 +192,21 @@
     "date": "2023-07-04",
     "link": "https://www.gerad.ca/fr/events/2128",
     "type": "talk"
+  },
+  {
+    "title": "Optimization Solver in Julia Smooth Optimizers",
+    "author": "Tangi Migot",
+    "where": "JuliaCon 2023, MIT",
+    "date": "2023-07-28",
+    "link": "https://www.youtube.com/watch?v=x52QlIb8E9Y",
+    "type": "talk"
+  },
+  {
+    "title": "On solving optimal control problems in Julia",
+    "author": "Jean-Baptiste Caillau, Olivier Cots, Joseph Gergaud, and Pierre Martinon",
+    "where": "JuliaCon 2023, MIT",
+    "date": "2023-07-28",
+    "link": "https://youtu.be/RYUtVnzLj5k?si=ByjswMbmGQ9RLHaW",
+    "type": "talk"
   }
 ]
