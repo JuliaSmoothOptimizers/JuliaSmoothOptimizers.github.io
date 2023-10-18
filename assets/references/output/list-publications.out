@@ -15,7 +15,7 @@
 </span>
 </button>
 ~~~Iterative Solution of Symmetric Quasi-Definite Linear Systems, **D. Orban, M. Arioli**, SIAM, 2017., [10.1137/1.9781611974737](https://doi.org/10.1137/1.9781611974737)
-### Articles (22)
+### Articles (21)
 - ~~~
 <button data-clipboard-text="@article{MontoisonOrban2023,
  number        = {89},
@@ -167,22 +167,6 @@
 </span>
 </button>
 ~~~A computationally informed realisation algorithm for lithium-ion batteries implemented with LiiBRA.jl, **Brady Planden, Katie Lukow, Paul Henshall, Gordana Collier, Denise Morrey**, Journal of Energy Storage, 55, 105637, 2022., [10.1016/j.est.2022.105637](https://doi.org/10.1016/j.est.2022.105637)
-- ~~~
-<button data-clipboard-text="@article{Ma2021,
- publisher     = {Springer International Publishing},
- pages         = {153--182},
- doi           = {10.1007/978-3-030-72040-7_8},
- booktitle     = {Numerical Analysis and Optimization},
- author        = {Ma, D. and Orban, D. and Saunders, M. A.},
- year          = {2021},
- url           = {https://doi.org/10.1007/978-3-030-72040-7_8},
- title         = {A Julia Implementation of Algorithm NCL for Constrained Optimization}
-}" class="copy-ref">
-<span class="icon is-small has-text-primary">
-<ion-icon size="small" name="copy"></ion-icon>
-</span>
-</button>
-~~~A Julia Implementation of Algorithm NCL for Constrained Optimization, **D. Ma, D. Orban, M. A. Saunders**, 153--182, 2021., [10.1007/978-3-030-72040-7_8](https://doi.org/10.1007/978-3-030-72040-7_8)
 - ~~~
 <button data-clipboard-text="@article{Montoison2021,
  pages         = {A2502--A2525},
@@ -403,6 +387,54 @@
 </span>
 </button>
 ~~~A Unified Efficient Implementation of Trust-region Type Algorithms for Unconstrained Optimization, **J.-P. Dussault**, INFOR: Information Systems and Operational Research, 58(2), 290--309, 2019., [10.1080/03155986.2019.1624490](https://doi.org/10.1080/03155986.2019.1624490)
+### In Proceedings (3)
+- ~~~
+<button data-clipboard-text="@inproceedings{cole2023exploiting,
+ organization  = {IEEE},
+ pages         = {3995--4000},
+ booktitle     = {2023 American Control Conference (ACC)},
+ author        = {Cole, David and Shin, Sungho and Pacaud, François and Zavala, Victor M and Anitescu, Mihai},
+ year          = {2023},
+ title         = {Exploiting GPU/SIMD Architectures for Solving Linear-Quadratic MPC Problems}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~Exploiting GPU/SIMD Architectures for Solving Linear-Quadratic MPC Problems, **David Cole, Sungho Shin, François Pacaud, Victor M Zavala, Mihai Anitescu**,  In 2023 American Control Conference (ACC), 3995--4000, 2023., []()
+- ~~~
+<button data-clipboard-text="@inproceedings{NEURIPS2022_2c19666c,
+ publisher     = {Curran Associates, Inc.},
+ pages         = {6640--6653},
+ booktitle     = {Advances in Neural Information Processing Systems},
+ author        = {Hamad, Fadi and Hinder, Oliver},
+ editor        = {Koyejo, S. and Mohamed, S. and Agarwal, A. and Belgrave, D. and Cho, K. and Oh, A.},
+ year          = {2022},
+ url           = {https://proceedings.neurips.cc/paper_files/paper/2022/file/2c19666cbb2c14d45d39e2dcf6ab0b99-Paper-Conference.pdf},
+ volume        = {35},
+ title         = {A consistently adaptive trust-region method}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~A consistently adaptive trust-region method, **Fadi Hamad, Oliver Hinder**,  In Advances in Neural Information Processing Systems, 6640--6653, 2022. Curran Associates, Inc.., [https://proceedings.neurips.cc/paper_files/paper/2022/file/2c19666cbb2c14d45d39e2dcf6ab0b99-Paper-Conference.pdf](https://proceedings.neurips.cc/paper_files/paper/2022/file/2c19666cbb2c14d45d39e2dcf6ab0b99-Paper-Conference.pdf)
+- ~~~
+<button data-clipboard-text="@inproceedings{Ma2021,
+ publisher     = {Springer International Publishing},
+ pages         = {153--182},
+ doi           = {10.1007/978-3-030-72040-7_8},
+ booktitle     = {Numerical Analysis and Optimization},
+ author        = {Ma, D. and Orban, D. and Saunders, M. A.},
+ year          = {2021},
+ url           = {https://doi.org/10.1007/978-3-030-72040-7_8},
+ title         = {A Julia Implementation of Algorithm NCL for Constrained Optimization}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~A Julia Implementation of Algorithm NCL for Constrained Optimization, **D. Ma, D. Orban, M. A. Saunders**,  In Numerical Analysis and Optimization, 153--182, 2021. Springer International Publishing., [10.1007/978-3-030-72040-7_8](https://doi.org/10.1007/978-3-030-72040-7_8)
 ### Talks (23)
 - [Julia Smooth Optimizers: Streamlined research and recent developments of the ecosystem](https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/files/12891425/JSO.at.Paris.JuliaOptDays.pdf), **Abel Soares Siqueira**, Journées Julia et Optimisation, Paris, France, 2023-Oct-6
 - [Optimization Solver in Julia Smooth Optimizers](https://www.youtube.com/watch?v=x52QlIb8E9Y), **Tangi Migot**, JuliaCon 2023, MIT, 2023-Jul-28

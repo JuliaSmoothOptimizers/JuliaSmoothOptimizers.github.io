@@ -43,7 +43,8 @@ json = sort(json, by=x->x["date"], rev=true)
 for (type_, title) in [
     ("book", "Books"),
     ("article", "Articles"),
-    ("techreport", "Technical Reports")
+    ("techreport", "Technical Reports"),
+    ("inproceedings", "In Proceedings"),
   ]
   selected = sort(filter(x -> x.type == type_, bib), by=x -> x.year, rev=true)
   length(selected) == 0 && continue
