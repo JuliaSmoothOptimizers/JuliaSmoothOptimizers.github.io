@@ -208,5 +208,13 @@
     "date": "2023-07-28",
     "link": "https://youtu.be/RYUtVnzLj5k?si=ByjswMbmGQ9RLHaW",
     "type": "talk"
+  },
+  {
+    "title": "Julia Smooth Optimizers: Streamlined research and recent developments of the ecosystem",
+    "author": "Abel Soares Siqueira",
+    "where": "Journées Julia et Optimisation, Paris, France",
+    "date": "2023-10-06",
+    "link": "https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/files/12891425/JSO.at.Paris.JuliaOptDays.pdf",
+    "type": "talk"
   }
 ]

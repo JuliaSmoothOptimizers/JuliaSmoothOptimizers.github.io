@@ -403,7 +403,8 @@
 </span>
 </button>
 ~~~A Unified Efficient Implementation of Trust-region Type Algorithms for Unconstrained Optimization, **J.-P. Dussault**, INFOR: Information Systems and Operational Research, 58(2), 290--309, 2019., [10.1080/03155986.2019.1624490](https://doi.org/10.1080/03155986.2019.1624490)
-### Talks (22)
+### Talks (23)
+- [Julia Smooth Optimizers: Streamlined research and recent developments of the ecosystem](https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/files/12891425/JSO.at.Paris.JuliaOptDays.pdf), **Abel Soares Siqueira**, Journées Julia et Optimisation, Paris, France, 2023-Oct-6
 - [Optimization Solver in Julia Smooth Optimizers](https://www.youtube.com/watch?v=x52QlIb8E9Y), **Tangi Migot**, JuliaCon 2023, MIT, 2023-Jul-28
 - [On solving optimal control problems in Julia](https://youtu.be/RYUtVnzLj5k?si=ByjswMbmGQ9RLHaW), **Jean-Baptiste Caillau, Olivier Cots, Joseph Gergaud, and Pierre Martinon**, JuliaCon 2023, MIT, 2023-Jul-28
 - [JuliaHSL: the ultimate collection for large-scale scientific computation](https://www.gerad.ca/fr/events/2128), **Alexis Montoison**, GERAD seminar, Montreal, Canada, 2023-Jul-4
