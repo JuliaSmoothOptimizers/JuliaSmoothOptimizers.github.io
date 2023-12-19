@@ -4,7 +4,9 @@
 ## Exploring Nonlinear Optimization with JuliaSmoothOptimizers at JuliaCon Local Eindhoven 2023
 
 We are excited to share that one of the core members of the JuliaSmoothOptimizers organization, [Abel Siqueira](https://abelsiqueira.com/), recently delivered a compelling talk at the [JuliaCon Local Eindhoven 2023](https://juliacon.org/local/eindhoven2023/) conference in the Netherlands. The conference, co-located with PyData Eindhoven 2023, provided an excellent platform for discussions and presentations on the latest developments in Julia and related technologies.
-As published before here, Julia Smooth Optimizers was a community partner of the event.
+As published [in a previous post](https://jso.dev/news-and-blogposts/2023/2023-09-06-jso-community-partner-juliacon-eindhoven/), Julia Smooth Optimizers was a community partner of the event.
+
+[![JuliaCon Local Eindhoven 2023](/assets/julia-packages-in-region.png)](https://juliacon.org/local/eindhoven2023/)
 
 Abel Siqueira's talk, titled [*Nonlinear Optimization with the Julia Smooth Optimizers Packages*](https://eindhoven2023.pydata.org/juliacon/talk/MYXETU/), delved into the rich ecosystem built by the JSO since its inception in 2015. With over 50 registered packages covering a wide range of nonlinear optimization and linear algebra topics, JSO has been a driving force in providing researchers with the necessary tools to seamlessly transition from prototyping to publication-ready code.
 
@@ -14,5 +16,3 @@ Abstract:
 *The talk highlighted JSO's primary objective: to empower researchers by offering high-level, well-maintained optimization packages. The organization is committed to facilitating a smooth journey from the conceptualization of ideas to the development of user-friendly optimization packages. A significant stride in this direction is the introduction of JSOSuite, a comprehensive package aiming to be a one-stop solution for nonlinear optimization in Julia.*
 
 [![Some tweets about the event](/assets/abel-juliacon-local-24.png)](https://twitter.com/eScienceCenter/status/1731659629287862537)
-
-[![JuliaCon Local Eindhoven 2023](/assets/julia-packages-in-region.png)](https://juliacon.org/local/eindhoven2023/)
