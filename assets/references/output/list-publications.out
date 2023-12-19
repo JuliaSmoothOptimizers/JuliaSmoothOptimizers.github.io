@@ -449,7 +449,8 @@
 </span>
 </button>
 ~~~A Julia Implementation of Algorithm NCL for Constrained Optimization, **D. Ma, D. Orban, M. A. Saunders**,  In Numerical Analysis and Optimization, 153--182, 2021. Springer International Publishing., [10.1007/978-3-030-72040-7_8](https://doi.org/10.1007/978-3-030-72040-7_8)
-### Talks (24)
+### Talks (25)
+- [Krylov.jl: Empowering Performance and Portability in High-Performance Computing](https://www.anl.gov/event/krylovjl-empowering-performance-and-portability-in-highperformance-computing), **Alexis Montoison**, LANS Seminar, Chicago, USA, 2023-Dec-13
 - [Nonlinear Optimization with the Julia Smooth Optimizers packages](https://eindhoven2023.pydata.org/juliacon/talk/MYXETU/), **Abel Soares Siqueira**, JuliaCon Local, Eindhoven, Netherlands, 2023-Dec-1
 - [Julia Smooth Optimizers: Streamlined research and recent developments of the ecosystem](https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/files/12891425/JSO.at.Paris.JuliaOptDays.pdf), **Abel Soares Siqueira**, Journées Julia et Optimisation, Paris, France, 2023-Oct-6
 - [Optimization Solver in Julia Smooth Optimizers](https://www.youtube.com/watch?v=x52QlIb8E9Y), **Tangi Migot**, JuliaCon 2023, MIT, 2023-Jul-28
