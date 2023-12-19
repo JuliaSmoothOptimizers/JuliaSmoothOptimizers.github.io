@@ -216,5 +216,13 @@
     "date": "2023-10-06",
     "link": "https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/files/12891425/JSO.at.Paris.JuliaOptDays.pdf",
     "type": "talk"
+  },
+  {
+    "title": "Nonlinear Optimization with the Julia Smooth Optimizers packages",
+    "author": "Abel Soares Siqueira",
+    "where": "JuliaCon Local, Eindhoven, Netherlands",
+    "date": "2023-12-01",
+    "link": "https://eindhoven2023.pydata.org/juliacon/talk/MYXETU/",
+    "type": "talk"
   }
 ]
