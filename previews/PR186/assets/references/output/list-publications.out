@@ -19,7 +19,7 @@
 - ~~~
 <button data-clipboard-text="@article{DussaultMigotOrban2023,
  doi           = {10.1007/s10107-023-02007-6},
- author        = {Dussault, Jean-Pierre and Migot, Tangi and Orban, Dominique},
+ author        = {Dussault, J.-P. and Migot, T. and Orban, D.},
  year          = {2023},
  url           = {https://link.springer.com/article/10.1007/s10107-023-02007-6},
  journal       = {Mathematical Programming Series A},
@@ -29,13 +29,13 @@
 <ion-icon size="small" name="copy"></ion-icon>
 </span>
 </button>
-~~~Scalable adaptive cubic regularization methods, **Jean-Pierre Dussault, Tangi Migot, Dominique Orban**, Mathematical Programming Series A, 2023., [10.1007/s10107-023-02007-6](https://doi.org/10.1007/s10107-023-02007-6)
+~~~Scalable adaptive cubic regularization methods, **J.-P. Dussault, T. Migot, D. Orban**, Mathematical Programming Series A, 2023., [10.1007/s10107-023-02007-6](https://doi.org/10.1007/s10107-023-02007-6)
 - ~~~
 <button data-clipboard-text="@article{MontoisonOrban2023,
  number        = {89},
  pages         = {5187},
  doi           = {10.21105/joss.05187},
- author        = {Montoison, Alexis and Orban, Dominique},
+ author        = {Montoison, A. and Orban, D.},
  year          = {2023},
  url           = {https://joss.theoj.org/papers/10.21105/joss.05187},
  volume        = {8},
@@ -46,7 +46,7 @@
 <ion-icon size="small" name="copy"></ion-icon>
 </span>
 </button>
-~~~Krylov.jl: A Julia basket of hand-picked Krylov methods, **Alexis Montoison, Dominique Orban**, Journal of Open Source Software, 8(89), 5187, 2023., [10.21105/joss.05187](https://doi.org/10.21105/joss.05187)
+~~~Krylov.jl: A Julia basket of hand-picked Krylov methods, **A. Montoison, D. Orban**, Journal of Open Source Software, 8(89), 5187, 2023., [10.21105/joss.05187](https://doi.org/10.21105/joss.05187)
 - ~~~
 <button data-clipboard-text="@article{Montoison2023,
  number        = {44},
@@ -186,7 +186,7 @@
 <button data-clipboard-text="@article{Planden2022,
  pages         = {105637},
  doi           = {10.1016/j.est.2022.105637},
- author        = {Planden, Brady and Lukow, Katie and Henshall, Paul and Collier, Gordana and Morrey, Denise},
+ author        = {Planden, B. and Lukow, K. and Henshall, P. and Collier, G. and Morrey, D.},
  year          = {2022},
  url           = {https://doi.org/10.1016/j.est.2022.105637},
  volume        = {55},
@@ -197,13 +197,13 @@
 <ion-icon size="small" name="copy"></ion-icon>
 </span>
 </button>
-~~~A computationally informed realisation algorithm for lithium-ion batteries implemented with LiiBRA.jl, **Brady Planden, Katie Lukow, Paul Henshall, Gordana Collier, Denise Morrey**, Journal of Energy Storage, 55, 105637, 2022., [10.1016/j.est.2022.105637](https://doi.org/10.1016/j.est.2022.105637)
+~~~A computationally informed realisation algorithm for lithium-ion batteries implemented with LiiBRA.jl, **B. Planden, K. Lukow, P. Henshall, G. Collier, D. Morrey**, Journal of Energy Storage, 55, 105637, 2022., [10.1016/j.est.2022.105637](https://doi.org/10.1016/j.est.2022.105637)
 - ~~~
 <button data-clipboard-text="@article{Fowkes2022,
  number        = {78},
  pages         = {4377},
  doi           = {10.21105/joss.04377},
- author        = {Fowkes, Jaroslav and Roberts, Lindon and B\"urmen},
+ author        = {Fowkes, J. and Roberts, L. and B\"urmen, A.},
  year          = {2022},
  url           = {https://doi.org/10.21105/joss.04377},
  volume        = {7},
@@ -214,7 +214,7 @@
 <ion-icon size="small" name="copy"></ion-icon>
 </span>
 </button>
-~~~PyCUTEst: an open source Python package of optimization test problems, **Jaroslav Fowkes, Lindon Roberts, B\"urmen**, Journal of Open Source Software, 7(78), 4377, 2022., [10.21105/joss.04377](https://doi.org/10.21105/joss.04377)
+~~~PyCUTEst: an open source Python package of optimization test problems, **J. Fowkes, L. Roberts, A. B\"urmen**, Journal of Open Source Software, 7(78), 4377, 2022., [10.21105/joss.04377](https://doi.org/10.21105/joss.04377)
 - ~~~
 <button data-clipboard-text="@article{Campana2022,
  number        = {7},
@@ -237,6 +237,7 @@
  number        = {5},
  pages         = {2611--2620},
  doi           = {10.1287/ijoc.2022.1191},
+ author        = { and Pokutta, S.},
  year          = {2022},
  url           = {https://doi.org/10.1287/ijoc.2022.1191},
  volume        = {34},
@@ -247,7 +248,7 @@
 <ion-icon size="small" name="copy"></ion-icon>
 </span>
 </button>
-~~~Frankwolfe.jl: A high-performance and flexible toolbox for frank–wolfe algorithms and conditional gradients, ****, INFORMS Journal on Computing, 34(5), 2611--2620, 2022., [10.1287/ijoc.2022.1191](https://doi.org/10.1287/ijoc.2022.1191)
+~~~Frankwolfe.jl: A high-performance and flexible toolbox for frank–wolfe algorithms and conditional gradients, **, S. Pokutta**, INFORMS Journal on Computing, 34(5), 2611--2620, 2022., [10.1287/ijoc.2022.1191](https://doi.org/10.1287/ijoc.2022.1191)
 - ~~~
 <button data-clipboard-text="@article{Montoison2021,
  pages         = {A2502--A2525},
@@ -492,7 +493,7 @@
  organization  = {IEEE},
  pages         = {3995--4000},
  booktitle     = {2023 American Control Conference (ACC)},
- author        = {Cole, David and Shin, Sungho and Pacaud, François and Zavala, Victor M and Anitescu, Mihai},
+ author        = {Cole, D. and Shin, S. and Pacaud, F. and Zavala, V. M. and Anitescu, M.},
  year          = {2023},
  title         = {Exploiting GPU/SIMD Architectures for Solving Linear-Quadratic MPC Problems}
 }" class="copy-ref">
@@ -500,13 +501,13 @@
 <ion-icon size="small" name="copy"></ion-icon>
 </span>
 </button>
-~~~Exploiting GPU/SIMD Architectures for Solving Linear-Quadratic MPC Problems, **David Cole, Sungho Shin, François Pacaud, Victor M Zavala, Mihai Anitescu**,  In 2023 American Control Conference (ACC), 3995--4000, 2023., []()
+~~~Exploiting GPU/SIMD Architectures for Solving Linear-Quadratic MPC Problems, **D. Cole, S. Shin, F. Pacaud, V. M. Zavala, M. Anitescu**,  In 2023 American Control Conference (ACC), 3995--4000, 2023., []()
 - ~~~
 <button data-clipboard-text="@inproceedings{NEURIPS2022_2c19666c,
  publisher     = {Curran Associates, Inc.},
  pages         = {6640--6653},
  booktitle     = {Advances in Neural Information Processing Systems},
- author        = {Hamad, Fadi and Hinder, Oliver},
+ author        = {Hamad, F. and Hinder, O.},
  editor        = {Koyejo, S. and Mohamed, S. and Agarwal, A. and Belgrave, D. and Cho, K. and Oh, A.},
  year          = {2022},
  url           = {https://proceedings.neurips.cc/paper_files/paper/2022/file/2c19666cbb2c14d45d39e2dcf6ab0b99-Paper-Conference.pdf},
@@ -517,7 +518,7 @@
 <ion-icon size="small" name="copy"></ion-icon>
 </span>
 </button>
-~~~A consistently adaptive trust-region method, **Fadi Hamad, Oliver Hinder**,  In Advances in Neural Information Processing Systems, 6640--6653, 2022. Curran Associates, Inc.., [https://proceedings.neurips.cc/paper_files/paper/2022/file/2c19666cbb2c14d45d39e2dcf6ab0b99-Paper-Conference.pdf](https://proceedings.neurips.cc/paper_files/paper/2022/file/2c19666cbb2c14d45d39e2dcf6ab0b99-Paper-Conference.pdf)
+~~~A consistently adaptive trust-region method, **F. Hamad, O. Hinder**,  In Advances in Neural Information Processing Systems, 6640--6653, 2022. Curran Associates, Inc.., [https://proceedings.neurips.cc/paper_files/paper/2022/file/2c19666cbb2c14d45d39e2dcf6ab0b99-Paper-Conference.pdf](https://proceedings.neurips.cc/paper_files/paper/2022/file/2c19666cbb2c14d45d39e2dcf6ab0b99-Paper-Conference.pdf)
 - ~~~
 <button data-clipboard-text="@inproceedings{Ma2021,
  publisher     = {Springer International Publishing},
