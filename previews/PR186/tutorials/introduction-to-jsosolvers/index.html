@@ -1,0 +1,235 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR186//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR186/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR186//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR186//assets/favicon.png"> <title>Introduction to JSOSolvers</title> <script src="/previews/PR186/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR186/"> <img src="https://jso-preview.netlify.app/previews/PR186//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR186//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR186//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR186//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR186//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR186//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR186//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR186//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR186//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR186//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Introduction to JSOSolvers</a></h1></p> <p><div class=author >by Tangi Migot</div> <p><img src="https://img.shields.io/badge/CSV-0.10.11-000?style&#61;flat-square&amp;labelColor&#61;999" alt="CSV 0.10.11" /> <a href="https://jso.dev/SolverCore.jl/stable/"><img src="https://img.shields.io/badge/SolverCore-0.3.7-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="SolverCore 0.3.7" /></a> <img src="https://img.shields.io/badge/DataFrames-1.6.1-000?style&#61;flat-square&amp;labelColor&#61;999" alt="DataFrames 1.6.1" /> <img src="https://img.shields.io/badge/Plots-1.39.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="Plots 1.39.0" /> <a href="https://jso.dev/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.7.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.7.0" /></a> <a href="https://jso.dev/JSOSolvers.jl/stable/"><img src="https://img.shields.io/badge/JSOSolvers-0.11.0-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="JSOSolvers 0.11.0" /></a></p> <div class=franklin-toc ><ol><li><a href="#solver_input_and_output">Solver input and output</a><li><a href="#specialization_for_nonlinear_least-squares">Specialization for nonlinear least-squares</a><li><a href="#advanced_usage">Advanced usage</a><li><a href="#callback">Callback</a></ol></div> <h1 id=jsosolversjl_tutorial ><a href="#jsosolversjl_tutorial" class=header-anchor >JSOSolvers.jl Tutorial</a></h1> <p>This package provides optimization solvers curated by the <a href="https://jso.dev">JuliaSmoothOptimizers</a> organization. All solvers are based on <a href="https://github.com/JuliaSmoothOptimizers/NLPModels.jl">NLPModels.jl</a> and <a href="https://github.com/JuliaSmoothOptimizers/SolverCore.jl">SolverCore.jl</a>.</p> <p>This package contains the implementation of four algorithms that are classical for unconstrained/bound-constrained nonlinear optimization: <code>lbfgs</code>, <code>R2</code>, <code>tron</code>, and <code>trunk</code>.</p> <h2 id=solver_input_and_output ><a href="#solver_input_and_output" class=header-anchor >Solver input and output</a></h2> <p>All solvers have the following signature:</p> <pre><code class=language-plaintext >stats &#61; name_solver&#40;nlp; kwargs...&#41;</code></pre>
+<p>where <code>name_solver</code> can be <code>lbfgs</code>, <code>R2</code>, <code>tron</code>, or <code>trunk</code>, and with:</p>
+<ul>
+<li><p><code>nlp::AbstractNLPModel&#123;T, V&#125;</code> is an AbstractNLPModel or some specialization, such as an <code>AbstractNLSModel</code>;</p>
+
+<li><p><code>stats::GenericExecutionStats&#123;T, V&#125;</code> is a <code>GenericExecutionStats</code>, see <code>SolverCore.jl</code>.</p>
+
+</ul>
+<p>The keyword arguments may include:</p>
+<ul>
+<li><p><code>x::V &#61; nlp.meta.x0</code>: the initial guess.</p>
+
+<li><p><code>atol::T &#61; √eps&#40;T&#41;</code>: absolute tolerance.</p>
+
+<li><p><code>rtol::T &#61; √eps&#40;T&#41;</code>: relative tolerance, the algorithm stops when \(\| \nabla f(x^k) \| \leq atol + rtol \| \nabla f(x^0) \|\).</p>
+
+<li><p><code>max_eval::Int &#61; -1</code>: maximum number of objective function evaluations.</p>
+
+<li><p><code>max_time::Float64 &#61; 30.0</code>: maximum time limit in seconds.</p>
+
+<li><p><code>verbose::Int &#61; 0</code>: if &gt; 0, display iteration details every <code>verbose</code> iteration.</p>
+
+</ul>
+<p>Refer to the documentation of each solver for further details on the available keyword arguments.</p>
+<h2 id=specialization_for_nonlinear_least-squares ><a href="#specialization_for_nonlinear_least-squares" class=header-anchor >Specialization for nonlinear least-squares</a></h2>
+<p>The solvers <code>tron</code> and <code>trunk</code> both have a specialized implementation for input models of type <code>AbstractNLSModel</code>.</p>
+<p>The following examples illustrate this specialization.</p>
+<pre><code class=language-julia >using JSOSolvers, ADNLPModels
+f&#40;x&#41; &#61; &#40;x&#91;1&#93; - 1&#41;^2 &#43; 4 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2
+nlp &#61; ADNLPModel&#40;f, &#91;-1.2; 1.0&#93;&#41;
+trunk&#40;nlp, atol &#61; 1e-6, rtol &#61; 1e-6&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<pre><code class=language-julia >nlp.counters</code></pre>
+<pre><code class=language-plaintext >Counters:
+             obj: ████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 10                grad: ████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 10                cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ████████████████████ 26    
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<pre><code class=language-julia >F&#40;x&#41; &#61; &#91;x&#91;1&#93; - 1; 2 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;&#93;
+nls &#61; ADNLSModel&#40;F, &#91;-1.2; 1.0&#93;, 2&#41;
+trunk&#40;nls, atol &#61; 1e-6, rtol &#61; 1e-6&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<pre><code class=language-julia >nls.counters</code></pre>
+<pre><code class=language-plaintext >Counters:
+             obj: ████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 14                grad: ██████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 11                cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             residual: ████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 14    
+    jac_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       jprod_residual: ██████████████⋅⋅⋅⋅⋅⋅ 26     jtprod_residual: ████████████████████ 38    
+   hess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       jhess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       hprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<p>We conclude these examples by a nonlinear regression example from the <a href="https://www.itl.nist.gov/div898/strd/nls/nls_main.shtml">NIST data set</a>. In particular, we consider the problem <a href="https://www.itl.nist.gov/div898/strd/nls/data/LINKS/DATA/Thurber.dat"><code>Thurber</code></a>.</p>
+<p>We build a nonlinear model <code>m</code> with a vector of unknown parameters β.</p>
+<pre><code class=language-julia >m&#40;β, x&#41; &#61; &#40;β&#91;1&#93; &#43; β&#91;2&#93; * x &#43; β&#91;3&#93; * x^2 &#43; β&#91;4&#93; * x^3&#41; / &#40;1 &#43; β&#91;5&#93; * x &#43; β&#91;6&#93; * x^2 &#43; β&#91;7&#93; * x^3&#41; # nonlinear models with unknown β vector
+
+using CSV, DataFrames
+url_prefix &#61; &quot;https://gist.githubusercontent.com/abelsiqueira/8ca109888b22b6ab1e76825f0567c668/raw/f3f38d61f750b443fb4307efbf853447275441a5/&quot;
+data &#61; CSV.read&#40;download&#40;joinpath&#40;url_prefix, &quot;thurber.csv&quot;&#41;&#41;, DataFrame&#41;
+x, y &#61; data.x, data.y</code></pre>
+<pre><code class=language-plaintext >&#40;&#91;-3.067, -2.981, -2.921, -2.912, -2.84, -2.797, -2.702, -2.699, -2.633, -2.481  …  0.119, 0.377, 0.79, 0.963, 1.006, 1.115, 1.572, 1.841, 2.047, 2.2&#93;, &#91;80.574, 84.248, 87.264, 87.195, 89.076, 89.608,
+ 89.868, 90.101, 92.405, 95.854  …  1327.543, 1353.863, 1414.509, 1425.208, 1421.384, 1442.962, 1464.35, 1468.705, 1447.894, 1457.628&#93;&#41;</code></pre>
+<p>We now define the nonlinear least squares associated with the regression problem.</p>
+<pre><code class=language-julia >F&#40;β&#41; &#61; &#91;m&#40;β, xi&#41; - yi for &#40;xi, yi&#41; in zip&#40;x, y&#41;&#93;
+β0 &#61; CSV.read&#40;download&#40;joinpath&#40;url_prefix, &quot;thurber-x0.csv&quot;&#41;&#41;, DataFrame&#41;.beta
+ndata &#61; length&#40;x&#41;
+nls &#61; ADNLSModel&#40;F, β0, ndata&#41;</code></pre>
+<pre><code class=language-plaintext >ADNLSModel - Nonlinear least-squares model with automatic differentiation backend ADModelBackend&#123;
+  ForwardDiffADGradient,
+  ForwardDiffADHvprod,
+  EmptyADbackend,
+  EmptyADbackend,
+  EmptyADbackend,
+  ForwardDiffADHessian,
+  EmptyADbackend,
+&#125;
+  Problem name: Generic
+   All variables: ████████████████████ 7      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0        All residuals: ████████████████████ 37    
+            free: ████████████████████ 7                 free: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                lower: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            nonlinear: ████████████████████ 37    
+           upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                upper: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzj: &#40;  0.00&#37; sparsity&#41;   259   
+         low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 nnzh: &#40;  0.00&#37; sparsity&#41;   28    
+           fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+          infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40;  0.00&#37; sparsity&#41;   28              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                    nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+                                                         nnzj: &#40;------&#37; sparsity&#41;         
+
+  Counters:
+             obj: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 grad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 cons: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+        cons_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             cons_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 jcon: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jgrad: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                  jac: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              jac_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+         jac_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                jprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0            jprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+       jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+      jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+           jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+    jac_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       jprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0      jtprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+   hess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       jhess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       hprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
+<p>As shown before, we can use any <code>JSOSolvers</code> solvers to solve this problem, but since <code>trunk</code> has a specialized version for unconstrained NLS, we will use it, with a time limit of <code>60</code> seconds.</p>
+<pre><code class=language-julia >stats &#61; trunk&#40;nls, max_time &#61; 60.&#41;
+stats.solution</code></pre>
+<pre><code class=language-plaintext >7-element Vector&#123;Float64&#125;:
+ 1288.1396826441605
+ 1491.255092722479
+  583.3669627041016
+   75.44128919391854
+    0.9664368403070315
+    0.39804057172490376
+    0.049747755368081494</code></pre>
+<pre><code class=language-julia >using Plots
+scatter&#40;x, y, c&#61;:blue, m&#61;:square, title&#61;&quot;Nonlinear regression&quot;, lab&#61;&quot;data&quot;&#41;
+plot&#33;&#40;x, t -&gt; m&#40;stats.solution, t&#41;, c&#61;:red, lw&#61;2, lab&#61;&quot;fit&quot;&#41;</code></pre>
+<p><img src="figures/index_8_1.png" alt="" /></p>
+<h2 id=advanced_usage ><a href="#advanced_usage" class=header-anchor >Advanced usage</a></h2>
+<p>For advanced usage, first define a <code>Solver</code> structure to preallocate the memory used in the algorithm, and then call <code>solve&#33;</code>.</p>
+<pre><code class=language-julia >using JSOSolvers, ADNLPModels
+nlp &#61; ADNLPModel&#40;x -&gt; sum&#40;x.^2&#41;, ones&#40;3&#41;&#41;;
+solver &#61; LBFGSSolver&#40;nlp; mem &#61; 5&#41;;
+stats &#61; solve&#33;&#40;solver, nlp&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<p>The following table provides the correspondance between the solvers and the solvers structures:</p>
+<table><tr><th align=right >Algorithm<th align=right >Solver structure<tr><td align=right ><a href="https://jso.dev/JSOSolvers.jl/stable/reference/#JSOSolvers.lbfgs-Union&#123;Tuple&#123;NLPModels.AbstractNLPModel&#125;,&#37;20Tuple&#123;V}}&#37;20where&#37;20V">lbfgs</a><td align=right >LBFGSSolver<tr><td align=right ><a href="https://jso.dev/JSOSolvers.jl/stable/reference/#JSOSolvers.R2-Union&#123;Tuple&#123;NLPModels.AbstractNLPModel&#123;T,&#37;20V}},&#37;20Tuple&#123;V&#125;,&#37;20Tuple&#123;T}}&#37;20where&#37;20&#123;T,&#37;20V&#125;">R2</a><td align=right >R2Solver<tr><td align=right ><a href="https://jso.dev/JSOSolvers.jl/stable/reference/#JSOSolvers.tron-Union&#123;Tuple&#123;V&#125;,&#37;20Tuple&#123;Val&#123;:Newton&#125;,&#37;20NLPModels.AbstractNLPModel}}&#37;20where&#37;20V">tron</a><td align=right >TronSolver<tr><td align=right ><a href="https://jso.dev/JSOSolvers.jl/stable/reference/#JSOSolvers.trunk-Union&#123;Tuple&#123;V&#125;,&#37;20Tuple&#123;Val&#123;:Newton&#125;,&#37;20NLPModels.AbstractNLPModel}}&#37;20where&#37;20V">trunk</a><td align=right >TrunkSolver<tr><td align=right ><a href="https://jso.dev/JSOSolvers.jl/stable/reference/#JSOSolvers.tron-Union&#123;Tuple&#123;V&#125;,&#37;20Tuple&#123;Val&#123;:GaussNewton&#125;,&#37;20NLPModels.AbstractNLSModel}}&#37;20where&#37;20V">tron &#40;nls-variant&#41;</a><td align=right >TronSolverNLS<tr><td align=right ><a href="https://jso.dev/JSOSolvers.jl/stable/reference/#JSOSolvers.trunk-Union&#123;Tuple&#123;V&#125;,&#37;20Tuple&#123;Val&#123;:GaussNewton&#125;,&#37;20NLPModels.AbstractNLSModel}}&#37;20where&#37;20V">trunk &#40;nls-variant&#41;</a><td align=right >TrunkSolverNLS</table>
+<p>It is also possible to pre-allocate the output structure <code>stats</code> and call <code>solve&#33;&#40;solver, nlp, stats&#41;</code>.</p>
+<pre><code class=language-julia >using JSOSolvers, ADNLPModels, SolverCore
+nlp &#61; ADNLPModel&#40;x -&gt; sum&#40;x.^2&#41;, ones&#40;3&#41;&#41;;
+solver &#61; LBFGSSolver&#40;nlp; mem &#61; 5&#41;;
+stats &#61; GenericExecutionStats&#40;nlp&#41;
+solve&#33;&#40;solver, nlp, stats&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: first-order stationary&quot;</code></pre>
+<h2 id=callback ><a href="#callback" class=header-anchor >Callback</a></h2>
+<p>All the solvers have a callback mechanism called at each iteration, see also the <a href="https://jso.dev/tutorials/using-callbacks/">Using callbacks tutorial</a>. The expected signature of the callback is <code>callback&#40;nlp, solver, stats&#41;</code>, and its output is ignored. Changing any of the input arguments will affect the subsequent iterations. In particular, setting <code>stats.status &#61; :user</code> will stop the algorithm.</p>
+<p>Below you can see an example of the execution of the solver <code>trunk</code> with a callback. It stores intermediate points until it stops the algorithm after four iterates. Afterward, we plot the iterates and create an animation from the points acquired by the callback.</p>
+<pre><code class=language-julia >using ADNLPModels, JSOSolvers, LinearAlgebra, Logging, Plots
+f&#40;x&#41; &#61; &#40;x&#91;1&#93; - 1&#41;^2 &#43; 4 * &#40;x&#91;2&#93; - x&#91;1&#93;^2&#41;^2
+nlp &#61; ADNLPModel&#40;f, &#91;-1.2; 1.0&#93;&#41;
+X &#61; &#91;nlp.meta.x0&#91;1&#93;&#93;
+Y &#61; &#91;nlp.meta.x0&#91;2&#93;&#93;
+function cb&#40;nlp, solver, stats&#41;
+  x &#61; solver.x
+  push&#33;&#40;X, x&#91;1&#93;&#41;
+  push&#33;&#40;Y, x&#91;2&#93;&#41;
+  if stats.iter &#61;&#61; 4
+    stats.status &#61; :user
+  end
+end
+stats &#61; trunk&#40;nlp, callback&#61;cb&#41;</code></pre>
+<pre><code class=language-plaintext >&quot;Execution stats: user-requested stop&quot;</code></pre>
+<pre><code class=language-julia >plot&#40;leg&#61;false&#41;
+xg &#61; range&#40;-1.5, 1.5, length&#61;50&#41;
+yg &#61; range&#40;-1.5, 1.5, length&#61;50&#41;
+contour&#33;&#40;xg, yg, &#40;x1,x2&#41; -&gt; f&#40;&#91;x1; x2&#93;&#41;, levels&#61;100&#41;
+plot&#33;&#40;X, Y, c&#61;:red, l&#61;:arrow, m&#61;4&#41;</code></pre>
+<p><img src="figures/index_12_1.png" alt="" /></p>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR186/libs/katex/katex.min.js"></script>
+<script src="/previews/PR186/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
