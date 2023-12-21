@@ -174,5 +174,13 @@
     "date": "2023-17-02",
     "tags": ["solver", "benchmark", "profile", "latex"],
     "pkgs": ["SolverBenchmark"]
+  },
+  {
+    "title": "Comparing subsolvers for NLS solvers",
+    "link": "/tutorials/advanced-jsosolvers/",
+    "short": "This tutorial showcases some advanced features of solvers in JSOSolvers..",
+    "date": "2023-21-12",
+    "tags": ["solvers", "krylov", "benchmark", "least squares"],
+    "pkgs": ["JSOSolvers"]
   }
 ]
