@@ -1,0 +1,101 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR187//libs/katex/katex.min.css"> <link rel=stylesheet  href="/previews/PR187/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR187//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR187//assets/favicon.png"> <title>Sandbox</title> <script src="/previews/PR187/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR187/"> <img src="https://jso-preview.netlify.app/previews/PR187//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR187//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR187//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR187//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR187//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR187//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR187//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR187//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR187//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR187//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=sandbox ><a href="#sandbox" class=header-anchor >Sandbox</a></h1> <p>Where I try configuration things.</p> <h2 id=rfig ><a href="#rfig" class=header-anchor >rfig</a></h2> <p>Text before.</p> <pre><code class=language-julia >isdir&#40;&quot;plots&quot;&#41; || mkdir&#40;&quot;plots&quot;&#41;
+cp&#40;&quot;_assets/jso.png&quot;, &quot;__site/assets/something.png&quot;; force&#61;true&#41;
+print&#40;&quot;No errors&quot;&#41;</code></pre> <pre><code class="plaintext code-output">No errors</code></pre>
+<p>Text after. Don&#39;t add text between input and output. Code inline <code>x &#61; 2</code>. Also math \(\int x\).</p>
+<figure>
+  <img class=image  src="/previews/PR187/assets/something.png">
+  <figcaption>JSO logo - testing that rfig works</figcaption>
+</figure>
+
+<h2 id=icons ><a href="#icons" class=header-anchor >Icons</a></h2>
+<p>We use <a href="https://ionic.io/ionicons">Ionicons</a>, through <a href="https://bulma.io/documentation/elements/icon/">Bulma</a>. Icons will have to be pure HTML, so wrap it in <code>~~~</code> so Franklin doesn&#39;t parse it.</p>
+<p>Example:</p>
+<pre><code class=language-plaintext >~~~
+&lt;span class&#61;&quot;icon has-text-info&quot;&gt;
+&lt;ion-icon name&#61;&quot;copy&quot;&gt;&lt;/ion-icon&gt;
+&lt;/span&gt;
+~~~</code></pre>
+<p>Generates</p>
+
+<span class="icon has-text-info">
+<ion-icon name=copy ></ion-icon>
+</span>
+
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+        <script src="/previews/PR187/libs/katex/katex.min.js"></script>
+<script src="/previews/PR187/libs/katex/auto-render.min.js"></script>
+<script>renderMathInElement(document.body)</script>
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
