@@ -15,4 +15,6 @@ With an extensive package ecosystem and the introduction of JSOSuite, the organi
 Abstract:
 *The talk highlighted JSO's primary objective: to empower researchers by offering high-level, well-maintained optimization packages. The organization is committed to facilitating a smooth journey from the conceptualization of ideas to the development of user-friendly optimization packages. A significant stride in this direction is the introduction of JSOSuite, a comprehensive package aiming to be a one-stop solution for nonlinear optimization in Julia.*
 
+You can check the full talk at [The Julia Programming Language Youtube](https://www.youtube.com/watch?v=i1eeD3uHbZ4).
+
 [![Some tweets about the event](/assets/abel-juliacon-local-24.png)](https://twitter.com/eScienceCenter/status/1731659629287862537)
