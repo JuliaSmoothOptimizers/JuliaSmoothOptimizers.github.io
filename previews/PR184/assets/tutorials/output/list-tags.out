@@ -84,6 +84,13 @@
   <span>jump</span>
 </button>
 ~~~
+~~~<button onclick="tags_click('krylov')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>krylov</span>
+</button>
+~~~
 ~~~<button onclick="tags_click('latex')" class="button is-small is-link is-outlined mt-2">
   <span class="icon is-small">
     <ion-icon name="pricetag"></ion-icon>
@@ -96,6 +103,13 @@
     <ion-icon name="pricetag"></ion-icon>
   </span>
   <span>ldlt</span>
+</button>
+~~~
+~~~<button onclick="tags_click('least squares')" class="button is-small is-link is-outlined mt-2">
+  <span class="icon is-small">
+    <ion-icon name="pricetag"></ion-icon>
+  </span>
+  <span>least squares</span>
 </button>
 ~~~
 ~~~<button onclick="tags_click('least-squares')" class="button is-small is-link is-outlined mt-2">
