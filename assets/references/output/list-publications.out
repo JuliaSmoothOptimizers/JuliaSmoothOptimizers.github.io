@@ -552,7 +552,7 @@
 </button>
 ~~~Augmented Lagrangian methods as dynamical systems for constrained optimization, **A. De Marchi**,  In 2021 60th IEEE Conference on Decision and Control, 6533--6538, 2021. IEEE., [10.1109/CDC45484.2021.9683199](https://doi.org/10.1109/CDC45484.2021.9683199)
 ### Talks (25)
-- [Krylov.jl: Empowering Performance and Portability in High-Performance Computing](https://www.anl.gov/event/krylovjl-empowering-performance-and-portability-in-highperformance-computing), **Alexis Montoison**, LANS Seminar, Chicago, USA, 2023-Dec-13
+- [Krylov.jl: Empowering Performance and Portability in High-Performance Computing](https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/files/LANS-Seminar-Argonne.pdf), **Alexis Montoison**, LANS Seminar, Chicago, USA, 2023-Dec-13
 - [Nonlinear Optimization with the Julia Smooth Optimizers packages](https://eindhoven2023.pydata.org/juliacon/talk/MYXETU/), **Abel Soares Siqueira**, JuliaCon Local, Eindhoven, Netherlands, 2023-Dec-1
 - [Julia Smooth Optimizers: Streamlined research and recent developments of the ecosystem](https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/files/12891425/JSO.at.Paris.JuliaOptDays.pdf), **Abel Soares Siqueira**, Journées Julia et Optimisation, Paris, France, 2023-Oct-6
 - [Optimization Solver in Julia Smooth Optimizers](https://www.youtube.com/watch?v=x52QlIb8E9Y), **Tangi Migot**, JuliaCon 2023, MIT, 2023-Jul-28
