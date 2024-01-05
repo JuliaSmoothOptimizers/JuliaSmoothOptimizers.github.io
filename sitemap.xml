@@ -122,6 +122,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>https://jso.dev/news-and-blogposts/2023/2023-12-01-jso-juliacon-eindhoven/index.html</loc>
+    <lastmod>2024-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>https://jso.dev/tutorials/using-callbacks/index.html</loc>
     <lastmod>2024-01-05</lastmod>
     <changefreq>monthly</changefreq>
