@@ -1,14 +1,10 @@
 @def title = "Krylov.jl: Elevating JuliaSmoothOptimizers to New Heights!"
 @def rss_description = "The Krylov.jl paper by Alexis Montoison and Dominique Orban has been published in JOSS."
 
-# Blog Post: "Krylov.jl: Elevating JuliaSmoothOptimizers to New Heights!"
-
-## Celebrating a Breakthrough in Numerical Linear Algebra
+# Krylov.jl: Elevating JuliaSmoothOptimizers to New Heights!
 
 Excitement is buzzing within the JuliaSmoothOptimizers community as we proudly announce a significant achievement—the publication of the [Krylov.jl paper in the Journal of Open Source Software](https://joss.theoj.org/papers/10.21105/joss.05187).
 [Krylov.jl](https://github.com/JuliaSmoothOptimizers/Krylov.jl) is not just a package; it's a success story that showcases the growing impact of our community in the world of computational mathematics.
-
-## The Dynamic Force of Krylov.jl Unveiled
 
 [Krylov.jl](https://github.com/JuliaSmoothOptimizers/Krylov.jl) is a powerhouse of carefully selected Krylov methods designed to tackle a diverse range of linear problems.
 Initiated by Alexis Montoison and Dominique Orban, Krylov.jl is more than a success—it's a testament to the collaborative spirit of our community.
@@ -41,18 +37,12 @@ It's a game-changer for nonlinear optimization, reducing computation time and me
 Memory allocations slowing you down? Not with [Krylov.jl](https://github.com/JuliaSmoothOptimizers/Krylov.jl)!
 All solvers come with in-place variants, minimizing those pesky allocations and deallocations. And when it comes to performance, we've got you covered—dispatching operations to BLAS routines and dynamically switching between backends for the win.
 
-## Showcasing Krylov.jl in Action
-
-Enough talk; let's see it in action! From the Gauss-Newton method for nonlinear least squares to conquering complex Hermitian linear systems on GPUs, the examples speak louder than words.
-Dive into the code and witness the magic of [Krylov.jl](https://github.com/JuliaSmoothOptimizers/Krylov.jl).
-
 ## Join the Journey: Explore Krylov.jl Today
 
 Ready to unleash the power of [Krylov.jl](https://github.com/JuliaSmoothOptimizers/Krylov.jl) in your projects? Dive into the documentation, explore the examples, and let the world of numerical optimization be your playground. The journey doesn't end here; it's just the beginning. [Explore Krylov.jl](https://jso.dev/Krylov.jl/stable/) today!
 
 ## Community Power: Thank You!
 
-Behind every success story is a community that makes it all happen. Alexis Montoison and Dominique Orban extend their gratitude to everyone in the JuliaSmoothOptimizers community, FRQNT, IVADO, and NSERC.
 As we celebrate this success, we're not just looking back; we're looking ahead.
 [Krylov.jl](https://github.com/JuliaSmoothOptimizers/Krylov.jl) isn't just a toolbox; it's a promise—a promise of continued innovation, exploration, and pushing the boundaries of what's possible in Julia.
 
