@@ -8,17 +8,17 @@ new ClipboardJS('.copy-ref');
 
 # Publications, talks and other references
 
-If you use JSO, we ask that you cite us. In addition to any specific reference that may suggested by the packages you are using, we also ask you to cite:
-
-**JuliaSmoothOptimizers**. Dominique Orban and Abel Soares Siqueira. Zenodo. Apr, 2019. [10.5281/zenodo.2655082](https://doi.org/10.5281/zenodo.2655082)
+If you use JSO, we ask that you cite us. In addition to any specific reference that may suggested by the packages you are using, we also ask you to cite JSO using the format given in [Organization/CITATION.cff](https://github.com/JuliaSmoothOptimizers/Organization/blob/main/CITATION.cff).
 
 ```plaintext
-@Misc{jso-2019,
-  author = {D. Orban and A. S. Siqueira},
-  title = {{JuliaSmoothOptimizers}: Infrastructure and Solvers for Continuous Optimization in {J}ulia},
-  doi = {10.5281/zenodo.2655082},
-  URL = {https://jso.dev},
-  year = {2019},
+@software{The_JuliaSmoothOptimizers_Ecosystem,
+author = {Migot, Tangi and Orban, Dominique and Soares Siqueira, Abel and contributors},
+license = {MPL-2.0},
+month = feb,
+title = {{The JuliaSmoothOptimizers Ecosystem for Numerical Linear Algebra and Optimization in Julia}},
+doi = {10.5281/zenodo.2655082},
+url = {https://jso.dev},
+year = {2024}
 }
 ```
 
