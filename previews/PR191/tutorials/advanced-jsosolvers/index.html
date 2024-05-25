@@ -1,0 +1,139 @@
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/previews/PR191/libs/highlight/github.min.css"> <link rel=stylesheet  href="https://jso-preview.netlify.app/previews/PR191//css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="https://jso-preview.netlify.app/previews/PR191//assets/favicon.png"> <title>Comparing subsolvers for NLS solvers</title> <script src="/previews/PR191/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR191/"> <img src="https://jso-preview.netlify.app/previews/PR191//assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR191//"> Home </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR191//news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR191//tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="https://jso-preview.netlify.app/previews/PR191//ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR191//ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR191//ecosystems/models/"> Models </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR191//ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR191//references/"> References </a> <a class=navbar-item  href="https://jso-preview.netlify.app/previews/PR191//contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Comparing subsolvers for NLS solvers</a></h1></p> <p><div class=author >by Tangi Migot</div> <p><a href="https://jso.dev/OptimizationProblems.jl/stable/"><img src="https://img.shields.io/badge/OptimizationProblems-0.7.3-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="OptimizationProblems 0.7.3" /></a> <a href="https://jso.dev/SolverBenchmark.jl/stable/"><img src="https://img.shields.io/badge/SolverBenchmark-0.6.0-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="SolverBenchmark 0.6.0" /></a> <img src="https://img.shields.io/badge/Plots-1.39.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="Plots 1.39.0" /> <a href="https://jso.dev/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.7.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.7.0" /></a> <a href="https://jso.dev/Krylov.jl/stable/"><img src="https://img.shields.io/badge/Krylov-0.9.5-4b0082?style&#61;flat-square&amp;labelColor&#61;9558b2" alt="Krylov 0.9.5" /></a> <a href="https://jso.dev/JSOSolvers.jl/stable/"><img src="https://img.shields.io/badge/JSOSolvers-0.11.0-006400?style&#61;flat-square&amp;labelColor&#61;389826" alt="JSOSolvers 0.11.0" /></a></p> <h1 id=comparing_subsolvers_for_nonlinear_least_squares_jsosolvers_solvers ><a href="#comparing_subsolvers_for_nonlinear_least_squares_jsosolvers_solvers" class=header-anchor >Comparing subsolvers for nonlinear least squares JSOSolvers solvers</a></h1> <p>This tutorial showcases some advanced features of solvers in JSOSolvers.</p> <pre><code class=language-julia >using JSOSolvers</code></pre>
+<p>We benchmark different subsolvers used in the solvers TRUNK for unconstrained nonlinear least squares problems. The first step is to select a set of problems that are nonlinear least squares.</p>
+<pre><code class=language-julia >using ADNLPModels
+using OptimizationProblems
+using OptimizationProblems.ADNLPProblems
+df &#61; OptimizationProblems.meta
+names &#61; df&#91;&#40;df.objtype .&#61;&#61; :least_squares&#41; .&amp; &#40;df.contype .&#61;&#61; :unconstrained&#41;, :name&#93;
+ad_problems &#61; &#40;eval&#40;Meta.parse&#40;problem&#41;&#41;&#40;use_nls &#61; true&#41; for problem ∈ names&#41;</code></pre>
+<pre><code class=language-plaintext >Base.Generator&#123;Vector&#123;String&#125;, Main.var&quot;##WeaveSandBox#292&quot;.var&quot;#1#2&quot;&#125;&#40;Main.var&quot;##WeaveSandBox#292&quot;.var&quot;#1#2&quot;&#40;&#41;, &#91;&quot;arglina&quot;, &quot;arglinb&quot;, &quot;bard&quot;, &quot;bdqrtic&quot;, &quot;beale&quot;, &quot;bennett5&quot;, &quot;boxbod&quot;, &quot;brownal&quot;, &quot;br
+ownbs&quot;, &quot;brownden&quot;  …  &quot;power&quot;, &quot;rat42&quot;, &quot;rat43&quot;, &quot;rozman1&quot;, &quot;sbrybnd&quot;, &quot;spmsrtls&quot;, &quot;thurber&quot;, &quot;tquartic&quot;, &quot;vibrbeam&quot;, &quot;watson&quot;&#93;&#41;</code></pre>
+<p>These problems are <a href="https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl"><code>ADNLSModel</code></a> so derivatives are generated using automatic differentiation.</p>
+<pre><code class=language-julia >nls &#61; first&#40;ad_problems&#41;
+typeof&#40;nls&#41;</code></pre>
+<pre><code class=language-plaintext >ADNLPModels.ADNLSModel&#123;Float64, Vector&#123;Float64&#125;, Vector&#123;Int64&#125;&#125;</code></pre>
+<p>The solvers TRON and TRUNK are trust-region based methods that compute a search direction by means of solving iteratively a linear least squares problem. For this task, several solvers are available.</p>
+<pre><code class=language-julia >JSOSolvers.trunkls_allowed_subsolvers</code></pre>
+<pre><code class=language-plaintext >4-element Vector&#123;UnionAll&#125;:
+ Krylov.CglsSolver
+ Krylov.CrlsSolver
+ Krylov.LsqrSolver
+ Krylov.LsmrSolver</code></pre>
+<p>This benchmark could also be followed for the solver TRON where the following subsolver are available.</p>
+<pre><code class=language-julia >JSOSolvers.tronls_allowed_subsolvers</code></pre>
+<pre><code class=language-plaintext >4-element Vector&#123;UnionAll&#125;:
+ Krylov.CglsSolver
+ Krylov.CrlsSolver
+ Krylov.LsqrSolver
+ Krylov.LsmrSolver</code></pre>
+<p>These linear least squares solvers are implemented in the package <a href="https://github.com/JuliaSmoothOptimizers/Krylov.jl">Krylov.jl</a>.</p>
+<pre><code class=language-julia >using Krylov</code></pre>
+<p>We define a dictionary of the different solvers that will be benchmarked. We consider here four variants of TRUNK using the different subsolvers.</p>
+<pre><code class=language-julia >solvers &#61; Dict&#40;
+  :trunk_cgls &#61;&gt; model -&gt; trunk&#40;model, subsolver_type &#61; CglsSolver&#41;,
+  :trunk_crls &#61;&gt; model -&gt; trunk&#40;model, subsolver_type &#61; CrlsSolver&#41;,
+  :trunk_lsqr &#61;&gt; model -&gt; trunk&#40;model, subsolver_type &#61; LsqrSolver&#41;,
+  :trunk_lsmr &#61;&gt; model -&gt; trunk&#40;model, subsolver_type &#61; LsmrSolver&#41;
+&#41;</code></pre>
+<pre><code class=language-plaintext >Dict&#123;Symbol, Function&#125; with 4 entries:
+  :trunk_lsqr &#61;&gt; #5
+  :trunk_cgls &#61;&gt; #3
+  :trunk_crls &#61;&gt; #4
+  :trunk_lsmr &#61;&gt; #6</code></pre>
+<p>Using <a href="https://github.com/JuliaSmoothOptimizers/SolverBenchmark.jl"><code>SolverBenchmark.jl</code></a> functionalities, the solvers are executed over all the test problems.</p>
+<pre><code class=language-julia >using SolverBenchmark
+stats &#61; bmark_solvers&#40;solvers, ad_problems&#41;</code></pre>
+<pre><code class=language-plaintext >Dict&#123;Symbol, DataFrames.DataFrame&#125; with 4 entries:
+  :trunk_lsqr &#61;&gt; 66×39 DataFrame…
+  :trunk_cgls &#61;&gt; 66×39 DataFrame…
+  :trunk_crls &#61;&gt; 66×39 DataFrame…
+  :trunk_lsmr &#61;&gt; 66×39 DataFrame…</code></pre>
+<p>The result is stored in a dictionary of <code>DataFrame</code> that can be used to analyze the results.</p>
+<pre><code class=language-julia >first_order&#40;df&#41; &#61; df.status .&#61;&#61; :first_order
+unbounded&#40;df&#41; &#61; df.status .&#61;&#61; :unbounded
+solved&#40;df&#41; &#61; first_order&#40;df&#41; .| unbounded&#40;df&#41;
+
+costnames &#61; &#91;&quot;time&quot;&#93;
+costs &#61; &#91;df -&gt; .&#33;solved&#40;df&#41; .* Inf .&#43; df.elapsed_time&#93;</code></pre>
+<pre><code class=language-plaintext >1-element Vector&#123;Main.var&quot;##WeaveSandBox#292&quot;.var&quot;#11#12&quot;&#125;:
+ #11 &#40;generic function with 1 method&#41;</code></pre>
+<p>We compare the four variants based on their execution time. More advanced comparisons could include the number of evaluations of the objective, gradient, or Hessian-vector products.</p>
+<pre><code class=language-julia >using Plots
+gr&#40;&#41;
+
+profile_solvers&#40;stats, costs, costnames&#41;</code></pre>
+<p><img src="figures/index_10_1.png" alt="" /></p>
+<p>The CRLS and CGLS variants are the ones solving more problems, and even though the difference is rather small the CGLS variant is consistently faster which seems to indicate that it is the most appropriate subsolver for TRUNK. The size of the problems were rather small here, so this should be confirmed on larger instance. Moreover, the results may vary depending on the origin of the test problems.</p>
+</div>
+    </div>  
+    </div>  
+    </div>  
+  </section>  
+
+    
+    
+        
+<script>hljs.initHighlightingOnLoad(); hljs.configure({ tabReplace: '    ' });</script>
+
+
+<script>
+  (function () {
+
+    // Get the elements.
+    // - the 'pre' element.
+    // - the 'div' with the 'paste-content' id.
+
+    var pre = document.getElementsByTagName('pre');
+
+    // Add a copy button in the 'pre' element with className language-julia
+
+    for (var i = 0; i < pre.length; i++) {
+      var isLanguage = pre[i].children[0].className.indexOf('language-julia');
+
+      if (isLanguage === 0) {
+        var ion_icon = document.createElement('ion-icon');
+        ion_icon.name = 'copy';
+
+        var icon = document.createElement('span');
+        icon.className = 'icon has-text-primary';
+        icon.appendChild(ion_icon);
+
+        var button = document.createElement('button');
+        button.className = 'button copy-button is-light is-primary';
+        button.appendChild(icon);
+
+        pre[i].appendChild(button);
+      }
+    };
+
+    // Run Clipboard
+
+    var copyCode = new ClipboardJS('.copy-button', {
+      target: function (trigger) {
+        return trigger.previousElementSibling;
+      }
+    });
+
+    copyCode.on('success', function (event) {
+      event.clearSelection();
+      var btn = event.trigger;
+      var old_button_class = btn.className;
+      var old_icon_class = btn.children[0].className;
+      btn.className = 'button copy-button is-primary';
+      btn.children[0].className = 'icon has-text-white';
+      window.setTimeout(function () {
+        event.trigger.className = old_button_class;
+        event.trigger.children[0].className = old_icon_class;
+      }, 1000);
+
+    });
+
+  })();
+</script>
+    
+    <footer class=footer >
+      <div class="content has-text-centered is-small">
+        &copy; Abel Soares Siqueira. <br>
+        <a class=link  href="https://github.com/JuliaSmoothOptimizers/">JSO at GitHub</a>
+      </div>
+    </footer>
