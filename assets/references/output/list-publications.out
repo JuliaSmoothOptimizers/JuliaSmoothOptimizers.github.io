@@ -15,7 +15,7 @@
 </span>
 </button>
 ~~~Iterative Solution of Symmetric Quasi-Definite Linear Systems, **D. Orban, M. Arioli**, SIAM, 2017., [10.1137/1.9781611974737](https://doi.org/10.1137/1.9781611974737)
-### Articles (28)
+### Articles (29)
 - ~~~
 <button data-clipboard-text="@article{Migot2024,
  pages         = {161},
@@ -34,6 +34,23 @@
 </span>
 </button>
 ~~~JSOSuite.jl: Solving continuous optimization problems with JuliaSmoothOptimizers, **Tangi Migot, Dominique Orban, Abel S. Siqueira**, Proceedings of the JuliaCon Conferences, 6(63), 161, 2024., [10.21105/jcon.00161](https://doi.org/10.21105/jcon.00161)
+- ~~~
+<button data-clipboard-text="@article{Cibulka2024,
+ publisher     = {Wiley},
+ doi           = {10.1002/rnc.7596},
+ author        = {Cibulka, Vít and Korda, Milan and Haniš, Tomáš},
+ issn          = {1099-1239},
+ year          = {2024},
+ url           = {http://dx.doi.org/10.1002/rnc.7596},
+ month         = {September},
+ journal       = {International Journal of Robust and Nonlinear Control},
+ title         = {Towards optimal spatio‐temporal decomposition of control‐related sum‐of‐squares programs}
+}" class="copy-ref">
+<span class="icon is-small has-text-primary">
+<ion-icon size="small" name="copy"></ion-icon>
+</span>
+</button>
+~~~Towards optimal spatio‐temporal decomposition of control‐related sum‐of‐squares programs, **Vít Cibulka, Milan Korda, Tomáš Haniš**, International Journal of Robust and Nonlinear Control, 2024., [10.1002/rnc.7596](https://doi.org/10.1002/rnc.7596)
 - ~~~
 <button data-clipboard-text="@article{DussaultMigotOrban2023,
  doi           = {10.1007/s10107-023-02007-6},
