@@ -5,11 +5,11 @@
 \preamble{Tangi Migot}
 
 
-[![NLPModels 0.20.0](https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/)
-[![NLPModelsJuMP 0.12.1](https://img.shields.io/badge/NLPModelsJuMP-0.12.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/NLPModelsJuMP.jl/stable/)
-[![ADNLPModels 0.7.0](https://img.shields.io/badge/ADNLPModels-0.7.0-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/)
-![JuMP 1.12.0](https://img.shields.io/badge/JuMP-1.12.0-000?style=flat-square&labelColor=999)
-[![OptimizationProblems 0.7.1](https://img.shields.io/badge/OptimizationProblems-0.7.1-8b0000?style=flat-square&labelColor=cb3c33)](https://juliasmoothoptimizers.github.io/OptimizationProblems.jl/stable/)
+[![NLPModels 0.21.3](https://img.shields.io/badge/NLPModels-0.21.3-8b0000?style=flat-square&labelColor=cb3c33)](https://jso.dev/NLPModels.jl/stable/)
+[![NLPModelsJuMP 0.13.2](https://img.shields.io/badge/NLPModelsJuMP-0.13.2-8b0000?style=flat-square&labelColor=cb3c33)](https://jso.dev/NLPModelsJuMP.jl/stable/)
+[![ADNLPModels 0.8.7](https://img.shields.io/badge/ADNLPModels-0.8.7-8b0000?style=flat-square&labelColor=cb3c33)](https://jso.dev/ADNLPModels.jl/stable/)
+![JuMP 1.23.2](https://img.shields.io/badge/JuMP-1.23.2-000?style=flat-square&labelColor=999)
+[![OptimizationProblems 0.9.0](https://img.shields.io/badge/OptimizationProblems-0.9.0-8b0000?style=flat-square&labelColor=cb3c33)](https://jso.dev/OptimizationProblems.jl/stable/)
 
 
 
@@ -26,7 +26,7 @@ length(problems)
 ```
 
 ```plaintext
-288
+372
 ```
 
 
@@ -39,14 +39,14 @@ jump_model = OptimizationProblems.PureJuMP.zangwil3()
 
 ```plaintext
 A JuMP Model
-Minimization problem with:
-Variables: 3
-Objective function type: Nonlinear
-`JuMP.AffExpr`-in-`MathOptInterface.EqualTo{Float64}`: 3 constraints
-Model mode: AUTOMATIC
-CachingOptimizer state: NO_OPTIMIZER
-Solver name: No optimizer attached.
-Names registered in the model: constr1, constr2, constr3, x
+├ solver: none
+├ objective_sense: MIN_SENSE
+│ └ objective_function_type: JuMP.AffExpr
+├ num_variables: 3
+├ num_constraints: 3
+│ └ JuMP.AffExpr in MOI.EqualTo{Float64}: 3
+└ Names registered in the model
+  └ :constr1, :constr2, :constr3, :x
 ```
 
 
@@ -59,7 +59,7 @@ length(var_problems)
 ```
 
 ```plaintext
-94
+95
 ```
 
 
@@ -72,13 +72,13 @@ jump_model_12 = OptimizationProblems.PureJuMP.woods(n=12)
 
 ```plaintext
 A JuMP Model
-Minimization problem with:
-Variables: 12
-Objective function type: Nonlinear
-Model mode: AUTOMATIC
-CachingOptimizer state: NO_OPTIMIZER
-Solver name: No optimizer attached.
-Names registered in the model: x
+├ solver: none
+├ objective_sense: MIN_SENSE
+│ └ objective_function_type: JuMP.NonlinearExpr
+├ num_variables: 12
+├ num_constraints: 0
+└ Names registered in the model
+  └ :x
 ```
 
 
@@ -89,13 +89,13 @@ jump_model_120 = OptimizationProblems.PureJuMP.woods(n=120)
 
 ```plaintext
 A JuMP Model
-Minimization problem with:
-Variables: 120
-Objective function type: Nonlinear
-Model mode: AUTOMATIC
-CachingOptimizer state: NO_OPTIMIZER
-Solver name: No optimizer attached.
-Names registered in the model: x
+├ solver: none
+├ objective_sense: MIN_SENSE
+│ └ objective_function_type: JuMP.NonlinearExpr
+├ num_variables: 120
+├ num_constraints: 0
+└ Names registered in the model
+  └ :x
 ```
 
 
@@ -134,7 +134,7 @@ length(problems)
 ```
 
 ```plaintext
-288
+372
 ```
 
 
@@ -151,8 +151,8 @@ ADNLPModel - Model with automatic differentiation backend ADModelBackend{
   ForwardDiffADHvprod,
   ForwardDiffADJprod,
   ForwardDiffADJtprod,
-  ForwardDiffADJacobian,
-  ForwardDiffADHessian,
+  SparseADJacobian,
+  SparseADHessian,
   ForwardDiffADGHjvprod,
 }
   Problem name: zangwil3
@@ -163,7 +163,7 @@ ADNLPModel - Model with automatic differentiation backend ADModelBackend{
          low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ████████████████████ 3     
           infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: (  0.00% sparsity)   6               linear: ████████████████████ 3     
+            nnzh: (100.00% sparsity)   0               linear: ████████████████████ 3     
                                                     nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                          nnzj: (  0.00% sparsity)   9     
 
@@ -192,7 +192,7 @@ ADNLPModel - Model with automatic differentiation backend ADModelBackend{
   EmptyADbackend,
   EmptyADbackend,
   EmptyADbackend,
-  ForwardDiffADHessian,
+  SparseADHessian,
   EmptyADbackend,
 }
   Problem name: woods
@@ -203,7 +203,7 @@ ADNLPModel - Model with automatic differentiation backend ADModelBackend{
          low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
           infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: (  0.00% sparsity)   78              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: ( 73.08% sparsity)   21              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                     nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                          nnzj: (------% sparsity)         
 
@@ -230,7 +230,7 @@ ADNLPModel - Model with automatic differentiation backend ADModelBackend{
   EmptyADbackend,
   EmptyADbackend,
   EmptyADbackend,
-  ForwardDiffADHessian,
+  SparseADHessian,
   EmptyADbackend,
 }
   Problem name: woods
@@ -241,7 +241,7 @@ ADNLPModel - Model with automatic differentiation backend ADModelBackend{
          low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
           infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: (  0.00% sparsity)   7260            linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: ( 97.11% sparsity)   210             linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                     nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                          nnzj: (------% sparsity)         
 
@@ -258,9 +258,9 @@ ADNLPModel - Model with automatic differentiation backend ADModelBackend{
 
 
 
-One of the advantages of these problems is that they are type-stable. Indeed, one can specify the output type with the keyword `type` as follows.
+One of the advantages of these problems is that they are type-stable. Indeed, one can specify the output type with the keyword `type` as follows. Note that in version < 0.8 the argument was `type=Val(DataType)`.
 ```julia
-nlp16_12 = OptimizationProblems.ADNLPProblems.woods(n=12, type=Val(Float16))
+nlp16_12 = OptimizationProblems.ADNLPProblems.woods(n=12, type=Float16)
 ```
 
 ```plaintext
@@ -270,7 +270,7 @@ ADNLPModel - Model with automatic differentiation backend ADModelBackend{
   EmptyADbackend,
   EmptyADbackend,
   EmptyADbackend,
-  ForwardDiffADHessian,
+  SparseADHessian,
   EmptyADbackend,
 }
   Problem name: woods
@@ -281,7 +281,7 @@ ADNLPModel - Model with automatic differentiation backend ADModelBackend{
          low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
           infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: (  0.00% sparsity)   78              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: ( 73.08% sparsity)   21              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                     nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                          nnzj: (------% sparsity)         
 
