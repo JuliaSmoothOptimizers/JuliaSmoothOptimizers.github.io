@@ -1,40 +1,40 @@
-<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="/assets/favicon.png"> <title>OptimizationProblems.jl tutorial</title> <script src="/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href=""> <img src="/assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="/"> Home </a> <a class=navbar-item  href="/news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="/tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="/ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="/ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="/ecosystems/models/"> Models </a> <a class=navbar-item  href="/ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="/references/"> References </a> <a class=navbar-item  href="/contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >OptimizationProblems.jl tutorial</a></h1></p> <p><div class=author >by Tangi Migot</div> <p><a href="https://juliasmoothoptimizers.github.io/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.20.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.20.0" /></a> <a href="https://juliasmoothoptimizers.github.io/NLPModelsJuMP.jl/stable/"><img src="https://img.shields.io/badge/NLPModelsJuMP-0.12.1-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModelsJuMP 0.12.1" /></a> <a href="https://juliasmoothoptimizers.github.io/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.7.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.7.0" /></a> <img src="https://img.shields.io/badge/JuMP-1.12.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="JuMP 1.12.0" /> <a href="https://juliasmoothoptimizers.github.io/OptimizationProblems.jl/stable/"><img src="https://img.shields.io/badge/OptimizationProblems-0.7.1-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="OptimizationProblems 0.7.1" /></a></p> <p>In this tutorial, we will see how to access the problems in <a href="https://github.com/JuliaOpt/JuMP.jl">JuMP</a> and <a href="https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl">ADNLPModel</a> syntax. This package is subdivided in two submodules: <code>PureJuMP</code> for the JuMP problems, <code>ADNLPProblems</code> for the ADNLPModel problems. </p> <h2 id=problems_in_jump_syntax_purejump ><a href="#problems_in_jump_syntax_purejump" class=header-anchor >Problems in JuMP syntax: PureJuMP</a></h2> <p>You can obtain the list of problems currently defined with <code>OptimizationProblems.meta&#91;&#33;, :name&#93;</code>.</p> <pre><code class=language-julia >using OptimizationProblems, OptimizationProblems.PureJuMP
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="/assets/favicon.png"> <title>OptimizationProblems.jl tutorial</title> <script src="/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href=""> <img src="/assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="/"> Home </a> <a class=navbar-item  href="/news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="/tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="/ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="/ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="/ecosystems/models/"> Models </a> <a class=navbar-item  href="/ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="/references/"> References </a> <a class=navbar-item  href="/contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >OptimizationProblems.jl tutorial</a></h1></p> <p><div class=author >by Tangi Migot</div> <p><a href="https://jso.dev/NLPModels.jl/stable/"><img src="https://img.shields.io/badge/NLPModels-0.21.3-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModels 0.21.3" /></a> <a href="https://jso.dev/NLPModelsJuMP.jl/stable/"><img src="https://img.shields.io/badge/NLPModelsJuMP-0.13.2-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="NLPModelsJuMP 0.13.2" /></a> <a href="https://jso.dev/ADNLPModels.jl/stable/"><img src="https://img.shields.io/badge/ADNLPModels-0.8.7-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="ADNLPModels 0.8.7" /></a> <img src="https://img.shields.io/badge/JuMP-1.23.2-000?style&#61;flat-square&amp;labelColor&#61;999" alt="JuMP 1.23.2" /> <a href="https://jso.dev/OptimizationProblems.jl/stable/"><img src="https://img.shields.io/badge/OptimizationProblems-0.9.0-8b0000?style&#61;flat-square&amp;labelColor&#61;cb3c33" alt="OptimizationProblems 0.9.0" /></a></p> <p>In this tutorial, we will see how to access the problems in <a href="https://github.com/JuliaOpt/JuMP.jl">JuMP</a> and <a href="https://github.com/JuliaSmoothOptimizers/ADNLPModels.jl">ADNLPModel</a> syntax. This package is subdivided in two submodules: <code>PureJuMP</code> for the JuMP problems, <code>ADNLPProblems</code> for the ADNLPModel problems. </p> <h2 id=problems_in_jump_syntax_purejump ><a href="#problems_in_jump_syntax_purejump" class=header-anchor >Problems in JuMP syntax: PureJuMP</a></h2> <p>You can obtain the list of problems currently defined with <code>OptimizationProblems.meta&#91;&#33;, :name&#93;</code>.</p> <pre><code class=language-julia >using OptimizationProblems, OptimizationProblems.PureJuMP
 problems &#61; OptimizationProblems.meta&#91;&#33;, :name&#93;
-length&#40;problems&#41;</code></pre> <pre><code class=language-plaintext >288</code></pre>
+length&#40;problems&#41;</code></pre> <pre><code class=language-plaintext >372</code></pre>
 <p>Then, it suffices to select any of this problem to get the JuMP model.</p>
 <pre><code class=language-julia >jump_model &#61; OptimizationProblems.PureJuMP.zangwil3&#40;&#41;</code></pre>
 <pre><code class=language-plaintext >A JuMP Model
-Minimization problem with:
-Variables: 3
-Objective function type: Nonlinear
-&#96;JuMP.AffExpr&#96;-in-&#96;MathOptInterface.EqualTo&#123;Float64&#125;&#96;: 3 constraints
-Model mode: AUTOMATIC
-CachingOptimizer state: NO_OPTIMIZER
-Solver name: No optimizer attached.
-Names registered in the model: constr1, constr2, constr3, x</code></pre>
+├ solver: none
+├ objective_sense: MIN_SENSE
+│ └ objective_function_type: JuMP.AffExpr
+├ num_variables: 3
+├ num_constraints: 3
+│ └ JuMP.AffExpr in MOI.EqualTo&#123;Float64&#125;: 3
+└ Names registered in the model
+  └ :constr1, :constr2, :constr3, :x</code></pre>
 <p>Note that certain problems are scalable, i.e., their size depends on parameters that can be modified. The list of those problems is available once again using <code>meta</code>:</p>
 <pre><code class=language-julia >var_problems &#61; OptimizationProblems.meta&#91;OptimizationProblems.meta.variable_nvar, :name&#93;
 length&#40;var_problems&#41;</code></pre>
-<pre><code class=language-plaintext >94</code></pre>
+<pre><code class=language-plaintext >95</code></pre>
 <p>Then, using the keyword <code>n</code>, it is possible to specify the targeted number of variables.</p>
 <pre><code class=language-julia >jump_model_12 &#61; OptimizationProblems.PureJuMP.woods&#40;n&#61;12&#41;</code></pre>
 <pre><code class=language-plaintext >A JuMP Model
-Minimization problem with:
-Variables: 12
-Objective function type: Nonlinear
-Model mode: AUTOMATIC
-CachingOptimizer state: NO_OPTIMIZER
-Solver name: No optimizer attached.
-Names registered in the model: x</code></pre>
+├ solver: none
+├ objective_sense: MIN_SENSE
+│ └ objective_function_type: JuMP.NonlinearExpr
+├ num_variables: 12
+├ num_constraints: 0
+└ Names registered in the model
+  └ :x</code></pre>
 <pre><code class=language-julia >jump_model_120 &#61; OptimizationProblems.PureJuMP.woods&#40;n&#61;120&#41;</code></pre>
 <pre><code class=language-plaintext >A JuMP Model
-Minimization problem with:
-Variables: 120
-Objective function type: Nonlinear
-Model mode: AUTOMATIC
-CachingOptimizer state: NO_OPTIMIZER
-Solver name: No optimizer attached.
-Names registered in the model: x</code></pre>
+├ solver: none
+├ objective_sense: MIN_SENSE
+│ └ objective_function_type: JuMP.NonlinearExpr
+├ num_variables: 120
+├ num_constraints: 0
+└ Names registered in the model
+  └ :x</code></pre>
 <p>These problems can be converted as <a href="https://github.com/JuliaSmoothOptimizers/NLPModels.jl">NLPModels</a> via <a href="https://github.com/JuliaSmoothOptimizers/NLPModelsJuMP.jl">NLPModelsJuMP</a> to facilitate evaluating objective, constraints and their derivatives.</p>
 <pre><code class=language-julia >using NLPModels, NLPModelsJuMP
 nlp_model_120 &#61; MathOptNLPModel&#40;jump_model_120&#41;
@@ -47,7 +47,7 @@ obj&#40;nlp_model_120, zeros&#40;120&#41;&#41;</code></pre>
 <pre><code class=language-julia >using OptimizationProblems, OptimizationProblems.ADNLPProblems
 problems &#61; OptimizationProblems.meta&#91;&#33;, :name&#93;
 length&#40;problems&#41;</code></pre>
-<pre><code class=language-plaintext >288</code></pre>
+<pre><code class=language-plaintext >372</code></pre>
 <p>Similarly, to the PureJuMP models, it suffices to select any of this problem to get the model.</p>
 <pre><code class=language-julia >nlp &#61; OptimizationProblems.ADNLPProblems.zangwil3&#40;&#41;</code></pre>
 <pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADModelBackend&#123;
@@ -55,8 +55,8 @@ length&#40;problems&#41;</code></pre>
   ForwardDiffADHvprod,
   ForwardDiffADJprod,
   ForwardDiffADJtprod,
-  ForwardDiffADJacobian,
-  ForwardDiffADHessian,
+  SparseADJacobian,
+  SparseADHessian,
   ForwardDiffADGHjvprod,
 &#125;
   Problem name: zangwil3
@@ -67,7 +67,7 @@ length&#40;problems&#41;</code></pre>
          low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ████████████████████ 3     
           infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: &#40;  0.00&#37; sparsity&#41;   6               linear: ████████████████████ 3     
+            nnzh: &#40;100.00&#37; sparsity&#41;   0               linear: ████████████████████ 3     
                                                     nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                          nnzj: &#40;  0.00&#37; sparsity&#41;   9     
 
@@ -87,7 +87,7 @@ length&#40;problems&#41;</code></pre>
   EmptyADbackend,
   EmptyADbackend,
   EmptyADbackend,
-  ForwardDiffADHessian,
+  SparseADHessian,
   EmptyADbackend,
 &#125;
   Problem name: woods
@@ -98,7 +98,7 @@ length&#40;problems&#41;</code></pre>
          low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
           infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: &#40;  0.00&#37; sparsity&#41;   78              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40; 73.08&#37; sparsity&#41;   21              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                     nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                          nnzj: &#40;------&#37; sparsity&#41;         
 
@@ -117,7 +117,7 @@ length&#40;problems&#41;</code></pre>
   EmptyADbackend,
   EmptyADbackend,
   EmptyADbackend,
-  ForwardDiffADHessian,
+  SparseADHessian,
   EmptyADbackend,
 &#125;
   Problem name: woods
@@ -128,7 +128,7 @@ length&#40;problems&#41;</code></pre>
          low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
           infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: &#40;  0.00&#37; sparsity&#41;   7260            linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40; 97.11&#37; sparsity&#41;   210             linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                     nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                          nnzj: &#40;------&#37; sparsity&#41;         
 
@@ -140,15 +140,15 @@ length&#40;problems&#41;</code></pre>
        jprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jtprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0           jtprod_lin: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
       jtprod_nln: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                 hess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                hprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0</code></pre>
-<p>One of the advantages of these problems is that they are type-stable. Indeed, one can specify the output type with the keyword <code>type</code> as follows.</p>
-<pre><code class=language-julia >nlp16_12 &#61; OptimizationProblems.ADNLPProblems.woods&#40;n&#61;12, type&#61;Val&#40;Float16&#41;&#41;</code></pre>
+<p>One of the advantages of these problems is that they are type-stable. Indeed, one can specify the output type with the keyword <code>type</code> as follows. Note that in version &lt; 0.8 the argument was <code>type&#61;Val&#40;DataType&#41;</code>.</p>
+<pre><code class=language-julia >nlp16_12 &#61; OptimizationProblems.ADNLPProblems.woods&#40;n&#61;12, type&#61;Float16&#41;</code></pre>
 <pre><code class=language-plaintext >ADNLPModel - Model with automatic differentiation backend ADModelBackend&#123;
   ForwardDiffADGradient,
   ForwardDiffADHvprod,
   EmptyADbackend,
   EmptyADbackend,
   EmptyADbackend,
-  ForwardDiffADHessian,
+  SparseADHessian,
   EmptyADbackend,
 &#125;
   Problem name: woods
@@ -159,7 +159,7 @@ length&#40;problems&#41;</code></pre>
          low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0              low/upp: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
            fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0                fixed: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
           infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               infeas: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
-            nnzh: &#40;  0.00&#37; sparsity&#41;   78              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
+            nnzh: &#40; 73.08&#37; sparsity&#41;   21              linear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                     nonlinear: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0     
                                                          nnzj: &#40;------&#37; sparsity&#41;         
 
