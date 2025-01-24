@@ -230,7 +230,7 @@ the tool without arguments will return the complete set of problems.
 
 ```julia
 using CUTEst # hide
-problems = CUTEst.select()
+problems = select_sif_problems()
 length(problems)
 ```
 
