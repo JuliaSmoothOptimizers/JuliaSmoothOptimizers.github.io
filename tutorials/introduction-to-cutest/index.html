@@ -84,7 +84,7 @@ finalize&#40;nlp&#41;</code></pre>
 <h2 id=selection_tool ><a href="#selection_tool" class=header-anchor >Selection tool</a></h2>
 <p>CUTEst comes with a simple selection tool. It uses a static file generated from the original <code>CLASSF.DB</code> and an execution of each problem.</p>
 <p>The selection tool works like a filter on the complete set of problems. Using the tool without arguments will return the complete set of problems.</p>
-<pre><code class=language-julia >problems &#61; CUTEst.select&#40;&#41;
+<pre><code class=language-julia >problems &#61; select_sif_problems&#40;&#41;
 length&#40;problems&#41;</code></pre>
 <pre><code class=language-plaintext >1494</code></pre>
 <p>The list of keyword arguments to filter the problems is given below, with their default value.</p>
