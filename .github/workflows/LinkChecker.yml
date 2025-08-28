@@ -17,7 +17,7 @@ jobs:
           ref: 'gh-pages'
 
       - name: Link Checker
-        uses: lycheeverse/lychee-action@v1.1.0
+        uses: lycheeverse/lychee-action@v2.0.2
         with:
           args: --verbose --no-progress **/*.html --exclude=".+gstatic.+" --exclude="https://doi.org.+" --exclude="https://github.com/JuliaSmoothOptimizers/PACKAGE.jl"
         env:
