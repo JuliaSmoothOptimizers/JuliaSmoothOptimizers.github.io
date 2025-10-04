@@ -5,6 +5,10 @@
 
 This is a curated list of tutorials.
 
+<a href="https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/tree/main/tutorials" class="edit-on-github">
+  <img alt="Edit on GitHub" src="https://img.shields.io/badge/Edit%20on%20GitHub-blue?style=flat-square&logo=github">
+</a>
+
 ~~~
 <button id="show-tags-btn" onclick="toggle_show_tags()" class="button is-small is-primary mt-2">
   <span class="icon is-small">
