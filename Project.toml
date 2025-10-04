@@ -11,6 +11,6 @@ NodeJS = "2bd173c7-0d6d-553b-b6af-13a54713934c"
 [compat]
 Bibliography = "0.2"
 Franklin = "0.10"
-JSON = "0.21"
+JSON = "1"
 LinearOperators = "2"
 NodeJS = "1"
