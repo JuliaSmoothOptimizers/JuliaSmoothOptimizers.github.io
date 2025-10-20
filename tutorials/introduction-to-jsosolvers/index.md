@@ -5,12 +5,14 @@
 \preamble{Tangi Migot}
 
 
-![CSV 0.10.11](https://img.shields.io/badge/CSV-0.10.11-000?style=flat-square&labelColor=999)
-[![SolverCore 0.3.7](https://img.shields.io/badge/SolverCore-0.3.7-006400?style=flat-square&labelColor=389826)](https://jso.dev/SolverCore.jl/stable/)
-![DataFrames 1.6.1](https://img.shields.io/badge/DataFrames-1.6.1-000?style=flat-square&labelColor=999)
-![Plots 1.39.0](https://img.shields.io/badge/Plots-1.39.0-000?style=flat-square&labelColor=999)
-[![ADNLPModels 0.7.0](https://img.shields.io/badge/ADNLPModels-0.7.0-8b0000?style=flat-square&labelColor=cb3c33)](https://jso.dev/ADNLPModels.jl/stable/)
-[![JSOSolvers 0.11.0](https://img.shields.io/badge/JSOSolvers-0.11.0-006400?style=flat-square&labelColor=389826)](https://jso.dev/JSOSolvers.jl/stable/)
+![CSV 0.10.15](https://img.shields.io/badge/CSV-0.10.15-000?style=flat-square&labelColor=999)
+![LinearAlgebra 1.12.0](https://img.shields.io/badge/LinearAlgebra-1.12.0-000?style=flat-square&labelColor=999)
+[![SolverCore 0.3.8](https://img.shields.io/badge/SolverCore-0.3.8-006400?style=flat-square&labelColor=389826)](https://jso.dev/SolverCore.jl/stable/)
+![DataFrames 1.8.1](https://img.shields.io/badge/DataFrames-1.8.1-000?style=flat-square&labelColor=999)
+![Plots 1.41.1](https://img.shields.io/badge/Plots-1.41.1-000?style=flat-square&labelColor=999)
+![Logging 1.11.0](https://img.shields.io/badge/Logging-1.11.0-000?style=flat-square&labelColor=999)
+[![ADNLPModels 0.7.2](https://img.shields.io/badge/ADNLPModels-0.7.2-8b0000?style=flat-square&labelColor=cb3c33)](https://jso.dev/ADNLPModels.jl/stable/)
+[![JSOSolvers 0.11.2](https://img.shields.io/badge/JSOSolvers-0.11.2-006400?style=flat-square&labelColor=389826)](https://jso.dev/JSOSolvers.jl/stable/)
 
 
 
@@ -53,6 +55,20 @@ Refer to the documentation of each solver for further details on the available k
 The solvers `tron` and `trunk` both have a specialized implementation for input models of type `AbstractNLSModel`.
 
 The following examples illustrate this specialization.
+
+To list the allowed least-squares subsolvers for these specializations:
+
+```julia
+JSOSolvers.trunkls_allowed_subsolvers
+JSOSolvers.tronls_allowed_subsolvers
+```
+
+```plaintext
+Error: UndefVarError: `JSOSolvers` not defined in `Main.var"##WeaveSandBox#277"`
+Suggestion: check for spelling errors or missing imports.
+```
+
+
 
 ```julia
 using JSOSolvers, ADNLPModels
@@ -157,6 +173,11 @@ ADNLSModel - Nonlinear least-squares model with automatic differentiation backen
   EmptyADbackend,
   ForwardDiffADHessian,
   EmptyADbackend,
+  ForwardDiffADHvprod,
+  ForwardDiffADJprod,
+  ForwardDiffADJtprod,
+  ForwardDiffADJacobian,
+  ForwardDiffADHessian,
 }
   Problem name: Generic
    All variables: ████████████████████ 7      All constraints: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0        All residuals: ████████████████████ 37    
@@ -195,13 +216,13 @@ stats.solution
 
 ```plaintext
 7-element Vector{Float64}:
- 1288.1396826441605
- 1491.255092722479
-  583.3669627041016
-   75.44128919391854
-    0.9664368403070315
-    0.39804057172490376
-    0.049747755368081494
+ 1288.1385483966494
+ 1491.3131010827399
+  583.4094645888615
+   75.44940840742956
+    0.9664846431099525
+    0.3980623204595821
+    0.049754315246586134
 ```
 
 
@@ -212,7 +233,7 @@ scatter(x, y, c=:blue, m=:square, title="Nonlinear regression", lab="data")
 plot!(x, t -> m(stats.solution, t), c=:red, lw=2, lab="fit")
 ```
 
-![](figures/index_8_1.png)
+![](figures/index_9_1.png)
 
 
 
@@ -235,7 +256,7 @@ stats = solve!(solver, nlp)
 
 
 
-The following table provides the correspondance between the solvers and the solvers structures:
+The following table provides the correspondence between the algorithms and their solver structures:
 
 | Algorithm           | Solver structure |
 | ------------------- | ---------------- |
@@ -305,4 +326,4 @@ contour!(xg, yg, (x1,x2) -> f([x1; x2]), levels=100)
 plot!(X, Y, c=:red, l=:arrow, m=4)
 ```
 
-![](figures/index_12_1.png)
+![](figures/index_13_1.png)
