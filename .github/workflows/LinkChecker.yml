@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: "gh-pages"
+          ref: 'gh-pages'
 
       - name: Link Checker
         uses: lycheeverse/lychee-action@v1.1.0
