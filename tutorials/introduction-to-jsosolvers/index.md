@@ -12,7 +12,7 @@
 ![Plots 1.41.1](https://img.shields.io/badge/Plots-1.41.1-000?style=flat-square&labelColor=999)
 ![Logging 1.11.0](https://img.shields.io/badge/Logging-1.11.0-000?style=flat-square&labelColor=999)
 [![ADNLPModels 0.7.2](https://img.shields.io/badge/ADNLPModels-0.7.2-8b0000?style=flat-square&labelColor=cb3c33)](https://jso.dev/ADNLPModels.jl/stable/)
-[![JSOSolvers 0.11.2](https://img.shields.io/badge/JSOSolvers-0.11.2-006400?style=flat-square&labelColor=389826)](https://jso.dev/JSOSolvers.jl/stable/)
+[![JSOSolvers 0.14.3](https://img.shields.io/badge/JSOSolvers-0.14.3-006400?style=flat-square&labelColor=389826)](https://jso.dev/JSOSolvers.jl/stable/)
 
 
 
@@ -55,20 +55,6 @@ Refer to the documentation of each solver for further details on the available k
 The solvers `tron` and `trunk` both have a specialized implementation for input models of type `AbstractNLSModel`.
 
 The following examples illustrate this specialization.
-
-To list the allowed least-squares subsolvers for these specializations:
-
-```julia
-JSOSolvers.trunkls_allowed_subsolvers
-JSOSolvers.tronls_allowed_subsolvers
-```
-
-```plaintext
-Error: UndefVarError: `JSOSolvers` not defined in `Main.var"##WeaveSandBox#277"`
-Suggestion: check for spelling errors or missing imports.
-```
-
-
 
 ```julia
 using JSOSolvers, ADNLPModels
@@ -127,6 +113,21 @@ Counters:
            jhess: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0               jhprod: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0             residual: ████████⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 14    
     jac_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       jprod_residual: ██████████████⋅⋅⋅⋅⋅⋅ 26     jtprod_residual: ████████████████████ 38    
    hess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       jhess_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0       hprod_residual: ⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅⋅ 0
+```
+
+
+
+
+
+To list the allowed least-squares subsolvers for these specializations:
+
+```julia
+JSOSolvers.trunkls_allowed_subsolvers
+JSOSolvers.tronls_allowed_subsolvers
+```
+
+```plaintext
+(:cgls, :crls, :lsqr, :lsmr)
 ```
 
 
