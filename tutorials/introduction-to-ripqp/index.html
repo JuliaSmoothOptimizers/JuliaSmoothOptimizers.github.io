@@ -57,7 +57,7 @@ println&#40;stats&#41;</code></pre> <pre><code class=language-plaintext >Generic
     psoperations: ∅
     iters_sp3: 0
     iters_sp2: 0
-    relative_iter_cnt: 20</code></pre> <p>The <code>stats</code> output is a <a href="https://jso.dev/SolverCore.jl/dev/reference/#SolverCore.GenericExecutionStats">GenericExecutionStats</a>.</p> <p>It is also possible to use the package <a href="https://github.com/JuliaSmoothOptimizers/QPSReader.jl">QPSReader.jl</a> in order to read convex quadratic problems in MPS or SIF formats: &#40;download <a href="https://raw.githubusercontent.com/JuliaSmoothOptimizers/RipQP.jl/main/test/QAFIRO.SIF">QAFIRO</a>&#41;</p> <pre><code class=language-julia >using QPSReader, QuadraticModels
+    relative_iter_cnt: 20</code></pre> <p>The <code>stats</code> output is a <a href="https://jso.dev/SolverCore.jl/dev/">GenericExecutionStats</a>.</p> <p>It is also possible to use the package <a href="https://github.com/JuliaSmoothOptimizers/QPSReader.jl">QPSReader.jl</a> in order to read convex quadratic problems in MPS or SIF formats: &#40;download <a href="https://raw.githubusercontent.com/JuliaSmoothOptimizers/RipQP.jl/main/test/QAFIRO.SIF">QAFIRO</a>&#41;</p> <pre><code class=language-julia >using QPSReader, QuadraticModels
 QM &#61; QuadraticModel&#40;readqps&#40;&quot;assets/QAFIRO.SIF&quot;&#41;&#41;</code></pre> <pre><code class=language-plaintext >QuadraticModels.QuadraticModel&#123;Float64, Vector&#123;Float64&#125;, SparseMatricesCOO.SparseMatrixCOO&#123;Float64, Int64&#125;, SparseMatricesCOO.SparseMatrixCOO&#123;Float64, Int64&#125;&#125;
   Problem name: Generic
    All variables: ████████████████████ 32     All constraints: ████████████████████ 27    

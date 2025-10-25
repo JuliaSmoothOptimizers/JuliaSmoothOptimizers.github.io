@@ -160,7 +160,7 @@ pretty_stats&#40;df&#91;&#33;, &#91;:name, :f, :t&#93;&#93;,
 │ prob009 │ -9.292e-01 │  2m 28s 248989μs │
 │ prob010 │ &#43;7.889e-02 │  3m 50s 955096μs │
 └─────────┴────────────┴──────────────────┘</code></pre>
-<p>See the <a href="https://ronisbr.github.io/PrettyTables.jl/stable/man/formatters/">PrettyTables.jl documentation</a> for more information.</p>
+<p>See the <a href="https://ronisbr.github.io/PrettyTables.jl/stable/">PrettyTables.jl documentation</a> for more information.</p>
 <p>When using LaTeX format, the output must be understood by LaTeX. By default, numerical data in the table is wrapped in inline math environments. But those math environments would interfere with our formatting of the time. Thus we must first disable them for the <code>time</code> column using <code>col_formatters</code>, and then apply the PrettyTables formatter as above:</p>
 <pre><code class=language-julia >fmt_override &#61; Dict&#40;:f &#61;&gt; &quot;&#37;&#43;10.3e&quot;,
                     :t &#61;&gt; &quot;&#37;08.2f&quot;&#41;
