@@ -8,7 +8,7 @@ As published [in a previous post](https://jso.dev/news-and-blogposts/2023/2023-0
 
 [![JuliaCon Local Eindhoven 2023](/assets/julia-packages-in-region.png)](https://juliacon.org/local/eindhoven2023/)
 
-Abel Siqueira's talk, titled [*Nonlinear Optimization with the Julia Smooth Optimizers Packages*](https://eindhoven2023.pydata.org/juliacon/talk/MYXETU/), delved into the rich ecosystem built by the JSO since its inception in 2015. With over 50 registered packages covering a wide range of nonlinear optimization and linear algebra topics, JSO has been a driving force in providing researchers with the necessary tools to seamlessly transition from prototyping to publication-ready code.
+Abel Siqueira's talk, titled [*Nonlinear Optimization with the Julia Smooth Optimizers Packages*](https://www.youtube.com/watch?v=i1eeD3uHbZ4), delved into the rich ecosystem built by the JSO since its inception in 2015. With over 50 registered packages covering a wide range of nonlinear optimization and linear algebra topics, JSO has been a driving force in providing researchers with the necessary tools to seamlessly transition from prototyping to publication-ready code.
 
 With an extensive package ecosystem and the introduction of JSOSuite, the organization continues to play a pivotal role in bridging the gap between research and practical, user-friendly solutions. As we look forward to the future, events like JuliaCon Local Eindhoven contribute significantly to the collaborative and innovative spirit of the Julia community.
 
@@ -17,4 +17,4 @@ Abstract:
 
 You can check the full talk at [The Julia Programming Language Youtube](https://www.youtube.com/watch?v=i1eeD3uHbZ4).
 
-[![Some tweets about the event](/assets/abel-juliacon-local-24.png)](https://twitter.com/eScienceCenter/status/1731659629287862537)
+[![Some tweets about the event](/assets/abel-juliacon-local-24.png)](https://x.com/eScienceCenter/status/1731659629287862537)
