@@ -4,7 +4,7 @@
     "author": "Abel S. Siqueira",
     "date": "2017-12-01",
     "where": "Seminários de Análise Convexa e Otimização. UFSC, Florianópolis/SC, Brasil",
-    "link": "http://abelsiqueira.github.io/assets/2017-12-01-ufsc.pdf",
+    "link": "https://www.youtube.com/watch?v=VhAxV9I1xHs",
     "type": "talk"
   },
   {
@@ -12,7 +12,7 @@
     "author": "Abel S. Siqueira and Dominique Orban",
     "date": "2016-05-04",
     "where": "2016 Optimization Days. Montréal, Canada",
-    "link": "http://abelsiqueira.github.io/assets/jopt-2016.pdf",
+    "link": "https://abelsiqueira.com/blog/jopt-2016.pdf",
     "type": "talk"
   },
   {
@@ -35,7 +35,7 @@
     "author": "Abel S. Siqueira and Dominique Orban",
     "where": "Second Annual JuMP-dev Workshop. Bordeaux, France",
     "date": "2018-06-28",
-    "link": "http://abelsiqueira.github.io/assets/2018-06-28-jump-dev.pdf",
+    "link": "https://www.juliaopt.org/meetings/bordeaux2018/siqueira.pdf",
     "type": "talk"
   },
   {
@@ -50,7 +50,7 @@
     "author": "Abel S. Siqueira and Dominique Orban",
     "where": "XII Brazilian Workshop on Continuous Optimization. Iguaçu Falls, Brazil.",
     "date": "2018-07-23",
-    "link": "http://abelsiqueira.github.io/assets/2018-07-23-xiibrazopt.pdf",
+    "link": "https://abelsiqueira.com/blog/2018-07-23-xiibrazopt.pdf",
     "type": "talk"
   },
   {
@@ -66,7 +66,6 @@
     "author": "Abel S. Siqueira",
     "date": "2019-02-07",
     "where": "Tutorial: Modeling and optimization tools in Julia: An introduction to JuMP and JSO. GERAD. Montreal/QC, Canada",
-    "link": "http://abelsiqueira.github.io/assets/2019-02-07-GERAD.tar.gz",
     "type": "talk"
   },
   {
@@ -74,7 +73,6 @@
     "author": "Abel S. Siqueira",
     "date": "2019-05-31",
     "where": "Talk at PPGM - UFPR. Curitiba/PR, Brazil.",
-    "link": "http://abelsiqueira.github.io/assets/2019-05-31-PPGM.ipynb",
     "type": "talk"
   },
   {
@@ -230,7 +228,7 @@
     "author": "Alexis Montoison",
     "where": "LANS Seminar, Chicago, USA",
     "date": "2023-12-13",
-    "link": "https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/files/LANS-Seminar-Argonne.pdf",
+    "link": "https://www.anl.gov/event/krylovjl-empowering-performance-and-portability-in-highperformance-computing",
     "type": "talk"
   }
 ]
