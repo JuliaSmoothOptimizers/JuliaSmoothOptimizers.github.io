@@ -468,7 +468,7 @@
 ~~~A Tridiagonalization Method for Symmetric Saddle-Point System, **A. Buttari, D. Orban, D. Ruiz, D. Titley-Peloquin**, SIAM Journal on Scientific Computing, 41(5), S409--S432, 2019., [10.1137/18M1194900](https://doi.org/10.1137/18M1194900)
 - ~~~
 <button data-clipboard-text="@article{dahito-orban-2019,
- preprint      = {https://doi.org/10.1137/18M1204255},
+ preprint      = {https://www.gerad.ca/en/papers/G-2018-50.pdf},
  grant         = {NSERC 299010-04},
  pages         = {1988--2025},
  author        = {Dahito, M.-A. and Orban, D.},
@@ -587,7 +587,7 @@
 </button>
 ~~~Augmented Lagrangian methods as dynamical systems for constrained optimization, **A. De Marchi**,  In 2021 60th IEEE Conference on Decision and Control, 6533--6538, 2021. IEEE., [10.1109/CDC45484.2021.9683199](https://doi.org/10.1109/CDC45484.2021.9683199)
 ### Talks (25)
-- Krylov.jl: Empowering Performance and Portability in High-Performance Computing, **Alexis Montoison**, LANS Seminar, Chicago, USA, 2023-Dec-13
+- [Krylov.jl: Empowering Performance and Portability in High-Performance Computing](/files/LANS-Seminar-Argonne.pdf), **Alexis Montoison**, LANS Seminar, Chicago, USA, 2023-Dec-13
 - [Nonlinear Optimization with the Julia Smooth Optimizers packages](https://www.youtube.com/watch?v=i1eeD3uHbZ4), **Abel Soares Siqueira**, JuliaCon Local, Eindhoven, Netherlands, 2023-Dec-1
 - [Julia Smooth Optimizers: Streamlined research and recent developments of the ecosystem](https://github.com/JuliaSmoothOptimizers/JuliaSmoothOptimizers.github.io/files/12891425/JSO.at.Paris.JuliaOptDays.pdf), **Abel Soares Siqueira**, Journées Julia et Optimisation, Paris, France, 2023-Oct-6
 - [Optimization Solver in Julia Smooth Optimizers](https://www.youtube.com/watch?v=x52QlIb8E9Y), **Tangi Migot**, JuliaCon 2023, MIT, 2023-Jul-28
