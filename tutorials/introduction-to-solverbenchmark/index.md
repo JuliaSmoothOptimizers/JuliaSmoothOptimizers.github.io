@@ -288,7 +288,7 @@ pretty_stats(df[!, [:name, :f, :t]],
 
 
 
-See the [PrettyTables.jl documentation](https://ronisbr.github.io/PrettyTables.jl/stable/man/formatters/) for more information.
+See the [PrettyTables.jl documentation](https://ronisbr.github.io/PrettyTables.jl/stable/) for more information.
 
 When using LaTeX format, the output must be understood by LaTeX.
 By default, numerical data in the table is wrapped in inline math environments.

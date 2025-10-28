@@ -144,7 +144,7 @@ We will use the solution found to initialize our solvers.
 
 Finally, we are ready to solve the PDE-constrained optimization problem with a targeted tolerance of `10⁻⁵`.
 In the following, we will use both Ipopt and DCI on our problem.
-We refer to the tutorial [How to solve a small optimization problem with Ipopt + NLPModels](https://jso-docs.github.io/solve-an-optimization-problem-with-ipopt/)
+We refer to the tutorial [How to solve a small optimization problem with Ipopt + NLPModels](https://jso.dev/tutorials/solve-an-optimization-problem-with-ipopt/)
 for more information on `NLPModelsIpopt`.
 
 ```julia
