@@ -33,10 +33,21 @@
   </div>
 
   <h2 class="subtitle">
-    <a href="/tutorials/" class="has-text-weight-bold">
-      Tutorials
-    </a>
-  </h2>
+    <div class="columns is-vcentered">
+      <div class="column">
+        <a href="/tutorials/" class="has-text-weight-bold">
+          <h2 class="subtitle">Tutorials</h2>
+        </a>
+      </div>
+      <div class="column is-narrow">
+        <a class="button is-danger" href="https://www.youtube.com/playlist?list=PLOOY0eChA1uxmm8G2caFpdX7X9NjgpDUY">
+          <span class="icon">
+            <ion-icon name="logo-youtube"></ion-icon>
+          </span>
+          <span>Watch tutorials</span>
+        </a>
+      </div>
+    </div>
   <p>
     We are centralizing all JSO tutorials in this page.
     You can find the full list
