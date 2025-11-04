@@ -9,8 +9,8 @@ LinearOperators = "5c8ed15e-5a4c-59e4-a42b-c7e8811fb125"
 NodeJS = "2bd173c7-0d6d-553b-b6af-13a54713934c"
 
 [compat]
-Bibliography = "0.2"
+Bibliography = "0.3"
 Franklin = "0.10"
 JSON = "1"
 LinearOperators = "2"
-NodeJS = "1"
+NodeJS = "2"
