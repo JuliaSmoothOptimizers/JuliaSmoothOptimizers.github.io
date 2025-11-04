@@ -101,17 +101,13 @@ pre {
 }
 
 .code-output {
-  background-color: mix($body-background-color, #ffffff, 92%);
-  border: 1px solid rgba(#000000, 0.08);
-  border-left: 4px solid rgba($primary, 0.95);
-  border-radius: 6px;
-  margin-top: 0.5em;
+  background-color: #fff;
+  border: 2px solid #000;
+  border-left: 2px solid #000;
+  border-radius: 0px;
+  border-top: 0px;
+  margin-top: 0px;
   margin-bottom: 1.25em;
-  padding: 0.85rem 1rem;
-  font-family: $family-code;
-  color: $dark-gray;
-  line-height: 1.45;
-  box-shadow: 0 1px 2px rgba(#000000, 0.03);
 }
 
 .copy-button {
@@ -166,39 +162,4 @@ pre {
 .is-height-zero {
   height: 0px;
   overflow: hidden;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1rem 0;
-  font-family: $family-sans-serif;
-  color: $dark-gray;
-}
-
-table th,
-table td {
-  padding: 0.6rem 0.75rem;
-  border: 1px solid rgba(#000000, 0.06);
-  vertical-align: middle;
-  text-align: left;
-}
-
-table thead th {
-  background: $primary;
-  color: white;
-  font-weight: 600;
-  border-bottom: 2px solid rgba(#000000, 0.08);
-}
-
-table tbody tr:nth-child(even) {
-  background: mix($body-background-color, #ffffff, 96%);
-}
-
-table tbody tr:hover {
-  background: mix($primary, $body-background-color, 92%);
-}
-
-.table-wrapper {
-  overflow-x: auto;
 }
