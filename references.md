@@ -8,7 +8,7 @@ new ClipboardJS('.copy-ref');
 
 # Publications, talks and other references
 
-If you use our packages, please cite them, using the corresponding CITATION.cff.
+If you use our packages, please cite them using the corresponding `CITATION.cff` file found in the root directory of each package's repository (see the package's repository page for details).
 
 ```julia:./list-publications.jl
 #hideall
