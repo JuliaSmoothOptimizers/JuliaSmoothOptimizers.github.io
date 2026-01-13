@@ -8,19 +8,7 @@ new ClipboardJS('.copy-ref');
 
 # Publications, talks and other references
 
-If you use JSO, we ask that you cite us. In addition to any specific reference that may suggested by the packages you are using, we also ask you to cite JSO using the format given in [Organization/CITATION.cff](https://github.com/JuliaSmoothOptimizers/Organization/blob/main/CITATION.cff).
-
-```plaintext
-@software{The_JuliaSmoothOptimizers_Ecosystem,
-author = {Migot, Tangi and Orban, Dominique and Soares Siqueira, Abel and contributors},
-license = {MPL-2.0},
-month = feb,
-title = {{The JuliaSmoothOptimizers Ecosystem for Numerical Linear Algebra and Optimization in Julia}},
-doi = {10.5281/zenodo.2655082},
-url = {https://jso.dev},
-year = {2024}
-}
-```
+If you use our packages, please cite them using the corresponding `CITATION.cff` file found in the root directory of each package's repository (see the package's repository page for details).
 
 ```julia:./list-publications.jl
 #hideall
