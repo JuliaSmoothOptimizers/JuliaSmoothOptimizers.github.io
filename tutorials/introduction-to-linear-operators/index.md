@@ -326,7 +326,7 @@ norm(b - opAAT * x)
 
 ## Limited memory BFGS and SR1
 
-Two other useful operators are the Limited-Memory BFGS in forward and inverse form.
+Another useful operator is the Limited-Memory BFGS in forward and inverse form.
 
 ```julia
 B = LBFGSOperator(20)
@@ -351,7 +351,10 @@ r
 
 
 
-There is also a LSR1 operator that behaves similarly to these two.
+There is also a Limited-Memory SR1 operator for which only the forward form is implemented.
+Note that the SR1 operator can be indefinite, therefore its inverse does not necessarily exist.
+For this reason, the inverse form is not implemented for the SR1 operator.
+
 
 ## Restriction, extension and slices
 
