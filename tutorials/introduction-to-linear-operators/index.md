@@ -352,7 +352,7 @@ r
 
 
 There is also a Limited-Memory SR1 operator for which only the forward form is implemented.
-Note that the SR1 operator can be indefinite, therefore its inverse does not necessarily exist.
+Note that the SR1 operator can be indefinite; therefore, its inverse form is less relevant than for the BFGS approximation.
 For this reason, the inverse form is not implemented for the SR1 operator.
 
 
