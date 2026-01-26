@@ -161,7 +161,7 @@ b &#61; rand&#40;5&#41;
 norm&#40;b - opAAT * x&#41;</code></pre>
 <pre><code class=language-plaintext >2.3624810325472306e-13</code></pre>
 <h2 id=limited_memory_bfgs_and_sr1 ><a href="#limited_memory_bfgs_and_sr1" class=header-anchor >Limited memory BFGS and SR1</a></h2>
-<p>Two other useful operators are the Limited-Memory BFGS in forward and inverse form.</p>
+<p>Another useful operator is the Limited-Memory BFGS in forward and inverse form.</p>
 <pre><code class=language-julia >B &#61; LBFGSOperator&#40;20&#41;
 H &#61; InverseLBFGSOperator&#40;20&#41;
 r &#61; 0.0
@@ -175,7 +175,7 @@ for i &#61; 1:100
 end
 r</code></pre>
 <pre><code class=language-plaintext >3.919077465054229e-13</code></pre>
-<p>There is also a LSR1 operator that behaves similarly to these two.</p>
+<p>There is also a Limited-Memory SR1 operator for which only the forward form is implemented. Note that the SR1 operator can be indefinite; therefore, its inverse form is less relevant than for the BFGS approximation. For this reason, the inverse form is not implemented for the SR1 operator.</p>
 <h2 id=restriction_extension_and_slices ><a href="#restriction_extension_and_slices" class=header-anchor >Restriction, extension and slices</a></h2>
 <p>The restriction operator restricts a vector to a set of indices.</p>
 <pre><code class=language-julia >v &#61; collect&#40;1:5&#41;
