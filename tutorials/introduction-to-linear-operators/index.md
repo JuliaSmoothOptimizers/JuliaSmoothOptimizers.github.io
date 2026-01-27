@@ -6,9 +6,9 @@
 
 
 ![JSON 0.21.4](https://img.shields.io/badge/JSON-0.21.4-000?style=flat-square&labelColor=999)
-[![LinearOperators 2.5.2](https://img.shields.io/badge/LinearOperators-2.5.2-4b0082?style=flat-square&labelColor=9558b2)](https://jso.dev/LinearOperators.jl/stable/)
-[![Krylov 0.9.4](https://img.shields.io/badge/Krylov-0.9.4-4b0082?style=flat-square&labelColor=9558b2)](https://jso.dev/Krylov.jl/stable/)
-![FFTW 1.7.1](https://img.shields.io/badge/FFTW-1.7.1-000?style=flat-square&labelColor=999)
+[![LinearOperators 2.11.0](https://img.shields.io/badge/LinearOperators-2.11.0-4b0082?style=flat-square&labelColor=9558b2)](https://jso.dev/LinearOperators.jl/stable/)
+[![Krylov 0.9.10](https://img.shields.io/badge/Krylov-0.9.10-4b0082?style=flat-square&labelColor=9558b2)](https://jso.dev/Krylov.jl/stable/)
+![FFTW 1.10.0](https://img.shields.io/badge/FFTW-1.10.0-000?style=flat-square&labelColor=999)
 
 
 
@@ -38,8 +38,8 @@ y = op * x
 ```plaintext
 5-element Vector{Float64}:
  0.24766385713448147
- 0.34471427066907173
- 0.6399025892338569
+ 0.3447142706690718
+ 0.6399025892338568
  0.246664873173519
  0.5258420478788777
 ```
@@ -62,7 +62,7 @@ norm(A \ v - op * v) / norm(v)
 ```
 
 ```plaintext
-1.148733996146629e-13
+3.3842227055482783e-15
 ```
 
 
@@ -138,7 +138,7 @@ norm(dft' * y - x)  # DFT is a unitary operator
 ```
 
 ```plaintext
-3.3612925285989963e-16
+1.1320399892723098e-16
 ```
 
 
@@ -149,16 +149,16 @@ transpose(dft) * y
 
 ```plaintext
 10-element Vector{ComplexF64}:
-   0.7113168325963566 - 0.0im
-   0.2148297961020408 - 0.0im
-   0.9453427110792467 - 0.0im
-   0.7309321298104021 - 0.0im
-  0.23194328498409336 - 0.0im
-   0.9501874396162999 - 0.0im
-   0.5123847829172379 - 0.0im
-   0.9037088931078092 - 0.0im
- 0.005729552514365821 + 0.0im
-   0.2588088046728426 - 0.0im
+ 0.003820639240554513 - 0.0im
+   0.8695984692566511 - 0.0im
+   0.6447374729383316 - 0.0im
+   0.8365781167218365 - 0.0im
+   0.7119679627204016 - 0.0im
+   0.4093590753517967 - 0.0im
+   0.8669244192719149 - 0.0im
+   0.4754090095137926 - 0.0im
+   0.5455204733218788 + 0.0im
+ 0.042978926103728554 - 0.0im
 ```
 
 
@@ -280,7 +280,7 @@ end
 ```
 
 ```plaintext
-ex = InexactError(:Float64, Float64, 0.47507530806279163 - 0.3832301880068187im)
+ex = InexactError(:Float64, (Float64, 0.5164858914848688 + 0.24488071994631527im))
 ```
 
 
@@ -296,7 +296,7 @@ end
 ```
 
 ```plaintext
-ex = InexactError(:Float64, Float64, 0.8090169943749475 - 0.5877852522924731im)
+ex = InexactError(:Float64, (Float64, 0.8090169943749475 - 0.5877852522924731im))
 ```
 
 
@@ -317,7 +317,7 @@ norm(b - opAAT * x)
 ```
 
 ```plaintext
-2.3624810325472306e-13
+1.9772018739020697e-13
 ```
 
 
@@ -344,7 +344,7 @@ r
 ```
 
 ```plaintext
-3.919077465054229e-13
+3.815809259303818e-13
 ```
 
 
@@ -354,7 +354,6 @@ r
 There is also a Limited-Memory SR1 operator for which only the forward form is implemented.
 Note that the SR1 operator can be indefinite; therefore, its inverse form is less relevant than for the BFGS approximation.
 For this reason, the inverse form is not implemented for the SR1 operator.
-
 
 ## Restriction, extension and slices
 
@@ -425,9 +424,9 @@ A[I,J] * ones(3)
 
 ```plaintext
 3-element Vector{Float64}:
- 1.043315409692812
- 1.126646200633167
- 1.2315932943898407
+ 1.855452693501958
+ 1.2659861763815514
+ 1.5303428526550302
 ```
 
 
@@ -438,9 +437,9 @@ opRestriction(I, 5) * opA * opExtension(J, 5) * ones(3)
 
 ```plaintext
 3-element Vector{Float64}:
- 1.043315409692812
- 1.126646200633167
- 1.2315932943898407
+ 1.8554526935019582
+ 1.2659861763815514
+ 1.5303428526550302
 ```
 
 
@@ -455,7 +454,7 @@ opA[1,:] * ones(5)
 
 ```plaintext
 1-element Vector{Float64}:
- 1.9634567072673046
+ 2.9159013209470097
 ```
 
 
@@ -466,11 +465,11 @@ opA[:,1] * ones(1)
 
 ```plaintext
 5-element Vector{Float64}:
- 0.02203447865143171
- 0.18781833339603016
- 0.1692361439290926
- 0.20276666600590854
- 0.24969824326802326
+ 0.7011787151612684
+ 0.4203121328637791
+ 0.19620605317757256
+ 0.6722900514676972
+ 0.7640075887373438
 ```
 
 
@@ -481,6 +480,6 @@ opA[1,1] * ones(1)
 
 ```plaintext
 1-element Vector{Float64}:
- 0.02203447865143171
+ 0.7011787151612684
 ```
 
