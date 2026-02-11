@@ -1,4 +1,4 @@
-<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="/assets/favicon.png"> <title>Introduction to Linear Operators</title> <script src="/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href=""> <img src="/assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="/"> Home </a> <a class=navbar-item  href="/news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="/tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="/ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="/ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="/ecosystems/models/"> Models </a> <a class=navbar-item  href="/ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="/references/"> References </a> <a class=navbar-item  href="/contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Introduction to Linear Operators</a></h1></p> <p><div class=author >by Geoffroy Leconte and Dominique Orban</div> <p><img src="https://img.shields.io/badge/JSON-0.21.4-000?style&#61;flat-square&amp;labelColor&#61;999" alt="JSON 0.21.4" /> <a href="https://jso.dev/LinearOperators.jl/stable/"><img src="https://img.shields.io/badge/LinearOperators-2.5.2-4b0082?style&#61;flat-square&amp;labelColor&#61;9558b2" alt="LinearOperators 2.5.2" /></a> <a href="https://jso.dev/Krylov.jl/stable/"><img src="https://img.shields.io/badge/Krylov-0.9.4-4b0082?style&#61;flat-square&amp;labelColor&#61;9558b2" alt="Krylov 0.9.4" /></a> <img src="https://img.shields.io/badge/FFTW-1.7.1-000?style&#61;flat-square&amp;labelColor&#61;999" alt="FFTW 1.7.1" /></p> <p><a href="https://jso.dev/LinearOperators.jl/stable">LinearOperators.jl</a> is a package for matrix-like operators. Linear operators are defined by how they act on a vector, which is useful in a variety of situations where you don&#39;t want to materialize the matrix.</p> <div class=franklin-toc ><ol><li><a href="#using_matrices">Using matrices</a><li><a href="#inverse">Inverse</a><li><a href="#mul">mul&#33;</a><li><a href="#using_functions">Using functions</a><li><a href="#limited_memory_bfgs_and_sr1">Limited memory BFGS and SR1</a><li><a href="#restriction_extension_and_slices">Restriction, extension and slices</a></ol></div> <p>This section of the documentation describes a few uses of LinearOperators.</p> <h2 id=using_matrices ><a href="#using_matrices" class=header-anchor >Using matrices</a></h2> <p>Operators may be defined from matrices and combined using the usual operations, but the result is deferred until the operator is applied.</p> <pre><code class=language-julia >using LinearOperators, Random, SparseArrays
+<!doctype html> <html lang=en  class=has-navbar-fixed-top > <meta charset=UTF-8 > <meta name=viewport  content="width=device-width, initial-scale=1"> <link rel=stylesheet  href="/libs/highlight/github.min.css"> <link rel=stylesheet  href="/css/styles.css"> <style> html {font-size: 17px;} .franklin-content {position: relative; padding-left: 8%; padding-right: 5%; line-height: 1.35em;} @media (min-width: 940px) { .franklin-content {width: 100%; margin-left: auto; margin-right: auto;} } @media (max-width: 768px) { .franklin-content {padding-left: 6%; padding-right: 6%;} } </style> <link rel=icon  href="/assets/favicon.png"> <title>Introduction to Linear Operators</title> <script src="/libs/highlight/highlight.pack.js"></script> <script src="https://unpkg.com/clipboard@2/dist/clipboard.min.js"></script> <script type=module  src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script> <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script> <script> hljs.getLanguage('julia').keywords.custom = 'obj grad hess AbstractNLPModel'; </script> <nav class="navbar is-primary is-fixed-top" role=navigation  aria-label="main navigation"> <div class=navbar-brand > <a class=navbar-item  href=""> <img src="/assets/jso.png"> </a> <a role=button  class=navbar-burger  aria-label=menu  aria-expanded=false  data-target=navbarBasicExample > <span aria-hidden=true ></span> <span aria-hidden=true ></span> <span aria-hidden=true ></span> </a> </div> <div id=navbarBasicExample  class=navbar-menu > <div class=navbar-start > <a class=navbar-item  href="/"> Home </a> <a class=navbar-item  href="/news-and-blogposts/"> News and Blogposts </a> <a class=navbar-item  href="/tutorials/"> Tutorials </a> <div class="navbar-item has-dropdown is-hoverable"> <a class=navbar-link  href="/ecosystems/index.html"> Ecosystems </a> <div class=navbar-dropdown > <a class=navbar-item  href="/ecosystems/linear-algebra/"> Linear Algebra </a> <a class=navbar-item  href="/ecosystems/models/"> Models </a> <a class=navbar-item  href="/ecosystems/solvers/"> Solvers </a> </div> </div> <a class=navbar-item  href="/references/"> References </a> <a class=navbar-item  href="/contributing/"> Contributing </a> </div> <div class=navbar-end > <a class="navbar-item icon-text" href="https://github.com/JuliaSmoothOptimizers/juliasmoothoptimizers.github.io/issues"> <span class=icon > <ion-icon size=large  name=logo-github ></ion-icon> </span> <span>Report an issue</span> </a> </div> </div> </nav> <section class=section > <div class=container > <div class=content > <div class=franklin-content ><h1 id=title ><a href="#title" class=header-anchor >Introduction to Linear Operators</a></h1></p> <p><div class=author >by Geoffroy Leconte and Dominique Orban</div> <p><img src="https://img.shields.io/badge/JSON-0.21.4-000?style&#61;flat-square&amp;labelColor&#61;999" alt="JSON 0.21.4" /> <a href="https://jso.dev/LinearOperators.jl/stable/"><img src="https://img.shields.io/badge/LinearOperators-2.11.0-4b0082?style&#61;flat-square&amp;labelColor&#61;9558b2" alt="LinearOperators 2.11.0" /></a> <a href="https://jso.dev/Krylov.jl/stable/"><img src="https://img.shields.io/badge/Krylov-0.9.10-4b0082?style&#61;flat-square&amp;labelColor&#61;9558b2" alt="Krylov 0.9.10" /></a> <img src="https://img.shields.io/badge/FFTW-1.10.0-000?style&#61;flat-square&amp;labelColor&#61;999" alt="FFTW 1.10.0" /></p> <p><a href="https://jso.dev/LinearOperators.jl/stable">LinearOperators.jl</a> is a package for matrix-like operators. Linear operators are defined by how they act on a vector, which is useful in a variety of situations where you don&#39;t want to materialize the matrix.</p> <div class=franklin-toc ><ol><li><a href="#using_matrices">Using matrices</a><li><a href="#inverse">Inverse</a><li><a href="#mul">mul&#33;</a><li><a href="#using_functions">Using functions</a><li><a href="#limited_memory_bfgs_and_sr1">Limited memory BFGS and SR1</a><li><a href="#restriction_extension_and_slices">Restriction, extension and slices</a></ol></div> <p>This section of the documentation describes a few uses of LinearOperators.</p> <h2 id=using_matrices ><a href="#using_matrices" class=header-anchor >Using matrices</a></h2> <p>Operators may be defined from matrices and combined using the usual operations, but the result is deferred until the operator is applied.</p> <pre><code class=language-julia >using LinearOperators, Random, SparseArrays
 Random.seed&#33;&#40;0&#41;
 
 A1 &#61; rand&#40;5,7&#41;
@@ -9,15 +9,15 @@ op &#61; op1 * op2  # Does not form A1 * A2
 x &#61; rand&#40;3&#41;
 y &#61; op * x</code></pre> <pre><code class=language-plaintext >5-element Vector&#123;Float64&#125;:
  0.24766385713448147
- 0.34471427066907173
- 0.6399025892338569
+ 0.3447142706690718
+ 0.6399025892338568
  0.246664873173519
  0.5258420478788777</code></pre> <h2 id=inverse ><a href="#inverse" class=header-anchor >Inverse</a></h2> <p>Operators may be defined to represent &#40;approximate&#41; inverses.</p> <pre><code class=language-julia >using LinearAlgebra
 A &#61; rand&#40;5,5&#41;
 A &#61; A&#39; * A
 op &#61; opCholesky&#40;A&#41;  # Use, e.g., as a preconditioner
 v &#61; rand&#40;5&#41;
-norm&#40;A \ v - op * v&#41; / norm&#40;v&#41;</code></pre> <pre><code class=language-plaintext >1.148733996146629e-13</code></pre>
+norm&#40;A \ v - op * v&#41; / norm&#40;v&#41;</code></pre> <pre><code class=language-plaintext >3.3842227055482783e-15</code></pre>
 <p>In this example, the Cholesky factor is computed only once and can be used many times transparently.</p>
 <h2 id=mul ><a href="#mul" class=header-anchor >mul&#33;</a></h2>
 <p>It is often useful to reuse the memory used by the operator. For that reason, we can use <code>mul&#33;</code> on operators as if we were using matrices using preallocated vectors:</p>
@@ -61,19 +61,19 @@ dft &#61; LinearOperator&#40;ComplexF64, 10, 10, false, false,
 x &#61; rand&#40;10&#41;
 y &#61; dft * x
 norm&#40;dft&#39; * y - x&#41;  # DFT is a unitary operator</code></pre>
-<pre><code class=language-plaintext >3.3612925285989963e-16</code></pre>
+<pre><code class=language-plaintext >1.1320399892723098e-16</code></pre>
 <pre><code class=language-julia >transpose&#40;dft&#41; * y</code></pre>
 <pre><code class=language-plaintext >10-element Vector&#123;ComplexF64&#125;:
-   0.7113168325963566 - 0.0im
-   0.2148297961020408 - 0.0im
-   0.9453427110792467 - 0.0im
-   0.7309321298104021 - 0.0im
-  0.23194328498409336 - 0.0im
-   0.9501874396162999 - 0.0im
-   0.5123847829172379 - 0.0im
-   0.9037088931078092 - 0.0im
- 0.005729552514365821 &#43; 0.0im
-   0.2588088046728426 - 0.0im</code></pre>
+ 0.003820639240554513 - 0.0im
+   0.8695984692566511 - 0.0im
+   0.6447374729383316 - 0.0im
+   0.8365781167218365 - 0.0im
+   0.7119679627204016 - 0.0im
+   0.4093590753517967 - 0.0im
+   0.8669244192719149 - 0.0im
+   0.4754090095137926 - 0.0im
+   0.5455204733218788 &#43; 0.0im
+ 0.042978926103728554 - 0.0im</code></pre>
 <p>Another example:</p>
 <pre><code class=language-julia >function customfunc&#33;&#40;res, v, α, β&#41;
   if β &#61;&#61; 0
@@ -142,7 +142,7 @@ eltype&#40;v&#41;           &#61; Float64</code></pre>
 catch ex
   println&#40;&quot;ex &#61; &#36;ex&quot;&#41;
 end</code></pre>
-<pre><code class=language-plaintext >ex &#61; InexactError&#40;:Float64, Float64, 0.47507530806279163 - 0.3832301880068187im&#41;</code></pre>
+<pre><code class=language-plaintext >ex &#61; InexactError&#40;:Float64, &#40;Float64, 0.5164858914848688 &#43; 0.24488071994631527im&#41;&#41;</code></pre>
 <pre><code class=language-julia >try
   Matrix&#40;dft&#41; # ERROR: tried to create a Matrix of Float64
 catch ex
@@ -150,7 +150,7 @@ catch ex
 end
 
 # Using external modules</code></pre>
-<pre><code class=language-plaintext >ex &#61; InexactError&#40;:Float64, Float64, 0.8090169943749475 - 0.5877852522924731im&#41;</code></pre>
+<pre><code class=language-plaintext >ex &#61; InexactError&#40;:Float64, &#40;Float64, 0.8090169943749475 - 0.5877852522924731im&#41;&#41;</code></pre>
 <p>It is possible to use certain modules made for matrices that do not need to access specific elements of their input matrices, and only use operations implemented within LinearOperators, such as <code>mul&#33;</code>, <code>*</code>, <code>&#43;</code>, ... For example, we show the solution of a linear system using <a href="https://github.com/JuliaSmoothOptimizers/Krylov.jl"><code>Krylov.jl</code></a>:</p>
 <pre><code class=language-julia >using Krylov
 A &#61; rand&#40;5, 5&#41;
@@ -159,7 +159,7 @@ opAAT &#61; opA &#43; opA&#39;
 b &#61; rand&#40;5&#41;
 &#40;x, stats&#41; &#61; minres&#40;opAAT, b&#41;
 norm&#40;b - opAAT * x&#41;</code></pre>
-<pre><code class=language-plaintext >2.3624810325472306e-13</code></pre>
+<pre><code class=language-plaintext >1.9772018739020697e-13</code></pre>
 <h2 id=limited_memory_bfgs_and_sr1 ><a href="#limited_memory_bfgs_and_sr1" class=header-anchor >Limited memory BFGS and SR1</a></h2>
 <p>Another useful operator is the Limited-Memory BFGS in forward and inverse form.</p>
 <pre><code class=language-julia >B &#61; LBFGSOperator&#40;20&#41;
@@ -174,7 +174,7 @@ for i &#61; 1:100
   r &#43;&#61; norm&#40;B * H * s - s&#41;
 end
 r</code></pre>
-<pre><code class=language-plaintext >3.919077465054229e-13</code></pre>
+<pre><code class=language-plaintext >3.815809259303818e-13</code></pre>
 <p>There is also a Limited-Memory SR1 operator for which only the forward form is implemented. Note that the SR1 operator can be indefinite; therefore, its inverse form is less relevant than for the BFGS approximation. For this reason, the inverse form is not implemented for the SR1 operator.</p>
 <h2 id=restriction_extension_and_slices ><a href="#restriction_extension_and_slices" class=header-anchor >Restriction, extension and slices</a></h2>
 <p>The restriction operator restricts a vector to a set of indices.</p>
@@ -206,28 +206,28 @@ I &#61; &#91;1;3;5&#93;
 J &#61; 2:4
 A&#91;I,J&#93; * ones&#40;3&#41;</code></pre>
 <pre><code class=language-plaintext >3-element Vector&#123;Float64&#125;:
- 1.043315409692812
- 1.126646200633167
- 1.2315932943898407</code></pre>
+ 1.855452693501958
+ 1.2659861763815514
+ 1.5303428526550302</code></pre>
 <pre><code class=language-julia >opRestriction&#40;I, 5&#41; * opA * opExtension&#40;J, 5&#41; * ones&#40;3&#41;</code></pre>
 <pre><code class=language-plaintext >3-element Vector&#123;Float64&#125;:
- 1.043315409692812
- 1.126646200633167
- 1.2315932943898407</code></pre>
+ 1.8554526935019582
+ 1.2659861763815514
+ 1.5303428526550302</code></pre>
 <p>A main difference with matrices, is that slices <strong>do not</strong> return vectors nor numbers.</p>
 <pre><code class=language-julia >opA&#91;1,:&#93; * ones&#40;5&#41;</code></pre>
 <pre><code class=language-plaintext >1-element Vector&#123;Float64&#125;:
- 1.9634567072673046</code></pre>
+ 2.9159013209470097</code></pre>
 <pre><code class=language-julia >opA&#91;:,1&#93; * ones&#40;1&#41;</code></pre>
 <pre><code class=language-plaintext >5-element Vector&#123;Float64&#125;:
- 0.02203447865143171
- 0.18781833339603016
- 0.1692361439290926
- 0.20276666600590854
- 0.24969824326802326</code></pre>
+ 0.7011787151612684
+ 0.4203121328637791
+ 0.19620605317757256
+ 0.6722900514676972
+ 0.7640075887373438</code></pre>
 <pre><code class=language-julia >opA&#91;1,1&#93; * ones&#40;1&#41;</code></pre>
 <pre><code class=language-plaintext >1-element Vector&#123;Float64&#125;:
- 0.02203447865143171</code></pre>
+ 0.7011787151612684</code></pre>
 </div>
     </div>  
     </div>  
