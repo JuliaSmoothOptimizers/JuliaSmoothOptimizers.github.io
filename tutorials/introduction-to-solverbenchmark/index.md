@@ -6,9 +6,13 @@
 
 
 [![SolverBenchmark 0.5.5](https://img.shields.io/badge/SolverBenchmark-0.5.5-006400?style=flat-square&labelColor=389826)](https://jso.dev/SolverBenchmark.jl/stable/)
+[![NLPModelsTest 0.9.2](https://img.shields.io/badge/NLPModelsTest-0.9.2-8b0000?style=flat-square&labelColor=cb3c33)](https://jso.dev/NLPModelsTest.jl/stable/)
+[![SolverCore 0.3.10](https://img.shields.io/badge/SolverCore-0.3.10-006400?style=flat-square&labelColor=389826)](https://jso.dev/SolverCore.jl/stable/)
 ![DataFrames 1.3.6](https://img.shields.io/badge/DataFrames-1.3.6-000?style=flat-square&labelColor=999)
-![Plots 1.39.0](https://img.shields.io/badge/Plots-1.39.0-000?style=flat-square&labelColor=999)
-![PyPlot 2.11.2](https://img.shields.io/badge/PyPlot-2.11.2-000?style=flat-square&labelColor=999)
+![Plots 1.41.6](https://img.shields.io/badge/Plots-1.41.6-000?style=flat-square&labelColor=999)
+![PyPlot 2.11.6](https://img.shields.io/badge/PyPlot-2.11.6-000?style=flat-square&labelColor=999)
+![Random 1.11.0](https://img.shields.io/badge/Random-1.11.0-000?style=flat-square&labelColor=999)
+![Printf 1.11.0](https://img.shields.io/badge/Printf-1.11.0-000?style=flat-square&labelColor=999)
 
 
 
@@ -288,7 +292,7 @@ pretty_stats(df[!, [:name, :f, :t]],
 
 
 
-See the [PrettyTables.jl documentation](https://ronisbr.github.io/PrettyTables.jl/stable/) for more information.
+See the [PrettyTables.jl documentation](https://ronisbr.github.io/PrettyTables.jl/stable/man/formatters/) for more information.
 
 When using LaTeX format, the output must be understood by LaTeX.
 By default, numerical data in the table is wrapped in inline math environments.
@@ -527,3 +531,39 @@ p = profile_solvers(stats, costs, costnames)
 Here is a useful tutorial on how to use the benchmark with specific solver:
 [Run a benchmark with OptimizationProblems](https://jso.dev/OptimizationProblems.jl/dev/benchmark/)
 The tutorial covers how to use the problems from `OptimizationProblems` to run a benchmark for unconstrained optimization.
+
+### Handling `solver_specific` in `stats`
+
+If a solver's `GenericExecutionStats` contains a `solver_specific` dictionary, then when `bmark_solvers` processes the results it creates a column in the per-solver `DataFrame` for each key in that dictionary. These columns can then be analyzed and compared alongside the standard metrics such as `status` and `elapsed_time`.
+
+Here is an example showing how to set a solver-specific flag so that it appears as a column in the resulting stats table and can be used for tabulation:
+```julia
+using NLPModelsTest, DataFrames, SolverCore, SolverBenchmark
+
+function newton(nlp)
+  stats = GenericExecutionStats(nlp)
+  set_solver_specific!(stats, :isConvex, true)
+  return stats
+end
+
+solvers = Dict(:newton => newton)
+problems = [NLPModelsTest.BROWNDEN()]
+stats = bmark_solvers(solvers, problems)
+
+# Access the solver-specific column `:isConvex` for the `:newton` solver
+df_newton = stats[:newton]
+df_newton.isConvex
+```
+
+```plaintext
+Error: UndefVarError: `reset!` not defined in `SolverBenchmark`
+Hint: It looks like two or more modules export different bindings with this name, resulting in ambiguity. Try explicitly importing it from a particular module, or qualifying the name with the module i
+t should come from.
+Hint: a global variable of this name also exists in DataStructures.
+Hint: a global variable of this name also exists in SolverCore.
+Hint: a global variable of this name also exists in WorkerUtilities.
+Hint: a global variable of this name also exists in ConcurrentUtilities.
+Hint: a global variable of this name also exists in LinearOperators.
+    - Also exported by NLPModels (loaded but not imported in Main).
+```
+
