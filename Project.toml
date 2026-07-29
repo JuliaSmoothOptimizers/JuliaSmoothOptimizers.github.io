@@ -1,5 +1,5 @@
-authors = ["Abel Soares Siqueira <abel.s.siqueira@gmail.com>"]
 version = "0.1.0"
+authors = ["Abel Soares Siqueira <abel.s.siqueira@gmail.com>"]
 
 [deps]
 Bibliography = "f1be7e48-bf82-45af-a471-ae754a193061"
@@ -9,7 +9,7 @@ LinearOperators = "5c8ed15e-5a4c-59e4-a42b-c7e8811fb125"
 NodeJS = "2bd173c7-0d6d-553b-b6af-13a54713934c"
 
 [compat]
-Bibliography = "0.3"
+Bibliography = "0.4"
 Franklin = "0.10"
 JSON = "1"
 LinearOperators = "2"
