@@ -3,9 +3,9 @@
 
 # JSO YouTube Tutorials: A Curated Playlist for Getting Started
 
-We maintain a curated set of tutorial videos that walk through the Julia Smooth Optimizers ecosystem, from basic package usage to reproducible workflows for optimization research.
+We created a curated set of tutorial videos that walk through the Julia Smooth Optimizers ecosystem, from basic package usage to reproducible workflows for optimization research.
 
-- Watch the playlist on YouTube: [JSO Tutorials playlist](https://www.youtube.com/playlist?list=PLOOY0eChA1ux1LAmJZNBySGeqR0kwNZmQ)
+- Watch the playlist on YouTube: [JSO Tutorials playlist](https://www.youtube.com/watch?v=DYf-k51_XcQ&list=PLOOY0eChA1uxmm8G2caFpdX7X9NjgpDUY)
 - Browse the curated tutorial index on our site: [/tutorials/](/tutorials/)
 
 What you’ll find in the tutorials
@@ -23,5 +23,5 @@ How to use the videos
 
 Reference
 
-- Abel Siqueira's JSO tutorials playlist: [JSO Tutorials playlist](https://www.youtube.com/playlist?list=PLOOY0eChA1ux1LAmJZNBySGeqR0kwNZmQ)
+- Abel Siqueira's JSO tutorials playlist: [JSO Tutorials playlist]((https://www.youtube.com/watch?v=DYf-k51_XcQ&list=PLOOY0eChA1uxmm8G2caFpdX7X9NjgpDUY))
 
