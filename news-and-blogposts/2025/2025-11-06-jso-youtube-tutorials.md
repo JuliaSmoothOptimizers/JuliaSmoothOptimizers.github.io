@@ -23,5 +23,5 @@ How to use the videos
 
 Reference
 
-- Abel Siqueira's JSO tutorials playlist: [JSO Tutorials playlist]((https://www.youtube.com/watch?v=DYf-k51_XcQ&list=PLOOY0eChA1uxmm8G2caFpdX7X9NjgpDUY))
+- Abel Siqueira's JSO tutorials playlist: [JSO Tutorials playlist](https://www.youtube.com/watch?v=DYf-k51_XcQ&list=PLOOY0eChA1uxmm8G2caFpdX7X9NjgpDUY)
 
